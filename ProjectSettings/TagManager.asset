@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Background
+  - LeftSpawn
+  - RightSpawn
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - 
   - 
   - Background
-  - 
-  - 
+  - LeftUnit
+  - RightUnit
   - 
   - 
   - 
@@ -44,4 +46,16 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2171309869
+    locked: 0
+  - name: Main
+    uniqueID: 1175597187
+    locked: 0
+  - name: Foreground
+    uniqueID: 1925460215
+    locked: 0
+  - name: UI
+    uniqueID: 600719297
+    locked: 0
+  - name: Debugger
+    uniqueID: 3390472165
     locked: 0
