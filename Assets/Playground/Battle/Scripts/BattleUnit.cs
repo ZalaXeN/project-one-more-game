@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class BattleUnit : MonoBehaviour
 {
+    // TEST
     [SerializeField] string testStatus;
+    public bool canDie;
+    public bool isBouncing;
+    public BattleUnit killerUnit;
+
     [SerializeField] BattleTeam battleTeam;
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float bounce = 1f;
     [SerializeField] Transform characterTransform;
     [SerializeField] Collider2D selfCollider;
     [SerializeField] ContactFilter2D enemyContactFilter;
+    [SerializeField] SpriteRenderer characterSprite;
 
     public Transform cameraPivot;
 
@@ -35,6 +41,9 @@ public class BattleUnit : MonoBehaviour
     {
         BattleManager.AssignUnit(this);
         AdjustCharacterTransform();
+
+        BattleManager.OnFocusFight += AdjustSpriteOnFocusFight;
+        BattleManager.OnResetFocusFight += ResetSpriteOnFocusFight;
     }
 
     private void AdjustCharacterTransform()
@@ -42,6 +51,31 @@ public class BattleUnit : MonoBehaviour
         characterTransform.localScale = team == BattleTeam.Left ?
             BattleGlobalParam.LEFT_TEAM_UNIT_TRANSFORM_SCALE
             : BattleGlobalParam.RIGHT_TEAM_UNIT_TRANSFORM_SCALE;
+    }
+
+    void AdjustSpriteOnFocusFight(Transform cameraPivotUnit1, Transform cameraPivotUnit2, Color nonFocusColor)
+    {
+        if (cameraPivot == cameraPivotUnit1 || cameraPivot == cameraPivotUnit2)
+            characterSprite.color = Color.white;
+        else
+            characterSprite.color = nonFocusColor;
+    }
+
+    void ResetSpriteOnFocusFight()
+    {
+        characterSprite.color = Color.white;
+    }
+
+    private void OnEnable()
+    {
+        BattleManager.OnFocusFight += AdjustSpriteOnFocusFight;
+        BattleManager.OnResetFocusFight += ResetSpriteOnFocusFight;
+    }
+
+    private void OnDisable()
+    {
+        BattleManager.OnFocusFight -= AdjustSpriteOnFocusFight;
+        BattleManager.OnResetFocusFight -= ResetSpriteOnFocusFight;
     }
 
     private void Update()
@@ -58,6 +92,7 @@ public class BattleUnit : MonoBehaviour
             return;
         }
 
+        isBouncing = false;
         if (CheckOverlapTarget())
         {
             StartFight();
@@ -113,6 +148,9 @@ public class BattleUnit : MonoBehaviour
         {
             _targetEnemy = _enemyColliders[0].GetComponent<BattleUnit>();
 
+            if (_targetEnemy.canDie && _targetEnemy.killerUnit != null && _targetEnemy.killerUnit != this)
+                return false;
+
             //if(_enemyColliders[0] == _targetEnemy.battleCollider)
                 return true;
         }
@@ -125,6 +163,10 @@ public class BattleUnit : MonoBehaviour
         AnimateAttack();
         Bounce();
         BattleManager.FocusFight(this, _targetEnemy);
+        isBouncing = true;
+
+        if (canDie)
+            killerUnit = _targetEnemy;
     }
 
     void Bounce()
@@ -142,6 +184,9 @@ public class BattleUnit : MonoBehaviour
         {
             transform.Translate(Vector3.right * bounceForce);
         }
+
+        if (_bounceTimer < 0f)
+            Dead();
     }
 
     void MoveToEnemyBase()
@@ -171,6 +216,22 @@ public class BattleUnit : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    void ResetParam()
+    {
+        _animateTimer = 0f;
+        _bounceTimer = 0f;
+        _targetEnemy = null;
+    }
+
+    void Dead()
+    {
+        if (!canDie)
+            return;
+
+        ResetParam();
+        gameObject.SetActive(false);
     }
 }
 

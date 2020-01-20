@@ -1,9 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public static class BattleManager
 {
+    public delegate void PerformFocusFight(Transform unit1, Transform unit2, Color nonFocusColor);
+    public static event PerformFocusFight OnFocusFight;
+    public delegate void PerformResetFocusFight();
+    public static event PerformResetFocusFight OnResetFocusFight;
+
+    public delegate void BattleUnitDead(BattleUnit unit);
+    public static event BattleUnitDead BattleUnitDeadEvent;
+
     static List<BattleUnit> _battleUnits = new List<BattleUnit>();
     static BattleUnit _targetUnit;
     static BattleSpawnPoint _leftSpawnPoint;
@@ -24,6 +33,16 @@ public static class BattleManager
     {
         _battleCameraManager.ShowBattleFocus(BattleGlobalParam.CAMERA_PRIORITY_MINION_FIGHT, 
             unit1.cameraPivot, unit2.cameraPivot, BattleGlobalParam.CAMERA_BOUNCE_TIME);
+    }
+
+    public static void ShowFocusFightEffect(Transform unit1, Transform unit2, Color nonFocusColor)
+    {
+        OnFocusFight(unit1, unit2, nonFocusColor);
+    }
+
+    public static void ResetFocusSprite()
+    {
+        OnResetFocusFight();
     }
 
     public static void AssignSpawnPoint(BattleSpawnPoint spawnPoint)
@@ -66,7 +85,7 @@ public static class BattleManager
         foreach (BattleUnit otherUnit in _battleUnits)
         {
             float checkDistance;
-            if (otherUnit.team == unit.team)
+            if (otherUnit.team == unit.team || !otherUnit.isActiveAndEnabled)
                 continue;
 
             checkDistance = Vector3.Distance(unit.transform.position, otherUnit.transform.position);

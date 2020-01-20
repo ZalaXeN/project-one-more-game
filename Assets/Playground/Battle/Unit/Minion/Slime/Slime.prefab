@@ -66,6 +66,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  characterSprite: {fileID: 725993875894897969}
   cameraPivot: {fileID: 725993875576807760}
 --- !u!61 &725993874994649084
 BoxCollider2D:

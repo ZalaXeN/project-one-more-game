@@ -990,6 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2b9776fea868f498f17b7833ce169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDie: 0
   battleTeam: 1
   spawnArea: {fileID: 681005917}
   spawnLanes:
@@ -1057,6 +1058,8 @@ MonoBehaviour:
   battleFocusVC: {fileID: 1460677896}
   cameraTarget1: {fileID: 895885224}
   cameraTarget2: {fileID: 1217742918}
+  hasFocusFightUnit: 0
+  nonFocusUnitColor: {r: 1, g: 1, b: 1, a: 0.76862746}
 --- !u!4 &770008955
 Transform:
   m_ObjectHideFlags: 0
@@ -1332,6 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2b9776fea868f498f17b7833ce169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDie: 0
   battleTeam: 0
   spawnArea: {fileID: 850569603}
   spawnLanes:

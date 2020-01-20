@@ -13,7 +13,10 @@ public class BattleCameraManager : MonoBehaviour
     [SerializeField] TesterCameraTarget cameraTarget1;
     [SerializeField] TesterCameraTarget cameraTarget2;
 
-    float _focusTimer = 0f;
+    [SerializeField] bool hasFocusFightUnit = false;
+    [SerializeField] Color nonFocusUnitColor = new Color(1f, 1f, 1f, 0.35f);
+
+    private float _focusTimer = 0f;
 
     private void Start()
     {
@@ -70,6 +73,9 @@ public class BattleCameraManager : MonoBehaviour
         cameraTarget1.SetTarget(targetTransform1);
         cameraTarget2.SetTarget(targetTransform2);
         battleFocusVC.Priority = priority;
+
+        if(hasFocusFightUnit)
+            BattleManager.ShowFocusFightEffect(targetTransform1, targetTransform2, nonFocusUnitColor);
     }
 
     public void ResetBattlefieldVC()
@@ -90,5 +96,8 @@ public class BattleCameraManager : MonoBehaviour
     public void ResetBattleFocusVC()
     {
         battleFocusVC.Priority = BattleGlobalParam.CAMERA_PRIORITY_INACTIVE;
+
+        if(hasFocusFightUnit)
+            BattleManager.ResetFocusSprite();
     }
 }

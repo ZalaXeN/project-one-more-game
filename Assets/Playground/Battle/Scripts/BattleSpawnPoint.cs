@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BattleSpawnPoint : MonoBehaviour
 {
+    // TEST
+    [SerializeField] bool canDie;
+
     [SerializeField] BattleTeam battleTeam;
     [SerializeField] BoxCollider2D spawnArea;
     [SerializeField] BattleLane[] spawnLanes;
@@ -29,6 +32,7 @@ public class BattleSpawnPoint : MonoBehaviour
         GameObject spawnedUnit = Instantiate(unit.gameObject, spawnPos, Quaternion.identity);
         BattleUnit spawnedBattleUnit = spawnedUnit.GetComponent<BattleUnit>();
         spawnedBattleUnit.team = battleTeam;
+        spawnedBattleUnit.canDie = canDie;
         spawnedBattleUnit.InitBattleUnit();
     }
 }

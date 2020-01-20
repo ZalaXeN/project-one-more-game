@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7696380508793809582}
   m_Layer: 9
-  m_Name: CameraPivot
+  m_Name: CameraPivotGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  characterSprite: {fileID: 7696380510135657413}
   cameraPivot: {fileID: 7696380508793809582}
 --- !u!61 &7696380509037304511
 BoxCollider2D:
