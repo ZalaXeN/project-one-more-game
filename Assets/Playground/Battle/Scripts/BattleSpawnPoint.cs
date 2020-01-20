@@ -8,6 +8,8 @@ public class BattleSpawnPoint : MonoBehaviour
     [SerializeField] BoxCollider2D spawnArea;
     [SerializeField] BattleLane[] spawnLanes;
 
+    Vector3 spawnPos = new Vector3();
+
     public BattleTeam team
     {
         get { return battleTeam; }
@@ -17,5 +19,16 @@ public class BattleSpawnPoint : MonoBehaviour
     private void Start()
     {
         BattleManager.AssignSpawnPoint(this);
+    }
+
+    public void SpawnUnit(BattleUnit unit)
+    {
+        spawnPos.x = Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x);
+        spawnPos.y = spawnLanes[Random.Range(0, spawnLanes.Length)].transform.position.y;
+
+        GameObject spawnedUnit = Instantiate(unit.gameObject, spawnPos, Quaternion.identity);
+        BattleUnit spawnedBattleUnit = spawnedUnit.GetComponent<BattleUnit>();
+        spawnedBattleUnit.team = battleTeam;
+        spawnedBattleUnit.InitBattleUnit();
     }
 }

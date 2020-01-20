@@ -8,6 +8,9 @@ public class TesterCameraTarget : MonoBehaviour
 
     private void Update()
     {
+        if (targetTransform == null)
+            return;
+
         transform.position = targetTransform.position;
     }
 }

@@ -32,26 +32,40 @@ public static class BattleManager
 
     public static void AssignUnit(BattleUnit unit)
     {
+        if (battleUnits.Contains(unit))
+            return;
+
         battleUnits.Add(unit);
+    }
+
+    public static void SpawnUnit(BattleUnit unit, BattleTeam team)
+    {
+        if (team == BattleTeam.Left)
+            leftSpawnPoint.SpawnUnit(unit);
+        else
+            rightSpawnPoint.SpawnUnit(unit);
     }
 
     public static BattleUnit FindNearbyEnemy(BattleUnit unit)
     {
         targetUnit = null;
+        float distance = Mathf.Infinity;
+
         foreach (BattleUnit otherUnit in battleUnits)
         {
-            float distance = 99999f;
             float checkDistance;
             if (otherUnit.team == unit.team)
                 continue;
 
             checkDistance = Vector3.Distance(unit.transform.position, otherUnit.transform.position);
+
             if (checkDistance < distance)
             {
-                distance = Vector3.Distance(unit.transform.position, otherUnit.transform.position);
+                distance = checkDistance;
                 targetUnit = otherUnit;
             }
         }
+
         return targetUnit;
     }
 }
