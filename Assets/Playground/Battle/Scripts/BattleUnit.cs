@@ -49,19 +49,22 @@ public class BattleUnit : MonoBehaviour
             return;
         }
 
+        if (CheckOverlapTarget())
+        {
+            StartBounce();
+            return;
+        }
+
+        if (IsReachEnemyBase())
+            return;
+
         FindTargetEnemy();
 
         if(_targetEnemy == null)
             MoveToEnemyBase();
         else
         {
-            if (CheckOverlapTarget())
-            {
-                StartBounce();
-                return;
-            }
-            else
-                MoveToEnemy();
+            MoveToEnemy();
         }
     }
 
@@ -129,18 +132,27 @@ public class BattleUnit : MonoBehaviour
 
         if (battleTeam == BattleTeam.Left)
         {
-            if (transform.position.x >= BattleManager.rightBasePosX)
-                return;
-
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         }
         else
         {
-            if (transform.position.x < BattleManager.leftBasePosX)
-                return;
-
             transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
         }
+    }
+
+    bool IsReachEnemyBase()
+    {
+        if (battleTeam == BattleTeam.Left)
+        {
+            if (transform.position.x >= BattleManager.rightBasePosX)
+                return true;
+        }
+        else
+        {
+            if (transform.position.x < BattleManager.leftBasePosX)
+                return true;
+        }
+        return false;
     }
 }
 
