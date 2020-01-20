@@ -6,6 +6,7 @@ public class BattleSpawnPoint : MonoBehaviour
 {
     [SerializeField] BattleTeam battleTeam;
     [SerializeField] BoxCollider2D spawnArea;
+    [SerializeField] BattleLane[] spawnLanes;
 
     public BattleTeam team
     {

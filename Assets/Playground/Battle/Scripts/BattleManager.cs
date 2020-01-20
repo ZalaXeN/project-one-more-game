@@ -8,9 +8,11 @@ public static class BattleManager
     static BattleUnit targetUnit;
     static BattleSpawnPoint leftSpawnPoint;
     static BattleSpawnPoint rightSpawnPoint;
+    static BattleBaseFlag leftBaseFlag;
+    static BattleBaseFlag rightBaseFlag;
 
-    public static float leftBasePosX { get { return leftSpawnPoint.transform.position.x; } set { } }
-    public static float rightBasePosX { get { return rightSpawnPoint.transform.position.x; } set { } }
+    public static float leftBasePosX { get { return leftBaseFlag.transform.position.x; } set { } }
+    public static float rightBasePosX { get { return rightBaseFlag.transform.position.x; } set { } }
 
     public static void AssignSpawnPoint(BattleSpawnPoint spawnPoint)
     {
@@ -18,6 +20,14 @@ public static class BattleManager
             leftSpawnPoint = spawnPoint;
         else if (spawnPoint.team == BattleTeam.Right)
             rightSpawnPoint = spawnPoint;
+    }
+
+    public static void AssignBaseFlag(BattleBaseFlag baseFlag)
+    {
+        if (baseFlag.team == BattleTeam.Left)
+            leftBaseFlag = baseFlag;
+        else if (baseFlag.team == BattleTeam.Right)
+            rightBaseFlag = baseFlag;
     }
 
     public static void AssignUnit(BattleUnit unit)
