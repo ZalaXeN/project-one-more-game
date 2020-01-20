@@ -4,54 +4,66 @@ using UnityEngine;
 
 public static class BattleManager
 {
-    static List<BattleUnit> battleUnits = new List<BattleUnit>();
-    static BattleUnit targetUnit;
-    static BattleSpawnPoint leftSpawnPoint;
-    static BattleSpawnPoint rightSpawnPoint;
-    static BattleBaseFlag leftBaseFlag;
-    static BattleBaseFlag rightBaseFlag;
+    static List<BattleUnit> _battleUnits = new List<BattleUnit>();
+    static BattleUnit _targetUnit;
+    static BattleSpawnPoint _leftSpawnPoint;
+    static BattleSpawnPoint _rightSpawnPoint;
+    static BattleBaseFlag _leftBaseFlag;
+    static BattleBaseFlag _rightBaseFlag;
+    static BattleCameraManager _battleCameraManager;
 
-    public static float leftBasePosX { get { return leftBaseFlag.transform.position.x; } set { } }
-    public static float rightBasePosX { get { return rightBaseFlag.transform.position.x; } set { } }
+    public static float leftBasePosX { get { return _leftBaseFlag.transform.position.x; } set { } }
+    public static float rightBasePosX { get { return _rightBaseFlag.transform.position.x; } set { } }
+
+    public static void AssignBattleCameraManager(BattleCameraManager battleCameraManager)
+    {
+        _battleCameraManager = battleCameraManager;
+    }
+
+    public static void FocusFight(BattleUnit unit1, BattleUnit unit2)
+    {
+        _battleCameraManager.ShowBattleFocus(BattleGlobalParam.CAMERA_PRIORITY_MINION_FIGHT, 
+            unit1.cameraPivot, unit2.cameraPivot, BattleGlobalParam.CAMERA_BOUNCE_TIME);
+    }
 
     public static void AssignSpawnPoint(BattleSpawnPoint spawnPoint)
     {
         if (spawnPoint.team == BattleTeam.Left)
-            leftSpawnPoint = spawnPoint;
+            _leftSpawnPoint = spawnPoint;
         else if (spawnPoint.team == BattleTeam.Right)
-            rightSpawnPoint = spawnPoint;
+            _rightSpawnPoint = spawnPoint;
     }
 
     public static void AssignBaseFlag(BattleBaseFlag baseFlag)
     {
         if (baseFlag.team == BattleTeam.Left)
-            leftBaseFlag = baseFlag;
+            _leftBaseFlag = baseFlag;
         else if (baseFlag.team == BattleTeam.Right)
-            rightBaseFlag = baseFlag;
+            _rightBaseFlag = baseFlag;
     }
 
     public static void AssignUnit(BattleUnit unit)
     {
-        if (battleUnits.Contains(unit))
+        if (_battleUnits.Contains(unit))
             return;
 
-        battleUnits.Add(unit);
+        _battleUnits.Add(unit);
     }
 
     public static void SpawnUnit(BattleUnit unit, BattleTeam team)
     {
         if (team == BattleTeam.Left)
-            leftSpawnPoint.SpawnUnit(unit);
+            _leftSpawnPoint.SpawnUnit(unit);
         else
-            rightSpawnPoint.SpawnUnit(unit);
+            _rightSpawnPoint.SpawnUnit(unit);
     }
 
     public static BattleUnit FindNearbyEnemy(BattleUnit unit)
     {
-        targetUnit = null;
+        _targetUnit = null;
         float distance = Mathf.Infinity;
 
-        foreach (BattleUnit otherUnit in battleUnits)
+        foreach (BattleUnit otherUnit in _battleUnits)
         {
             float checkDistance;
             if (otherUnit.team == unit.team)
@@ -62,10 +74,10 @@ public static class BattleManager
             if (checkDistance < distance)
             {
                 distance = checkDistance;
-                targetUnit = otherUnit;
+                _targetUnit = otherUnit;
             }
         }
 
-        return targetUnit;
+        return _targetUnit;
     }
 }

@@ -12,9 +12,12 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] Collider2D selfCollider;
     [SerializeField] ContactFilter2D enemyContactFilter;
 
+    public Transform cameraPivot;
+
     BattleUnit _targetEnemy;
     Collider2D[] _enemyColliders = new Collider2D[1];
     float _bounceTimer = 0f;
+    float _animateTimer = 0f;
 
     public BattleTeam team
     {
@@ -43,6 +46,12 @@ public class BattleUnit : MonoBehaviour
 
     private void Update()
     {
+        if(_animateTimer > 0f)
+        {
+            _animateTimer -= Time.deltaTime;
+            return;
+        }
+
         if (_bounceTimer > 0f)
         {
             Bounce();
@@ -51,7 +60,7 @@ public class BattleUnit : MonoBehaviour
 
         if (CheckOverlapTarget())
         {
-            StartBounce();
+            StartFight();
             return;
         }
 
@@ -66,6 +75,11 @@ public class BattleUnit : MonoBehaviour
         {
             MoveToEnemy();
         }
+    }
+
+    void AnimateAttack()
+    {
+        _animateTimer = BattleGlobalParam.TEST_ANIMATE_ATTACK_TIME;
     }
 
     void FindTargetEnemy()
@@ -97,16 +111,20 @@ public class BattleUnit : MonoBehaviour
     {
         if (selfCollider.OverlapCollider(enemyContactFilter, _enemyColliders) > 0)
         {
+            _targetEnemy = _enemyColliders[0].GetComponent<BattleUnit>();
+
             //if(_enemyColliders[0] == _targetEnemy.battleCollider)
                 return true;
         }
         return false;
     }
 
-    void StartBounce()
+    void StartFight()
     {
         _bounceTimer = BattleGlobalParam.BOUNCE_TIME;
+        AnimateAttack();
         Bounce();
+        BattleManager.FocusFight(this, _targetEnemy);
     }
 
     void Bounce()

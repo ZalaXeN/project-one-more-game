@@ -96,6 +96,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  cameraPivot: {fileID: 7696380508793809582}
 --- !u!61 &7696380509037304511
 BoxCollider2D:
   m_ObjectHideFlags: 0
