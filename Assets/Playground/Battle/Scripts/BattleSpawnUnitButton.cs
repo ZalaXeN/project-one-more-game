@@ -2,8 +2,8 @@
 
 public class BattleSpawnUnitButton : MonoBehaviour
 {
-    [SerializeField] BattleTeam battleTeam;
-    [SerializeField] BattleUnit unitPrefab;
+    [SerializeField] BattleTeam battleTeam = BattleTeam.None;
+    [SerializeField] BattleUnit unitPrefab = null;
 
     public void Spawn()
     {

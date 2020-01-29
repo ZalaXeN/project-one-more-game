@@ -5,13 +5,13 @@ using Cinemachine;
 
 public class BattleCameraManager : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera battlefieldVC;
-    [SerializeField] CinemachineVirtualCamera focusVC;
-    [SerializeField] CinemachineVirtualCamera zoominVC;
-    [SerializeField] CinemachineVirtualCamera battleFocusVC;
+    [SerializeField] CinemachineVirtualCamera battlefieldVC = null;
+    [SerializeField] CinemachineVirtualCamera focusVC = null;
+    [SerializeField] CinemachineVirtualCamera zoominVC = null;
+    [SerializeField] CinemachineVirtualCamera battleFocusVC = null;
 
-    [SerializeField] TesterCameraTarget cameraTarget1;
-    [SerializeField] TesterCameraTarget cameraTarget2;
+    [SerializeField] TesterCameraTarget cameraTarget1 = null;
+    [SerializeField] TesterCameraTarget cameraTarget2 = null;
 
     [SerializeField] bool hasFocusFightUnit = false;
     [SerializeField] Color nonFocusUnitColor = new Color(1f, 1f, 1f, 0.35f);

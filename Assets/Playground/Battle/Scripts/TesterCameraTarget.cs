@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TesterCameraTarget : MonoBehaviour
 {
-    [SerializeField] Transform targetTransform;
+    [SerializeField] Transform targetTransform = null;
 
     public void SetTarget(Transform target)
     {

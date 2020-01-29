@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+public enum BattleTeam
+{
+    Left,
+    Right,
+    None
+}
+
 public static class BattleManager
 {
     public delegate void PerformFocusFight(Transform unit1, Transform unit2, Color nonFocusColor);
@@ -10,8 +18,8 @@ public static class BattleManager
     public delegate void PerformResetFocusFight();
     public static event PerformResetFocusFight OnResetFocusFight;
 
-    public delegate void BattleUnitDead(BattleUnit unit);
-    public static event BattleUnitDead BattleUnitDeadEvent;
+    //public delegate void BattleUnitDead(BattleUnit unit);
+    //public static event BattleUnitDead BattleUnitDeadEvent;
 
     static List<BattleUnit> _battleUnits = new List<BattleUnit>();
     static BattleUnit _targetUnit;

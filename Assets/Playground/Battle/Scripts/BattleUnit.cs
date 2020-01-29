@@ -5,18 +5,18 @@ using UnityEngine;
 public class BattleUnit : MonoBehaviour
 {
     // TEST
-    [SerializeField] string testStatus;
-    public bool canDie;
-    public bool isBouncing;
-    public BattleUnit killerUnit;
+    [SerializeField] string testStatus = string.Empty;
+    public bool canDie = false;
+    public bool isBouncing = false;
+    public BattleUnit killerUnit = null;
 
-    [SerializeField] BattleTeam battleTeam;
+    [SerializeField] BattleTeam battleTeam = BattleTeam.None;
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float bounce = 1f;
-    [SerializeField] Transform characterTransform;
-    [SerializeField] Collider2D selfCollider;
-    [SerializeField] ContactFilter2D enemyContactFilter;
-    [SerializeField] SpriteRenderer characterSprite;
+    [SerializeField] Transform characterTransform = null;
+    [SerializeField] Collider2D selfCollider = null;
+    [SerializeField] ContactFilter2D enemyContactFilter = new ContactFilter2D();
+    [SerializeField] SpriteRenderer characterSprite = null;
 
     public Transform cameraPivot;
 
@@ -233,10 +233,4 @@ public class BattleUnit : MonoBehaviour
         ResetParam();
         gameObject.SetActive(false);
     }
-}
-
-public enum BattleTeam
-{
-    Left,
-    Right
 }

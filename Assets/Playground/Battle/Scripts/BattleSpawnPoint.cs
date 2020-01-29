@@ -5,11 +5,11 @@ using UnityEngine;
 public class BattleSpawnPoint : MonoBehaviour
 {
     // TEST
-    [SerializeField] bool canDie;
+    [SerializeField] bool canDie = false;
 
-    [SerializeField] BattleTeam battleTeam;
-    [SerializeField] BoxCollider2D spawnArea;
-    [SerializeField] BattleLane[] spawnLanes;
+    [SerializeField] BattleTeam battleTeam = BattleTeam.None;
+    [SerializeField] BoxCollider2D spawnArea = null;
+    [SerializeField] BattleLane[] spawnLanes = null;
 
     Vector3 spawnPos = new Vector3();
 
