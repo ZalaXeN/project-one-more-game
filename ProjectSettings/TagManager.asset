@@ -50,6 +50,9 @@ TagManager:
   - name: Main
     uniqueID: 1175597187
     locked: 0
+  - name: MainEffect
+    uniqueID: 1036090283
+    locked: 0
   - name: Foreground
     uniqueID: 1925460215
     locked: 0
