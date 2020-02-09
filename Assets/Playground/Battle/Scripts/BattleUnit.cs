@@ -39,6 +39,7 @@ public class BattleUnit : MonoBehaviour
 
     public void InitBattleUnit()
     {
+        canDie = false;
         BattleManager.AssignUnit(this);
         AdjustCharacterTransform();
 
@@ -76,6 +77,11 @@ public class BattleUnit : MonoBehaviour
     {
         BattleManager.OnFocusFight -= AdjustSpriteOnFocusFight;
         BattleManager.OnResetFocusFight -= ResetSpriteOnFocusFight;
+    }
+
+    private void OnDestroy()
+    {
+        BattleManager.RemoveAssignedUnit(this);
     }
 
     private void Update()

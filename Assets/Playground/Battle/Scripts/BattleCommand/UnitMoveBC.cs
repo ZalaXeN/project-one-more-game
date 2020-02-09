@@ -24,4 +24,9 @@ public class UnitMoveBC : IBattleCommand
     {
         Debug.Log("Move from " + endPosition + " to " + startPosition);
     }
+
+    public float GetExecuteTime()
+    {
+        return -1f;
+    }
 }

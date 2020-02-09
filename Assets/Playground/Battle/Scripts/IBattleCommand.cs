@@ -2,4 +2,5 @@
 {
     void Execute();
     void Undo();
+    float GetExecuteTime();
 }

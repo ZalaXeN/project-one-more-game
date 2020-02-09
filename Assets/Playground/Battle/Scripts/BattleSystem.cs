@@ -12,33 +12,36 @@ public class BattleSystem : MonoBehaviour
     }
 
     public BattleExecuteState currentExecuteState;
+    public float battleTime;
 
     private void Start()
     {
         currentExecuteState = BattleExecuteState.Normal;
-
-        //UnitMoveBC unitMoveBC = new UnitMoveBC(Vector3.zero, Vector3.one);
-        //UnitMoveBC unitMoveBC2 = new UnitMoveBC(Vector3.up, Vector3.down);
-        //UnitMoveBC unitMoveBC3 = new UnitMoveBC(Vector3.left, Vector3.right);
-
-        //BattleManager._battleCommandManager.AddCommand(unitMoveBC);
-        //BattleManager._battleCommandManager.AddCommand(unitMoveBC2);
-        //BattleManager._battleCommandManager.AddCommand(unitMoveBC3);
+        BattleManager.AssignBattleSystem(this);
+        BattleManager.battleCommandTime = 0f;
     }
 
     private void Update()
     {
+        UpdateBattleCommand();
+        battleTime = BattleManager.battleCommandTime;
+    }
+
+    void UpdateBattleCommand()
+    {
         if (currentExecuteState == BattleExecuteState.Normal)
         {
+            BattleManager.battleCommandTime += Time.deltaTime;
             Next();
         }
         else if (currentExecuteState == BattleExecuteState.Reverse)
         {
+            BattleManager.battleCommandTime -= Time.deltaTime;
             Back();
         }
         else if (currentExecuteState == BattleExecuteState.Pause)
         {
-
+            
         }
     }
 

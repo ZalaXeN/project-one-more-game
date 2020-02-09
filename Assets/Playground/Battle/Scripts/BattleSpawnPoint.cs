@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class BattleSpawnPoint : MonoBehaviour
 {
-    // TEST
-    [SerializeField] bool canDie = false;
-
     [SerializeField] BattleTeam battleTeam = BattleTeam.None;
     [SerializeField] BoxCollider2D spawnArea = null;
     [SerializeField] BattleLane[] spawnLanes = null;
-
-    Vector3 spawnPos = new Vector3();
 
     public BattleTeam team
     {
@@ -24,15 +19,21 @@ public class BattleSpawnPoint : MonoBehaviour
         BattleManager.AssignSpawnPoint(this);
     }
 
-    public void SpawnUnit(BattleUnit unit)
+    public Vector3 GetRandomSpawnPoint()
     {
+        Vector3 spawnPos = new Vector3();
         spawnPos.x = Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x);
         spawnPos.y = spawnLanes[Random.Range(0, spawnLanes.Length)].transform.position.y;
+        return spawnPos;
+    }
 
-        GameObject spawnedUnit = Instantiate(unit.gameObject, spawnPos, Quaternion.identity);
-        BattleUnit spawnedBattleUnit = spawnedUnit.GetComponent<BattleUnit>();
-        spawnedBattleUnit.team = battleTeam;
-        spawnedBattleUnit.canDie = canDie;
-        spawnedBattleUnit.InitBattleUnit();
+    public GameObject SpawnBattleUnit(BattleUnit unit, Vector3 position)
+    {
+        return Instantiate(unit.gameObject, position, Quaternion.identity);
+    }
+
+    public void DestroyBattleUnit(GameObject go)
+    {
+        Destroy(go);
     }
 }

@@ -7,6 +7,6 @@ public class BattleSpawnUnitButton : MonoBehaviour
 
     public void Spawn()
     {
-        BattleManager.SpawnUnit(unitPrefab, battleTeam);
+        BattleManager.CommandSpawnUnit(unitPrefab, battleTeam);
     }
 }
