@@ -21,6 +21,8 @@ public static class BattleManager
     //public delegate void BattleUnitDead(BattleUnit unit);
     //public static event BattleUnitDead BattleUnitDeadEvent;
 
+    public static BattleCommandManager _battleCommandManager = new BattleCommandManager();
+
     static List<BattleUnit> _battleUnits = new List<BattleUnit>();
     static BattleUnit _targetUnit;
     static BattleSpawnPoint _leftSpawnPoint;
