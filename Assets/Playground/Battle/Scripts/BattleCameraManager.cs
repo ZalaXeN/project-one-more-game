@@ -10,13 +10,16 @@ public class BattleCameraManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera zoominVC = null;
     [SerializeField] CinemachineVirtualCamera battleFocusVC = null;
 
-    [SerializeField] TesterCameraTarget cameraTarget1 = null;
-    [SerializeField] TesterCameraTarget cameraTarget2 = null;
+    [SerializeField] CinemachineTargetGroup cameraTargetGroup = null;
+    [SerializeField] float cameraTargetWeight = 1f;
+    [SerializeField] float cameraTargetRadius = 0.5f;
 
     [SerializeField] bool hasFocusFightUnit = false;
     [SerializeField] Color nonFocusUnitColor = new Color(1f, 1f, 1f, 0.35f);
 
     private float _focusTimer = 0f;
+    private Transform cameraTarget1 = null;
+    private Transform cameraTarget2 = null;
 
     private void Start()
     {
@@ -44,7 +47,7 @@ public class BattleCameraManager : MonoBehaviour
         if (focusVC.Priority >= priority)
             return;
 
-        cameraTarget1.SetTarget(targetTransform);
+        cameraTarget1 = targetTransform;
         focusVC.Priority = priority;
     }
 
@@ -53,7 +56,7 @@ public class BattleCameraManager : MonoBehaviour
         if (zoominVC.Priority >= priority)
             return;
 
-        cameraTarget1.SetTarget(targetTransform);
+        cameraTarget1 = targetTransform;
         zoominVC.Priority = priority;
     }
 
@@ -70,8 +73,10 @@ public class BattleCameraManager : MonoBehaviour
             return;
 
         _focusTimer = BattleGlobalParam.CAMERA_BOUNCE_FOCUS_TIME;
-        cameraTarget1.SetTarget(targetTransform1);
-        cameraTarget2.SetTarget(targetTransform2);
+        ClearCameraTarget();
+        cameraTarget1 = targetTransform1;
+        cameraTarget2 = targetTransform2;
+        UpdateCameraTarget();
         battleFocusVC.Priority = priority;
 
         if(hasFocusFightUnit)
@@ -99,5 +104,23 @@ public class BattleCameraManager : MonoBehaviour
 
         if(hasFocusFightUnit)
             BattleManager.ResetFocusSprite();
+    }
+
+    void ClearCameraTarget()
+    {
+        if(cameraTarget1 != null)
+            cameraTargetGroup.RemoveMember(cameraTarget1);
+
+        if(cameraTarget2 != null)
+            cameraTargetGroup.RemoveMember(cameraTarget2);
+    }
+
+    void UpdateCameraTarget()
+    {
+        if (cameraTarget1 != null)
+            cameraTargetGroup.AddMember(cameraTarget1, cameraTargetWeight, cameraTargetRadius);
+
+        if (cameraTarget2 != null)
+            cameraTargetGroup.AddMember(cameraTarget2, cameraTargetWeight, cameraTargetRadius);
     }
 }

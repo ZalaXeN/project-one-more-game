@@ -99,13 +99,15 @@ public class BattleUnit : MonoBehaviour
             return;
         }
 
-        if (IsReachEnemyBase())
-            return;
-
         FindTargetEnemy();
 
-        if(_targetEnemy == null)
+        if (_targetEnemy == null)
+        {
+            if (IsReachEnemyBase())
+                return;
+
             MoveToEnemyBase();
+        }
         else
         {
             MoveToEnemy();
@@ -126,20 +128,11 @@ public class BattleUnit : MonoBehaviour
     {
         testStatus = "Move to enemy";
 
-        if (battleTeam == BattleTeam.Left)
-        {
-            if (transform.position.x >= _targetEnemy.transform.position.x)
-                return;
-
+        if (transform.position.x < _targetEnemy.transform.position.x)
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            if (transform.position.x < _targetEnemy.transform.position.x)
-                return;
 
+        if (transform.position.x > _targetEnemy.transform.position.x)
             transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-        }
     }
 
     bool CheckOverlapTarget()
