@@ -31,9 +31,9 @@ MonoBehaviour:
     customBlendFactors:
       multiplicative: 0
       additive: 0
-  - enabled: 0
-    name: Shadow
-    maskTextureChannel: 0
+  - enabled: 1
+    name: Mask Light
+    maskTextureChannel: 5
     renderTextureScale: 1
     blendMode: 1
     customBlendFactors:
