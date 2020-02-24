@@ -2,7 +2,7 @@
 
 public class TesterMoveController : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 1.0f;
+    [SerializeField] float moveSpeed = 0.02f;
 
     Vector3 targetPos;
 
