@@ -53,15 +53,6 @@ TagManager:
   - name: Main
     uniqueID: 1175597187
     locked: 0
-  - name: MainEffect
-    uniqueID: 1036090283
-    locked: 0
   - name: Foreground
     uniqueID: 1925460215
-    locked: 0
-  - name: UI
-    uniqueID: 600719297
-    locked: 0
-  - name: Debugger
-    uniqueID: 3390472165
     locked: 0
