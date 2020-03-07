@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.05
+  m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 40
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -8733,10 +8733,80 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 335596361567626495, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 351146568799153905, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 704120202421808922, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806432253007411617, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986146057106599723, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2315125365387569473, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735086021622374043, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358776986357748675, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3751435848416813739, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4280266542816375454, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395966042248455997, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
         type: 3}
       propertyPath: m_Name
       value: mage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205426468100449431, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106950599712391989, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332895889295431537, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
         type: 3}
@@ -8791,6 +8861,16 @@ PrefabInstance:
     - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556037059016442745, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069421303134205338, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
