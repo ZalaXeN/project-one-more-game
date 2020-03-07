@@ -60,7 +60,7 @@ Material:
     - _ColorMode: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DistortionBlend: 0.5
+    - _DistortionBlend: 1
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
