@@ -7,6 +7,6 @@ namespace ProjectOneMore
     [System.Serializable]
     public class PlayerData
     {
-        public int Soul;
+        public int soul;
     }
 }
