@@ -5,9 +5,16 @@ using ProjectOneMore;
 
 namespace ProjectOneMore.Battle
 {
-    [GenerateAuthoringComponent]
-    public class BattleUnit : IComponentData
+    public enum BattleTeam
     {
+        Player,
+        Enemy
+    }
+
+    public class BattleUnit : MonoBehaviour
+    {
+        public BattleTeam team;
+
         public KeeperData baseData;
 
         public BattleUnitStat hp;
