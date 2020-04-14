@@ -22,6 +22,16 @@ namespace ProjectOneMore
         Spell
     }
 
+    public enum SkillEffectTarget
+    {
+        Self,
+        Ally,
+        Enemy,
+        Allies,
+        Enemies,
+        All
+    }
+
     public enum SkillTargetType
     {
         Target,

@@ -7690,6 +7690,129 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625976874}
   m_CullTransparentMesh: 0
+--- !u!1001 &1697638969
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_Name
+      value: mage
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.13052616
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9914449
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0d9facc217c6f0646949b8938267ebcf, type: 3}
+--- !u!1 &1728194265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1697638969}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1728194266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728194265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 1
+  baseData:
+    keeperId: m01
+    keeperName: Mage
+    baseStats:
+      POW: 10
+      CRI: 10
+      SPD: 10
+      HP: 20
+      DEF: 10
+      EN: 40
+  hp:
+    max: 100
+  en:
+    max: 40
+  pow:
+    max: 10
+  cri:
+    max: 10
+  spd:
+    max: 10
+  def:
+    max: 10
+--- !u!65 &1728194267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728194265}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 2, z: 0.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1892726091
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,6 +8342,7 @@ GameObject:
   - component: {fileID: 2068622979}
   - component: {fileID: 2068622978}
   - component: {fileID: 2068622977}
+  - component: {fileID: 2068622980}
   m_Layer: 5
   m_Name: AttackButton
   m_TagString: Untagged
@@ -8288,7 +8412,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2068622978}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2068622980}
+        m_MethodName: Target
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2068622978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8325,6 +8460,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068622975}
   m_CullTransparentMesh: 0
+--- !u!114 &2068622980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068622975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 111390456}
+  skillName: Attack
+  skillType: 2
+  skillEffectTarget: 2
+  skillTargetType: 0
 --- !u!1 &2117453497
 GameObject:
   m_ObjectHideFlags: 0

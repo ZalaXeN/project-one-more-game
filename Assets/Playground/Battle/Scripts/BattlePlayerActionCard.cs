@@ -7,12 +7,32 @@ namespace ProjectOneMore.Battle
     public class BattlePlayerActionCard : MonoBehaviour
     {
         public BattleUnit owner;
-        public BattleUnit target;
 
-        public void Target(BattleUnit target)
+        public string skillName;
+        public SkillType skillType;
+        public SkillEffectTarget skillEffectTarget;
+        public SkillTargetType skillTargetType;
+
+        private BattleUnit[] _targets = new BattleUnit[80];
+
+        public void SetTarget(BattleUnit target)
         {
-            if (target.team == owner.team)
-                return;
+            _targets[0] = target;
+        }
+
+        public void SetTarget(BattleUnit[] targets)
+        {
+            _targets = targets;
+        }
+
+        public BattleUnit GetTarget()
+        {
+            return _targets[0];
+        }
+
+        public void Target()
+        {
+            BattleManager.main.EnterPlayerInput(this);
         }
     }
 }

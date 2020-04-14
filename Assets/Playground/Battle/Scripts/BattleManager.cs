@@ -27,7 +27,10 @@ namespace ProjectOneMore.Battle
         private BattleState _battleState;
         public BattleState battleState
         {
-            private set { _battleState = value; }
+            private set {
+                _battleState = value;
+                Debug.LogFormat("Battle State: {0}", _battleState);
+            }
             get { return _battleState; }
         }
 
@@ -74,6 +77,78 @@ namespace ProjectOneMore.Battle
 
             currentAction = action;
             battleState = BattleState.PlayerInput;
+
+            if(currentAction.skillType != SkillType.Instant ||
+               currentAction.skillType != SkillType.Passive)
+                ShowTargeting();
+        }
+
+        private void ShowTargeting()
+        {
+            // TODO
+        }
+
+        private bool CanCurrentActionTargetAlly()
+        {
+            if (currentAction.skillEffectTarget == SkillEffectTarget.Ally ||
+                currentAction.skillEffectTarget == SkillEffectTarget.Allies ||
+                currentAction.skillEffectTarget == SkillEffectTarget.All)
+                return true;
+
+            return false;
+        }
+
+        private bool CanCurrentActionTargetEnemy()
+        {
+            if (currentAction.skillEffectTarget == SkillEffectTarget.Enemy ||
+                currentAction.skillEffectTarget == SkillEffectTarget.Enemies ||
+                currentAction.skillEffectTarget == SkillEffectTarget.All)
+                return true;
+
+            return false;
+        }
+
+        public bool CanCurrentActionTarget(BattleUnit unit)
+        {
+            if (CanCurrentActionTargetAlly() && unit.team == currentAction.owner.team)
+                return true;
+
+            if (CanCurrentActionTargetEnemy() && unit.team != currentAction.owner.team)
+                return true;
+
+            return false;
+        }
+
+        public void SetCurrentActionTarget(BattleUnit unit)
+        {
+            currentAction.SetTarget(unit);
+        }
+
+        // Mock Up
+        public void CurrentActionTakeAction()
+        {
+            if(currentAction.skillName == "Attack")
+            {
+                string ownerName = currentAction.owner.baseData.keeperName;
+                string victimName = currentAction.GetTarget().baseData.keeperName;
+
+                Debug.LogFormat("{0} Attack {1}", ownerName, victimName);
+                //Debug.Log("Owner Animate Attack.");
+                //Debug.Log("Target Animate Attacked.");
+                Debug.LogFormat("{0} received {1} damage", victimName, currentAction.owner.pow.current);
+                currentAction.GetTarget().hp.current -= currentAction.owner.pow.current;
+                Debug.LogFormat("{0} has {1} HP", victimName, currentAction.GetTarget().hp.current);
+
+                if (currentAction.GetTarget().hp.current <= 0)
+                {
+                    Debug.LogFormat("{0} are Dead.", victimName);
+                    currentAction.GetTarget().Dead();
+                }
+
+                Debug.LogFormat("Dehighlight: {0}", victimName);
+            }
+
+            ExitPlayerInput();
         }
 
         public void ExitPlayerInput()
@@ -82,19 +157,6 @@ namespace ProjectOneMore.Battle
                 return;
 
             battleState = BattleState.Battle;
-        }
-
-        private void Update()
-        {
-            PlayerInputPhase();
-        }
-
-        private void PlayerInputPhase()
-        {
-            if (battleState != BattleState.PlayerInput)
-                return;
-
-            //currentAction.Target();
         }
     }
 }
