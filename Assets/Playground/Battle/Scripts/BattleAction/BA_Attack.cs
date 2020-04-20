@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Unity.Mathematics;
 using System.Collections;
 
 namespace ProjectOneMore.Battle
@@ -6,6 +7,9 @@ namespace ProjectOneMore.Battle
     [CreateAssetMenu(fileName = "Attack", menuName = "Battle/Action/Attack", order = 1)]
     public class BA_Attack : BattleAction
     {
+        [Range(0.1f, 10f)]
+        public float powMultiplier = 1f;
+
         public override void Execute(BattlePlayerActionCard card)
         {
             // Test Attack
@@ -16,7 +20,7 @@ namespace ProjectOneMore.Battle
             //Debug.Log("Owner Animate Attack.");
             //Debug.Log("Target Animate Attacked.");
             Debug.LogFormat("{0} received {1} damage", victimName, card.owner.pow.current);
-            card.GetTarget().hp.current -= card.owner.pow.current;
+            card.GetTarget().hp.current -= (int)math.round(card.owner.pow.current * powMultiplier);
             Debug.LogFormat("{0} has {1} HP", victimName, card.GetTarget().hp.current);
 
             if (card.GetTarget().hp.current <= 0)
