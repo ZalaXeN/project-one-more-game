@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Unity.Entities;
 using System.Collections;
+using System.Collections.Generic;
 using ProjectOneMore;
 
 namespace ProjectOneMore.Battle

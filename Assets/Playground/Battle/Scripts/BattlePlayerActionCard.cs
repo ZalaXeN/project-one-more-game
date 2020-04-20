@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Unity.Entities;
+using System.Collections.Generic;
 
 namespace ProjectOneMore.Battle
 {
@@ -13,14 +12,17 @@ namespace ProjectOneMore.Battle
         public SkillEffectTarget skillEffectTarget;
         public SkillTargetType skillTargetType;
 
-        private BattleUnit[] _targets = new BattleUnit[80];
+        public BattleAction[] battleActions;
+
+        private List<BattleUnit> _targets = new List<BattleUnit>();
 
         public void SetTarget(BattleUnit target)
         {
-            _targets[0] = target;
+            _targets.Clear();
+            _targets.Add(target);
         }
 
-        public void SetTarget(BattleUnit[] targets)
+        public void SetTargets(List<BattleUnit> targets)
         {
             _targets = targets;
         }
@@ -30,9 +32,24 @@ namespace ProjectOneMore.Battle
             return _targets[0];
         }
 
+        public List<BattleUnit> GetTargets()
+        {
+            return _targets;
+        }
+
         public void Target()
         {
             BattleManager.main.EnterPlayerInput(this);
+        }
+
+        public void Execute()
+        {
+            foreach(BattleAction battleAbility in battleActions)
+            {
+                battleAbility.Execute(this);
+            }
+
+            BattleManager.main.ExitPlayerInput();
         }
     }
 }

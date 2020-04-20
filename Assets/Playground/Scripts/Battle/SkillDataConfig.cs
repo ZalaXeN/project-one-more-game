@@ -35,9 +35,9 @@ namespace ProjectOneMore
     public enum SkillTargetType
     {
         Target,
-        AoE,
+        Area,
         Projectile,
         Direction,
-        Direction_AoE
+        Direction_Area
     }
 }

@@ -7915,7 +7915,6 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_CameraOutput: 0
   m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
@@ -7927,6 +7926,7 @@ MonoBehaviour:
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
+  m_ClearDepth: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -8477,6 +8477,8 @@ MonoBehaviour:
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
+  battleActions:
+  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
 --- !u!1 &2117453497
 GameObject:
   m_ObjectHideFlags: 0
@@ -8575,8 +8577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
     type: 3}
-  selectedUnit: {fileID: 0}
-  currentAction: {fileID: 0}
+  currentActionCard: {fileID: 0}
 --- !u!4 &2131537039
 Transform:
   m_ObjectHideFlags: 0

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Unity.Entities;
-using Unity.Transforms;
-using Unity.Mathematics;
 
 namespace ProjectOneMore.Battle
 {
@@ -34,8 +32,7 @@ namespace ProjectOneMore.Battle
             get { return _battleState; }
         }
 
-        public BattleUnit selectedUnit;
-        public BattlePlayerActionCard currentAction;
+        public BattlePlayerActionCard currentActionCard;
 
         private void Awake()
         {
@@ -75,11 +72,11 @@ namespace ProjectOneMore.Battle
             if (battleState != BattleState.Battle)
                 return;
 
-            currentAction = action;
+            currentActionCard = action;
             battleState = BattleState.PlayerInput;
 
-            if(currentAction.skillType != SkillType.Instant ||
-               currentAction.skillType != SkillType.Passive)
+            if(currentActionCard.skillType != SkillType.Instant ||
+               currentActionCard.skillType != SkillType.Passive)
                 ShowTargeting();
         }
 
@@ -90,9 +87,9 @@ namespace ProjectOneMore.Battle
 
         private bool CanCurrentActionTargetAlly()
         {
-            if (currentAction.skillEffectTarget == SkillEffectTarget.Ally ||
-                currentAction.skillEffectTarget == SkillEffectTarget.Allies ||
-                currentAction.skillEffectTarget == SkillEffectTarget.All)
+            if (currentActionCard.skillEffectTarget == SkillEffectTarget.Ally ||
+                currentActionCard.skillEffectTarget == SkillEffectTarget.Allies ||
+                currentActionCard.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -100,9 +97,9 @@ namespace ProjectOneMore.Battle
 
         private bool CanCurrentActionTargetEnemy()
         {
-            if (currentAction.skillEffectTarget == SkillEffectTarget.Enemy ||
-                currentAction.skillEffectTarget == SkillEffectTarget.Enemies ||
-                currentAction.skillEffectTarget == SkillEffectTarget.All)
+            if (currentActionCard.skillEffectTarget == SkillEffectTarget.Enemy ||
+                currentActionCard.skillEffectTarget == SkillEffectTarget.Enemies ||
+                currentActionCard.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -110,10 +107,10 @@ namespace ProjectOneMore.Battle
 
         public bool CanCurrentActionTarget(BattleUnit unit)
         {
-            if (CanCurrentActionTargetAlly() && unit.team == currentAction.owner.team)
+            if (CanCurrentActionTargetAlly() && unit.team == currentActionCard.owner.team)
                 return true;
 
-            if (CanCurrentActionTargetEnemy() && unit.team != currentAction.owner.team)
+            if (CanCurrentActionTargetEnemy() && unit.team != currentActionCard.owner.team)
                 return true;
 
             return false;
@@ -121,33 +118,13 @@ namespace ProjectOneMore.Battle
 
         public void SetCurrentActionTarget(BattleUnit unit)
         {
-            currentAction.SetTarget(unit);
+            currentActionCard.SetTarget(unit);
         }
 
         // Mock Up
         public void CurrentActionTakeAction()
         {
-            if(currentAction.skillName == "Attack")
-            {
-                string ownerName = currentAction.owner.baseData.keeperName;
-                string victimName = currentAction.GetTarget().baseData.keeperName;
-
-                Debug.LogFormat("{0} Attack {1}", ownerName, victimName);
-                //Debug.Log("Owner Animate Attack.");
-                //Debug.Log("Target Animate Attacked.");
-                Debug.LogFormat("{0} received {1} damage", victimName, currentAction.owner.pow.current);
-                currentAction.GetTarget().hp.current -= currentAction.owner.pow.current;
-                Debug.LogFormat("{0} has {1} HP", victimName, currentAction.GetTarget().hp.current);
-
-                if (currentAction.GetTarget().hp.current <= 0)
-                {
-                    Debug.LogFormat("{0} are Dead.", victimName);
-                    currentAction.GetTarget().Dead();
-                }
-
-                Debug.LogFormat("Dehighlight: {0}", victimName);
-            }
-
+            currentActionCard.Execute();
             ExitPlayerInput();
         }
 
