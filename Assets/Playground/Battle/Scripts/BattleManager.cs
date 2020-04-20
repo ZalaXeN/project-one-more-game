@@ -55,16 +55,22 @@ namespace ProjectOneMore.Battle
         private void ReadyBattle()
         {
             battleState = BattleState.Ready;
-            // Ready Battle Event Coroutine
-            // StartCouroutine
-            SpawnEnemy();
 
+            StartCoroutine("ReadyBattleCoroutine");
+        }
+
+        private IEnumerator ReadyBattleCoroutine()
+        {
+            Coroutine spawnEnemy = StartCoroutine("SpawnEnemy");
+
+            yield return spawnEnemy;
             battleState = BattleState.Battle;
         }
 
-        private void SpawnEnemy()
+        private IEnumerator SpawnEnemy()
         {
             // TODO
+            yield break;
         }
 
         public void EnterPlayerInput(BattlePlayerActionCard action)
