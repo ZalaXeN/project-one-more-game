@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ProjectOneMore.Battle
@@ -20,8 +21,6 @@ namespace ProjectOneMore.Battle
     {
         public static BattleManager main;
 
-        public GameObject enemyPrefab;
-
         private BattleState _battleState;
         public BattleState battleState
         {
@@ -32,7 +31,9 @@ namespace ProjectOneMore.Battle
             get { return _battleState; }
         }
 
-        public BattlePlayerActionCard currentActionCard;
+        public BattleColumn[] battleColumns;
+
+        private BattlePlayerActionCard _currentActionCard;
 
         private void Awake()
         {
@@ -78,11 +79,11 @@ namespace ProjectOneMore.Battle
             if (battleState != BattleState.Battle)
                 return;
 
-            currentActionCard = action;
+            _currentActionCard = action;
             battleState = BattleState.PlayerInput;
 
-            if(currentActionCard.skillType != SkillType.Instant ||
-               currentActionCard.skillType != SkillType.Passive)
+            if(_currentActionCard.skillType != SkillType.Instant ||
+               _currentActionCard.skillType != SkillType.Passive)
                 ShowTargeting();
         }
 
@@ -93,9 +94,9 @@ namespace ProjectOneMore.Battle
 
         private bool CanCurrentActionTargetAlly()
         {
-            if (currentActionCard.skillEffectTarget == SkillEffectTarget.Ally ||
-                currentActionCard.skillEffectTarget == SkillEffectTarget.Allies ||
-                currentActionCard.skillEffectTarget == SkillEffectTarget.All)
+            if (_currentActionCard.skillEffectTarget == SkillEffectTarget.Ally ||
+                _currentActionCard.skillEffectTarget == SkillEffectTarget.Allies ||
+                _currentActionCard.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -103,9 +104,9 @@ namespace ProjectOneMore.Battle
 
         private bool CanCurrentActionTargetEnemy()
         {
-            if (currentActionCard.skillEffectTarget == SkillEffectTarget.Enemy ||
-                currentActionCard.skillEffectTarget == SkillEffectTarget.Enemies ||
-                currentActionCard.skillEffectTarget == SkillEffectTarget.All)
+            if (_currentActionCard.skillEffectTarget == SkillEffectTarget.Enemy ||
+                _currentActionCard.skillEffectTarget == SkillEffectTarget.Enemies ||
+                _currentActionCard.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -113,10 +114,10 @@ namespace ProjectOneMore.Battle
 
         public bool CanCurrentActionTarget(BattleUnit unit)
         {
-            if (CanCurrentActionTargetAlly() && unit.team == currentActionCard.owner.team)
+            if (CanCurrentActionTargetAlly() && unit.team == _currentActionCard.owner.team)
                 return true;
 
-            if (CanCurrentActionTargetEnemy() && unit.team != currentActionCard.owner.team)
+            if (CanCurrentActionTargetEnemy() && unit.team != _currentActionCard.owner.team)
                 return true;
 
             return false;
@@ -124,13 +125,12 @@ namespace ProjectOneMore.Battle
 
         public void SetCurrentActionTarget(BattleUnit unit)
         {
-            currentActionCard.SetTarget(unit);
+            _currentActionCard.SetTarget(unit);
         }
 
-        // Mock Up
         public void CurrentActionTakeAction()
         {
-            currentActionCard.Execute();
+            _currentActionCard.Execute();
             ExitPlayerInput();
         }
 
@@ -140,6 +140,16 @@ namespace ProjectOneMore.Battle
                 return;
 
             battleState = BattleState.Battle;
+        }
+
+        public Vector3 GetBattlePosition(int column, int row)
+        {
+            if (battleColumns.Length <= 0)
+                return Vector3.zero;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+
+            return battleColumns[column].GetRowPosition(row);
         }
     }
 }

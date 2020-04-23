@@ -28,7 +28,7 @@ namespace ProjectOneMore.Battle
         public float paddingFront = 0.5f;
         public float paddingBack = 1f;
 
-        [Range(0, 10)]
+        [Range(0, 5)]
         public int unitNumber;
 
         private static float _thickness = 10f;
@@ -93,8 +93,34 @@ namespace ProjectOneMore.Battle
         //    Debug.Log(resultCheck);
         //}
 
+        /// <summary>
+        /// Get Position of target row.
+        /// </summary>
+        /// <param name="index">Index of target row</param>
+        /// <returns>Position of target row</returns>
+        public Vector3 GetRowPosition(int index)
+        {
+            index = math.clamp(index, 0, _centeredAlignRowList.Count - 1);
+
+            float startRowZ = zFront + paddingFront;
+            float endRowZ = zBack - paddingBack;
+            float zRow = _centeredAlignRowList[index];
+            float zDepth = math.lerp(startRowZ, endRowZ, zRow);
+
+            Vector3 targetRowPos = transform.position;
+            targetRowPos.z = zDepth;
+
+            return targetRowPos;
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
+        {
+            DrawColumnGizmos();
+            DrawRowsGizmos();
+        }
+
+        private void DrawColumnGizmos()
         {
             _startLine = transform.position;
             _startLine.z = zFront;
@@ -103,8 +129,6 @@ namespace ProjectOneMore.Battle
             _endLine.z = zBack;
 
             Handles.DrawBezier(_startLine, _endLine, _startLine, _endLine, Color.green, null, _thickness);
-
-            DrawRowsGizmos();
         }
 
         private void DrawRowsGizmos()

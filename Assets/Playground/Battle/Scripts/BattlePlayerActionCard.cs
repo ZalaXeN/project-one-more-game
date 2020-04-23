@@ -44,9 +44,9 @@ namespace ProjectOneMore.Battle
 
         public void Execute()
         {
-            foreach(BattleAction battleAbility in battleActions)
+            foreach(BattleAction battleAction in battleActions)
             {
-                battleAbility.Execute(this);
+                battleAction.Execute(this);
             }
 
             BattleManager.main.ExitPlayerInput();

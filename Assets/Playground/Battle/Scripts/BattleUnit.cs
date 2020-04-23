@@ -24,6 +24,9 @@ namespace ProjectOneMore.Battle
         public BattleUnitStat spd;
         public BattleUnitStat def;
 
+        public int column = 0;
+        public int row = 0;
+
         // Mock Up
         private void InitStats()
         {
@@ -88,6 +91,16 @@ namespace ProjectOneMore.Battle
         public void Dead()
         {
             Destroy(gameObject);
+        }
+
+        // Reposition
+        [ContextMenu("Test Position")]
+        public void ResetPosition()
+        {
+            if (BattleManager.main == null)
+                return;
+
+            transform.position = BattleManager.main.GetBattlePosition(column, row);
         }
     }
 }
