@@ -71,12 +71,22 @@ namespace ProjectOneMore.Battle
                 cumulative += dividerRatio;
             }
 
+            // Center First
+            int halfIndex = _rowPercentPosList.Count / 2;
+            float lastestValue = _rowPercentPosList[halfIndex];
+            bool isLower = true;
+
             for (int i = _rowPercentPosList.Count; i > 0; i--)
             {
-                int halfIndex = _rowPercentPosList.Count / 2;
+                _centeredAlignRowList.Add(lastestValue);
+                _rowPercentPosList.Remove(lastestValue);
 
-                _centeredAlignRowList.Add(_rowPercentPosList[halfIndex]);
-                _rowPercentPosList.RemoveAt(halfIndex);
+                if(isLower)
+                    lastestValue = GetHighestLessValueFromRowList(lastestValue);
+                else
+                    lastestValue = GetLowestMoreValueFromRowList(lastestValue);
+
+                isLower = !isLower;
             }
 
             //CheckCenteredAlignRowList();
@@ -84,15 +94,39 @@ namespace ProjectOneMore.Battle
             _isRowsUpdating = false;
         }
 
-        //private void CheckCenteredAlignRowList()
-        //{
-        //    string resultCheck = "";
-        //    foreach (float result in _centeredAlignRowList)
-        //    {
-        //        resultCheck += result + ", ";
-        //    }
-        //    Debug.Log(resultCheck);
-        //}
+        private float GetLowestMoreValueFromRowList(float value)
+        {
+            float lowestRow = 1f;
+            foreach(float row in _rowPercentPosList)
+            {
+                if (row > value && row < lowestRow)
+                {
+                    lowestRow = row;
+                }
+            }
+            return lowestRow;
+        }
+
+        private float GetHighestLessValueFromRowList(float value)
+        {
+            float highestRow = 0f;
+            foreach (float row in _rowPercentPosList)
+            {
+                if (row < value && row > highestRow)
+                    highestRow = row;
+            }
+            return highestRow;
+        }
+
+        private void CheckCenteredAlignRowList()
+        {
+            string resultCheck = "";
+            foreach (float result in _centeredAlignRowList)
+            {
+                resultCheck += result + ", ";
+            }
+            Debug.Log(resultCheck);
+        }
 
         /// <summary>
         /// Get Position of target row.
