@@ -33,6 +33,15 @@ namespace ProjectOneMore.Battle
 
         public BattleColumn[] battleColumns;
 
+        // Test
+        [Range(0,32)]
+        public int testEnemyNumber;
+        public GameObject testEnemyPrefab;
+        [Range(1, 10)]
+        public int rowsPerColumn = 4;
+
+        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(1.0f);
+
         private BattlePlayerActionCard _currentActionCard;
 
         private void Awake()
@@ -63,15 +72,30 @@ namespace ProjectOneMore.Battle
         private IEnumerator ReadyBattleCoroutine()
         {
             Coroutine spawnEnemy = StartCoroutine("SpawnEnemy");
-
             yield return spawnEnemy;
             battleState = BattleState.Battle;
         }
 
         private IEnumerator SpawnEnemy()
         {
-            // TODO
-            yield break;
+            // Test
+            if (testEnemyPrefab == null)
+                yield break;
+
+            for(int i = 0; i < testEnemyNumber; i++)
+            {
+                int column = i / rowsPerColumn;
+                int row = i % rowsPerColumn;
+
+                battleColumns[column].unitNumber = row + 1;
+                battleColumns[column].UpdateRows();
+
+                GameObject enemy = Instantiate(testEnemyPrefab);
+                enemy.GetComponent<BattleUnit>().column = column;
+                enemy.GetComponent<BattleUnit>().row = row;
+                enemy.GetComponent<BattleUnit>().testPosition = true;
+                yield return _waitForSpawnEnemyInterval;
+            }
         }
 
         public void EnterPlayerInput(BattlePlayerActionCard action)

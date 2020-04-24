@@ -28,7 +28,7 @@ namespace ProjectOneMore.Battle
         public float paddingFront = 0.5f;
         public float paddingBack = 1f;
 
-        [Range(0, 5)]
+        [Range(0, 10)]
         public int unitNumber;
 
         private static float _thickness = 10f;
@@ -46,7 +46,7 @@ namespace ProjectOneMore.Battle
             UpdateRows();
         }
 
-        private void UpdateRows()
+        public void UpdateRows()
         {
             if (_centeredAlignRowList.Count == unitNumber || unitNumber <= 0 || _isRowsUpdating)
                 return;
@@ -71,14 +71,15 @@ namespace ProjectOneMore.Battle
                 cumulative += dividerRatio;
             }
 
-            int j = _rowPercentPosList.Count;
-            for (int i = 0; i < j; i++)
+            for (int i = _rowPercentPosList.Count; i > 0; i--)
             {
-                _centeredAlignRowList.Add(_rowPercentPosList[_rowPercentPosList.Count / 2]);
-                _rowPercentPosList.RemoveAt(_rowPercentPosList.Count / 2);
+                int halfIndex = _rowPercentPosList.Count / 2;
+
+                _centeredAlignRowList.Add(_rowPercentPosList[halfIndex]);
+                _rowPercentPosList.RemoveAt(halfIndex);
             }
 
-            // CheckCenteredAlignRowList();
+            //CheckCenteredAlignRowList();
 
             _isRowsUpdating = false;
         }

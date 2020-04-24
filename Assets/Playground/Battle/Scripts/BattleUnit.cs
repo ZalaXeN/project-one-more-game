@@ -26,6 +26,9 @@ namespace ProjectOneMore.Battle
 
         public int column = 0;
         public int row = 0;
+        public bool testPosition = false;
+
+        private Vector3 targetPosition;
 
         // Mock Up
         private void InitStats()
@@ -52,6 +55,16 @@ namespace ProjectOneMore.Battle
         private void Start()
         {
             InitStats();
+            targetPosition = transform.position;
+        }
+
+        private void Update()
+        {
+            if (testPosition)
+            {
+                UpdateTargetPosition();
+                MoveToTargetPosition();
+            }
         }
 
         // Click
@@ -101,6 +114,24 @@ namespace ProjectOneMore.Battle
                 return;
 
             transform.position = BattleManager.main.GetBattlePosition(column, row);
+        }
+
+        private void UpdateTargetPosition()
+        {
+            targetPosition = BattleManager.main.GetBattlePosition(column, row);
+        }
+
+        private void MoveToTargetPosition()
+        {
+            float step = spd.current * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
+            // Check if the position of the cube and sphere are approximately equal.
+            if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
+            {
+                // Swap the position of the cylinder.
+                //targetPosition *= -1.0f;
+            }
         }
     }
 }

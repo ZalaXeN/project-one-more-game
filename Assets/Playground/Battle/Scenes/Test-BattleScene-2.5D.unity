@@ -1002,6 +1002,7 @@ MonoBehaviour:
     max: 10
   column: 0
   row: 0
+  testPosition: 0
 --- !u!1 &111963118
 GameObject:
   m_ObjectHideFlags: 0
@@ -8829,6 +8830,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mage
       objectReference: {fileID: 0}
+    - target: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6623719164658275807, guid: 0d9facc217c6f0646949b8938267ebcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9660,6 +9666,9 @@ MonoBehaviour:
   - {fileID: 188489069}
   - {fileID: 1678691471}
   - {fileID: 460097193}
+  testEnemyNumber: 32
+  testEnemyPrefab: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
+    type: 3}
 --- !u!4 &2131537039
 Transform:
   m_ObjectHideFlags: 0
