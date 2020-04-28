@@ -1763,9 +1763,12 @@ MonoBehaviour:
     max: 10
   def:
     max: 10
-  column: 7
-  row: 3
-  testPosition: 0
+  column: 0
+  row: 0
+  moveSpeedMultiplier: 1
+  isUseSpecificPosition: 0
+  isMovingToTarget: 0
+  animator: {fileID: 5547465876102455473}
 --- !u!1 &5547465876124666135
 GameObject:
   m_ObjectHideFlags: 0

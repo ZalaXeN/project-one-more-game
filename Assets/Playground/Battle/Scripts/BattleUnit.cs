@@ -27,7 +27,11 @@ namespace ProjectOneMore.Battle
 
         public int column = 0;
         public int row = 0;
+        public float moveSpeedMultiplier = 1f;
+        public bool isUseSpecificPosition = false;
         public bool isMovingToTarget = false;
+
+        public Animator animator;
 
         private Vector3 targetPosition;
         private Vector3 targetPositionRange;
@@ -63,11 +67,13 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            if (isMovingToTarget)
+            if (!isUseSpecificPosition)
             {
                 UpdateTargetPosition();
                 MoveToTargetPosition();
             }
+
+            UpdateAnimation();
         }
 
         // Click
@@ -125,17 +131,30 @@ namespace ProjectOneMore.Battle
                 return;
 
             targetPosition = BattleManager.main.GetBattlePosition(column, row) + targetPositionRange;
+            isMovingToTarget = !(transform.position == targetPosition);
         }
 
         private void MoveToTargetPosition()
         {
-            float step = spd.current * Time.deltaTime;
+            if (!isMovingToTarget)
+                return;
+
+            float step = spd.current * moveSpeedMultiplier * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
             {
                 targetPosition = transform.position;
+                isMovingToTarget = !(transform.position == targetPosition);
             }
+        }
+
+        private void UpdateAnimation()
+        {
+            if (animator == null)
+                return;
+
+            animator.SetBool("moving", isMovingToTarget);
         }
 
 #if UNITY_EDITOR
