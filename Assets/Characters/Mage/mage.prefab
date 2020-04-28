@@ -1765,7 +1765,7 @@ MonoBehaviour:
     max: 10
   column: 0
   row: 0
-  moveSpeedMultiplier: 1
+  moveSpeedMultiplier: 0.3
   isUseSpecificPosition: 0
   isMovingToTarget: 0
   animator: {fileID: 5547465876102455473}

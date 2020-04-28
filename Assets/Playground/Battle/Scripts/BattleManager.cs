@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -91,11 +92,20 @@ namespace ProjectOneMore.Battle
                 battleColumns[column].UpdateRows();
 
                 GameObject enemy = Instantiate(testEnemyPrefab);
+                enemy.transform.position = GetSpawnPosition();
                 enemy.GetComponent<BattleUnit>().column = column;
                 enemy.GetComponent<BattleUnit>().row = row;
                 enemy.GetComponent<BattleUnit>().isMovingToTarget = true;
                 yield return _waitForSpawnEnemyInterval;
             }
+        }
+
+        private Vector3 GetSpawnPosition()
+        {
+            Vector3 result = battleColumns[battleColumns.Length - 1].transform.position;
+            result.x += UnityEngine.Random.Range(3f, 4f);
+            result.z += UnityEngine.Random.Range(-1f, 2f);
+            return result;
         }
 
         public void EnterPlayerInput(BattlePlayerActionCard action)
