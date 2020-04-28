@@ -40,7 +40,7 @@ namespace ProjectOneMore.Battle
         [Range(1, 10)]
         public int rowsPerColumn = 4;
 
-        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(1.0f);
+        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(0.3f);
 
         private BattlePlayerActionCard _currentActionCard;
 
@@ -93,7 +93,7 @@ namespace ProjectOneMore.Battle
                 GameObject enemy = Instantiate(testEnemyPrefab);
                 enemy.GetComponent<BattleUnit>().column = column;
                 enemy.GetComponent<BattleUnit>().row = row;
-                enemy.GetComponent<BattleUnit>().testPosition = true;
+                enemy.GetComponent<BattleUnit>().isMovingToTarget = true;
                 yield return _waitForSpawnEnemyInterval;
             }
         }

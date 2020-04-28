@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using ProjectOneMore;
@@ -26,9 +27,10 @@ namespace ProjectOneMore.Battle
 
         public int column = 0;
         public int row = 0;
-        public bool testPosition = false;
+        public bool isMovingToTarget = false;
 
         private Vector3 targetPosition;
+        private Vector3 targetPositionRange;
 
         // Mock Up
         private void InitStats()
@@ -56,11 +58,12 @@ namespace ProjectOneMore.Battle
         {
             InitStats();
             targetPosition = transform.position;
+            targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
         }
 
         private void Update()
         {
-            if (testPosition)
+            if (isMovingToTarget)
             {
                 UpdateTargetPosition();
                 MoveToTargetPosition();
@@ -118,7 +121,10 @@ namespace ProjectOneMore.Battle
 
         private void UpdateTargetPosition()
         {
-            targetPosition = BattleManager.main.GetBattlePosition(column, row);
+            if (BattleManager.main == null)
+                return;
+
+            targetPosition = BattleManager.main.GetBattlePosition(column, row) + targetPositionRange;
         }
 
         private void MoveToTargetPosition()
@@ -126,12 +132,29 @@ namespace ProjectOneMore.Battle
             float step = spd.current * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-            // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
             {
-                // Swap the position of the cylinder.
-                //targetPosition *= -1.0f;
+                targetPosition = transform.position;
             }
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            DrawHpLabel();
+            DrawMovePath();
+        }
+
+        private void DrawHpLabel()
+        {
+            Handles.Label(transform.position + Vector3.up * 0.2f, string.Format("HP: {0} / {1}", hp.current, hp.max));
+        }
+
+        private void DrawMovePath()
+        {
+            Handles.color = Color.green;
+            Handles.DrawLine(transform.position, targetPosition);
+        }
+#endif
     }
 }
