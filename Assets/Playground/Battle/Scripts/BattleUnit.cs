@@ -172,8 +172,7 @@ namespace ProjectOneMore.Battle
             if(battleColumn.team == team && battleColumn.columnNumber == column)
             {
                 columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth);
-                // TODO
-                // Update Column
+                columnIndex = BattleManager.main.GetColumnIndex(column, columnDepth);
             }
         }
 

@@ -232,6 +232,16 @@ namespace ProjectOneMore.Battle
             return battleColumns[column].GetNearestColumnDepth(columnDepth);
         }
 
+        public int GetColumnIndex(int column, float columnDepth)
+        {
+            if (battleColumns.Length <= 0)
+                return 0;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+
+            return battleColumns[column].GetColumnIndex(columnDepth);
+        }
+
         public void TriggerUnitDead(BattleUnit unit)
         {
             UnitDeadEvent?.Invoke(unit);

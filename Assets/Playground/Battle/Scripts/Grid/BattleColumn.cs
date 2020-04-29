@@ -194,6 +194,16 @@ namespace ProjectOneMore.Battle
             return nearestDepth;
         }
 
+        public int GetColumnIndex(float columnDepth)
+        {
+            for(int i = 0; i < _centeredAlignRowList.Count; i++)
+            {
+                if (columnDepth == _centeredAlignRowList[i])
+                    return i;
+            }
+            return 0;
+        }
+
         public void Initialize()
         {
             BattleManager.main.UnitDeadEvent += OnUnitDeadEvent;
