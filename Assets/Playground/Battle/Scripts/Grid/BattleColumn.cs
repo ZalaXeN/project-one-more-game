@@ -8,18 +8,13 @@ using UnityEditor;
 
 namespace ProjectOneMore.Battle
 {
-    public enum BattleSide
-    {
-        Left,
-        Right
-    }
 
 #if UNITY_EDITOR
     [ExecuteInEditMode]
 #endif
     public class BattleColumn : MonoBehaviour
     {
-        public BattleSide side;
+        public BattleTeam team;
         public int columnNumber;
 
         public float zFront = -1f;
@@ -34,24 +29,28 @@ namespace ProjectOneMore.Battle
         private static float _thickness = 10f;
         private static float _rowHeight = 2f;
 
-        private bool _isRowsUpdating;
         private List<float> _centeredAlignRowList = new List<float>();
         private List<float> _rowPercentPosList = new List<float>();
 
         private Vector3 _startLine = new Vector3();
         private Vector3 _endLine = new Vector3();
 
-        private void Update()
+        private float _lastestRemoveDepth = -1f;
+        private float _targetUnitDepth = -1f;
+        private float _targetDepth = -1f;
+
+        private void OnDisable()
         {
-            UpdateRows();
+            if (BattleManager.main == null)
+                return;
+
+            BattleManager.main.UnitDeadEvent -= OnUnitDeadEvent;
         }
 
         public void UpdateRows()
         {
-            if (_centeredAlignRowList.Count == unitNumber || unitNumber <= 0 || _isRowsUpdating)
+            if (_centeredAlignRowList.Count == unitNumber || unitNumber <= 0)
                 return;
-
-            _isRowsUpdating = true;
 
             // Divider Example
             // 1 = 3
@@ -89,9 +88,11 @@ namespace ProjectOneMore.Battle
                 isLower = !isLower;
             }
 
-            //CheckCenteredAlignRowList();
+            if(_targetUnitDepth != -1f)
+                _targetDepth = GetNearestColumnDepth(_lastestRemoveDepth);
 
-            _isRowsUpdating = false;
+            BattleManager.main.TriggerColumnUpdatedEvent(this);
+            //CheckCenteredAlignRowList();
         }
 
         private float GetLowestMoreValueFromRowList(float value)
@@ -131,21 +132,82 @@ namespace ProjectOneMore.Battle
         /// <summary>
         /// Get Position of target row.
         /// </summary>
-        /// <param name="index">Index of target row</param>
+        /// <param name="columnDepth">z depth of target row</param>
         /// <returns>Position of target row</returns>
-        public Vector3 GetRowPosition(int index)
+        public Vector3 GetRowPosition(float columnDepth)
         {
-            index = math.clamp(index, 0, _centeredAlignRowList.Count - 1);
+            columnDepth = math.clamp(columnDepth, 0f, 1f);
 
             float startRowZ = zFront + paddingFront;
             float endRowZ = zBack - paddingBack;
-            float zRow = _centeredAlignRowList[index];
-            float zDepth = math.lerp(startRowZ, endRowZ, zRow);
+            float zDepth = math.lerp(startRowZ, endRowZ, columnDepth);
 
             Vector3 targetRowPos = transform.position;
             targetRowPos.z = zDepth;
 
             return targetRowPos;
+        }
+
+        public float GetColumnDepth(int index)
+        {
+            index = math.clamp(index, 0, _centeredAlignRowList.Count - 1);
+            return _centeredAlignRowList[index];
+        }
+
+        public float GetNearestColumnDepth(float columnDepth, bool exceptSelf = false)
+        {
+            // Return Reserved from lastest removed first
+            if(columnDepth == _targetUnitDepth && _targetUnitDepth != -1f)
+            {
+                if (_targetUnitDepth == 1f || _targetUnitDepth == 0f && unitNumber >= 3)
+                    _targetDepth = _targetUnitDepth;
+
+                _targetUnitDepth = -1f;
+                return _targetDepth;
+            }
+
+            float nearestDepth = columnDepth;
+            float nearestDistance = 1f;
+
+            foreach (float depth in _centeredAlignRowList)
+            {
+                if (exceptSelf && depth == columnDepth)
+                    continue;
+
+                // only get center if unit number less than 3
+                if (unitNumber < 3)
+                {
+                    if (depth == 0f || depth == 1f)
+                        continue;
+                }
+
+                if (depth == columnDepth)
+                    return depth;
+
+                if (math.distance(depth, columnDepth) < nearestDistance)
+                {
+                    nearestDepth = depth;
+                    nearestDistance = math.distance(depth, columnDepth);
+                }
+            }
+
+            return nearestDepth;
+        }
+
+        public void Initialize()
+        {
+            BattleManager.main.UnitDeadEvent += OnUnitDeadEvent;
+        }
+
+        private void OnUnitDeadEvent(BattleUnit unit)
+        {
+            if(unit.team == team && unit.column == columnNumber)
+            {
+                _lastestRemoveDepth = unit.columnDepth;
+                _targetUnitDepth = GetNearestColumnDepth(_lastestRemoveDepth, true);
+                unitNumber--;
+                UpdateRows();
+            }
         }
 
 #if UNITY_EDITOR

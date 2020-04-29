@@ -13,8 +13,7 @@ namespace ProjectOneMore.Battle
             get { return _current; }
             set
             {
-                value = math.clamp(value, 0, max);
-                _current = value;
+                _current = math.clamp(value, 0, max);
             }
         }
     }

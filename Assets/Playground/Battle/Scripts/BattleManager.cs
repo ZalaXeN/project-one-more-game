@@ -22,6 +22,14 @@ namespace ProjectOneMore.Battle
     {
         public static BattleManager main;
 
+        //-- Delegate
+        public delegate void UnitDeadDelegate(BattleUnit unit);
+        public delegate void ColumnUpdatedDelegate(BattleColumn column);
+
+        //-- Event
+        public event UnitDeadDelegate UnitDeadEvent;
+        public event ColumnUpdatedDelegate ColumnUpdateEvent;
+
         private BattleState _battleState;
         public BattleState battleState
         {
@@ -41,7 +49,7 @@ namespace ProjectOneMore.Battle
         [Range(1, 10)]
         public int rowsPerColumn = 4;
 
-        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(0.3f);
+        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(0.1f);
 
         private BattlePlayerActionCard _currentActionCard;
 
@@ -60,7 +68,16 @@ namespace ProjectOneMore.Battle
 
         private void Start()
         {
+            InitBattleColumns();
             ReadyBattle();
+        }
+
+        private void InitBattleColumns()
+        {
+            foreach(BattleColumn column in battleColumns)
+            {
+                column.Initialize();
+            }
         }
 
         private void ReadyBattle()
@@ -77,9 +94,9 @@ namespace ProjectOneMore.Battle
             battleState = BattleState.Battle;
         }
 
+        // Test Spawn
         private IEnumerator SpawnEnemy()
         {
-            // Test
             if (testEnemyPrefab == null)
                 yield break;
 
@@ -89,13 +106,21 @@ namespace ProjectOneMore.Battle
                 int row = i % rowsPerColumn;
 
                 battleColumns[column].unitNumber = row + 1;
-                battleColumns[column].UpdateRows();
+                battleColumns[column].UpdateRows();   
+            }
+            for (int i = 0; i < testEnemyNumber; i++)
+            {
+                int column = i / rowsPerColumn;
+                int row = i % rowsPerColumn;
 
                 GameObject enemy = Instantiate(testEnemyPrefab);
                 enemy.transform.position = GetSpawnPosition();
-                enemy.GetComponent<BattleUnit>().column = column;
-                enemy.GetComponent<BattleUnit>().row = row;
-                enemy.GetComponent<BattleUnit>().isMovingToTarget = true;
+                BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
+                enemyUnit.column = column;
+                enemyUnit.columnIndex = row;
+                enemyUnit.columnDepth = GetBattleColumnDepth(column, row);
+                enemyUnit.isMovingToTarget = true;
+                enemyUnit.team = BattleTeam.Enemy;
                 yield return _waitForSpawnEnemyInterval;
             }
         }
@@ -176,14 +201,45 @@ namespace ProjectOneMore.Battle
             battleState = BattleState.Battle;
         }
 
-        public Vector3 GetBattlePosition(int column, int row)
+
+        public Vector3 GetBattlePosition(int column, float columnDepth)
         {
             if (battleColumns.Length <= 0)
                 return Vector3.zero;
 
             column = math.clamp(column, 0, battleColumns.Length - 1);
 
-            return battleColumns[column].GetRowPosition(row);
+            return battleColumns[column].GetRowPosition(columnDepth);
+        }
+
+        public float GetBattleColumnDepth(int column, int columnIndex)
+        {
+            if (battleColumns.Length <= 0)
+                return 0.5f;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+
+            return battleColumns[column].GetColumnDepth(columnIndex);
+        }
+
+        public float GetNearestBattleColumnDepth(int column, float columnDepth)
+        {
+            if (battleColumns.Length <= 0)
+                return columnDepth;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+
+            return battleColumns[column].GetNearestColumnDepth(columnDepth);
+        }
+
+        public void TriggerUnitDead(BattleUnit unit)
+        {
+            UnitDeadEvent?.Invoke(unit);
+        }
+
+        public void TriggerColumnUpdatedEvent(BattleColumn column)
+        {
+            ColumnUpdateEvent?.Invoke(column);
         }
     }
 }

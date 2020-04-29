@@ -26,7 +26,8 @@ namespace ProjectOneMore.Battle
         public BattleUnitStat def;
 
         public int column = 0;
-        public int row = 0;
+        public int columnIndex = 0;
+        public float columnDepth = 0f;
         public float moveSpeedMultiplier = 1f;
         public bool isUseSpecificPosition = false;
         public bool isMovingToTarget = false;
@@ -63,6 +64,9 @@ namespace ProjectOneMore.Battle
             InitStats();
             targetPosition = transform.position;
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
+
+            BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
+            BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
         }
 
         private void Update()
@@ -74,6 +78,12 @@ namespace ProjectOneMore.Battle
             }
 
             UpdateAnimation();
+        }
+
+        private void OnDisable()
+        {
+            BattleManager.main.UnitDeadEvent -= HandleUnitDeadEvent;
+            BattleManager.main.ColumnUpdateEvent -= HandleColumnUpdateEvent;
         }
 
         // Click
@@ -112,17 +122,8 @@ namespace ProjectOneMore.Battle
         // Dead
         public void Dead()
         {
+            BattleManager.main.TriggerUnitDead(this);
             Destroy(gameObject);
-        }
-
-        // Reposition
-        [ContextMenu("Test Position")]
-        public void ResetPosition()
-        {
-            if (BattleManager.main == null)
-                return;
-
-            transform.position = BattleManager.main.GetBattlePosition(column, row);
         }
 
         private void UpdateTargetPosition()
@@ -130,7 +131,7 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
-            targetPosition = BattleManager.main.GetBattlePosition(column, row) + targetPositionRange;
+            targetPosition = BattleManager.main.GetBattlePosition(column, columnDepth) + targetPositionRange;
             isMovingToTarget = !(transform.position == targetPosition);
         }
 
@@ -155,6 +156,25 @@ namespace ProjectOneMore.Battle
                 return;
 
             animator.SetBool("moving", isMovingToTarget);
+        }
+
+        private void HandleUnitDeadEvent(BattleUnit unit)
+        {
+            if(unit.team == team && unit.column == column)
+            {
+                if (unit.columnIndex < columnIndex)
+                    columnIndex--;
+            }
+        }
+
+        private void HandleColumnUpdateEvent(BattleColumn battleColumn)
+        {
+            if(battleColumn.team == team && battleColumn.columnNumber == column)
+            {
+                columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth);
+                // TODO
+                // Update Column
+            }
         }
 
 #if UNITY_EDITOR

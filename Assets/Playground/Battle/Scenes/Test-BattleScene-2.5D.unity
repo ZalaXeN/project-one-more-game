@@ -834,8 +834,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 4
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -972,7 +972,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111390450}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
@@ -1232,8 +1232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 5
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -1538,8 +1538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -1965,8 +1965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 2
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -2015,8 +2015,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 7
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -2565,7 +2565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
+  team: 1
   columnNumber: 0
   zFront: -1
   zBack: 3
@@ -8324,8 +8324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 3
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -8883,8 +8883,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c036ee35c8a79469e27ff60af2d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1
-  columnNumber: 0
+  team: 1
+  columnNumber: 6
   zFront: -1
   zBack: 3
   paddingFront: 0.5
