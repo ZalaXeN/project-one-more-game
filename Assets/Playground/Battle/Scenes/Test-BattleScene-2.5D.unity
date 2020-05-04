@@ -1001,7 +1001,8 @@ MonoBehaviour:
   def:
     max: 10
   column: 0
-  row: 0
+  columnIndex: 0
+  columnDepth: 0
   moveSpeedMultiplier: 1
   isUseSpecificPosition: 1
   isMovingToTarget: 0
