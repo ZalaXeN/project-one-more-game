@@ -12,6 +12,12 @@ namespace ProjectOneMore.Battle
         Enemy
     }
 
+    public enum BattleUnitAttackType
+    {
+        Melee,
+        Range
+    }
+
     public class BattleUnit : MonoBehaviour
     {
         public BattleTeam team;
@@ -25,6 +31,8 @@ namespace ProjectOneMore.Battle
         public BattleUnitStat spd;
         public BattleUnitStat def;
 
+        public BattleUnitAttackType attackType;
+
         public int column = 0;
         public int columnIndex = 0;
         public float columnDepth = 0f;
@@ -36,6 +44,8 @@ namespace ProjectOneMore.Battle
 
         private Vector3 targetPosition;
         private Vector3 targetPositionRange;
+
+        private SpriteRenderer[] _spriteRenderers;
 
         // Mock Up
         private void InitStats()
@@ -126,6 +136,31 @@ namespace ProjectOneMore.Battle
             Destroy(gameObject);
         }
 
+        public void SetAttackType(BattleUnitAttackType attackType)
+        {
+            this.attackType = attackType;
+
+            // Debug
+            if (attackType == BattleUnitAttackType.Melee)
+                SetOutlineColor(Color.red);
+            else
+                SetOutlineColor(Color.green);
+        }
+
+        public void SetOutlineColor(Color targetColor)
+        {
+            if(_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach(SpriteRenderer sprite in _spriteRenderers)
+            {
+                sprite.material.SetColor("Outline_Color", targetColor);
+                sprite.material.SetInt("Outline", 1);
+            }
+        }
+
         private void UpdateTargetPosition()
         {
             if (BattleManager.main == null)
@@ -171,7 +206,7 @@ namespace ProjectOneMore.Battle
         {
             if(battleColumn.team == team && battleColumn.columnNumber == column)
             {
-                columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth);
+                columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth, this);
                 columnIndex = BattleManager.main.GetColumnIndex(column, columnDepth);
             }
         }

@@ -45,6 +45,8 @@ namespace ProjectOneMore.Battle
         // Test
         [Range(0,32)]
         public int testEnemyNumber;
+        public int testEnemyMeleeNumber;
+        public int testEnemyRangeNumber;
         public GameObject testEnemyPrefab;
         [Range(1, 10)]
         public int rowsPerColumn = 4;
@@ -100,28 +102,55 @@ namespace ProjectOneMore.Battle
             if (testEnemyPrefab == null)
                 yield break;
 
-            for(int i = 0; i < testEnemyNumber; i++)
-            {
-                int column = i / rowsPerColumn;
-                int row = i % rowsPerColumn;
+            //for (int i = 0; i < testEnemyNumber; i++)
+            //{
+            //    int column = i / rowsPerColumn;
+            //    int row = i % rowsPerColumn;
 
-                battleColumns[column].unitNumber = row + 1;
-                battleColumns[column].UpdateRows();   
+            //    battleColumns[column].unitNumber = row + 1;
+            //    battleColumns[column].UpdateRows();
+            //}
+
+            foreach (BattleColumn column in battleColumns)
+            {
+                column.unitNumber = 0;
+                column.UpdateRows(false);
             }
-            for (int i = 0; i < testEnemyNumber; i++)
+
+            for (int i = 0, j = 0; i < testEnemyNumber; i++, j++)
             {
                 int column = i / rowsPerColumn;
                 int row = i % rowsPerColumn;
 
-                GameObject enemy = Instantiate(testEnemyPrefab);
-                enemy.transform.position = GetSpawnPosition();
-                BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
-                enemyUnit.column = column;
-                enemyUnit.columnIndex = row;
-                enemyUnit.columnDepth = GetBattleColumnDepth(column, row);
-                enemyUnit.isMovingToTarget = true;
-                enemyUnit.team = BattleTeam.Enemy;
-                yield return _waitForSpawnEnemyInterval;
+                BattleUnitAttackType zone = BattleUnitAttackType.Melee;
+                if (j < testEnemyMeleeNumber)
+                    zone = BattleUnitAttackType.Melee;
+                else if(j < testEnemyMeleeNumber + testEnemyRangeNumber)
+                    zone = BattleUnitAttackType.Range;
+
+                BattleColumn targetColumn;
+                if(HasEmptySlotOnZone(zone, out targetColumn))
+                {
+                    targetColumn.unitNumber += 1;
+                    targetColumn.UpdateRows();
+
+                    GameObject enemy = Instantiate(testEnemyPrefab);
+                    enemy.transform.position = GetSpawnPosition();
+                    BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
+                    enemyUnit.column = targetColumn.columnNumber;
+                    enemyUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(enemyUnit);
+                    enemyUnit.columnIndex = targetColumn.GetColumnIndex(enemyUnit.columnDepth);
+                    enemyUnit.isMovingToTarget = true;
+                    enemyUnit.team = BattleTeam.Enemy;
+                    enemyUnit.SetAttackType(targetColumn.zone);
+                    targetColumn.AssignUnit(enemyUnit);
+
+                    yield return _waitForSpawnEnemyInterval;
+                }
+                else
+                {
+                    i--;
+                }
             }
         }
 
@@ -201,6 +230,15 @@ namespace ProjectOneMore.Battle
             battleState = BattleState.Battle;
         }
 
+        public int GetLastestColumnIndex(int column)
+        {
+            if (battleColumns.Length <= 0)
+                return 0;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+
+            return battleColumns[column].unitNumber;
+        }
 
         public Vector3 GetBattlePosition(int column, float columnDepth)
         {
@@ -222,14 +260,14 @@ namespace ProjectOneMore.Battle
             return battleColumns[column].GetColumnDepth(columnIndex);
         }
 
-        public float GetNearestBattleColumnDepth(int column, float columnDepth)
+        public float GetNearestBattleColumnDepth(int column, float columnDepth, BattleUnit unit)
         {
             if (battleColumns.Length <= 0)
                 return columnDepth;
 
             column = math.clamp(column, 0, battleColumns.Length - 1);
 
-            return battleColumns[column].GetNearestColumnDepth(columnDepth);
+            return battleColumns[column].GetNearestColumnDepth(columnDepth, unit);
         }
 
         public int GetColumnIndex(int column, float columnDepth)
@@ -240,6 +278,33 @@ namespace ProjectOneMore.Battle
             column = math.clamp(column, 0, battleColumns.Length - 1);
 
             return battleColumns[column].GetColumnIndex(columnDepth);
+        }
+
+        public BattleUnitAttackType GetColumnZoneType(int column)
+        {
+            if (battleColumns.Length <= 0)
+                return BattleUnitAttackType.Melee;
+
+            column = math.clamp(column, 0, battleColumns.Length - 1);
+            return battleColumns[column].zone;
+        }
+
+        public bool HasEmptySlotOnZone(BattleUnitAttackType zone, out BattleColumn resultcolumn)
+        {
+            resultcolumn = null;
+            foreach(BattleColumn column in battleColumns)
+            {
+                if (column.zone != zone)
+                    continue;
+
+                if (column.unitNumber < rowsPerColumn)
+                {
+                    resultcolumn = column;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void TriggerUnitDead(BattleUnit unit)

@@ -8,7 +8,6 @@ using UnityEditor;
 
 namespace ProjectOneMore.Battle
 {
-
 #if UNITY_EDITOR
     [ExecuteInEditMode]
 #endif
@@ -16,6 +15,7 @@ namespace ProjectOneMore.Battle
     {
         public BattleTeam team;
         public int columnNumber;
+        public BattleUnitAttackType zone;
 
         public float zFront = -1f;
         public float zBack = 3f;
@@ -26,11 +26,12 @@ namespace ProjectOneMore.Battle
         [Range(0, 10)]
         public int unitNumber;
 
-        private static float _thickness = 10f;
+        private static float _thickness = 1f;
         private static float _rowHeight = 2f;
 
         private List<float> _centeredAlignRowList = new List<float>();
         private List<float> _rowPercentPosList = new List<float>();
+        private List<BattleUnit> _assignedBattleUnit = new List<BattleUnit>();
 
         private Vector3 _startLine = new Vector3();
         private Vector3 _endLine = new Vector3();
@@ -47,7 +48,7 @@ namespace ProjectOneMore.Battle
             BattleManager.main.UnitDeadEvent -= OnUnitDeadEvent;
         }
 
-        public void UpdateRows()
+        public void UpdateRows(bool triggerEvent = true)
         {
             if (_centeredAlignRowList.Count == unitNumber || unitNumber <= 0)
                 return;
@@ -75,7 +76,8 @@ namespace ProjectOneMore.Battle
             float lastestValue = _rowPercentPosList[halfIndex];
             bool isLower = true;
 
-            for (int i = _rowPercentPosList.Count; i > 0; i--)
+            // Add Only use to centered align
+            for (int i = 0; i < unitNumber; i++)
             {
                 _centeredAlignRowList.Add(lastestValue);
                 _rowPercentPosList.Remove(lastestValue);
@@ -88,10 +90,12 @@ namespace ProjectOneMore.Battle
                 isLower = !isLower;
             }
 
-            if(_targetUnitDepth != -1f)
+            if (_targetUnitDepth != -1f)
                 _targetDepth = GetNearestColumnDepth(_lastestRemoveDepth);
 
-            BattleManager.main.TriggerColumnUpdatedEvent(this);
+            if (triggerEvent)
+                BattleManager.main.TriggerColumnUpdatedEvent(this);
+
             //CheckCenteredAlignRowList();
         }
 
@@ -154,10 +158,10 @@ namespace ProjectOneMore.Battle
             return _centeredAlignRowList[index];
         }
 
-        public float GetNearestColumnDepth(float columnDepth, bool exceptSelf = false)
+        public float GetNearestColumnDepth(float columnDepth, BattleUnit unit = null, bool exceptSelf = false)
         {
-            // Return Reserved from lastest removed first
-            if(columnDepth == _targetUnitDepth && _targetUnitDepth != -1f)
+            // Return reserved from lastest removed first for target depth
+            if (columnDepth == _targetUnitDepth && _targetUnitDepth != -1f)
             {
                 if (_targetUnitDepth == 1f || _targetUnitDepth == 0f && unitNumber >= 3)
                     _targetDepth = _targetUnitDepth;
@@ -174,24 +178,44 @@ namespace ProjectOneMore.Battle
                 if (exceptSelf && depth == columnDepth)
                     continue;
 
-                // only get center if unit number less than 3
-                if (unitNumber < 3)
-                {
-                    if (depth == 0f || depth == 1f)
-                        continue;
-                }
-
                 if (depth == columnDepth)
                     return depth;
 
                 if (math.distance(depth, columnDepth) < nearestDistance)
                 {
+                    if (unit != null && HasAnotherUnitOnDepth(depth, unit))
+                        continue;
+
                     nearestDepth = depth;
                     nearestDistance = math.distance(depth, columnDepth);
                 }
             }
 
             return nearestDepth;
+        }
+
+        public float GetEmptyCenteredFirstColumnDepth(BattleUnit unit)
+        {
+            foreach (float depth in _centeredAlignRowList)
+            {
+                if (unit == null || HasAnotherUnitOnDepth(depth, unit))
+                    continue;
+
+                return depth;
+            }
+            return 0f;
+        }
+
+        public bool HasAnotherUnitOnDepth(float depth, BattleUnit targetUnit)
+        {
+            foreach (BattleUnit unit in _assignedBattleUnit)
+            {
+                if (unit.columnDepth == depth && targetUnit != unit)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public int GetColumnIndex(float columnDepth)
@@ -209,12 +233,22 @@ namespace ProjectOneMore.Battle
             BattleManager.main.UnitDeadEvent += OnUnitDeadEvent;
         }
 
+        public void AssignUnit(BattleUnit unit)
+        {
+            if (_assignedBattleUnit.Contains(unit))
+                return;
+
+            _assignedBattleUnit.Add(unit);
+        }
+
         private void OnUnitDeadEvent(BattleUnit unit)
         {
-            if(unit.team == team && unit.column == columnNumber)
+            if (_assignedBattleUnit.Contains(unit))
             {
                 _lastestRemoveDepth = unit.columnDepth;
-                _targetUnitDepth = GetNearestColumnDepth(_lastestRemoveDepth, true);
+                _targetUnitDepth = GetNearestColumnDepth(_lastestRemoveDepth, null, true);
+
+                _assignedBattleUnit.Remove(unit);
                 unitNumber--;
                 UpdateRows();
             }
@@ -235,7 +269,9 @@ namespace ProjectOneMore.Battle
             _endLine = transform.position;
             _endLine.z = zBack;
 
-            Handles.DrawBezier(_startLine, _endLine, _startLine, _endLine, Color.green, null, _thickness);
+            Color drawColor = zone == BattleUnitAttackType.Melee ? Color.red : Color.green;
+
+            Handles.DrawBezier(_startLine, _endLine, _startLine, _endLine, drawColor, null, _thickness);
         }
 
         private void DrawRowsGizmos()

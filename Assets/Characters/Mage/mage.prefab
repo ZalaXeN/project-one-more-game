@@ -1763,8 +1763,10 @@ MonoBehaviour:
     max: 10
   def:
     max: 10
+  attackType: 1
   column: 0
-  row: 0
+  columnIndex: 0
+  columnDepth: 0
   moveSpeedMultiplier: 0.3
   isUseSpecificPosition: 0
   isMovingToTarget: 0
