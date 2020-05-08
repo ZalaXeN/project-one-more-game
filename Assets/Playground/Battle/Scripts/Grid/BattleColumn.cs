@@ -151,6 +151,9 @@ namespace ProjectOneMore.Battle
 
         public float GetColumnDepth(int index)
         {
+            if (_centeredAlignRowList.Count <= 0)
+                return 0.5f;
+
             index = math.clamp(index, 0, _centeredAlignRowList.Count - 1);
             return _centeredAlignRowList[index];
         }
@@ -243,7 +246,18 @@ namespace ProjectOneMore.Battle
             _assignedBattleUnit.Add(unit);
         }
 
-        private void OnUnitDeadEvent(BattleUnit unit)
+        public bool HasUnit(BattleUnitAttackType unitAttackType)
+        {
+            foreach(BattleUnit unit in _assignedBattleUnit)
+            {
+                if (unit.attackType == unitAttackType)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void RemoveUnit(BattleUnit unit)
         {
             if (_assignedBattleUnit.Contains(unit))
             {
@@ -253,6 +267,44 @@ namespace ProjectOneMore.Battle
                 _assignedBattleUnit.Remove(unit);
                 UpdateRows();
             }
+        }
+
+        public BattleUnit PopUnit()
+        {
+            BattleUnit targetUnit = GetUnitOnDepth(_centeredAlignRowList[0]);
+            _assignedBattleUnit.Remove(targetUnit);
+            return targetUnit;
+        }
+
+        public BattleUnit GetUnitOnDepth(float columnDepth)
+        {
+            BattleUnit nearestUnit = null;
+            float nearestDistance = 1f;
+
+            foreach (BattleUnit unit in _assignedBattleUnit)
+            {
+                if (unit.columnDepth == columnDepth)
+                    return unit;
+
+                if(nearestUnit == null)
+                {
+                    nearestUnit = unit;
+                    continue;
+                }
+
+                if (math.distance(unit.columnDepth, columnDepth) < nearestDistance)
+                {
+                    nearestUnit = unit;
+                    nearestDistance = math.distance(unit.columnDepth, columnDepth);
+                }
+            }
+
+            return nearestUnit;
+        }
+
+        private void OnUnitDeadEvent(BattleUnit unit)
+        {
+            RemoveUnit(unit);
         }
 
 #if UNITY_EDITOR

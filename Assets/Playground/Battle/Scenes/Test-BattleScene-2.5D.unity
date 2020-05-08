@@ -841,7 +841,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &111390450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1241,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &291918588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,7 +1547,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &378657107
 GameObject:
   m_ObjectHideFlags: 3
@@ -1977,7 +1974,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &460097191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2024,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &603868405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,7 +2574,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 4
 --- !u!1 &999495983
 GameObject:
   m_ObjectHideFlags: 0
@@ -8339,7 +8333,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1 &1329487626
 GameObject:
   m_ObjectHideFlags: 0
@@ -8899,7 +8892,6 @@ MonoBehaviour:
   zBack: 3
   paddingFront: 0.5
   paddingBack: 1
-  unitNumber: 1
 --- !u!1001 &1697638969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9899,7 +9891,7 @@ MonoBehaviour:
   - {fileID: 1678691471}
   - {fileID: 460097193}
   testEnemyMeleeNumber: 8
-  testEnemyRangeNumber: 17
+  testEnemyRangeNumber: 24
   testEnemyPrefab: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
     type: 3}
   rowsPerColumn: 4
