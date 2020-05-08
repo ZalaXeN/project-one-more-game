@@ -43,9 +43,9 @@ namespace ProjectOneMore.Battle
         public BattleColumn[] battleColumns;
 
         // Test
-        [Range(0,32)]
-        public int testEnemyNumber;
+        [Range(0, 32)]
         public int testEnemyMeleeNumber;
+        [Range(0, 32)]
         public int testEnemyRangeNumber;
         public GameObject testEnemyPrefab;
         [Range(1, 10)]
@@ -102,26 +102,16 @@ namespace ProjectOneMore.Battle
             if (testEnemyPrefab == null)
                 yield break;
 
-            //for (int i = 0; i < testEnemyNumber; i++)
-            //{
-            //    int column = i / rowsPerColumn;
-            //    int row = i % rowsPerColumn;
-
-            //    battleColumns[column].unitNumber = row + 1;
-            //    battleColumns[column].UpdateRows();
-            //}
-
             foreach (BattleColumn column in battleColumns)
             {
                 column.unitNumber = 0;
                 column.UpdateRows(false);
             }
 
-            for (int i = 0, j = 0; i < testEnemyNumber; i++, j++)
+            for (int i = 0, j = 0; 
+                j < testEnemyMeleeNumber + testEnemyRangeNumber;
+                i++, j++)
             {
-                int column = i / rowsPerColumn;
-                int row = i % rowsPerColumn;
-
                 BattleUnitAttackType zone = BattleUnitAttackType.Melee;
                 if (j < testEnemyMeleeNumber)
                     zone = BattleUnitAttackType.Melee;
