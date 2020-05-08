@@ -132,7 +132,7 @@ namespace ProjectOneMore.Battle
                     enemyUnit.columnIndex = targetColumn.GetColumnIndex(enemyUnit.columnDepth);
                     enemyUnit.isMovingToTarget = true;
                     enemyUnit.team = BattleTeam.Enemy;
-                    enemyUnit.SetAttackType(targetColumn.zone);
+                    enemyUnit.SetAttackType(zone);
                     targetColumn.AssignUnit(enemyUnit);
 
                     yield return _waitForSpawnEnemyInterval;
@@ -282,16 +282,29 @@ namespace ProjectOneMore.Battle
         public bool HasEmptySlotOnZone(BattleUnitAttackType zone, out BattleColumn resultcolumn)
         {
             resultcolumn = null;
+            BattleColumn emptyMeleeColumn = null;
+
             foreach(BattleColumn column in battleColumns)
             {
-                if (column.zone != zone)
-                    continue;
-
                 if (column.unitNumber < rowsPerColumn)
                 {
-                    resultcolumn = column;
-                    return true;
+                    if (column.zone == zone)
+                    {
+                        resultcolumn = column;
+                        return true;
+                    }
+                    else if(column.zone == BattleUnitAttackType.Melee) 
+                    {
+                        emptyMeleeColumn = column;
+                    }
                 }
+            }
+
+            // Return lastest empty melee for Range Unit if no empty range zone
+            if(zone == BattleUnitAttackType.Range && emptyMeleeColumn != null)
+            {
+                resultcolumn = emptyMeleeColumn;
+                return true;
             }
 
             return false;
