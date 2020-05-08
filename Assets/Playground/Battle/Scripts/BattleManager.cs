@@ -104,7 +104,6 @@ namespace ProjectOneMore.Battle
 
             foreach (BattleColumn column in battleColumns)
             {
-                column.unitNumber = 0;
                 column.UpdateRows(false);
             }
 
@@ -121,19 +120,19 @@ namespace ProjectOneMore.Battle
                 BattleColumn targetColumn;
                 if(HasEmptySlotOnZone(zone, out targetColumn))
                 {
-                    targetColumn.unitNumber += 1;
-                    targetColumn.UpdateRows();
-
                     GameObject enemy = Instantiate(testEnemyPrefab);
                     enemy.transform.position = GetSpawnPosition();
                     BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
+                    
+                    targetColumn.AssignUnit(enemyUnit);
+                    targetColumn.UpdateRows();
+
                     enemyUnit.column = targetColumn.columnNumber;
                     enemyUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(enemyUnit);
                     enemyUnit.columnIndex = targetColumn.GetColumnIndex(enemyUnit.columnDepth);
                     enemyUnit.isMovingToTarget = true;
                     enemyUnit.team = BattleTeam.Enemy;
                     enemyUnit.SetAttackType(zone);
-                    targetColumn.AssignUnit(enemyUnit);
 
                     yield return _waitForSpawnEnemyInterval;
                 }
@@ -227,7 +226,7 @@ namespace ProjectOneMore.Battle
 
             column = math.clamp(column, 0, battleColumns.Length - 1);
 
-            return battleColumns[column].unitNumber;
+            return battleColumns[column].GetUnitNumber();
         }
 
         public Vector3 GetBattlePosition(int column, float columnDepth)
@@ -286,7 +285,7 @@ namespace ProjectOneMore.Battle
 
             foreach(BattleColumn column in battleColumns)
             {
-                if (column.unitNumber < rowsPerColumn)
+                if (column.GetUnitNumber() < rowsPerColumn)
                 {
                     if (column.zone == zone)
                     {

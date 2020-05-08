@@ -23,9 +23,6 @@ namespace ProjectOneMore.Battle
         public float paddingFront = 0.5f;
         public float paddingBack = 1f;
 
-        [Range(0, 10)]
-        public int unitNumber;
-
         private static float _thickness = 1f;
         private static float _rowHeight = 2f;
 
@@ -50,7 +47,7 @@ namespace ProjectOneMore.Battle
 
         public void UpdateRows(bool triggerEvent = true)
         {
-            if (_centeredAlignRowList.Count == unitNumber || unitNumber <= 0)
+            if (_centeredAlignRowList.Count == _assignedBattleUnit.Count || _assignedBattleUnit.Count <= 0)
                 return;
 
             // Divider Example
@@ -58,7 +55,7 @@ namespace ProjectOneMore.Battle
             // 2 = 4
             // 3 = 3
             // 4 = 4...
-            int divider = unitNumber <= 2 ? unitNumber + 1 : unitNumber - 1;
+            int divider = _assignedBattleUnit.Count <= 2 ? _assignedBattleUnit.Count + 1 : _assignedBattleUnit.Count - 1;
             float dividerRatio = 1f / divider;
 
             _centeredAlignRowList.Clear();
@@ -77,7 +74,7 @@ namespace ProjectOneMore.Battle
             bool isLower = true;
 
             // Add Only use to centered align
-            for (int i = 0; i < unitNumber; i++)
+            for (int i = 0; i < _assignedBattleUnit.Count; i++)
             {
                 _centeredAlignRowList.Add(lastestValue);
                 _rowPercentPosList.Remove(lastestValue);
@@ -163,7 +160,7 @@ namespace ProjectOneMore.Battle
             // Return reserved from lastest removed first for target depth
             if (columnDepth == _targetUnitDepth && _targetUnitDepth != -1f)
             {
-                if (_targetUnitDepth == 1f || _targetUnitDepth == 0f && unitNumber >= 3)
+                if (_targetUnitDepth == 1f || _targetUnitDepth == 0f && _assignedBattleUnit.Count >= 3)
                     _targetDepth = _targetUnitDepth;
 
                 _targetUnitDepth = -1f;
@@ -228,6 +225,11 @@ namespace ProjectOneMore.Battle
             return 0;
         }
 
+        public int GetUnitNumber()
+        {
+            return _assignedBattleUnit.Count;
+        }
+
         public void Initialize()
         {
             BattleManager.main.UnitDeadEvent += OnUnitDeadEvent;
@@ -249,7 +251,6 @@ namespace ProjectOneMore.Battle
                 _targetUnitDepth = GetNearestColumnDepth(_lastestRemoveDepth, null, true);
 
                 _assignedBattleUnit.Remove(unit);
-                unitNumber--;
                 UpdateRows();
             }
         }
