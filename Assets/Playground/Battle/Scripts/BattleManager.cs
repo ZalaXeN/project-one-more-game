@@ -155,10 +155,30 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        private void RepositionUnitToEmptySlot(BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
+        private void RepositionUnitToEmptySlot(BattleUnitAttackType unitAttackType, BattleColumn targetColumn, bool onRemove = false)
         {
             BattleColumn nextColumn = GetNextBattleColumn(unitAttackType, targetColumn.columnNumber);
             if (nextColumn == null)
+                return;
+
+            if (!onRemove)
+            {
+                RepositionUnitFromColumn(targetColumn, nextColumn);
+            }
+            else
+            {
+                RepositionUnitFromColumn(targetColumn, nextColumn);
+            }
+
+            if(targetColumn.GetUnitNumber() >= rowsPerColumn || targetColumn.zone != unitAttackType)
+                RepositionUnitToEmptySlot(unitAttackType, nextColumn);
+            else
+                RepositionUnitToEmptySlot(unitAttackType, targetColumn);
+        }
+
+        private void RepositionUnitFromColumn(BattleColumn targetColumn, BattleColumn nextColumn)
+        {
+            if (targetColumn == null || nextColumn == null || targetColumn.GetUnitNumber() >= rowsPerColumn)
                 return;
 
             BattleUnit popUnit = nextColumn.PopUnit();
@@ -170,11 +190,6 @@ namespace ProjectOneMore.Battle
             popUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(popUnit);
             popUnit.columnIndex = targetColumn.GetColumnIndex(popUnit.columnDepth);
             popUnit.isMovingToTarget = true;
-
-            if(targetColumn.GetUnitNumber() >= rowsPerColumn || targetColumn.zone != unitAttackType)
-                RepositionUnitToEmptySlot(unitAttackType, nextColumn);
-            else
-                RepositionUnitToEmptySlot(unitAttackType, targetColumn);
         }
 
         private void UpdateBattleColumns(bool triggerEvent = true)
@@ -190,6 +205,16 @@ namespace ProjectOneMore.Battle
             foreach (BattleColumn column in battleColumns)
             {
                 if (column.columnNumber > columnNumber && column.HasUnit(unitAttackType))
+                    return column;
+            }
+            return null;
+        }
+
+        private BattleColumn GetPreviousBattleColumn(BattleUnitAttackType unitAttackType, int columnNumber)
+        {
+            foreach (BattleColumn column in battleColumns)
+            {
+                if (column.columnNumber < columnNumber && column.HasUnit(unitAttackType))
                     return column;
             }
             return null;
@@ -330,6 +355,12 @@ namespace ProjectOneMore.Battle
             return battleColumns[column].zone;
         }
 
+        public bool HasEmptySlotOnZone(BattleUnitAttackType zone)
+        {
+            BattleColumn result;
+            return HasEmptySlotOnZone(zone, out result);
+        }
+
         public bool HasEmptySlotOnZone(BattleUnitAttackType zone, out BattleColumn resultColumn)
         {
             resultColumn = null;
@@ -364,7 +395,7 @@ namespace ProjectOneMore.Battle
         public void TriggerUnitDead(BattleUnit unit)
         {
             UnitDeadEvent?.Invoke(unit);
-            RepositionUnitToEmptySlot(unit.attackType, battleColumns[unit.column]);
+            RepositionUnitToEmptySlot(unit.attackType, battleColumns[unit.column], true);
         }
 
         public void TriggerColumnUpdatedEvent(BattleColumn column)
