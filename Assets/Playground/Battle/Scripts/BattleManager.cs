@@ -157,23 +157,54 @@ namespace ProjectOneMore.Battle
 
         private void RepositionUnitToEmptySlot(BattleUnitAttackType unitAttackType, BattleColumn targetColumn, bool onRemove = false)
         {
+            if (!onRemove)
+            {
+                RepositionZoneFromNearToFar(unitAttackType, targetColumn);
+            }
+            else
+            {
+                // Range on melee
+                if(unitAttackType == BattleUnitAttackType.Range && HasRangeOnMeleeZone())
+                {
+                    RepositionZoneFromFarToNear(unitAttackType, targetColumn);
+                }
+                else
+                {
+                    RepositionZoneFromNearToFar(unitAttackType, targetColumn);
+                }
+            }
+        }
+
+        private void RepositionZoneFromNearToFar(BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
+        {
             BattleColumn nextColumn = GetNextBattleColumn(unitAttackType, targetColumn.columnNumber);
             if (nextColumn == null)
                 return;
 
-            if (!onRemove)
-            {
-                RepositionUnitFromColumn(targetColumn, nextColumn);
-            }
-            else
-            {
-                RepositionUnitFromColumn(targetColumn, nextColumn);
-            }
+            RepositionUnitFromColumn(targetColumn, nextColumn);
 
-            if(targetColumn.GetUnitNumber() >= rowsPerColumn || targetColumn.zone != unitAttackType)
-                RepositionUnitToEmptySlot(unitAttackType, nextColumn);
+            // Repositioning from left to right recursive
+            // Column full
+            if (targetColumn.GetUnitNumber() >= rowsPerColumn || targetColumn.zone != unitAttackType)
+                RepositionZoneFromNearToFar(unitAttackType, nextColumn);
             else
-                RepositionUnitToEmptySlot(unitAttackType, targetColumn);
+                RepositionZoneFromNearToFar(unitAttackType, targetColumn);
+        }
+
+        private void RepositionZoneFromFarToNear(BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
+        {
+            BattleColumn previousColumn = GetPreviousBattleColumn(unitAttackType, targetColumn.columnNumber);
+            if (previousColumn == null)
+                return;
+
+            RepositionUnitFromColumn(targetColumn, previousColumn);
+
+            // Repositioning from right to left recursive
+            // Column full
+            if (targetColumn.GetUnitNumber() >= rowsPerColumn)
+                RepositionZoneFromFarToNear(unitAttackType, previousColumn);
+            else
+                RepositionZoneFromFarToNear(unitAttackType, targetColumn);
         }
 
         private void RepositionUnitFromColumn(BattleColumn targetColumn, BattleColumn nextColumn)
@@ -218,6 +249,16 @@ namespace ProjectOneMore.Battle
                     return column;
             }
             return null;
+        }
+
+        private bool HasRangeOnMeleeZone()
+        {
+            foreach (BattleColumn column in battleColumns)
+            {
+                if (column.HasUnit(BattleUnitAttackType.Range) && column.zone == BattleUnitAttackType.Melee)
+                    return true;
+            }
+            return false;
         }
 
         private Vector3 GetSpawnPosition()
