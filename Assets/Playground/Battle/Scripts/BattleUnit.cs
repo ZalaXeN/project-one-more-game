@@ -117,7 +117,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             if (BattleManager.main.CanCurrentActionTarget(this))
-                Debug.LogFormat("Highlight: {0}", baseData.keeperName);
+                Highlight();
         }
 
         public void OnMouseExit()
@@ -126,7 +126,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             if (BattleManager.main.CanCurrentActionTarget(this))
-                Debug.LogFormat("Dehighlight: {0}", baseData.keeperName);
+                DeHighlight();
         }
 
         // Dead
@@ -208,6 +208,32 @@ namespace ProjectOneMore.Battle
             {
                 columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth, this);
                 columnIndex = BattleManager.main.GetColumnIndex(column, columnDepth);
+            }
+        }
+
+        private void Highlight()
+        {
+            if (_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach (SpriteRenderer sprite in _spriteRenderers)
+            {
+                sprite.color = Color.red;
+            }
+        }
+
+        private void DeHighlight()
+        {
+            if (_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach (SpriteRenderer sprite in _spriteRenderers)
+            {
+                sprite.color = Color.white;
             }
         }
 
