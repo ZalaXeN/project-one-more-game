@@ -86,12 +86,12 @@ namespace ProjectOneMore.Battle
         {
             battleState = BattleState.Ready;
 
-            StartCoroutine("ReadyBattleCoroutine");
+            StartCoroutine(ReadyBattleCoroutine());
         }
 
         private IEnumerator ReadyBattleCoroutine()
         {
-            Coroutine spawnEnemy = StartCoroutine("SpawnStartedEnemy");
+            Coroutine spawnEnemy = StartCoroutine(SpawnStartedEnemy());
             yield return spawnEnemy;
             battleState = BattleState.Battle;
         }
@@ -117,14 +117,7 @@ namespace ProjectOneMore.Battle
                 BattleColumn targetColumn;
                 if(HasEmptySlotOnZone(unitAttackType, out targetColumn))
                 {
-                    if(unitAttackType == targetColumn.zone)
-                        SpawnEnemy(unitAttackType);
-                    else
-                    {
-                        RepositionUnitToEmptySlot(unitAttackType, targetColumn);
-                        SpawnEnemy(unitAttackType);
-                    }
-
+                    SpawnMinion(testEnemyPrefab, unitAttackType, BattleTeam.Enemy);
                     yield return _waitForSpawnEnemyInterval;
                 }
                 else
@@ -134,12 +127,24 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        private void SpawnEnemy(BattleUnitAttackType unitAttackType)
+        public void SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
         {
             BattleColumn targetColumn;
+            if(HasEmptySlotOnZone(unitAttackType, out targetColumn))
+            {
+                // Reposition for Range on Melee
+                if (targetColumn.zone != unitAttackType)
+                    RepositionUnitToEmptySlot(unitAttackType, targetColumn);
+            }
+            else
+            {
+                return;
+            }
+
+            // Get Empty after reposition again
             if (HasEmptySlotOnZone(unitAttackType, out targetColumn))
             {
-                GameObject enemy = Instantiate(testEnemyPrefab);
+                GameObject enemy = Instantiate(minionPrefab);
                 enemy.transform.position = GetSpawnPosition();
                 BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
 
@@ -150,7 +155,7 @@ namespace ProjectOneMore.Battle
                 enemyUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(enemyUnit);
                 enemyUnit.columnIndex = targetColumn.GetColumnIndex(enemyUnit.columnDepth);
                 enemyUnit.isMovingToTarget = true;
-                enemyUnit.team = BattleTeam.Enemy;
+                enemyUnit.team = team;
                 enemyUnit.SetAttackType(unitAttackType);
             }
         }
@@ -163,15 +168,10 @@ namespace ProjectOneMore.Battle
             }
             else
             {
-                // Range on melee
-                if(unitAttackType == BattleUnitAttackType.Range && HasRangeOnMeleeZone() && targetColumn.zone != unitAttackType)
+                // Remove Range unit on melee zone
+                if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
                 {
-                    // do nothing
-                    //RepositionZoneFromFarToNear(unitAttackType, targetColumn);
-                }
-                else if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
-                {
-                    // do nothing
+                    RepositionZoneFromNearToFar(BattleUnitAttackType.Melee, targetColumn);
                 }
                 else
                 {
@@ -186,7 +186,7 @@ namespace ProjectOneMore.Battle
             if (nextColumn == null)
                 return;
 
-            RepositionUnitFromColumn(targetColumn, nextColumn);
+            RepositionUnitFromColumn(unitAttackType, targetColumn, nextColumn);
 
             // Repositioning from left to right recursive
             // Column full
@@ -202,7 +202,7 @@ namespace ProjectOneMore.Battle
             if (previousColumn == null)
                 return;
 
-            RepositionUnitFromColumn(targetColumn, previousColumn);
+            RepositionUnitFromColumn(unitAttackType, targetColumn, previousColumn);
 
             // Repositioning from right to left recursive
             // Column full
@@ -212,12 +212,12 @@ namespace ProjectOneMore.Battle
                 RepositionZoneFromFarToNear(unitAttackType, targetColumn);
         }
 
-        private void RepositionUnitFromColumn(BattleColumn targetColumn, BattleColumn nextColumn)
+        private void RepositionUnitFromColumn(BattleUnitAttackType unitAttackType, BattleColumn targetColumn, BattleColumn nextColumn)
         {
             if (targetColumn == null || nextColumn == null || targetColumn.GetUnitNumber() >= rowsPerColumn)
                 return;
 
-            BattleUnit popUnit = nextColumn.PopUnit();
+            BattleUnit popUnit = nextColumn.PopUnit(unitAttackType);
             targetColumn.AssignUnit(popUnit);
             targetColumn.UpdateRows();
             nextColumn.UpdateRows();
@@ -282,9 +282,13 @@ namespace ProjectOneMore.Battle
             _currentActionCard = action;
             battleState = BattleState.PlayerInput;
 
-            if(_currentActionCard.skillType != SkillType.Instant ||
+            if(_currentActionCard.skillType != SkillType.Instant &&
                _currentActionCard.skillType != SkillType.Passive)
                 ShowTargeting();
+            else
+            {
+                CurrentActionTakeAction();
+            }
         }
 
         private void ShowTargeting()

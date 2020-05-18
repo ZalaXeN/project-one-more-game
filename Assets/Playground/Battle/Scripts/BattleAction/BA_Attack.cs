@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Unity.Mathematics;
-using System.Collections;
 
 namespace ProjectOneMore.Battle
 {

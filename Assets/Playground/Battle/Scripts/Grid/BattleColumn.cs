@@ -248,13 +248,18 @@ namespace ProjectOneMore.Battle
 
         public bool HasUnit(BattleUnitAttackType unitAttackType)
         {
-            foreach(BattleUnit unit in _assignedBattleUnit)
+            return GetUnit(unitAttackType) != null;
+        }
+
+        public BattleUnit GetUnit(BattleUnitAttackType unitAttackType)
+        {
+            foreach (BattleUnit unit in _assignedBattleUnit)
             {
                 if (unit.attackType == unitAttackType)
-                    return true;
+                    return unit;
             }
 
-            return false;
+            return null;
         }
 
         public void RemoveUnit(BattleUnit unit)
@@ -269,9 +274,9 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        public BattleUnit PopUnit()
+        public BattleUnit PopUnit(BattleUnitAttackType attackType)
         {
-            BattleUnit targetUnit = GetUnitOnDepth(_centeredAlignRowList[0]);
+            BattleUnit targetUnit = GetUnitOnDepth(_centeredAlignRowList[0], attackType);
             _assignedBattleUnit.Remove(targetUnit);
             return targetUnit;
         }
@@ -287,6 +292,35 @@ namespace ProjectOneMore.Battle
                     return unit;
 
                 if(nearestUnit == null)
+                {
+                    nearestUnit = unit;
+                    continue;
+                }
+
+                if (math.distance(unit.columnDepth, columnDepth) < nearestDistance)
+                {
+                    nearestUnit = unit;
+                    nearestDistance = math.distance(unit.columnDepth, columnDepth);
+                }
+            }
+
+            return nearestUnit;
+        }
+
+        public BattleUnit GetUnitOnDepth(float columnDepth, BattleUnitAttackType attackType)
+        {
+            BattleUnit nearestUnit = null;
+            float nearestDistance = 1f;
+
+            foreach (BattleUnit unit in _assignedBattleUnit)
+            {
+                if (unit.attackType != attackType)
+                    continue;
+
+                if (unit.columnDepth == columnDepth)
+                    return unit;
+
+                if (nearestUnit == null)
                 {
                     nearestUnit = unit;
                     continue;
