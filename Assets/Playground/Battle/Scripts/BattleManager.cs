@@ -164,9 +164,14 @@ namespace ProjectOneMore.Battle
             else
             {
                 // Range on melee
-                if(unitAttackType == BattleUnitAttackType.Range && HasRangeOnMeleeZone())
+                if(unitAttackType == BattleUnitAttackType.Range && HasRangeOnMeleeZone() && targetColumn.zone != unitAttackType)
                 {
-                    RepositionZoneFromFarToNear(unitAttackType, targetColumn);
+                    // do nothing
+                    //RepositionZoneFromFarToNear(unitAttackType, targetColumn);
+                }
+                else if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
+                {
+                    // do nothing
                 }
                 else
                 {
