@@ -40,7 +40,7 @@ namespace ProjectOneMore.Battle
             get { return _battleState; }
         }
 
-        public BattleColumn[] battleColumns;
+        public BattleColumnManager columnManager;
 
         // Test
         [Range(0, 32)]
@@ -76,10 +76,7 @@ namespace ProjectOneMore.Battle
 
         private void InitBattleColumns()
         {
-            foreach(BattleColumn column in battleColumns)
-            {
-                column.Initialize();
-            }
+            columnManager.Initizialize();
         }
 
         private void ReadyBattle()
@@ -102,7 +99,8 @@ namespace ProjectOneMore.Battle
             if (testEnemyPrefab == null)
                 yield break;
 
-            UpdateBattleColumns(false);
+            BattleTeam team = BattleTeam.Enemy;
+            UpdateBattleColumns(team, false);
 
             for (int i = 0, j = 0; 
                 j < testEnemyMeleeNumber + testEnemyRangeNumber;
@@ -114,8 +112,7 @@ namespace ProjectOneMore.Battle
                 else if(j < testEnemyMeleeNumber + testEnemyRangeNumber)
                     unitAttackType = BattleUnitAttackType.Range;
 
-                BattleColumn targetColumn;
-                if(HasEmptySlotOnZone(unitAttackType, out targetColumn))
+                if(columnManager.HasEmptySlotOnZone(team, unitAttackType))
                 {
                     SpawnMinion(testEnemyPrefab, unitAttackType, BattleTeam.Enemy);
                     yield return _waitForSpawnEnemyInterval;
@@ -130,11 +127,11 @@ namespace ProjectOneMore.Battle
         public void SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
         {
             BattleColumn targetColumn;
-            if(HasEmptySlotOnZone(unitAttackType, out targetColumn))
+            if(columnManager.HasEmptySlotOnZone(team, unitAttackType, out targetColumn))
             {
                 // Reposition for Range on Melee
                 if (targetColumn.zone != unitAttackType)
-                    RepositionUnitToEmptySlot(unitAttackType, targetColumn);
+                    columnManager.RepositionUnitToEmptySlot(team, unitAttackType, targetColumn);
             }
             else
             {
@@ -142,136 +139,31 @@ namespace ProjectOneMore.Battle
             }
 
             // Get Empty after reposition again
-            if (HasEmptySlotOnZone(unitAttackType, out targetColumn))
+            if (columnManager.HasEmptySlotOnZone(team, unitAttackType, out targetColumn))
             {
-                GameObject enemy = Instantiate(minionPrefab);
-                enemy.transform.position = GetSpawnPosition();
-                BattleUnit enemyUnit = enemy.GetComponent<BattleUnit>();
+                GameObject minionGO = Instantiate(minionPrefab);
+                minionGO.transform.position = columnManager.GetSpawnPosition(team);
+                BattleUnit minionUnit = minionGO.GetComponent<BattleUnit>();
 
-                targetColumn.AssignUnit(enemyUnit);
+                targetColumn.AssignUnit(minionUnit);
                 targetColumn.UpdateRows();
 
-                enemyUnit.column = targetColumn.columnNumber;
-                enemyUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(enemyUnit);
-                enemyUnit.columnIndex = targetColumn.GetColumnIndex(enemyUnit.columnDepth);
-                enemyUnit.isMovingToTarget = true;
-                enemyUnit.team = team;
-                enemyUnit.SetAttackType(unitAttackType);
+                minionUnit.column = targetColumn.columnNumber;
+                minionUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(minionUnit);
+                minionUnit.columnIndex = targetColumn.GetColumnIndex(minionUnit.columnDepth);
+                minionUnit.isMovingToTarget = true;
+                minionUnit.team = team;
+                minionUnit.SetAttackType(unitAttackType);
+
+                Vector3 scale = minionUnit.transform.localScale;
+                scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x: -scale.x;
+                minionUnit.transform.localScale = scale;
             }
         }
 
-        private void RepositionUnitToEmptySlot(BattleUnitAttackType unitAttackType, BattleColumn targetColumn, bool onRemove = false)
+        private void UpdateBattleColumns(BattleTeam team, bool triggerEvent = true)
         {
-            if (!onRemove)
-            {
-                RepositionZoneFromNearToFar(unitAttackType, targetColumn);
-            }
-            else
-            {
-                // Remove Range unit on melee zone
-                if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
-                {
-                    RepositionZoneFromNearToFar(BattleUnitAttackType.Melee, targetColumn);
-                }
-                else
-                {
-                    RepositionZoneFromNearToFar(unitAttackType, targetColumn);
-                }
-            }
-        }
-
-        private void RepositionZoneFromNearToFar(BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
-        {
-            BattleColumn nextColumn = GetNextBattleColumn(unitAttackType, targetColumn.columnNumber);
-            if (nextColumn == null)
-                return;
-
-            RepositionUnitFromColumn(unitAttackType, targetColumn, nextColumn);
-
-            // Repositioning from left to right recursive
-            // Column full
-            if (targetColumn.GetUnitNumber() >= rowsPerColumn || targetColumn.zone != unitAttackType)
-                RepositionZoneFromNearToFar(unitAttackType, nextColumn);
-            else
-                RepositionZoneFromNearToFar(unitAttackType, targetColumn);
-        }
-
-        private void RepositionZoneFromFarToNear(BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
-        {
-            BattleColumn previousColumn = GetPreviousBattleColumn(unitAttackType, targetColumn.columnNumber);
-            if (previousColumn == null)
-                return;
-
-            RepositionUnitFromColumn(unitAttackType, targetColumn, previousColumn);
-
-            // Repositioning from right to left recursive
-            // Column full
-            if (targetColumn.GetUnitNumber() >= rowsPerColumn)
-                RepositionZoneFromFarToNear(unitAttackType, previousColumn);
-            else
-                RepositionZoneFromFarToNear(unitAttackType, targetColumn);
-        }
-
-        private void RepositionUnitFromColumn(BattleUnitAttackType unitAttackType, BattleColumn targetColumn, BattleColumn nextColumn)
-        {
-            if (targetColumn == null || nextColumn == null || targetColumn.GetUnitNumber() >= rowsPerColumn)
-                return;
-
-            BattleUnit popUnit = nextColumn.PopUnit(unitAttackType);
-            targetColumn.AssignUnit(popUnit);
-            targetColumn.UpdateRows();
-            nextColumn.UpdateRows();
-
-            popUnit.column = targetColumn.columnNumber;
-            popUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(popUnit);
-            popUnit.columnIndex = targetColumn.GetColumnIndex(popUnit.columnDepth);
-            popUnit.isMovingToTarget = true;
-        }
-
-        private void UpdateBattleColumns(bool triggerEvent = true)
-        {
-            foreach (BattleColumn column in battleColumns)
-            {
-                column.UpdateRows(triggerEvent);
-            }
-        }
-
-        private BattleColumn GetNextBattleColumn(BattleUnitAttackType unitAttackType, int columnNumber)
-        {
-            foreach (BattleColumn column in battleColumns)
-            {
-                if (column.columnNumber > columnNumber && column.HasUnit(unitAttackType))
-                    return column;
-            }
-            return null;
-        }
-
-        private BattleColumn GetPreviousBattleColumn(BattleUnitAttackType unitAttackType, int columnNumber)
-        {
-            foreach (BattleColumn column in battleColumns)
-            {
-                if (column.columnNumber < columnNumber && column.HasUnit(unitAttackType))
-                    return column;
-            }
-            return null;
-        }
-
-        private bool HasRangeOnMeleeZone()
-        {
-            foreach (BattleColumn column in battleColumns)
-            {
-                if (column.HasUnit(BattleUnitAttackType.Range) && column.zone == BattleUnitAttackType.Melee)
-                    return true;
-            }
-            return false;
-        }
-
-        private Vector3 GetSpawnPosition()
-        {
-            Vector3 result = battleColumns[battleColumns.Length - 1].transform.position;
-            result.x += UnityEngine.Random.Range(3f, 4f);
-            result.z += UnityEngine.Random.Range(-1f, 2f);
-            return result;
+            columnManager.UpdateBattleColumns(team, triggerEvent);
         }
 
         public void EnterPlayerInput(BattlePlayerActionCard action)
@@ -346,106 +238,11 @@ namespace ProjectOneMore.Battle
             battleState = BattleState.Battle;
         }
 
-        public int GetLastestColumnIndex(int column)
-        {
-            if (battleColumns.Length <= 0)
-                return 0;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-
-            return battleColumns[column].GetUnitNumber();
-        }
-
-        public Vector3 GetBattlePosition(int column, float columnDepth)
-        {
-            if (battleColumns.Length <= 0)
-                return Vector3.zero;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-
-            return battleColumns[column].GetRowPosition(columnDepth);
-        }
-
-        public float GetBattleColumnDepth(int column, int columnIndex)
-        {
-            if (battleColumns.Length <= 0)
-                return 0.5f;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-
-            return battleColumns[column].GetColumnDepth(columnIndex);
-        }
-
-        public float GetNearestBattleColumnDepth(int column, float columnDepth, BattleUnit unit)
-        {
-            if (battleColumns.Length <= 0)
-                return columnDepth;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-
-            return battleColumns[column].GetNearestColumnDepth(columnDepth, unit);
-        }
-
-        public int GetColumnIndex(int column, float columnDepth)
-        {
-            if (battleColumns.Length <= 0)
-                return 0;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-
-            return battleColumns[column].GetColumnIndex(columnDepth);
-        }
-
-        public BattleUnitAttackType GetColumnZoneType(int column)
-        {
-            if (battleColumns.Length <= 0)
-                return BattleUnitAttackType.Melee;
-
-            column = math.clamp(column, 0, battleColumns.Length - 1);
-            return battleColumns[column].zone;
-        }
-
-        public bool HasEmptySlotOnZone(BattleUnitAttackType zone)
-        {
-            BattleColumn result;
-            return HasEmptySlotOnZone(zone, out result);
-        }
-
-        public bool HasEmptySlotOnZone(BattleUnitAttackType zone, out BattleColumn resultColumn)
-        {
-            resultColumn = null;
-            BattleColumn emptyMeleeColumn = null;
-
-            foreach(BattleColumn column in battleColumns)
-            {
-                if (column.GetUnitNumber() < rowsPerColumn)
-                {
-                    if (column.zone == zone)
-                    {
-                        resultColumn = column;
-                        return true;
-                    }
-                    else if(column.zone == BattleUnitAttackType.Melee) 
-                    {
-                        emptyMeleeColumn = column;
-                    }
-                }
-            }
-
-            // Return lastest empty melee for Range Unit if no empty range zone
-            if(zone == BattleUnitAttackType.Range && emptyMeleeColumn != null)
-            {
-                resultColumn = emptyMeleeColumn;
-                return true;
-            }
-
-            return false;
-        }
-
         public void TriggerUnitDead(BattleUnit unit)
         {
             UnitDeadEvent?.Invoke(unit);
-            RepositionUnitToEmptySlot(unit.attackType, battleColumns[unit.column], true);
+            columnManager.RepositionUnitToEmptySlot(unit.team, unit.attackType, 
+                columnManager.GetBattleColumn(unit.team, unit.columnIndex), true);
         }
 
         public void TriggerColumnUpdatedEvent(BattleColumn column)

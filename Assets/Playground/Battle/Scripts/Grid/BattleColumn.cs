@@ -13,10 +13,13 @@ namespace ProjectOneMore.Battle
 #endif
     public class BattleColumn : MonoBehaviour
     {
+        [Header("Column Data")]
         public BattleTeam team;
         public int columnNumber;
         public BattleUnitAttackType zone;
+        public bool activable = true;
 
+        [Header("Column Settings")]
         public float zFront = -1f;
         public float zBack = 3f;
 

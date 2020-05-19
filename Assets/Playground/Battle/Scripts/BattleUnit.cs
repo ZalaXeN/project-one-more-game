@@ -104,7 +104,7 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main.CanCurrentActionTarget(this))
             {
-                Debug.LogFormat("Click on: {0}", baseData.keeperName);
+                DeHighlight();
                 BattleManager.main.SetCurrentActionTarget(this);
                 BattleManager.main.CurrentActionTakeAction();
             }
@@ -166,7 +166,7 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
-            targetPosition = BattleManager.main.GetBattlePosition(column, columnDepth) + targetPositionRange;
+            targetPosition = BattleManager.main.columnManager.GetBattlePosition(team, column, columnDepth) + targetPositionRange;
             isMovingToTarget = !(transform.position == targetPosition);
         }
 
@@ -206,8 +206,8 @@ namespace ProjectOneMore.Battle
         {
             if(battleColumn.team == team && battleColumn.columnNumber == column)
             {
-                columnDepth = BattleManager.main.GetNearestBattleColumnDepth(column, columnDepth, this);
-                columnIndex = BattleManager.main.GetColumnIndex(column, columnDepth);
+                columnDepth = BattleManager.main.columnManager.GetNearestBattleColumnDepth(team, column, columnDepth, this);
+                columnIndex = BattleManager.main.columnManager.GetColumnIndex(team, column, columnDepth);
             }
         }
 
