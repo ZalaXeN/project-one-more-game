@@ -35,7 +35,7 @@ namespace ProjectOneMore.Battle
         {
             private set {
                 _battleState = value;
-                Debug.LogFormat("Battle State: {0}", _battleState);
+                //Debug.LogFormat("Battle State: {0}", _battleState);
             }
             get { return _battleState; }
         }
@@ -126,15 +126,13 @@ namespace ProjectOneMore.Battle
 
         public void SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
         {
-            BattleColumn targetColumn;
-            if(columnManager.HasEmptySlotOnZone(team, unitAttackType, out targetColumn))
+            if(columnManager.HasEmptySlotOnZone(team, unitAttackType, out BattleColumn targetColumn))
             {
-                // Reposition for Range on Melee
-                if (targetColumn.zone != unitAttackType)
-                    columnManager.RepositionUnitToEmptySlot(team, unitAttackType, targetColumn);
+                columnManager.RepositionUnitToEmptySlot(team, unitAttackType, targetColumn);
             }
             else
             {
+                // Can't Spawn
                 return;
             }
 
@@ -241,8 +239,9 @@ namespace ProjectOneMore.Battle
         public void TriggerUnitDead(BattleUnit unit)
         {
             UnitDeadEvent?.Invoke(unit);
-            columnManager.RepositionUnitToEmptySlot(unit.team, unit.attackType, 
-                columnManager.GetBattleColumn(unit.team, unit.columnIndex), true);
+
+            //columnManager.RepositionUnitToEmptySlot(unit.team, unit.attackType, 
+            //    columnManager.GetBattleColumn(unit.team, unit.columnIndex), true);
         }
 
         public void TriggerColumnUpdatedEvent(BattleColumn column)

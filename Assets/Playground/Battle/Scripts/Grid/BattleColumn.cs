@@ -36,10 +36,6 @@ namespace ProjectOneMore.Battle
         private Vector3 _startLine = new Vector3();
         private Vector3 _endLine = new Vector3();
 
-        private float _lastestRemoveDepth = -1f;
-        private float _targetUnitDepth = -1f;
-        private float _targetDepth = -1f;
-
         private void OnDisable()
         {
             if (BattleManager.main == null)
@@ -50,7 +46,7 @@ namespace ProjectOneMore.Battle
 
         public void UpdateRows(bool triggerEvent = true)
         {
-            if (_centeredAlignRowList.Count == _assignedBattleUnit.Count || _assignedBattleUnit.Count <= 0)
+            if (_assignedBattleUnit.Count <= 0)
                 return;
 
             // Divider Example
@@ -89,9 +85,6 @@ namespace ProjectOneMore.Battle
 
                 isLower = !isLower;
             }
-
-            if (_targetUnitDepth != -1f)
-                _targetDepth = GetNearestColumnDepth(_lastestRemoveDepth);
 
             if (triggerEvent)
                 BattleManager.main.TriggerColumnUpdatedEvent(this);
@@ -163,16 +156,6 @@ namespace ProjectOneMore.Battle
 
         public float GetNearestColumnDepth(float columnDepth, BattleUnit unit = null, bool exceptSelf = false)
         {
-            // Return reserved from lastest removed first for target depth
-            if (columnDepth == _targetUnitDepth && _targetUnitDepth != -1f)
-            {
-                if (_targetUnitDepth == 1f || _targetUnitDepth == 0f && _assignedBattleUnit.Count >= 3)
-                    _targetDepth = _targetUnitDepth;
-
-                _targetUnitDepth = -1f;
-                return _targetDepth;
-            }
-
             float nearestDepth = columnDepth;
             float nearestDistance = 1f;
 
@@ -181,7 +164,7 @@ namespace ProjectOneMore.Battle
                 if (exceptSelf && depth == columnDepth)
                     continue;
 
-                if (depth == columnDepth)
+                if (depth == columnDepth && !HasAnotherUnitOnDepth(depth, unit))
                     return depth;
 
                 if (math.distance(depth, columnDepth) < nearestDistance)
@@ -197,6 +180,20 @@ namespace ProjectOneMore.Battle
             return nearestDepth;
         }
 
+        public float GetEmptyCenteredFirstColumnDepth()
+        {
+            foreach (float depth in _centeredAlignRowList)
+            {
+                if (!HasAnotherUnitOnDepth(depth))
+                    return depth;
+            }
+
+            if (_centeredAlignRowList.Count <= 0)
+                return 0.5f;
+
+            return _centeredAlignRowList[0];
+        }
+
         public float GetEmptyCenteredFirstColumnDepth(BattleUnit unit)
         {
             foreach (float depth in _centeredAlignRowList)
@@ -207,6 +204,18 @@ namespace ProjectOneMore.Battle
                 return depth;
             }
             return 0f;
+        }
+
+        public bool HasAnotherUnitOnDepth(float depth)
+        {
+            foreach (BattleUnit unit in _assignedBattleUnit)
+            {
+                if (unit.columnDepth == depth)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool HasAnotherUnitOnDepth(float depth, BattleUnit targetUnit)
@@ -269,17 +278,14 @@ namespace ProjectOneMore.Battle
         {
             if (_assignedBattleUnit.Contains(unit))
             {
-                _lastestRemoveDepth = unit.columnDepth;
-                _targetUnitDepth = GetNearestColumnDepth(_lastestRemoveDepth, null, true);
-
                 _assignedBattleUnit.Remove(unit);
-                UpdateRows();
             }
         }
 
-        public BattleUnit PopUnit(BattleUnitAttackType attackType)
+        public BattleUnit PopUnit(BattleUnitAttackType attackType, float depth)
         {
-            BattleUnit targetUnit = GetUnitOnDepth(_centeredAlignRowList[0], attackType);
+            float nearestDepth = GetNearestColumnDepth(depth);
+            BattleUnit targetUnit = GetUnitOnDepth(nearestDepth, attackType);
             _assignedBattleUnit.Remove(targetUnit);
             return targetUnit;
         }

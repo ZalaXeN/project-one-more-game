@@ -19,22 +19,25 @@ namespace ProjectOneMore.Battle
 
         public void RepositionUnitToEmptySlot(BattleTeam team, BattleUnitAttackType unitAttackType, BattleColumn targetColumn, bool onRemove = false)
         {
-            if (!onRemove)
-            {
-                RepositionZoneFromNearToFar(team, unitAttackType, targetColumn);
-            }
-            else
-            {
-                // Remove Range unit on melee zone
-                if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
-                {
-                    RepositionZoneFromNearToFar(team, BattleUnitAttackType.Melee, targetColumn);
-                }
-                else
-                {
-                    RepositionZoneFromNearToFar(team, unitAttackType, targetColumn);
-                }
-            }
+            //if (!onRemove)
+            //{
+            //    RepositionZoneFromNearToFar(team, unitAttackType, targetColumn);
+            //}
+            //else
+            //{
+            //    // Remove Range unit on melee zone
+            //    if (unitAttackType == BattleUnitAttackType.Range && targetColumn.zone != unitAttackType)
+            //    {
+            //        RepositionZoneFromNearToFar(team, BattleUnitAttackType.Melee, targetColumn);
+            //    }
+            //    else
+            //    {
+            //        RepositionZoneFromNearToFar(team, unitAttackType, targetColumn);
+            //    }
+            //}
+
+            RepositionZoneFromNearToFar(team, unitAttackType, targetColumn);
+            UpdateBattleColumns(team);
         }
 
         private void RepositionZoneFromNearToFar(BattleTeam team, BattleUnitAttackType unitAttackType, BattleColumn targetColumn)
@@ -74,10 +77,12 @@ namespace ProjectOneMore.Battle
             if (targetColumn == null || nextColumn == null || targetColumn.GetUnitNumber() >= rowsPerColumn)
                 return;
 
-            BattleUnit popUnit = nextColumn.PopUnit(unitAttackType);
+            float targetDepth = targetColumn.GetEmptyCenteredFirstColumnDepth();
+
+            BattleUnit popUnit = nextColumn.PopUnit(unitAttackType, targetDepth);
             targetColumn.AssignUnit(popUnit);
-            targetColumn.UpdateRows();
-            nextColumn.UpdateRows();
+            //targetColumn.UpdateRows();
+            //nextColumn.UpdateRows();
 
             popUnit.column = targetColumn.columnNumber;
             popUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(popUnit);
