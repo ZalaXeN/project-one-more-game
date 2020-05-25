@@ -219,7 +219,7 @@ namespace ProjectOneMore.Battle
 
             foreach (BattleColumn column in battleColumns)
             {
-                if (column.team != team)
+                if (column.team != team || !column.activable)
                     continue;
 
                 if (column.GetUnitNumber() < rowsPerColumn)

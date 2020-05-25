@@ -184,7 +184,7 @@ namespace ProjectOneMore.Battle
         {
             foreach (float depth in _centeredAlignRowList)
             {
-                if (!HasAnotherUnitOnDepth(depth))
+                if (!HasUnitOnDepth(depth))
                     return depth;
             }
 
@@ -206,7 +206,7 @@ namespace ProjectOneMore.Battle
             return 0f;
         }
 
-        public bool HasAnotherUnitOnDepth(float depth)
+        public bool HasUnitOnDepth(float depth)
         {
             foreach (BattleUnit unit in _assignedBattleUnit)
             {
