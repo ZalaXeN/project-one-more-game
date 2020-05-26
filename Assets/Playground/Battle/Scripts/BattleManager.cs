@@ -37,7 +37,21 @@ namespace ProjectOneMore.Battle
             get { return _battleState; }
         }
 
+        public float spawnTimer
+        {
+            private set { }
+            get { return levelManager.spawnTimer; }
+        }
+
+        private float _battleTime;
+        public float battleTime
+        {
+            private set { _battleTime = value; }
+            get { return _battleTime; }
+        }
+
         public BattleColumnManager columnManager;
+        public BattleLevelManager levelManager;
 
         // Test
         [Range(0, 32)]
@@ -71,6 +85,12 @@ namespace ProjectOneMore.Battle
             ReadyBattle();
         }
 
+        private void Update()
+        {
+            UpdateSpawnTimer();
+        }
+
+        #region Ready Phase
         private void InitBattleColumns()
         {
             columnManager.Initizialize();
@@ -79,7 +99,7 @@ namespace ProjectOneMore.Battle
         private void ReadyBattle()
         {
             battleState = BattleState.Ready;
-
+            InitSpawnTimer();
             StartCoroutine(ReadyBattleCoroutine());
         }
 
@@ -121,7 +141,7 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        public void SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
+        public bool SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
         {
             if(columnManager.HasEmptySlotOnZone(team, unitAttackType, out BattleColumn targetColumn))
             {
@@ -130,7 +150,7 @@ namespace ProjectOneMore.Battle
             else
             {
                 // Can't Spawn
-                return;
+                return false;
             }
 
             // Get Empty after reposition again
@@ -153,14 +173,40 @@ namespace ProjectOneMore.Battle
                 Vector3 scale = minionUnit.transform.localScale;
                 scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x: -scale.x;
                 minionUnit.transform.localScale = scale;
+
+                return true;
             }
+
+            return false;
         }
+        #endregion
+
+        #region Battle Phase
+
+        private void InitSpawnTimer()
+        {
+            levelManager.spawnTimer = 0f;
+            battleTime = 0f;
+        }
+
+        private void UpdateSpawnTimer()
+        {
+            if (battleState != BattleState.Battle && 
+                battleState != BattleState.PlayerInput)
+                return;
+
+            battleTime += Time.deltaTime;
+            levelManager.UpdateSpawnTime(Time.deltaTime);
+        }
+
+        #endregion
 
         private void UpdateBattleColumns(BattleTeam team, bool triggerEvent = true)
         {
             columnManager.UpdateBattleColumns(team, triggerEvent);
         }
 
+        #region Input Phase
         public void EnterPlayerInput(BattlePlayerActionCard action)
         {
             if (battleState != BattleState.Battle)
@@ -232,7 +278,9 @@ namespace ProjectOneMore.Battle
 
             battleState = BattleState.Battle;
         }
+        #endregion
 
+        #region Event Trigger
         public void TriggerUnitDead(BattleUnit unit)
         {
             UnitDeadEvent?.Invoke(unit);
@@ -245,5 +293,6 @@ namespace ProjectOneMore.Battle
         {
             ColumnUpdateEvent?.Invoke(column);
         }
+        #endregion
     }
 }
