@@ -610,32 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9bdc549268a37d44b7a1859fc0b14ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSpawnTimeList:
-  - time: 2
-    spawnId: 
-    attackType: 0
-    team: 1
-    isDone: 0
-  - time: 4
-    spawnId: 
-    attackType: 0
-    team: 1
-    isDone: 0
-  - time: 7
-    spawnId: 
-    attackType: 1
-    team: 1
-    isDone: 0
-  - time: 11.25
-    spawnId: 
-    attackType: 1
-    team: 1
-    isDone: 0
-  - time: 14.44
-    spawnId: 
-    attackType: 1
-    team: 1
-    isDone: 0
+  levelDataController: {fileID: 11400000, guid: 3ff98cc492c4e214c980763550145dbe,
+    type: 2}
   spawnTimer: 0
 --- !u!4 &70081829
 Transform:
@@ -11330,10 +11306,9 @@ MonoBehaviour:
     type: 2}
   columnManager: {fileID: 1390724663}
   levelManager: {fileID: 70081828}
+  testLevelId: 01
   testEnemyMeleeNumber: 8
   testEnemyRangeNumber: 18
-  testEnemyPrefab: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
-    type: 3}
   rowsPerColumn: 4
 --- !u!4 &2131537039
 Transform:

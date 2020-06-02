@@ -13,7 +13,7 @@ namespace ProjectOneMore
     public class MinionPrefabController : ScriptableObject
     {
         [SerializeField]
-        private MinionPrefabData[] minionPrefabDatas;
+        private MinionPrefabData[] minionPrefabDatas = { };
 
         public GameObject GetMinionPrefab(string prefabId)
         {

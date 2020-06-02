@@ -11,16 +11,36 @@ namespace ProjectOneMore.Battle
         public string spawnId;
         public BattleTeam team;
         public bool isDone;
+
+        public BattleLevelSpawnTime()
+        {
+
+        }
+
+        public BattleLevelSpawnTime(BattleLevelSpawnTime prototype)
+        {
+            time = prototype.time;
+            spawnId = prototype.spawnId;
+            team = prototype.team;
+            isDone = false;
+        }
     }
 
     public class BattleLevelManager : MonoBehaviour
     {
-        public List<BattleLevelSpawnTime> levelSpawnTimeList;
+        public LevelDataController levelDataController;
+
+        private List<BattleLevelSpawnTime> _levelSpawnTimeList = new List<BattleLevelSpawnTime>();
 
         [HideInInspector]
         public float spawnTimer;
 
         private BattleLevelSpawnTime _defaultTargetLevelSpawnTime = new BattleLevelSpawnTime();
+
+        public void LoadLevel(string levelId)
+        {
+            levelDataController.LoadBattleLevelSpawnTimeList(_levelSpawnTimeList, levelId);
+        }
 
         public void UpdateSpawnTime(float time)
         {
@@ -32,7 +52,7 @@ namespace ProjectOneMore.Battle
         {
             BattleLevelSpawnTime targetLevelSpawnTime = _defaultTargetLevelSpawnTime;
             bool found = false;
-            foreach (BattleLevelSpawnTime levelSpawn in levelSpawnTimeList)
+            foreach (BattleLevelSpawnTime levelSpawn in _levelSpawnTimeList)
             {
                 if(levelSpawn.time <= time && !levelSpawn.isDone)
                 {
@@ -46,7 +66,6 @@ namespace ProjectOneMore.Battle
             if (!found)
                 return;
 
-            // TODO Spawn with prefab id
             bool spawnSuccess = BattleManager.main.SpawnMinion(
                 targetLevelSpawnTime.spawnId, 
                 targetLevelSpawnTime.team);

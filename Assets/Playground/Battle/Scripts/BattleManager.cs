@@ -59,6 +59,7 @@ namespace ProjectOneMore.Battle
 
         [Header("Settings.")]
         // Test
+        public string testLevelId;
         [Range(0, 32)]
         public int testEnemyMeleeNumber;
         [Range(0, 32)]
@@ -86,6 +87,7 @@ namespace ProjectOneMore.Battle
         private void Start()
         {
             InitBattleColumns();
+            LoadLevel();
             ReadyBattle();
         }
 
@@ -98,6 +100,11 @@ namespace ProjectOneMore.Battle
         private void InitBattleColumns()
         {
             columnManager.Initizialize();
+        }
+
+        private void LoadLevel()
+        {
+            levelManager.LoadLevel(testLevelId);
         }
 
         private void ReadyBattle()
