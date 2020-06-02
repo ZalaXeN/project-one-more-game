@@ -50,15 +50,19 @@ namespace ProjectOneMore.Battle
             get { return _battleTime; }
         }
 
+        [Header("Data Settings.")]
+        public MinionPrefabController minionPrefabController;
+
+        [Header("Manager Settings.")]
         public BattleColumnManager columnManager;
         public BattleLevelManager levelManager;
 
+        [Header("Settings.")]
         // Test
         [Range(0, 32)]
         public int testEnemyMeleeNumber;
         [Range(0, 32)]
         public int testEnemyRangeNumber;
-        public GameObject testEnemyPrefab;
         [Range(1, 10)]
         public int rowsPerColumn = 4;
 
@@ -113,7 +117,7 @@ namespace ProjectOneMore.Battle
         // Test Spawn
         private IEnumerator SpawnStartedEnemy()
         {
-            if (testEnemyPrefab == null)
+            if (minionPrefabController == null)
                 yield break;
 
             BattleTeam team = BattleTeam.Enemy;
@@ -123,15 +127,14 @@ namespace ProjectOneMore.Battle
                 j < testEnemyMeleeNumber + testEnemyRangeNumber;
                 i++, j++)
             {
-                BattleUnitAttackType unitAttackType = BattleUnitAttackType.Melee;
+                string unitPrefabId = "m01";
                 if (j < testEnemyMeleeNumber)
-                    unitAttackType = BattleUnitAttackType.Melee;
+                    unitPrefabId = "m01";
                 else if(j < testEnemyMeleeNumber + testEnemyRangeNumber)
-                    unitAttackType = BattleUnitAttackType.Range;
+                    unitPrefabId = "r01";
 
-                if(columnManager.HasEmptySlotOnZone(team, unitAttackType))
+                if(SpawnMinion(unitPrefabId, BattleTeam.Enemy))
                 {
-                    SpawnMinion(testEnemyPrefab, unitAttackType, BattleTeam.Enemy);
                     yield return _waitForSpawnEnemyInterval;
                 }
                 else
@@ -141,11 +144,24 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        public bool SpawnMinion(GameObject minionPrefab, BattleUnitAttackType unitAttackType, BattleTeam team)
+        public bool SpawnMinion(string unitPrefabId, BattleTeam team)
         {
-            if(columnManager.HasEmptySlotOnZone(team, unitAttackType, out BattleColumn targetColumn))
+            GameObject minionPrefab = minionPrefabController.GetMinionPrefab(unitPrefabId);
+            if (minionPrefab == null)
+                return false;
+
+            BattleUnit minion = minionPrefab.GetComponent<BattleUnit>();
+            return SpawnMinion(minionPrefab, minion, team);
+        }
+
+        public bool SpawnMinion(GameObject minionPrefab, BattleUnit unit, BattleTeam team)
+        {
+            if (minionPrefab == null)
+                return false;
+
+            if(columnManager.HasEmptySlotOnZone(team, unit.attackType, out BattleColumn targetColumn))
             {
-                columnManager.RepositionUnitToEmptySlot(team, unitAttackType, targetColumn);
+                columnManager.RepositionUnitToEmptySlot(team, unit.attackType, targetColumn);
             }
             else
             {
@@ -154,7 +170,7 @@ namespace ProjectOneMore.Battle
             }
 
             // Get Empty after reposition again
-            if (columnManager.HasEmptySlotOnZone(team, unitAttackType, out targetColumn))
+            if (columnManager.HasEmptySlotOnZone(team, unit.attackType, out targetColumn))
             {
                 GameObject minionGO = Instantiate(minionPrefab);
                 minionGO.transform.position = columnManager.GetSpawnPosition(team);
@@ -168,7 +184,7 @@ namespace ProjectOneMore.Battle
                 minionUnit.columnIndex = targetColumn.GetColumnIndex(minionUnit.columnDepth);
                 minionUnit.isMovingToTarget = true;
                 minionUnit.team = team;
-                minionUnit.SetAttackType(unitAttackType);
+                minionUnit.DebugShowAttackTypeOutline();
 
                 Vector3 scale = minionUnit.transform.localScale;
                 scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x: -scale.x;

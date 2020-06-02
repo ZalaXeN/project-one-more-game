@@ -9,7 +9,6 @@ namespace ProjectOneMore.Battle
     {
         public float time;
         public string spawnId;
-        public BattleUnitAttackType attackType;
         public BattleTeam team;
         public bool isDone;
     }
@@ -18,6 +17,7 @@ namespace ProjectOneMore.Battle
     {
         public List<BattleLevelSpawnTime> levelSpawnTimeList;
 
+        [HideInInspector]
         public float spawnTimer;
 
         private BattleLevelSpawnTime _defaultTargetLevelSpawnTime = new BattleLevelSpawnTime();
@@ -48,8 +48,7 @@ namespace ProjectOneMore.Battle
 
             // TODO Spawn with prefab id
             bool spawnSuccess = BattleManager.main.SpawnMinion(
-                BattleManager.main.testEnemyPrefab, 
-                targetLevelSpawnTime.attackType, 
+                targetLevelSpawnTime.spawnId, 
                 targetLevelSpawnTime.team);
 
             targetLevelSpawnTime.isDone = spawnSuccess;

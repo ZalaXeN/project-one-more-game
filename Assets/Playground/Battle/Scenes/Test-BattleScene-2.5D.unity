@@ -11326,9 +11326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88043bd7313996d4e92e18db2bc6c084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minionPrefabController: {fileID: 11400000, guid: 65ca276396e4e1f4cab8de320841ead0,
+    type: 2}
   columnManager: {fileID: 1390724663}
   levelManager: {fileID: 70081828}
-  testEnemyMeleeNumber: 14
+  testEnemyMeleeNumber: 8
   testEnemyRangeNumber: 18
   testEnemyPrefab: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
     type: 3}

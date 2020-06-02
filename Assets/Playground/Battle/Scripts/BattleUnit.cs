@@ -136,10 +136,8 @@ namespace ProjectOneMore.Battle
             Destroy(gameObject);
         }
 
-        public void SetAttackType(BattleUnitAttackType attackType)
+        public void DebugShowAttackTypeOutline()
         {
-            this.attackType = attackType;
-
             // Debug
             if (attackType == BattleUnitAttackType.Melee)
                 SetOutlineColor(Color.red);
@@ -147,7 +145,7 @@ namespace ProjectOneMore.Battle
                 SetOutlineColor(Color.green);
         }
 
-        public void SetOutlineColor(Color targetColor)
+        private void SetOutlineColor(Color targetColor)
         {
             if(_spriteRenderers == null)
             {
