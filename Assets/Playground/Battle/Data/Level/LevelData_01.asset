@@ -13,6 +13,79 @@ MonoBehaviour:
   m_Name: LevelData_01
   m_EditorClassIdentifier: 
   levelId: 01
+  levelStartSpawn:
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 0
+    spawnId: r01
+    team: 1
+    isDone: 0
   levelSpawnTimes:
   - time: 2
     spawnId: m01

@@ -10,6 +10,20 @@ namespace ProjectOneMore
         [SerializeField]
         private LevelData[] _levelDatas = { };
 
+        public void LoadBattleLevelStartSpawnList(List<BattleLevelSpawnTime> targetList, string levelId)
+        {
+            LevelData targetLevel = GetLevelData(levelId);
+            if (targetLevel == null || targetList == null)
+                return;
+
+            targetList.Clear();
+            foreach (BattleLevelSpawnTime spawn in targetLevel.levelStartSpawn)
+            {
+                BattleLevelSpawnTime spawnTime = new BattleLevelSpawnTime(spawn);
+                targetList.Add(spawnTime);
+            }
+        }
+
         public void LoadBattleLevelSpawnTimeList(List<BattleLevelSpawnTime> targetList, string levelId)
         {
             LevelData targetLevel = GetLevelData(levelId);

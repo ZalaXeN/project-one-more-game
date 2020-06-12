@@ -60,14 +60,8 @@ namespace ProjectOneMore.Battle
         [Header("Settings.")]
         // Test
         public string testLevelId;
-        [Range(0, 32)]
-        public int testEnemyMeleeNumber;
-        [Range(0, 32)]
-        public int testEnemyRangeNumber;
         [Range(1, 10)]
         public int rowsPerColumn = 4;
-
-        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(0.3f);
 
         private BattlePlayerActionCard _currentActionCard;
 
@@ -116,39 +110,10 @@ namespace ProjectOneMore.Battle
 
         private IEnumerator ReadyBattleCoroutine()
         {
-            Coroutine spawnEnemy = StartCoroutine(SpawnStartedEnemy());
+            UpdateBattleColumns(BattleTeam.Enemy, false);
+            Coroutine spawnEnemy = levelManager.SpawnStartMinion();
             yield return spawnEnemy;
             battleState = BattleState.Battle;
-        }
-
-        // Test Spawn
-        private IEnumerator SpawnStartedEnemy()
-        {
-            if (minionPrefabController == null)
-                yield break;
-
-            BattleTeam team = BattleTeam.Enemy;
-            UpdateBattleColumns(team, false);
-
-            for (int i = 0, j = 0; 
-                j < testEnemyMeleeNumber + testEnemyRangeNumber;
-                i++, j++)
-            {
-                string unitPrefabId = "m01";
-                if (j < testEnemyMeleeNumber)
-                    unitPrefabId = "m01";
-                else if(j < testEnemyMeleeNumber + testEnemyRangeNumber)
-                    unitPrefabId = "r01";
-
-                if(SpawnMinion(unitPrefabId, BattleTeam.Enemy))
-                {
-                    yield return _waitForSpawnEnemyInterval;
-                }
-                else
-                {
-                    i--;
-                }
-            }
         }
 
         public bool SpawnMinion(string unitPrefabId, BattleTeam team)

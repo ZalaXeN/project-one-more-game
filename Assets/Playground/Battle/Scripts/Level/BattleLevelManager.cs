@@ -4,32 +4,11 @@ using System.Collections.Generic;
 
 namespace ProjectOneMore.Battle
 {
-    [System.Serializable]
-    public class BattleLevelSpawnTime
-    {
-        public float time;
-        public string spawnId;
-        public BattleTeam team;
-        public bool isDone;
-
-        public BattleLevelSpawnTime()
-        {
-
-        }
-
-        public BattleLevelSpawnTime(BattleLevelSpawnTime prototype)
-        {
-            time = prototype.time;
-            spawnId = prototype.spawnId;
-            team = prototype.team;
-            isDone = false;
-        }
-    }
-
     public class BattleLevelManager : MonoBehaviour
     {
         public LevelDataController levelDataController;
 
+        private List<BattleLevelSpawnTime> _startSpawn = new List<BattleLevelSpawnTime>();
         private List<BattleLevelSpawnTime> _levelSpawnTimeList = new List<BattleLevelSpawnTime>();
 
         [HideInInspector]
@@ -37,11 +16,31 @@ namespace ProjectOneMore.Battle
 
         private BattleLevelSpawnTime _defaultTargetLevelSpawnTime = new BattleLevelSpawnTime();
 
+        private WaitForSeconds _waitForSpawnEnemyInterval = new WaitForSeconds(0.3f);
+
         public void LoadLevel(string levelId)
         {
+            levelDataController.LoadBattleLevelStartSpawnList(_startSpawn, levelId);
             levelDataController.LoadBattleLevelSpawnTimeList(_levelSpawnTimeList, levelId);
         }
 
+        #region Start Spawn
+        public Coroutine SpawnStartMinion()
+        {
+            return StartCoroutine(SpawnStartedEnemy());
+        }
+
+        private IEnumerator SpawnStartedEnemy()
+        {
+            foreach (BattleLevelSpawnTime levelSpawn in _startSpawn)
+            {
+                BattleManager.main.SpawnMinion(levelSpawn.spawnId, levelSpawn.team);
+                yield return _waitForSpawnEnemyInterval;
+            }
+        }
+        #endregion
+
+        #region Spawn Time
         public void UpdateSpawnTime(float time)
         {
             spawnTimer += time;
@@ -75,5 +74,6 @@ namespace ProjectOneMore.Battle
             if (!spawnSuccess)
                 spawnTimer = targetLevelSpawnTime.time;
         }
+        #endregion
     }
 }

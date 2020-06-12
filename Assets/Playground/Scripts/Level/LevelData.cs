@@ -8,6 +8,7 @@ namespace ProjectOneMore
     public class LevelData : ScriptableObject
     {
         public string levelId;
+        public BattleLevelSpawnTime[] levelStartSpawn;
         public BattleLevelSpawnTime[] levelSpawnTimes;
     }
 }
