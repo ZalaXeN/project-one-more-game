@@ -42,11 +42,16 @@ namespace ProjectOneMore.Battle
 
         public Animator animator;
 
+        public BattleActionCard autoAttackCard;
+
         private Vector3 targetPosition;
         private Vector3 targetPositionRange;
 
+        private float autoAttackCooldown = 0f;
+
         private SpriteRenderer[] _spriteRenderers;
 
+        #region Initialiazation
         // Mock Up
         private void InitStats()
         {
@@ -68,7 +73,9 @@ namespace ProjectOneMore.Battle
             def.max = baseData.baseStats.DEF;
             def.current = def.max;
         }
+        #endregion
 
+        #region Unity Script Lifecycle
         private void Start()
         {
             InitStats();
@@ -87,6 +94,8 @@ namespace ProjectOneMore.Battle
                 MoveToTargetPosition();
             }
 
+            UpdateAutoAttack();
+
             UpdateAnimation();
         }
 
@@ -95,7 +104,9 @@ namespace ProjectOneMore.Battle
             BattleManager.main.UnitDeadEvent -= HandleUnitDeadEvent;
             BattleManager.main.ColumnUpdateEvent -= HandleColumnUpdateEvent;
         }
+        #endregion
 
+        #region Unity Script Event
         // Click
         public void OnMouseUpAsButton()
         {
@@ -127,6 +138,47 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main.CanCurrentActionTarget(this))
                 DeHighlight();
+        }
+        #endregion
+
+        #region On Update Script
+
+        private void UpdateAutoAttack()
+        {
+            if (autoAttackCooldown > 0f)
+                autoAttackCooldown -= Time.deltaTime;
+
+            if (autoAttackCooldown > 0f || 
+                isMovingToTarget || isUseSpecificPosition || 
+                BattleManager.main.battleState != BattleState.Battle)
+                return;
+
+            BattleUnit target = BattleManager.main.GetFrontmostUnit(
+                BattleManager.main.GetOppositeTeam(team), attackType);
+
+            if (target != null)
+            {
+                autoAttackCard.SetTarget(target);
+                autoAttackCard.Execute();
+                autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+                animator.SetTrigger("attack");
+            }
+            else
+            {
+                autoAttackCooldown = GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED;
+            }
+        }
+
+        #endregion
+
+        public void TakeDamage(BattleDamage damage)
+        {
+            hp.current -= damage.damage;
+
+            if (hp.current <= 0)
+            {
+                Dead();
+            }
         }
 
         // Dead
@@ -235,6 +287,7 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        #region Gizmos
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
@@ -253,5 +306,6 @@ namespace ProjectOneMore.Battle
             Handles.DrawLine(transform.position, targetPosition);
         }
 #endif
+        #endregion
     }
 }

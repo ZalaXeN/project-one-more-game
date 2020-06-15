@@ -1629,8 +1629,10 @@ GameObject:
   - component: {fileID: 1943457042}
   - component: {fileID: 1728194267}
   - component: {fileID: 1728194266}
+  - component: {fileID: -2185375870408614921}
+  - component: {fileID: -6632589632919151238}
   m_Layer: 0
-  m_Name: mage 1
+  m_Name: mage_melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1771,6 +1773,52 @@ MonoBehaviour:
   isUseSpecificPosition: 0
   isMovingToTarget: 0
   animator: {fileID: 5547465876102455473}
+  autoAttackCard: {fileID: -6632589632919151238}
+--- !u!114 &-2185375870408614921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085891716047410089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1728194266}
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-6632589632919151238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085891716047410089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 1728194266, guid: 0d9facc217c6f0646949b8938267ebcf, type: 3}
+  skillName: Attack
+  skillType: 2
+  skillEffectTarget: 2
+  skillTargetType: 0
+  battleActions:
+  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
 --- !u!1 &5547465876124666135
 GameObject:
   m_ObjectHideFlags: 0

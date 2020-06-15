@@ -903,6 +903,7 @@ GameObject:
   - component: {fileID: 111390455}
   - component: {fileID: 111390456}
   - component: {fileID: 111390452}
+  - component: {fileID: 111390457}
   m_Layer: 0
   m_Name: Harpy
   m_TagString: Untagged
@@ -1056,6 +1057,33 @@ MonoBehaviour:
   isUseSpecificPosition: 1
   isMovingToTarget: 0
   animator: {fileID: 0}
+  autoAttackCard: {fileID: 0}
+--- !u!114 &111390457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111390450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 111390456}
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &111963118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,7 +1804,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 391383406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 111390456}
@@ -2216,7 +2244,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 605623787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 111390456}
@@ -2722,7 +2750,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 800647202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
@@ -9762,7 +9790,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1682493995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
@@ -9937,6 +9965,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9facc217c6f0646949b8938267ebcf, type: 3}
+--- !u!1 &1697638970 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5085891716047410089, guid: 0d9facc217c6f0646949b8938267ebcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1697638969}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1697638971 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1728194266, guid: 0d9facc217c6f0646949b8938267ebcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1697638969}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697638970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1697638972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697638970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1697638971}
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1741646902
 GameObject:
   m_ObjectHideFlags: 0
@@ -10626,7 +10698,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1984128938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 111390456}
@@ -11046,7 +11118,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2068622975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 111390456}
@@ -11172,7 +11244,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118254240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7261a30ae8f010b43ac2f96a8e2c3e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 111390456}
@@ -11307,8 +11379,6 @@ MonoBehaviour:
   columnManager: {fileID: 1390724663}
   levelManager: {fileID: 70081828}
   testLevelId: 01
-  testEnemyMeleeNumber: 8
-  testEnemyRangeNumber: 18
   rowsPerColumn: 4
 --- !u!4 &2131537039
 Transform:

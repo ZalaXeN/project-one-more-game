@@ -9,7 +9,7 @@ namespace ProjectOneMore.Battle
         public string minionPrefabId;
         public BattleTeam battleTeam;
 
-        public override void Execute(BattlePlayerActionCard card)
+        public override void Execute(BattleActionCard card)
         {
             BattleManager.main.SpawnMinion(minionPrefabId, battleTeam);
         }

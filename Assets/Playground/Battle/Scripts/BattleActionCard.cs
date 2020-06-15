@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectOneMore.Battle
 {
-    public class BattlePlayerActionCard : MonoBehaviour
+    public class BattleActionCard : MonoBehaviour
     {
         public BattleUnit owner;
 
@@ -48,8 +48,6 @@ namespace ProjectOneMore.Battle
             {
                 battleAction.Execute(this);
             }
-
-            BattleManager.main.ExitPlayerInput();
         }
     }
 }

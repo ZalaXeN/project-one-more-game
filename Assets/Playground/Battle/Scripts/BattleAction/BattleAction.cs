@@ -5,7 +5,7 @@ namespace ProjectOneMore.Battle
 {
     public class BattleAction : ScriptableObject
     {
-        public virtual void Execute(BattlePlayerActionCard card)
+        public virtual void Execute(BattleActionCard card)
         {
             
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectOneMore.Battle
@@ -63,7 +64,9 @@ namespace ProjectOneMore.Battle
         [Range(1, 10)]
         public int rowsPerColumn = 4;
 
-        private BattlePlayerActionCard _currentActionCard;
+        private BattleActionCard _currentActionCard;
+
+        private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
         private void Awake()
         {
@@ -115,6 +118,29 @@ namespace ProjectOneMore.Battle
             yield return spawnEnemy;
             battleState = BattleState.Battle;
         }
+        #endregion
+
+        #region Battle Phase
+
+        private void InitSpawnTimer()
+        {
+            levelManager.spawnTimer = 0f;
+            battleTime = 0f;
+        }
+
+        private void UpdateSpawnTimer()
+        {
+            if (battleState != BattleState.Battle && 
+                battleState != BattleState.PlayerInput)
+                return;
+
+            battleTime += Time.deltaTime;
+            levelManager.UpdateSpawnTime(Time.deltaTime);
+        }
+
+        #endregion
+
+        #region Minion
 
         public bool SpawnMinion(string unitPrefabId, BattleTeam team)
         {
@@ -131,7 +157,7 @@ namespace ProjectOneMore.Battle
             if (minionPrefab == null)
                 return false;
 
-            if(columnManager.HasEmptySlotOnZone(team, unit.attackType, out BattleColumn targetColumn))
+            if (columnManager.HasEmptySlotOnZone(team, unit.attackType, out BattleColumn targetColumn))
             {
                 columnManager.RepositionUnitToEmptySlot(team, unit.attackType, targetColumn);
             }
@@ -159,32 +185,51 @@ namespace ProjectOneMore.Battle
                 minionUnit.DebugShowAttackTypeOutline();
 
                 Vector3 scale = minionUnit.transform.localScale;
-                scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x: -scale.x;
+                scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x : -scale.x;
                 minionUnit.transform.localScale = scale;
+
+                _battleUnitList.Add(minionUnit);
 
                 return true;
             }
 
             return false;
         }
+
         #endregion
 
-        #region Battle Phase
+        #region Battle Utility
 
-        private void InitSpawnTimer()
+        public float GetAutoAttackCooldown(int spd)
         {
-            levelManager.spawnTimer = 0f;
-            battleTime = 0f;
+            return Mathf.Max(5 - (spd / 100f), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
-        private void UpdateSpawnTimer()
+        public BattleTeam GetOppositeTeam(BattleTeam team)
         {
-            if (battleState != BattleState.Battle && 
-                battleState != BattleState.PlayerInput)
-                return;
+            return team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;
+        }
 
-            battleTime += Time.deltaTime;
-            levelManager.UpdateSpawnTime(Time.deltaTime);
+        public BattleUnit GetFrontmostUnit(BattleTeam team, BattleUnitAttackType attackType)
+        {
+            BattleUnit target = null;
+            foreach(BattleUnit unit in _battleUnitList)
+            {
+                if (unit.team != team || unit.isMovingToTarget)
+                    continue;
+
+                if (target == null)
+                    target = unit;
+                else
+                {
+                    if (target.column > unit.column)
+                        target = unit;
+                    else if (target.column == unit.column && target.columnIndex > unit.columnIndex)
+                        target = unit;
+                }
+            }
+
+            return target;
         }
 
         #endregion
@@ -195,7 +240,7 @@ namespace ProjectOneMore.Battle
         }
 
         #region Input Phase
-        public void EnterPlayerInput(BattlePlayerActionCard action)
+        public void EnterPlayerInput(BattleActionCard action)
         {
             if (battleState != BattleState.Battle)
                 return;
@@ -271,6 +316,7 @@ namespace ProjectOneMore.Battle
         #region Event Trigger
         public void TriggerUnitDead(BattleUnit unit)
         {
+            _battleUnitList.Remove(unit);
             UnitDeadEvent?.Invoke(unit);
 
             //columnManager.RepositionUnitToEmptySlot(unit.team, unit.attackType, 
