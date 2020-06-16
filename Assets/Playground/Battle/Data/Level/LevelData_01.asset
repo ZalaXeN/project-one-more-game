@@ -19,91 +19,79 @@ MonoBehaviour:
     team: 1
     isDone: 0
   - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
-    spawnId: r01
-    team: 1
-    isDone: 0
-  - time: 0
     spawnId: r01
     team: 1
     isDone: 0
   levelSpawnTimes:
-  - time: 2
+  - time: 1
     spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 2
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 3
+    spawnId: m01
+    team: 1
+    isDone: 0
+  - time: 4
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 4.5
+    spawnId: r01
     team: 1
     isDone: 0
   - time: 5
     spawnId: r01
     team: 1
     isDone: 0
-  - time: 7
-    spawnId: m01
-    team: 1
-    isDone: 0
-  - time: 8.5
+  - time: 5.5
     spawnId: r01
     team: 1
     isDone: 0
-  - time: 12.5
+  - time: 5.75
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 6
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 7
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 7
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 7
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 8
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 8
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 8
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 9
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 9
+    spawnId: r01
+    team: 1
+    isDone: 0
+  - time: 10
     spawnId: r01
     team: 1
     isDone: 0

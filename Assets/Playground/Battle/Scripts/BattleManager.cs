@@ -64,6 +64,8 @@ namespace ProjectOneMore.Battle
         [Range(1, 10)]
         public int rowsPerColumn = 4;
 
+        public BattleDamageNumberPool battleDamageNumberPool;
+
         private BattleActionCard _currentActionCard;
 
         private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
@@ -230,6 +232,11 @@ namespace ProjectOneMore.Battle
             }
 
             return target;
+        }
+
+        public void ShowDamageNumber(int damage, Vector3 position)
+        {
+            battleDamageNumberPool.ShowDamageNumber(damage, position);
         }
 
         #endregion

@@ -81,6 +81,7 @@ namespace ProjectOneMore.Battle
             InitStats();
             targetPosition = transform.position;
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
+            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
 
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
             BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
@@ -173,6 +174,8 @@ namespace ProjectOneMore.Battle
 
         public void TakeDamage(BattleDamage damage)
         {
+            BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
+
             hp.current -= damage.damage;
 
             if (hp.current <= 0)
