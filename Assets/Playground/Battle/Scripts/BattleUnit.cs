@@ -47,6 +47,8 @@ namespace ProjectOneMore.Battle
         private Vector3 targetPosition;
         private Vector3 targetPositionRange;
 
+        private BattleActionCard _currentBattleActionCard;
+
         private float autoAttackCooldown = 0f;
 
         private SpriteRenderer[] _spriteRenderers;
@@ -73,11 +75,21 @@ namespace ProjectOneMore.Battle
             def.max = baseData.baseStats.DEF;
             def.current = def.max;
         }
+
+        private void InitLinkedSTB()
+        {
+            if (animator == null)
+                return;
+
+            BehaviourLinkedSMB<BattleUnit>.Init(animator, this);
+        }
+
         #endregion
 
         #region Unity Script Lifecycle
         private void Start()
         {
+            InitLinkedSTB();
             InitStats();
             targetPosition = transform.position;
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
@@ -144,6 +156,20 @@ namespace ProjectOneMore.Battle
 
         #region On Update Script
 
+        public void ExecuteCurrentBattleAction()
+        {
+            // TODO 
+            // Change target follow BAC
+            BattleUnit target = BattleManager.main.GetFrontmostUnit(
+                BattleManager.main.GetOppositeTeam(team), attackType);
+
+            if (target == null)
+                return;
+
+            _currentBattleActionCard.SetTarget(target);
+            _currentBattleActionCard.Execute();
+        }
+
         private void UpdateAutoAttack()
         {
             if (autoAttackCooldown > 0f)
@@ -159,8 +185,7 @@ namespace ProjectOneMore.Battle
 
             if (target != null)
             {
-                autoAttackCard.SetTarget(target);
-                autoAttackCard.Execute();
+                _currentBattleActionCard = autoAttackCard;
                 autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
                 animator.SetTrigger("attack");
             }
