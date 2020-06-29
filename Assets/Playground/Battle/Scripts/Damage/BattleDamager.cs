@@ -24,7 +24,7 @@ namespace ProjectOneMore.Battle
                     damage = new BattleDamage(null, 100, BattleDamageType.Physical);
 
                 damagableHit.OnTakeDamage.Invoke(damage);
-                Invoke("Destroy", 8f);
+                //Invoke("Destroy", 8f);
             }
         }
 
