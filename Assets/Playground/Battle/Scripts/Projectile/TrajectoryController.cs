@@ -12,7 +12,7 @@ public class TrajectoryController : MonoBehaviour
     public int resolution = 15;
 
     [Header("Formula Variables")]
-    public Vector2 velocity;
+    public Vector3 velocity;
     public float yLimit; //for later
     private float g;
 
@@ -22,18 +22,19 @@ public class TrajectoryController : MonoBehaviour
     public LayerMask canHit;
 
     [Header("Target Position")]
-    public Vector2 targetPos;
+    public Vector3 targetPos;
     public float travelTime = 1f;
 
     private void Start()
     {
         g = Mathf.Abs(Physics.gravity.y);
+        CalcVerocityFromTarget();
+        StartCoroutine(RenderArc());
     }
 
     private void Update()
     {
-        StartCoroutine(RenderArc());
-        CalcVerocityFromTarget();
+        //StartCoroutine(RenderArc());
     }
 
     private IEnumerator RenderArc()
@@ -107,12 +108,20 @@ public class TrajectoryController : MonoBehaviour
         return t;
     }
 
-    private void CalcVerocityFromTarget()
+    //[ContextMenu("Calculate Verocity to Target Position")]
+    public void CalcVerocityFromTarget()
     {
         if (travelTime <= 0)
             travelTime = 0.1f;
 
         velocity.x = (targetPos.x - transform.position.x) / travelTime;
         velocity.y = ((targetPos.y - transform.position.y) + ((g * (travelTime * travelTime)) / 2)) / travelTime;
+    }
+
+    [ContextMenu("Render Trajectory")]
+    public void RenderTrajectory()
+    {
+        CalcVerocityFromTarget();
+        StartCoroutine(RenderArc());
     }
 }

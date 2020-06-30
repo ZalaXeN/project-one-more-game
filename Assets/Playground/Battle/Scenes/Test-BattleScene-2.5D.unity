@@ -1332,6 +1332,7 @@ GameObject:
   - component: {fileID: 271572432}
   - component: {fileID: 271572431}
   - component: {fileID: 271572430}
+  - component: {fileID: 271572436}
   - component: {fileID: 271572429}
   m_Layer: 0
   m_Name: BallProjectileTest
@@ -1354,14 +1355,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   line: {fileID: 449708832}
   resolution: 15
-  velocity: {x: -2.6179776, y: 5.8376417}
+  velocity: {x: 4.5, y: 7.3100004, z: 0}
   yLimit: 0
   linecastResolution: 2
   canHit:
     serializedVersion: 2
     m_Bits: 1
-  targetPos: {x: 0.34, y: -0.15}
-  travelTime: 1.78
+  targetPos: {x: 5, y: 0, z: 0}
+  travelTime: 1
 --- !u!114 &271572430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,7 +1401,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1472,12 +1473,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271572428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: 0.4}
+  m_LocalPosition: {x: -4, y: 5, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &271572436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271572428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5f6bbfbda234843b96ae12a651c8bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 271572431}
+  moveSpeed: {x: 4.5, y: 7.31, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  trajectoryController: {fileID: 271572429}
+  _mousePos: {x: 0, y: 0, z: 0}
+  _pointPos: {x: 0, y: 0, z: 0}
 --- !u!1 &294477630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,22 +2342,22 @@ LineRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Positions:
-  - {x: 5, y: 5, z: 0.4}
-  - {x: 4.691541, y: 5.65237, z: 0.4}
-  - {x: 4.383083, y: 6.1639256, z: 0.4}
-  - {x: 4.074624, y: 6.534666, z: 0.4}
-  - {x: 3.7661655, y: 6.764592, z: 0.4}
-  - {x: 3.457707, y: 6.853703, z: 0.4}
-  - {x: 3.1492481, y: 6.8019996, z: 0.4}
-  - {x: 2.8407896, y: 6.609481, z: 0.4}
-  - {x: 2.532331, y: 6.276148, z: 0.4}
-  - {x: 2.2238722, y: 5.8019996, z: 0.4}
-  - {x: 1.9154136, y: 5.187037, z: 0.4}
-  - {x: 1.6069548, y: 4.4312596, z: 0.4}
-  - {x: 1.2984962, y: 3.5346675, z: 0.4}
-  - {x: 0.9900379, y: 2.49726, z: 0.4}
-  - {x: 0.6815791, y: 1.3190386, z: 0.4}
-  - {x: 0.3731203, y: 0.0000023841858, z: 0.4}
+  - {x: -4, y: 5, z: 0.4}
+  - {x: -3.4, y: 5.887467, z: 0.4}
+  - {x: -2.8, y: 6.6005335, z: 0.4}
+  - {x: -2.1999998, y: 7.1392, z: 0.4}
+  - {x: -1.5999999, y: 7.5034666, z: 0.4}
+  - {x: -1, y: 7.6933336, z: 0.4}
+  - {x: -0.39999962, y: 7.7088003, z: 0.4}
+  - {x: 0.20000029, y: 7.5498667, z: 0.4}
+  - {x: 0.8000002, y: 7.216533, z: 0.4}
+  - {x: 1.4000001, y: 6.7088003, z: 0.4}
+  - {x: 2, y: 6.0266666, z: 0.4}
+  - {x: 2.6000004, y: 5.1701336, z: 0.4}
+  - {x: 3.2000008, y: 4.1391993, z: 0.4}
+  - {x: 3.8000007, y: 2.9338658, z: 0.4}
+  - {x: 4.4000006, y: 1.5541322, z: 0.4}
+  - {x: 5, y: 0, z: 0.4}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -11418,13 +11437,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   line: {fileID: 449708832}
   resolution: 15
-  velocity: {x: 0, y: 2.11}
+  velocity: {x: 0, y: 2.11, z: 0}
   yLimit: 0
   linecastResolution: 0
   canHit:
     serializedVersion: 2
     m_Bits: 4294967295
-  targetPos: {x: 0, y: 0}
+  targetPos: {x: 0, y: 0, z: 0}
   travelTime: 1
 --- !u!1 &2041346692
 GameObject:
