@@ -1355,14 +1355,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   line: {fileID: 449708832}
   resolution: 15
-  velocity: {x: 4.5, y: 7.3100004, z: 0}
+  velocity: {x: 14.715, y: -5.175, z: 0}
   yLimit: 0
   linecastResolution: 2
   canHit:
     serializedVersion: 2
     m_Bits: 1
   targetPos: {x: 5, y: 0, z: 0}
-  travelTime: 1
+  travelTime: 0.6116208
+  isFixedX: 0
+  isFixedY: 1
+  fixedVerocity: {x: 1, y: 3}
 --- !u!114 &271572430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,20 +2346,20 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: -4, y: 5, z: 0.4}
-  - {x: -3.4, y: 5.887467, z: 0.4}
-  - {x: -2.8, y: 6.6005335, z: 0.4}
-  - {x: -2.1999998, y: 7.1392, z: 0.4}
-  - {x: -1.5999999, y: 7.5034666, z: 0.4}
-  - {x: -1, y: 7.6933336, z: 0.4}
-  - {x: -0.39999962, y: 7.7088003, z: 0.4}
-  - {x: 0.20000029, y: 7.5498667, z: 0.4}
-  - {x: 0.8000002, y: 7.216533, z: 0.4}
-  - {x: 1.4000001, y: 6.7088003, z: 0.4}
-  - {x: 2, y: 6.0266666, z: 0.4}
-  - {x: 2.6000004, y: 5.1701336, z: 0.4}
-  - {x: 3.2000008, y: 4.1391993, z: 0.4}
-  - {x: 3.8000007, y: 2.9338658, z: 0.4}
-  - {x: 4.4000006, y: 1.5541322, z: 0.4}
+  - {x: -3.4, y: 4.780836, z: 0.4}
+  - {x: -2.8000002, y: 4.545362, z: 0.4}
+  - {x: -2.2, y: 4.293578, z: 0.4}
+  - {x: -1.6000001, y: 4.025484, z: 0.4}
+  - {x: -1, y: 3.7410805, z: 0.4}
+  - {x: -0.4000001, y: 3.440367, z: 0.4}
+  - {x: 0.20000029, y: 3.1233435, z: 0.4}
+  - {x: 0.7999997, y: 2.7900102, z: 0.4}
+  - {x: 1.3999996, y: 2.4403672, z: 0.4}
+  - {x: 2, y: 2.0744138, z: 0.4}
+  - {x: 2.6, y: 1.6921508, z: 0.4}
+  - {x: 3.1999998, y: 1.2935781, z: 0.4}
+  - {x: 3.7999997, y: 0.8786955, z: 0.4}
+  - {x: 4.4000006, y: 0.44750214, z: 0.4}
   - {x: 5, y: 0, z: 0.4}
   m_Parameters:
     serializedVersion: 3
@@ -11445,6 +11448,9 @@ MonoBehaviour:
     m_Bits: 4294967295
   targetPos: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isFixedX: 0
+  isFixedY: 0
+  fixedVerocity: {x: 0, y: 0}
 --- !u!1 &2041346692
 GameObject:
   m_ObjectHideFlags: 0

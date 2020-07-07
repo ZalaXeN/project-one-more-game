@@ -24,6 +24,8 @@ public class TrajectoryController : MonoBehaviour
     [Header("Target Position")]
     public Vector3 targetPos;
     public float travelTime = 1f;
+    public bool isFixedY;
+    public Vector2 fixedVerocity;
 
     private void Start()
     {
@@ -108,19 +110,30 @@ public class TrajectoryController : MonoBehaviour
         return t;
     }
 
-    //[ContextMenu("Calculate Verocity to Target Position")]
     public void CalcVerocityFromTarget()
     {
         if (travelTime <= 0)
             travelTime = 0.1f;
 
+        CalcVerocityFromTargetByFixedTime();
+    }
+
+    private void CalcVerocityFromTargetByFixedTime()
+    {
+        if (isFixedY)
+        {
+            velocity.y = fixedVerocity.y;
+            travelTime = MaxTimeY();
+        }
+
         velocity.x = (targetPos.x - transform.position.x) / travelTime;
-        velocity.y = ((targetPos.y - transform.position.y) + ((g * (travelTime * travelTime)) / 2)) / travelTime;
+        velocity.y = isFixedY ? fixedVerocity.y : ((targetPos.y - transform.position.y) + ((g * (travelTime * travelTime)) / 2)) / travelTime;
     }
 
     [ContextMenu("Render Trajectory")]
     public void RenderTrajectory()
     {
+        targetPos.y = 0f;
         CalcVerocityFromTarget();
         StartCoroutine(RenderArc());
     }
