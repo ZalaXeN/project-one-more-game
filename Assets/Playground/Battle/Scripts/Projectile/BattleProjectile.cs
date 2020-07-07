@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BattleProjectile : MonoBehaviour
 {
@@ -38,8 +39,23 @@ public class BattleProjectile : MonoBehaviour
             if (trajectoryController != null)
             {
                 _mousePos = Input.mousePosition;
-                _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
-                _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
+
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(_mousePos);
+
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, trajectoryController.canHit))
+                {
+                    _pointPos = hit.point;
+                }
+                else
+                {
+                    _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
+                    _mousePos.y = 0f;
+
+                    _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
+                    _pointPos.y = 0f;
+                    _pointPos.z = transform.position.z;
+                }
 
                 trajectoryController.targetPos = _pointPos;
                 trajectoryController.RenderTrajectory();

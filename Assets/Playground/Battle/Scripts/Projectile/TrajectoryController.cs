@@ -85,7 +85,8 @@ public class TrajectoryController : MonoBehaviour
     {
         float x = velocity.x * t;
         float y = (velocity.y * t) - (g * Mathf.Pow(t, 2) / 2);
-        return new Vector3(x + transform.position.x, y + transform.position.y, transform.position.z);
+        float z = velocity.z * t;
+        return new Vector3(x + transform.position.x, y + transform.position.y, z + transform.position.z);
     }
 
     private float MaxTimeY()
@@ -128,12 +129,12 @@ public class TrajectoryController : MonoBehaviour
 
         velocity.x = (targetPos.x - transform.position.x) / travelTime;
         velocity.y = isFixedY ? fixedVerocity.y : ((targetPos.y - transform.position.y) + ((g * (travelTime * travelTime)) / 2)) / travelTime;
+        velocity.z = (targetPos.z - transform.position.z) / travelTime;
     }
 
     [ContextMenu("Render Trajectory")]
     public void RenderTrajectory()
     {
-        targetPos.y = 0f;
         CalcVerocityFromTarget();
         StartCoroutine(RenderArc());
     }
