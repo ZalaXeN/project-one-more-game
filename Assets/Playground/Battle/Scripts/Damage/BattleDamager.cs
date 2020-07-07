@@ -20,7 +20,21 @@ namespace ProjectOneMore.Battle
             BattleDamagable damagableHit = other.GetComponent<BattleDamagable>();
             if (damagableHit != null)
             {
-                if(damage == null)
+                if (damage == null)
+                    damage = new BattleDamage(null, 100, BattleDamageType.Physical);
+
+                damagableHit.OnTakeDamage.Invoke(damage);
+                //Invoke("Destroy", 8f);
+            }
+        }
+
+        // Test
+        private void OnCollisionEnter(Collision collision)
+        {
+            BattleDamagable damagableHit = collision.gameObject.GetComponent<BattleDamagable>();
+            if (damagableHit != null)
+            {
+                if (damage == null)
                     damage = new BattleDamage(null, 100, BattleDamageType.Physical);
 
                 damagableHit.OnTakeDamage.Invoke(damage);
