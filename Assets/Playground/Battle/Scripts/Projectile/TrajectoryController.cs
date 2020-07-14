@@ -138,4 +138,17 @@ public class TrajectoryController : MonoBehaviour
         CalcVerocityFromTarget();
         StartCoroutine(RenderArc());
     }
+
+    // Test
+    private void OnEnable()
+    {
+        if(line)
+            line.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        if(line)
+            line.enabled = false;
+    }
 }

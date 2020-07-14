@@ -21,48 +21,60 @@ public class BattleProjectile : MonoBehaviour
     private void Start()
     {
         _startPos = transform.position;
+        Hide();
+    }
+
+    public void Hide()
+    {
+        trajectoryController.line.enabled = false;
+
+        transform.position = _startPos;
+        transform.position += Vector3.up * 10;
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.rotation = Quaternion.identity;
+    }
+
+    public void Reset()
+    {
+        trajectoryController.line.enabled = true;
+
+        transform.position = _startPos;
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.rotation = Quaternion.identity;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (trajectoryController != null && trajectoryController.line.enabled)
         {
-            transform.position = _startPos;
+            _mousePos = Input.mousePosition;
 
-            rb.isKinematic = true;
-            rb.useGravity = false;
-            rb.rotation = Quaternion.identity;
-        }
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(_mousePos);
 
-        if(Input.GetMouseButton(0))
-        {
-            if (trajectoryController != null)
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, trajectoryController.canHit))
             {
-                _mousePos = Input.mousePosition;
-
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(_mousePos);
-
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, trajectoryController.canHit))
-                {
-                    _pointPos = hit.point;
-                }
-                else
-                {
-                    _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
-                    _mousePos.y = 0f;
-
-                    _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
-                    _pointPos.y = 0f;
-                    _pointPos.z = transform.position.z;
-                }
-
-                trajectoryController.targetPos = _pointPos;
-                trajectoryController.RenderTrajectory();
+                _pointPos = hit.point;
             }
+            else
+            {
+                _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
+                _mousePos.y = 0f;
+
+                _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
+                _pointPos.y = 0f;
+                _pointPos.z = transform.position.z;
+            }
+
+            trajectoryController.targetPos = _pointPos;
+            trajectoryController.RenderTrajectory();
         }
 
-        if(Input.GetMouseButtonUp(0) && rb.isKinematic)
+        if(Input.GetMouseButtonDown(0) && rb.isKinematic)
         {
             if (trajectoryController != null)
             {
@@ -73,6 +85,8 @@ public class BattleProjectile : MonoBehaviour
                 targetPos = trajectoryController.targetPos;
 
                 rb.velocity = moveSpeed;
+
+                trajectoryController.line.enabled = false;
             }
         }
 
