@@ -218,11 +218,11 @@ namespace ProjectOneMore.Battle
 
         public void DebugShowAttackTypeOutline()
         {
-            // Debug
-            if (attackType == BattleUnitAttackType.Melee)
-                SetOutlineColor(Color.red);
-            else
-                SetOutlineColor(Color.green);
+            //// Debug
+            //if (attackType == BattleUnitAttackType.Melee)
+            //    SetOutlineColor(Color.red);
+            //else
+            //    SetOutlineColor(Color.green);
         }
 
         private void SetOutlineColor(Color targetColor)
