@@ -55,7 +55,8 @@ MonoBehaviour:
   - {fileID: 3531079889356972766}
   - {fileID: 4129518321868868359}
   - {fileID: -8049507451549881053}
-  m_RendererFeatureMap: dee2a56e73ea0031070b76dc08ff4e39236d82f59e674a90
+  - {fileID: 944774301549572736}
+  m_RendererFeatureMap: dee2a56e73ea0031070b76dc08ff4e39236d82f59e674a9080b2c7bc38831c0d
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   shaders:
     blitPS: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
@@ -78,6 +79,25 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
+--- !u!114 &944774301549572736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d973779fa3211fc488fdc9e5dcb08e2b, type: 3}
+  m_Name: SpriteOutlineFx
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    Event: 500
+    blitMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
+    blitMaterialPassIndex: -1
+    destination: 0
+    textureId: _BlitPassTexture
 --- !u!114 &3531079889356972766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +163,7 @@ MonoBehaviour:
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 5
-    enableWrite: 1
+    enableWrite: 0
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
