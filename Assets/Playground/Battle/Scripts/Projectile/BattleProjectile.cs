@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using ProjectOneMore.Battle;
 
 public class BattleProjectile : MonoBehaviour
 {
@@ -87,6 +88,9 @@ public class BattleProjectile : MonoBehaviour
                 rb.velocity = moveSpeed;
 
                 trajectoryController.line.enabled = false;
+
+                // Test Only Remove After Test
+                BattleManager.main.ExitPlayerInput();
             }
         }
 

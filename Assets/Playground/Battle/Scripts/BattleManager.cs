@@ -254,8 +254,9 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             battleState = BattleState.PlayerInput;
+            Time.timeScale = 0.2f;
 
-            if(_currentActionCard.skillType != SkillType.Instant &&
+            if (_currentActionCard.skillType != SkillType.Instant &&
                _currentActionCard.skillType != SkillType.Passive)
                 ShowTargeting();
             else
@@ -307,7 +308,9 @@ namespace ProjectOneMore.Battle
 
         public void CurrentActionTakeAction()
         {
-            _currentActionCard.Execute();
+            if(_currentActionCard != null)
+                _currentActionCard.Execute();
+
             ExitPlayerInput();
         }
 
@@ -315,6 +318,9 @@ namespace ProjectOneMore.Battle
         {
             if(battleState != BattleState.PlayerInput)
                 return;
+
+            // Test Slow
+            Time.timeScale = 1.0f;
 
             battleState = BattleState.Battle;
         }
