@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: SpriteOutlineFxMat
   m_Shader: {fileID: 4800000, guid: 832eb2012bb8d4b559dd13b098d55b1e, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -53,7 +53,7 @@ Material:
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Distance: 1
+    - _Distance: 3
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0

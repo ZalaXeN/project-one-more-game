@@ -91,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d973779fa3211fc488fdc9e5dcb08e2b, type: 3}
   m_Name: SpriteOutlineFx
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
-    Event: 500
+    Event: 450
     blitMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
     blitMaterialPassIndex: -1
     destination: 0
@@ -108,11 +108,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: WriteDepth
+  m_Name: SpriteDepth
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: WriteDepth
+    passTag: SpriteDepth
     Event: 250
     filterSettings:
       RenderQueueType: 1

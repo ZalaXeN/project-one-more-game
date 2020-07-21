@@ -28,6 +28,8 @@ namespace UnityEngine.Experiemntal.Rendering.Universal
         RenderTargetHandle m_TemporaryColorTexture;
         string m_ProfilerTag;
 
+        private readonly ShaderTagId m_shaderTag = new ShaderTagId("Custom Render");
+
         /// <summary>
         /// Create the CopyColorPass
         /// </summary>
