@@ -292,6 +292,9 @@ namespace ProjectOneMore.Battle
 
         public bool CanCurrentActionTarget(BattleUnit unit)
         {
+            if (_currentActionCard == null)
+                return false;
+
             if (CanCurrentActionTargetAlly() && unit.team == _currentActionCard.owner.team)
                 return true;
 

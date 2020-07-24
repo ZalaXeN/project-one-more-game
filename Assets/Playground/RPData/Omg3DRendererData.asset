@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8049507451549881053
+--- !u!114 &-6167064720309112551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,36 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Outline
+  m_Script: {fileID: 11500000, guid: d973779fa3211fc488fdc9e5dcb08e2b, type: 3}
+  m_Name: SpriteOutlineFX
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Outline
-    Event: 250
-    filterSettings:
-      RenderQueueType: 0
-      LayerMask:
-        serializedVersion: 2
-        m_Bits: 4294967295
-      PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 664fdff2df874db46b964ef2da921cf7, type: 2}
-    overrideMaterialPassIndex: 0
-    overrideDepthState: 0
-    depthCompareFunction: 4
-    enableWrite: 1
-    stencilSettings:
-      overrideStencilState: 0
-      stencilReference: 0
-      stencilCompareFunction: 8
-      passOperation: 0
-      failOperation: 0
-      zFailOperation: 0
-    cameraSettings:
-      overrideCamera: 0
-      restoreCamera: 1
-      offset: {x: 0, y: 0, z: 0, w: 0}
-      cameraFieldOfView: 60
+    Event: 500
+    blitMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
+    blitMaterialPassIndex: -1
+    destination: 0
+    textureId: _BlitPassTexture
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,9 +34,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 3531079889356972766}
   - {fileID: 4129518321868868359}
-  - {fileID: -8049507451549881053}
-  - {fileID: 944774301549572736}
-  m_RendererFeatureMap: dee2a56e73ea0031070b76dc08ff4e39236d82f59e674a9080b2c7bc38831c0d
+  - {fileID: -6167064720309112551}
+  m_RendererFeatureMap: dee2a56e73ea0031070b76dc08ff4e3919b121b74f2f6aaa
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   shaders:
     blitPS: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
@@ -74,30 +53,11 @@ MonoBehaviour:
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
-    stencilCompareFunction: 8
+    stencilCompareFunction: 4
     passOperation: 0
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
---- !u!114 &944774301549572736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d973779fa3211fc488fdc9e5dcb08e2b, type: 3}
-  m_Name: SpriteOutlineFx
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  settings:
-    Event: 450
-    blitMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
-    blitMaterialPassIndex: -1
-    destination: 0
-    textureId: _BlitPassTexture
 --- !u!114 &3531079889356972766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Dither
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Dither
     Event: 500
