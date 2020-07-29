@@ -1174,7 +1174,7 @@ GameObject:
   - component: {fileID: 5790581145077102727}
   - component: {fileID: 3195478052552448982}
   - component: {fileID: 8334711047990634619}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: soldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1238,7 +1238,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3e72cc918d03bd246a3a3078a389c91d, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1291,7 +1291,7 @@ MonoBehaviour:
       POW: 15
       CRI: 10
       SPD: 10
-      HP: 20
+      HP: 30
       DEF: 10
       EN: 40
   hp:
