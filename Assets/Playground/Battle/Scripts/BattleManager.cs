@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -73,8 +74,15 @@ namespace ProjectOneMore.Battle
         public float outlineSampleDistance = 1f;
         public Color outlineColor = Color.red;
 
+        [Range(0.1f, 0.5f)]
+        public float slowTimeFactor = 0.2f;
+        [Range(0.1f, 1f)]
+        public float slowingLength = 0.3f;
+
         private BattleActionCard _currentActionCard;
         private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
+
+        private float _targetTimeScale = 1f;
 
         private void Awake()
         {
@@ -99,6 +107,8 @@ namespace ProjectOneMore.Battle
         private void Update()
         {
             UpdateSpawnTimer();
+
+            UpdateTimeScale();
         }
 
         #region Ready Phase
@@ -263,7 +273,7 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             battleState = BattleState.PlayerInput;
-            Time.timeScale = 0.2f;
+            DoSlowtime();
 
             if (_currentActionCard.skillType != SkillType.Instant &&
                _currentActionCard.skillType != SkillType.Passive)
@@ -331,8 +341,7 @@ namespace ProjectOneMore.Battle
             if(battleState != BattleState.PlayerInput)
                 return;
 
-            // Test Slow
-            Time.timeScale = 1.0f;
+            ResetTime();
 
             battleState = BattleState.Battle;
         }
@@ -354,6 +363,40 @@ namespace ProjectOneMore.Battle
         }
         #endregion
 
+        // Slow Time
+        private void DoSlowtime()
+        {
+            _targetTimeScale = slowTimeFactor;
+        }
+
+        private void ResetTime()
+        {
+            _targetTimeScale = 1f;
+        }
+
+        private void UpdateTimeScale()
+        {
+            if(Time.timeScale != _targetTimeScale && _targetTimeScale >= 0f)
+            {
+                if (_targetTimeScale < Time.timeScale)
+                {
+                    Time.timeScale -= (1f / slowingLength) * Time.unscaledDeltaTime;
+                    Time.timeScale = math.clamp(Time.timeScale, _targetTimeScale, 1f);
+                }
+                else
+                {
+                    Time.timeScale += (1f / slowingLength) * Time.unscaledDeltaTime;
+                    Time.timeScale = math.clamp(Time.timeScale, 0f, _targetTimeScale);
+                }
+            }
+
+            if(_targetTimeScale != 1.0f)
+            {
+                Time.timeScale = math.clamp(Time.timeScale, 0f, 1f);
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }
+        }
+        //--------------
 
         // Test Outline
         public void SetOutlineFXColor()
