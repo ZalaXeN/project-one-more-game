@@ -176,7 +176,7 @@ namespace ProjectOneMore.Battle
                 autoAttackCooldown -= Time.deltaTime;
 
             if (autoAttackCooldown > 0f || 
-                isMovingToTarget || isUseSpecificPosition || 
+                isMovingToTarget || isUseSpecificPosition || !IsAlive() ||
                 BattleManager.main.battleState != BattleState.Battle)
                 return;
 
@@ -262,7 +262,7 @@ namespace ProjectOneMore.Battle
 
         private void MoveToTargetPosition()
         {
-            if (!isMovingToTarget)
+            if (!isMovingToTarget || !IsAlive())
                 return;
 
             float step = spd.current * moveSpeedMultiplier * Time.deltaTime;
@@ -280,6 +280,7 @@ namespace ProjectOneMore.Battle
             if (animator == null)
                 return;
 
+            isMovingToTarget = isMovingToTarget;
             animator.SetBool("moving", isMovingToTarget);
         }
 
