@@ -212,12 +212,15 @@ namespace ProjectOneMore.Battle
             return team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;
         }
 
-        public BattleUnit GetFrontmostUnit(BattleTeam team, BattleUnitAttackType attackType)
+        public BattleUnit GetFrontmostUnit(BattleTeam team, BattleUnitAttackType attackType, bool shouldAlive = true)
         {
             BattleUnit target = null;
             foreach(BattleUnit unit in _battleUnitList)
             {
                 if (unit.team != team || unit.isMovingToTarget)
+                    continue;
+
+                if (shouldAlive && !unit.IsAlive())
                     continue;
 
                 if (target == null)

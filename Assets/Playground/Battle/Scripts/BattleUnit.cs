@@ -163,7 +163,7 @@ namespace ProjectOneMore.Battle
             BattleUnit target = BattleManager.main.GetFrontmostUnit(
                 BattleManager.main.GetOppositeTeam(team), attackType);
 
-            if (target == null)
+            if (target == null || !target.IsAlive() || _currentBattleActionCard == null)
                 return;
 
             _currentBattleActionCard.SetTarget(target);
@@ -203,16 +203,28 @@ namespace ProjectOneMore.Battle
 
             hp.current -= damage.damage;
 
-            if (hp.current <= 0)
+            animator.SetTrigger("hit");
+
+            if (!IsAlive())
             {
                 Dead();
             }
         }
 
+        public bool IsAlive()
+        {
+            return hp.current > 0;
+        }
+
         // Dead
         public void Dead()
         {
+            animator.SetTrigger("dead");
             BattleManager.main.TriggerUnitDead(this);
+        }
+
+        public void DestroyUnit()
+        {
             Destroy(gameObject);
         }
 
