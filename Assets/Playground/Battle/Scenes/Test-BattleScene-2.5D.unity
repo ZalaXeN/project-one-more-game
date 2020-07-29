@@ -7566,6 +7566,11 @@ MonoBehaviour:
   rowsPerColumn: 4
   outlineMaterial: {fileID: 2100000, guid: 187814397595dbc41ae72901544934bd, type: 2}
   noAlphaMaterial: {fileID: 2100000, guid: 6c0da76b3ae46cb459e89b7c156a5275, type: 2}
+  outlineFXMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
+  outlineSampleDistance: 1
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultRenderAsset: {fileID: 11400000, guid: 918568c601a9def41859270a972e0bc7, type: 2}
+  outlineRenderAsset: {fileID: 11400000, guid: 068a9947e48eda14393b319cc4769784, type: 2}
 --- !u!4 &671892079
 Transform:
   m_ObjectHideFlags: 0

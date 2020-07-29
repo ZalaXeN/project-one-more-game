@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ProjectOneMore.Battle
 {
@@ -67,6 +68,10 @@ namespace ProjectOneMore.Battle
         public int rowsPerColumn = 4;
         public Material outlineMaterial;
         public Material noAlphaMaterial;
+
+        public Material outlineFXMaterial;
+        public float outlineSampleDistance = 1f;
+        public Color outlineColor = Color.red;
 
         private BattleActionCard _currentActionCard;
         private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
@@ -348,5 +353,19 @@ namespace ProjectOneMore.Battle
             ColumnUpdateEvent?.Invoke(column);
         }
         #endregion
+
+
+        // Test Outline
+        public void SetOutlineFXColor()
+        {
+            outlineFXMaterial.SetFloat("_Distance", outlineSampleDistance);
+            outlineFXMaterial.SetColor("_Color", outlineColor);
+        }
+
+        public void HideOutlineFXColor()
+        {
+            outlineFXMaterial.SetFloat("_Distance", 0);
+            outlineFXMaterial.SetColor("_Color", Color.clear);
+        }
     }
 }

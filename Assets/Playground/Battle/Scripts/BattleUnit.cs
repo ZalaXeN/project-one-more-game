@@ -327,6 +327,7 @@ namespace ProjectOneMore.Battle
                 // Tint
                 //sprite.color = Color.red;
 
+                BattleManager.main.SetOutlineFXColor();
                 SetSpriteMaterial(BattleManager.main.outlineMaterial);
             }
         }
@@ -343,6 +344,7 @@ namespace ProjectOneMore.Battle
                 // Tint
                 //sprite.color = Color.white;
 
+                BattleManager.main.HideOutlineFXColor();
                 SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
             }
         }
