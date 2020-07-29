@@ -59,15 +59,16 @@ namespace ProjectOneMore.Battle
         public BattleLevelManager levelManager;
 
         [Header("Settings.")]
-        // Test
+        public BattleDamageNumberPool battleDamageNumberPool;
+
+        [Header("Test Settings.")]
         public string testLevelId;
         [Range(1, 10)]
         public int rowsPerColumn = 4;
-
-        public BattleDamageNumberPool battleDamageNumberPool;
+        public Material outlineMaterial;
+        public Material noAlphaMaterial;
 
         private BattleActionCard _currentActionCard;
-
         private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
         private void Awake()

@@ -5359,8 +5359,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
 --- !u!1 &441874597
 GameObject:
   m_ObjectHideFlags: 0
@@ -7561,9 +7561,11 @@ MonoBehaviour:
     type: 2}
   columnManager: {fileID: 493047919}
   levelManager: {fileID: 1521590068}
+  battleDamageNumberPool: {fileID: 519336629}
   testLevelId: 01
   rowsPerColumn: 4
-  battleDamageNumberPool: {fileID: 519336629}
+  outlineMaterial: {fileID: 2100000, guid: 187814397595dbc41ae72901544934bd, type: 2}
+  noAlphaMaterial: {fileID: 2100000, guid: 6c0da76b3ae46cb459e89b7c156a5275, type: 2}
 --- !u!4 &671892079
 Transform:
   m_ObjectHideFlags: 0

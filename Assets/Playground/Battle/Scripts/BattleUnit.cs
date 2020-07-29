@@ -251,6 +251,19 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        private void SetSpriteMaterial(Material mat)
+        {
+            if (_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach (SpriteRenderer sprite in _spriteRenderers)
+            {
+                sprite.material = mat;
+            }
+        }
+
         private void UpdateTargetPosition()
         {
             if (BattleManager.main == null)
@@ -311,7 +324,10 @@ namespace ProjectOneMore.Battle
 
             foreach (SpriteRenderer sprite in _spriteRenderers)
             {
-                sprite.color = Color.red;
+                // Tint
+                //sprite.color = Color.red;
+
+                SetSpriteMaterial(BattleManager.main.outlineMaterial);
             }
         }
 
@@ -324,7 +340,10 @@ namespace ProjectOneMore.Battle
 
             foreach (SpriteRenderer sprite in _spriteRenderers)
             {
-                sprite.color = Color.white;
+                // Tint
+                //sprite.color = Color.white;
+
+                SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
             }
         }
 
