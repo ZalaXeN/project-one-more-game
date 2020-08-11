@@ -9,15 +9,14 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Material_Particles_Fire_Unlit
   m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _FADING_ON _RECEIVE_SHADOWS_OFF
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - SHADOWCASTER
+    RenderType: TransparentCutout
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -71,12 +70,12 @@ Material:
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
     - _Cull: 2
-    - _Cutoff: 0.4
+    - _Cutoff: 0.03
     - _DistortionBlend: 1
     - _DistortionEnabled: 0
     - _DistortionStrength: -10
     - _DistortionStrengthScaled: -1
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _EmissionEnabled: 0
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
@@ -88,9 +87,9 @@ Material:
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
-    - _SrcBlend: 5
-    - _Surface: 1
-    - _ZWrite: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _ZWrite: 1
     m_Colors:
     - Color_207CF4A: {r: 0.13449706, g: 3.2111173, b: 2.2360137, a: 1}
     - Color_A070067B: {r: 0.0810846, g: 2.1532464, b: 1.4955604, a: 1}
