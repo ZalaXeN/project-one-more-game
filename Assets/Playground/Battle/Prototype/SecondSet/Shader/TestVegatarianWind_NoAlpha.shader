@@ -8,8 +8,8 @@
         [NoScaleOffset]_NormalMap("Normal Texture", 2D) = "bump" {}
         Vector2_AB971143("Wind Direction", Vector) = (2, 0, 0, 0)
         Vector1_52D24AB4("Wind Scale", Float) = 1
-        Vector1_36BC0FD6("Wind Strength", Float) = 0.01
-        Vector1_3AEF5FB5("Wind Speed", Float) = 0.4
+        Vector1_36BC0FD6("Wind Strength", Float) = 0.1
+        Vector1_3AEF5FB5("Wind Speed", Float) = 2
         Vector1_7AA64B76("Wind Influence Mask  - Y Position", Float) = 4
     }
         SubShader
@@ -17,8 +17,8 @@
             Tags
             {
                 "RenderPipeline" = "UniversalPipeline"
-                "RenderType" = "Transparent"
-                "Queue" = "Transparent+0"
+                "RenderType" = "Opaque"
+                "Queue" = "Geometry+0"
             }
 
             Pass
@@ -30,11 +30,11 @@
                 }
 
             // Render State
-            Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+            Blend One Zero, One Zero
             Cull Off
             ZTest LEqual
-            ZWrite Off
-            ColorMask RGB
+            ZWrite On
+            // ColorMask: <None>
 
 
             HLSLPROGRAM
@@ -66,7 +66,6 @@
             // GraphKeywords: <None>
 
             // Defines
-            #define _SURFACE_TYPE_TRANSPARENT 1
             #define _AlphaClip 1
             #define _NORMAL_DROPOFF_TS 1
             #define ATTRIBUTES_NEED_NORMAL
@@ -108,7 +107,6 @@
             TEXTURE2D(_MaskTex); SAMPLER(sampler_MaskTex); float4 _MaskTex_TexelSize;
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap); float4 _NormalMap_TexelSize;
             SAMPLER(_SampleTexture2D_C96E94F2_Sampler_3_Linear_Repeat);
-            SAMPLER(_SampleTexture2D_D8AC0568_Sampler_3_Linear_Repeat);
 
             // Graph Functions
 
@@ -174,11 +172,6 @@
             void Unity_Add_float3(float3 A, float3 B, out float3 Out)
             {
                 Out = A + B;
-            }
-
-            void Unity_Multiply_float(float4 A, float4 B, out float4 Out)
-            {
-                Out = A * B;
             }
 
             void Unity_Add_float4(float4 A, float4 B, out float4 Out)
@@ -301,16 +294,8 @@
                 float _SampleTexture2D_C96E94F2_G_5 = _SampleTexture2D_C96E94F2_RGBA_0.g;
                 float _SampleTexture2D_C96E94F2_B_6 = _SampleTexture2D_C96E94F2_RGBA_0.b;
                 float _SampleTexture2D_C96E94F2_A_7 = _SampleTexture2D_C96E94F2_RGBA_0.a;
-                float4 _Property_B7EBDAB7_Out_0 = RimColor;
-                float4 _SampleTexture2D_D8AC0568_RGBA_0 = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv0.xy);
-                float _SampleTexture2D_D8AC0568_R_4 = _SampleTexture2D_D8AC0568_RGBA_0.r;
-                float _SampleTexture2D_D8AC0568_G_5 = _SampleTexture2D_D8AC0568_RGBA_0.g;
-                float _SampleTexture2D_D8AC0568_B_6 = _SampleTexture2D_D8AC0568_RGBA_0.b;
-                float _SampleTexture2D_D8AC0568_A_7 = _SampleTexture2D_D8AC0568_RGBA_0.a;
-                float4 _Multiply_F0A42A29_Out_2;
-                Unity_Multiply_float(_Property_B7EBDAB7_Out_0, (_SampleTexture2D_D8AC0568_G_5.xxxx), _Multiply_F0A42A29_Out_2);
                 float4 _Add_3C3A7912_Out_2;
-                Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, _Multiply_F0A42A29_Out_2, _Add_3C3A7912_Out_2);
+                Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, float4(0, 0, 0, 0), _Add_3C3A7912_Out_2);
                 float _Split_24F15CEB_R_1 = _Add_3C3A7912_Out_2[0];
                 float _Split_24F15CEB_G_2 = _Add_3C3A7912_Out_2[1];
                 float _Split_24F15CEB_B_3 = _Add_3C3A7912_Out_2[2];
@@ -541,7 +526,7 @@
             }
 
                 // Render State
-                Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                Blend One Zero, One Zero
                 Cull Off
                 ZTest LEqual
                 ZWrite On
@@ -569,7 +554,6 @@
                 // GraphKeywords: <None>
 
                 // Defines
-                #define _SURFACE_TYPE_TRANSPARENT 1
                 #define _AlphaClip 1
                 #define _NORMAL_DROPOFF_TS 1
                 #define ATTRIBUTES_NEED_NORMAL
@@ -604,7 +588,6 @@
                 TEXTURE2D(_MaskTex); SAMPLER(sampler_MaskTex); float4 _MaskTex_TexelSize;
                 TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap); float4 _NormalMap_TexelSize;
                 SAMPLER(_SampleTexture2D_C96E94F2_Sampler_3_Linear_Repeat);
-                SAMPLER(_SampleTexture2D_D8AC0568_Sampler_3_Linear_Repeat);
 
                 // Graph Functions
 
@@ -670,11 +653,6 @@
                 void Unity_Add_float3(float3 A, float3 B, out float3 Out)
                 {
                     Out = A + B;
-                }
-
-                void Unity_Multiply_float(float4 A, float4 B, out float4 Out)
-                {
-                    Out = A * B;
                 }
 
                 void Unity_Add_float4(float4 A, float4 B, out float4 Out)
@@ -791,16 +769,8 @@
                     float _SampleTexture2D_C96E94F2_G_5 = _SampleTexture2D_C96E94F2_RGBA_0.g;
                     float _SampleTexture2D_C96E94F2_B_6 = _SampleTexture2D_C96E94F2_RGBA_0.b;
                     float _SampleTexture2D_C96E94F2_A_7 = _SampleTexture2D_C96E94F2_RGBA_0.a;
-                    float4 _Property_B7EBDAB7_Out_0 = RimColor;
-                    float4 _SampleTexture2D_D8AC0568_RGBA_0 = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv0.xy);
-                    float _SampleTexture2D_D8AC0568_R_4 = _SampleTexture2D_D8AC0568_RGBA_0.r;
-                    float _SampleTexture2D_D8AC0568_G_5 = _SampleTexture2D_D8AC0568_RGBA_0.g;
-                    float _SampleTexture2D_D8AC0568_B_6 = _SampleTexture2D_D8AC0568_RGBA_0.b;
-                    float _SampleTexture2D_D8AC0568_A_7 = _SampleTexture2D_D8AC0568_RGBA_0.a;
-                    float4 _Multiply_F0A42A29_Out_2;
-                    Unity_Multiply_float(_Property_B7EBDAB7_Out_0, (_SampleTexture2D_D8AC0568_G_5.xxxx), _Multiply_F0A42A29_Out_2);
                     float4 _Add_3C3A7912_Out_2;
-                    Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, _Multiply_F0A42A29_Out_2, _Add_3C3A7912_Out_2);
+                    Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, float4(0, 0, 0, 0), _Add_3C3A7912_Out_2);
                     float _Split_24F15CEB_R_1 = _Add_3C3A7912_Out_2[0];
                     float _Split_24F15CEB_G_2 = _Add_3C3A7912_Out_2[1];
                     float _Split_24F15CEB_B_3 = _Add_3C3A7912_Out_2[2];
@@ -976,7 +946,7 @@
                 }
 
                     // Render State
-                    Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                    Blend One Zero, One Zero
                     Cull Off
                     ZTest LEqual
                     ZWrite On
@@ -1004,7 +974,6 @@
                     // GraphKeywords: <None>
 
                     // Defines
-                    #define _SURFACE_TYPE_TRANSPARENT 1
                     #define _AlphaClip 1
                     #define _NORMAL_DROPOFF_TS 1
                     #define ATTRIBUTES_NEED_NORMAL
@@ -1039,7 +1008,6 @@
                     TEXTURE2D(_MaskTex); SAMPLER(sampler_MaskTex); float4 _MaskTex_TexelSize;
                     TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap); float4 _NormalMap_TexelSize;
                     SAMPLER(_SampleTexture2D_C96E94F2_Sampler_3_Linear_Repeat);
-                    SAMPLER(_SampleTexture2D_D8AC0568_Sampler_3_Linear_Repeat);
 
                     // Graph Functions
 
@@ -1105,11 +1073,6 @@
                     void Unity_Add_float3(float3 A, float3 B, out float3 Out)
                     {
                         Out = A + B;
-                    }
-
-                    void Unity_Multiply_float(float4 A, float4 B, out float4 Out)
-                    {
-                        Out = A * B;
                     }
 
                     void Unity_Add_float4(float4 A, float4 B, out float4 Out)
@@ -1226,16 +1189,8 @@
                         float _SampleTexture2D_C96E94F2_G_5 = _SampleTexture2D_C96E94F2_RGBA_0.g;
                         float _SampleTexture2D_C96E94F2_B_6 = _SampleTexture2D_C96E94F2_RGBA_0.b;
                         float _SampleTexture2D_C96E94F2_A_7 = _SampleTexture2D_C96E94F2_RGBA_0.a;
-                        float4 _Property_B7EBDAB7_Out_0 = RimColor;
-                        float4 _SampleTexture2D_D8AC0568_RGBA_0 = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv0.xy);
-                        float _SampleTexture2D_D8AC0568_R_4 = _SampleTexture2D_D8AC0568_RGBA_0.r;
-                        float _SampleTexture2D_D8AC0568_G_5 = _SampleTexture2D_D8AC0568_RGBA_0.g;
-                        float _SampleTexture2D_D8AC0568_B_6 = _SampleTexture2D_D8AC0568_RGBA_0.b;
-                        float _SampleTexture2D_D8AC0568_A_7 = _SampleTexture2D_D8AC0568_RGBA_0.a;
-                        float4 _Multiply_F0A42A29_Out_2;
-                        Unity_Multiply_float(_Property_B7EBDAB7_Out_0, (_SampleTexture2D_D8AC0568_G_5.xxxx), _Multiply_F0A42A29_Out_2);
                         float4 _Add_3C3A7912_Out_2;
-                        Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, _Multiply_F0A42A29_Out_2, _Add_3C3A7912_Out_2);
+                        Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, float4(0, 0, 0, 0), _Add_3C3A7912_Out_2);
                         float _Split_24F15CEB_R_1 = _Add_3C3A7912_Out_2[0];
                         float _Split_24F15CEB_G_2 = _Add_3C3A7912_Out_2[1];
                         float _Split_24F15CEB_B_3 = _Add_3C3A7912_Out_2[2];
@@ -1411,7 +1366,7 @@
                     }
 
                         // Render State
-                        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                        Blend One Zero, One Zero
                         Cull Off
                         ZTest LEqual
                         ZWrite On
@@ -1438,7 +1393,6 @@
                         // GraphKeywords: <None>
 
                         // Defines
-                        #define _SURFACE_TYPE_TRANSPARENT 1
                         #define _AlphaClip 1
                         #define _NORMAL_DROPOFF_TS 1
                         #define ATTRIBUTES_NEED_NORMAL
@@ -1476,7 +1430,6 @@
                         TEXTURE2D(_MaskTex); SAMPLER(sampler_MaskTex); float4 _MaskTex_TexelSize;
                         TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap); float4 _NormalMap_TexelSize;
                         SAMPLER(_SampleTexture2D_C96E94F2_Sampler_3_Linear_Repeat);
-                        SAMPLER(_SampleTexture2D_D8AC0568_Sampler_3_Linear_Repeat);
 
                         // Graph Functions
 
@@ -1542,11 +1495,6 @@
                         void Unity_Add_float3(float3 A, float3 B, out float3 Out)
                         {
                             Out = A + B;
-                        }
-
-                        void Unity_Multiply_float(float4 A, float4 B, out float4 Out)
-                        {
-                            Out = A * B;
                         }
 
                         void Unity_Add_float4(float4 A, float4 B, out float4 Out)
@@ -1665,16 +1613,8 @@
                             float _SampleTexture2D_C96E94F2_G_5 = _SampleTexture2D_C96E94F2_RGBA_0.g;
                             float _SampleTexture2D_C96E94F2_B_6 = _SampleTexture2D_C96E94F2_RGBA_0.b;
                             float _SampleTexture2D_C96E94F2_A_7 = _SampleTexture2D_C96E94F2_RGBA_0.a;
-                            float4 _Property_B7EBDAB7_Out_0 = RimColor;
-                            float4 _SampleTexture2D_D8AC0568_RGBA_0 = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv0.xy);
-                            float _SampleTexture2D_D8AC0568_R_4 = _SampleTexture2D_D8AC0568_RGBA_0.r;
-                            float _SampleTexture2D_D8AC0568_G_5 = _SampleTexture2D_D8AC0568_RGBA_0.g;
-                            float _SampleTexture2D_D8AC0568_B_6 = _SampleTexture2D_D8AC0568_RGBA_0.b;
-                            float _SampleTexture2D_D8AC0568_A_7 = _SampleTexture2D_D8AC0568_RGBA_0.a;
-                            float4 _Multiply_F0A42A29_Out_2;
-                            Unity_Multiply_float(_Property_B7EBDAB7_Out_0, (_SampleTexture2D_D8AC0568_G_5.xxxx), _Multiply_F0A42A29_Out_2);
                             float4 _Add_3C3A7912_Out_2;
-                            Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, _Multiply_F0A42A29_Out_2, _Add_3C3A7912_Out_2);
+                            Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, float4(0, 0, 0, 0), _Add_3C3A7912_Out_2);
                             float _Split_24F15CEB_R_1 = _Add_3C3A7912_Out_2[0];
                             float _Split_24F15CEB_G_2 = _Add_3C3A7912_Out_2[1];
                             float _Split_24F15CEB_B_3 = _Add_3C3A7912_Out_2[2];
@@ -1854,10 +1794,10 @@
                             }
 
                             // Render State
-                            Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                            Blend One Zero, One Zero
                             Cull Off
                             ZTest LEqual
-                            ZWrite Off
+                            ZWrite On
                             // ColorMask: <None>
 
 
@@ -1882,7 +1822,6 @@
                             // GraphKeywords: <None>
 
                             // Defines
-                            #define _SURFACE_TYPE_TRANSPARENT 1
                             #define _AlphaClip 1
                             #define _NORMAL_DROPOFF_TS 1
                             #define ATTRIBUTES_NEED_NORMAL
@@ -1917,7 +1856,6 @@
                             TEXTURE2D(_MaskTex); SAMPLER(sampler_MaskTex); float4 _MaskTex_TexelSize;
                             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap); float4 _NormalMap_TexelSize;
                             SAMPLER(_SampleTexture2D_C96E94F2_Sampler_3_Linear_Repeat);
-                            SAMPLER(_SampleTexture2D_D8AC0568_Sampler_3_Linear_Repeat);
 
                             // Graph Functions
 
@@ -1983,11 +1921,6 @@
                             void Unity_Add_float3(float3 A, float3 B, out float3 Out)
                             {
                                 Out = A + B;
-                            }
-
-                            void Unity_Multiply_float(float4 A, float4 B, out float4 Out)
-                            {
-                                Out = A * B;
                             }
 
                             void Unity_Add_float4(float4 A, float4 B, out float4 Out)
@@ -2105,16 +2038,8 @@
                                 float _SampleTexture2D_C96E94F2_G_5 = _SampleTexture2D_C96E94F2_RGBA_0.g;
                                 float _SampleTexture2D_C96E94F2_B_6 = _SampleTexture2D_C96E94F2_RGBA_0.b;
                                 float _SampleTexture2D_C96E94F2_A_7 = _SampleTexture2D_C96E94F2_RGBA_0.a;
-                                float4 _Property_B7EBDAB7_Out_0 = RimColor;
-                                float4 _SampleTexture2D_D8AC0568_RGBA_0 = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv0.xy);
-                                float _SampleTexture2D_D8AC0568_R_4 = _SampleTexture2D_D8AC0568_RGBA_0.r;
-                                float _SampleTexture2D_D8AC0568_G_5 = _SampleTexture2D_D8AC0568_RGBA_0.g;
-                                float _SampleTexture2D_D8AC0568_B_6 = _SampleTexture2D_D8AC0568_RGBA_0.b;
-                                float _SampleTexture2D_D8AC0568_A_7 = _SampleTexture2D_D8AC0568_RGBA_0.a;
-                                float4 _Multiply_F0A42A29_Out_2;
-                                Unity_Multiply_float(_Property_B7EBDAB7_Out_0, (_SampleTexture2D_D8AC0568_G_5.xxxx), _Multiply_F0A42A29_Out_2);
                                 float4 _Add_3C3A7912_Out_2;
-                                Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, _Multiply_F0A42A29_Out_2, _Add_3C3A7912_Out_2);
+                                Unity_Add_float4(_SampleTexture2D_C96E94F2_RGBA_0, float4(0, 0, 0, 0), _Add_3C3A7912_Out_2);
                                 float _Split_24F15CEB_R_1 = _Add_3C3A7912_Out_2[0];
                                 float _Split_24F15CEB_G_2 = _Add_3C3A7912_Out_2[1];
                                 float _Split_24F15CEB_B_3 = _Add_3C3A7912_Out_2[2];
