@@ -34,7 +34,7 @@
             Cull Off
             ZTest LEqual
             ZWrite On
-            // ColorMask: <None>
+            ColorMask RGB
 
 
             HLSLPROGRAM
