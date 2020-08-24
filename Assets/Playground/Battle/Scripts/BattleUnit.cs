@@ -326,12 +326,12 @@ namespace ProjectOneMore.Battle
                 _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
             }
 
+            BattleManager.main.SetOutlineFXColor();
             foreach (SpriteRenderer sprite in _spriteRenderers)
             {
                 // Tint
                 //sprite.color = Color.red;
 
-                BattleManager.main.SetOutlineFXColor();
                 SetSpriteMaterial(BattleManager.main.outlineMaterial);
             }
         }
@@ -343,12 +343,12 @@ namespace ProjectOneMore.Battle
                 _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
             }
 
+            BattleManager.main.HideOutlineFXColor();
             foreach (SpriteRenderer sprite in _spriteRenderers)
             {
                 // Tint
                 //sprite.color = Color.white;
 
-                BattleManager.main.HideOutlineFXColor();
                 SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
             }
         }
