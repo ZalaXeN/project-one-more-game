@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ProjectOneMore.Battle
 {
@@ -62,6 +61,7 @@ namespace ProjectOneMore.Battle
 
         [Header("Settings.")]
         public BattleDamageNumberPool battleDamageNumberPool;
+        public BattleParticleManager battleParticleManager;
 
         [Header("Test Settings.")]
         public string testLevelId;

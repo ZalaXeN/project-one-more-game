@@ -27,7 +27,8 @@ namespace ProjectOneMore.Battle
             BattleDamage damage = new BattleDamage(
                 card.owner,
                 (int)math.round(card.owner.pow.current * powMultiplier),
-                BattleDamageType.Physical);
+                BattleDamageType.Physical,
+                "slash_hit");
 
             card.GetTarget().TakeDamage(damage);
         }

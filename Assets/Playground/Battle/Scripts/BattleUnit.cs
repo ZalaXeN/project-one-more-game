@@ -204,6 +204,7 @@ namespace ProjectOneMore.Battle
             hp.current -= damage.damage;
 
             animator.SetTrigger("hit");
+            BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, transform.position);
 
             if (!IsAlive())
             {
@@ -260,6 +261,9 @@ namespace ProjectOneMore.Battle
 
             foreach (SpriteRenderer sprite in _spriteRenderers)
             {
+                if (sprite.GetComponent<SwingEffector>())
+                    continue;
+
                 sprite.material = mat;
             }
         }

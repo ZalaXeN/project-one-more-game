@@ -17,6 +17,7 @@ namespace ProjectOneMore.Battle
         private BattleUnit _target;
         private int _damage;
         private BattleDamageType _damageType;
+        private string _hitEffect;
 
         public BattleUnit owner
         {
@@ -42,12 +43,19 @@ namespace ProjectOneMore.Battle
             get { return _damageType; }
         }
 
-        public BattleDamage(BattleUnit owner, int damage, BattleDamageType damageType, BattleUnit target = null)
+        public string hitEffect
+        {
+            set { _hitEffect = value; }
+            get { return _hitEffect; }
+        }
+
+        public BattleDamage(BattleUnit owner, int damage, BattleDamageType damageType, string hitEffect = "", BattleUnit target = null)
         {
             _owner = owner;
             _target = target;
             _damage = damage;
             _damageType = damageType;
+            _hitEffect = hitEffect;
         }
     }
 }
