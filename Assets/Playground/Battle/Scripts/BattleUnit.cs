@@ -93,8 +93,11 @@ namespace ProjectOneMore.Battle
             InitStats();
             targetPosition = transform.position;
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
-            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
 
+            if (BattleManager.main == null)
+                return;
+
+            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
             BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
         }
@@ -172,6 +175,9 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAutoAttack()
         {
+            if (BattleManager.main == null)
+                return;
+
             if (autoAttackCooldown > 0f)
                 autoAttackCooldown -= Time.deltaTime;
 
@@ -226,6 +232,9 @@ namespace ProjectOneMore.Battle
 
         public void DestroyUnit()
         {
+            if (hp.current > 0)
+                return;
+
             Destroy(gameObject);
         }
 
@@ -294,10 +303,9 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAnimation()
         {
-            if (animator == null)
+            if (animator == null || testMoving)
                 return;
 
-            isMovingToTarget = isMovingToTarget;
             animator.SetBool("moving", isMovingToTarget);
         }
 
@@ -352,6 +360,32 @@ namespace ProjectOneMore.Battle
                 SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
             }
         }
+
+        #region Test Animation
+
+        private bool testMoving = false;
+
+        public void ToggleAnimatorBool(string name)
+        {
+            bool current = animator.GetBool(name);
+            animator.SetBool(name, !current);
+        }
+
+        public void ToggleTestMoving()
+        {
+            ToggleAnimatorBool("moving");
+            testMoving = !testMoving;
+            isMovingToTarget = testMoving;
+        }
+
+        public void ToggleIdle()
+        {
+            animator.SetBool("moving", false);
+            testMoving = false;
+            isMovingToTarget = testMoving;
+        }
+
+        #endregion
 
         #region Gizmos
 #if UNITY_EDITOR
