@@ -4104,7 +4104,7 @@ PrefabInstance:
     - target: {fileID: 4319840823685189756, guid: 6fa7db7656065374cae748d1f1aa8433,
         type: 3}
       propertyPath: m_SortingOrder
-      value: -36
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4485155107748313009, guid: 6fa7db7656065374cae748d1f1aa8433,
         type: 3}
@@ -5951,8 +5951,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
 --- !u!1 &441874597
 GameObject:
   m_ObjectHideFlags: 0
@@ -6495,6 +6495,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 473080865}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &476850891
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264020, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_Name
+      value: Blood
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017672396650264020, guid: 3aecfd888682a1640ae525fdc164639a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3aecfd888682a1640ae525fdc164639a, type: 3}
 --- !u!1 &493047918
 GameObject:
   m_ObjectHideFlags: 0
@@ -13798,8 +13872,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.4669833, y: 3.1912794, z: -0.00005}
-    m_Extent: {x: 5.0728016, y: 11.563928, z: 0.00005}
+    m_Center: {x: 4.4669843, y: 3.1912794, z: -0.00005}
+    m_Extent: {x: 5.0728025, y: 11.563928, z: 0.00005}
 --- !u!4 &1323886704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -21138,8 +21212,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: -1.2907243, y: 7.278978, z: -0.00005}
-    m_Extent: {x: 4.9478683, y: 13.718824, z: 0.00005}
+    m_Center: {x: -1.2907252, y: 7.278978, z: -0.00005}
+    m_Extent: {x: 4.9478674, y: 13.718824, z: 0.00005}
 --- !u!1001 &2005092877
 PrefabInstance:
   m_ObjectHideFlags: 0
