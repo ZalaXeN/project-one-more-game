@@ -364,6 +364,11 @@ namespace ProjectOneMore.Battle
         #endregion
 
         // Slow Time
+        public void SetTimeScaleForTest(float target)
+        {
+            _targetTimeScale = target;
+        }
+
         private void DoSlowtime()
         {
             _targetTimeScale = slowTimeFactor;
@@ -378,10 +383,14 @@ namespace ProjectOneMore.Battle
         {
             if(Time.timeScale != _targetTimeScale && _targetTimeScale >= 0f)
             {
-                if (_targetTimeScale < Time.timeScale)
+                if (_targetTimeScale == 0)
+                {
+                    Time.timeScale = 0;
+                }
+                else if (_targetTimeScale < Time.timeScale)
                 {
                     Time.timeScale -= (1f / slowingLength) * Time.unscaledDeltaTime;
-                    Time.timeScale = math.clamp(Time.timeScale, _targetTimeScale, 1f);
+                    Time.timeScale = math.clamp(Time.timeScale, _targetTimeScale, 10f);
                 }
                 else
                 {
@@ -392,7 +401,7 @@ namespace ProjectOneMore.Battle
 
             if(_targetTimeScale != 1.0f)
             {
-                Time.timeScale = math.clamp(Time.timeScale, 0f, 1f);
+                Time.timeScale = math.clamp(Time.timeScale, 0f, 10f);
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
             }
         }

@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using ProjectOneMore.Battle;
+using Unity.Mathematics;
 
 public class PlaygroundMessager : MonoBehaviour
 {
+    private float _targetTimeScale;
+    private float slowTimeFactor = 0.2f;
+    private float slowingLength = 0.3f;
+
     private Vector3 _mousePos;
     private string _particleTargetName;
     private bool _particleModeActive;
@@ -31,6 +35,18 @@ public class PlaygroundMessager : MonoBehaviour
     {
         ShowTestParticle();
     }
+
+    #region Test Time Scale
+
+    public void SetTimeScale(float timeScale)
+    {
+        if (timeScale <= 0)
+            timeScale = 0f;
+
+        BattleManager.main.SetTimeScaleForTest(timeScale);
+    }
+
+    #endregion
 
     #region Test Animation
 
