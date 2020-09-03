@@ -20,6 +20,8 @@ namespace ProjectOneMore.Battle
 
     public class BattleUnit : MonoBehaviour
     {
+        public Transform centerTransform;
+
         public BattleTeam team;
 
         public KeeperData baseData;
@@ -105,6 +107,8 @@ namespace ProjectOneMore.Battle
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
 
             InitBattleParameter();
+            if(centerTransform == null)
+                centerTransform = transform;
         }
 
         private void Update()
@@ -215,7 +219,8 @@ namespace ProjectOneMore.Battle
             hp.current -= damage.damage;
 
             animator.SetTrigger("hit");
-            BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, transform.position);
+            BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
+            BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
 
             if (!IsAlive())
             {
@@ -231,6 +236,7 @@ namespace ProjectOneMore.Battle
         // Dead
         public void Dead()
         {
+            BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
             animator.SetTrigger("dead");
             BattleManager.main.TriggerUnitDead(this);
         }
