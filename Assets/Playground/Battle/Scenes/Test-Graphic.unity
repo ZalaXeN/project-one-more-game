@@ -2110,9 +2110,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703827442}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
+      - m_Target: {fileID: 1249479093}
+        m_TargetAssemblyTypeName: PlaygroundMessager, Assembly-CSharp
+        m_MethodName: BoardcastTriggerTestAnimation
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4084,7 +4084,7 @@ PrefabInstance:
     - target: {fileID: 4305401477027747376, guid: 6fa7db7656065374cae748d1f1aa8433,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 4305401477027747376, guid: 6fa7db7656065374cae748d1f1aa8433,
         type: 3}
@@ -5229,7 +5229,7 @@ Transform:
   - {fileID: 1805315029}
   - {fileID: 2025774762}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &397931533 stripped
 Transform:
@@ -6540,7 +6540,7 @@ PrefabInstance:
     - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 26
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 8017672396650264009, guid: 3aecfd888682a1640ae525fdc164639a,
         type: 3}
@@ -6630,7 +6630,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &495709717 stripped
 Transform:
@@ -6950,7 +6950,7 @@ RectTransform:
   - {fileID: 1783549539}
   - {fileID: 567642240}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8388,7 +8388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &671892080
 MonoBehaviour:
@@ -8649,24 +8649,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &703827439 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5790581145077102727, guid: 6fa7db7656065374cae748d1f1aa8433,
-    type: 3}
-  m_PrefabInstance: {fileID: 333028697}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &703827442 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4163117802076973776, guid: 6fa7db7656065374cae748d1f1aa8433,
-    type: 3}
-  m_PrefabInstance: {fileID: 333028697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &717499014
 GameObject:
   m_ObjectHideFlags: 0
@@ -10993,9 +10975,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703827442}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
+      - m_Target: {fileID: 1249479093}
+        m_TargetAssemblyTypeName: PlaygroundMessager, Assembly-CSharp
+        m_MethodName: BoardcastTriggerTestAnimation
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12444,7 +12426,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1145745091
 GameObject:
@@ -12645,9 +12627,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703827442}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
+      - m_Target: {fileID: 1249479093}
+        m_TargetAssemblyTypeName: PlaygroundMessager, Assembly-CSharp
+        m_MethodName: BoardcastTriggerTestAnimation
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13156,6 +13138,49 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1249479092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1249479094}
+  - component: {fileID: 1249479093}
+  m_Layer: 0
+  m_Name: PlaygroundMessager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1249479093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249479092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171b6c5a1a222864eacda22c5dee15a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1249479094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249479092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1257045022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13641,9 +13666,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703827439}
-        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUnit, Assembly-CSharp
-        m_MethodName: ToggleIdle
+      - m_Target: {fileID: 1249479093}
+        m_TargetAssemblyTypeName: PlaygroundMessager, Assembly-CSharp
+        m_MethodName: BoardcastToggleIdle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14190,7 +14215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1369310859
 GameObject:
@@ -15099,7 +15124,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1521824983
 GameObject:
@@ -15585,7 +15610,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1574842207
 PrefabInstance:
@@ -16098,7 +16123,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
 --- !u!114 &1615748629
 MonoBehaviour:
@@ -20492,7 +20517,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1982857790
 GameObject:
@@ -22845,9 +22870,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703827439}
-        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUnit, Assembly-CSharp
-        m_MethodName: ToggleTestMoving
+      - m_Target: {fileID: 1249479093}
+        m_TargetAssemblyTypeName: PlaygroundMessager, Assembly-CSharp
+        m_MethodName: BoardcastToggleTestMoving
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

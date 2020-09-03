@@ -84,6 +84,16 @@ namespace ProjectOneMore.Battle
             BehaviourLinkedSMB<BattleUnit>.Init(animator, this);
         }
 
+        private void InitBattleParameter()
+        {
+            if (BattleManager.main == null)
+                return;
+
+            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+            BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
+            BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
+        }
+
         #endregion
 
         #region Unity Script Lifecycle
@@ -94,12 +104,7 @@ namespace ProjectOneMore.Battle
             targetPosition = transform.position;
             targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
 
-            if (BattleManager.main == null)
-                return;
-
-            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-            BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
-            BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
+            InitBattleParameter();
         }
 
         private void Update()
@@ -364,6 +369,11 @@ namespace ProjectOneMore.Battle
         #region Test Animation
 
         private bool testMoving = false;
+
+        public void TriggerTestAnimation(string name)
+        {
+            animator.SetTrigger(name);
+        }
 
         public void ToggleAnimatorBool(string name)
         {
