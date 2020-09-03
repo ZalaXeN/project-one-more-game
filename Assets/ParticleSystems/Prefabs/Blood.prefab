@@ -4885,7 +4885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleName: blood
-  disableTime: 3
+  disableTime: 7
 --- !u!1 &8017672397070572148
 GameObject:
   m_ObjectHideFlags: 0
