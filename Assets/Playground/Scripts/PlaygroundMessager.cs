@@ -4,17 +4,35 @@ using ProjectOneMore.Battle;
 
 public class PlaygroundMessager : MonoBehaviour
 {
-    #region Test Animation
+    private Vector3 _mousePos;
+    private string _particleTargetName;
+    private bool _particleModeActive;
 
+    private BattleParticleManager _battleParticleManager;
     private BattleUnit[] _battleUnitList;
 
     private void LoadAllBattleUnit()
     {
         if(_battleUnitList == null)
         {
-            _battleUnitList = GameObject.FindObjectsOfType<BattleUnit>();
+            _battleUnitList = FindObjectsOfType<BattleUnit>();
         }
     }
+
+    private void LoadParticleManager()
+    {
+        if (_battleParticleManager == null)
+        {
+            _battleParticleManager = FindObjectOfType<BattleParticleManager>();
+        }
+    }
+
+    private void Update()
+    {
+        ShowTestParticle();
+    }
+
+    #region Test Animation
 
     public void BoardcastTriggerTestAnimation(string name)
     {
@@ -53,6 +71,36 @@ public class PlaygroundMessager : MonoBehaviour
         foreach (BattleUnit unit in _battleUnitList)
         {
             unit.gameObject.SendMessage("ToggleIdle");
+        }
+    }
+
+    #endregion
+
+    #region Test Particle
+
+    public void SelectParticle(string name)
+    {
+        _particleTargetName = name;
+    }
+
+    public void SetSelectedParticleActive(bool value)
+    {
+        _particleModeActive = value;
+        LoadParticleManager();
+    }
+
+    public void ShowTestParticle()
+    {
+        if (!_particleModeActive || _battleParticleManager == null)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            _mousePos = Input.mousePosition;
+            _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
+            _mousePos = Camera.main.ScreenToWorldPoint(_mousePos);
+
+            _battleParticleManager.ShowParticle(_particleTargetName, _mousePos);
         }
     }
 
