@@ -236,7 +236,7 @@ namespace ProjectOneMore.Battle
         // Dead
         public void Dead()
         {
-            BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
+            //BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
             animator.SetTrigger("dead");
             BattleManager.main.TriggerUnitDead(this);
         }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8017672396650264010}
   - component: {fileID: 8017672396650264011}
   - component: {fileID: 2168177651543391351}
+  - component: {fileID: 1755519330953968670}
   m_Layer: 0
   m_Name: Blood
   m_TagString: Untagged
@@ -4846,7 +4847,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1175597187
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4886,6 +4887,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleName: blood
   disableTime: 7
+--- !u!114 &1755519330953968670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017672396650264020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10475c66a744e67449732c4227857822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 8017672396650264009}
+  targetOffset: -5
 --- !u!1 &8017672397070572148
 GameObject:
   m_ObjectHideFlags: 0
@@ -4897,6 +4912,7 @@ GameObject:
   - component: {fileID: 8017672397070572137}
   - component: {fileID: 8017672397070572139}
   - component: {fileID: 8017672397070572138}
+  - component: {fileID: 7514684873920747576}
   m_Layer: 0
   m_Name: Stain
   m_TagString: Untagged
@@ -4932,7 +4948,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -9730,7 +9746,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1175597187
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -9756,3 +9772,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &7514684873920747576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017672397070572148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10475c66a744e67449732c4227857822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 8017672396650264009}
+  targetOffset: -5

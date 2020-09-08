@@ -357,7 +357,7 @@ PrefabInstance:
     - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
         type: 3}
@@ -2037,7 +2037,7 @@ MonoBehaviour:
   team: 0
   columnNumber: 2
   zone: 0
-  activable: 0
+  activable: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -10487,7 +10487,7 @@ MonoBehaviour:
   team: 0
   columnNumber: 5
   zone: 1
-  activable: 0
+  activable: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -11833,7 +11833,7 @@ MonoBehaviour:
   team: 0
   columnNumber: 4
   zone: 1
-  activable: 0
+  activable: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -12652,7 +12652,12 @@ PrefabInstance:
     - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -13094,7 +13099,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225113669}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 2
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -15745,7 +15750,12 @@ PrefabInstance:
     - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732847324688929711, guid: d07e1cd2e9bd6134fb98423cfde272f1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -18871,7 +18881,7 @@ MonoBehaviour:
   team: 0
   columnNumber: 1
   zone: 0
-  activable: 0
+  activable: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5
@@ -20944,7 +20954,7 @@ MonoBehaviour:
   team: 0
   columnNumber: 3
   zone: 0
-  activable: 0
+  activable: 1
   zFront: -1
   zBack: 3
   paddingFront: 0.5

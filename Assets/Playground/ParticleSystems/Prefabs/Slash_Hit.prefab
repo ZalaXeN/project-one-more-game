@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6049680522863671617}
   - component: {fileID: 6049680522863671619}
   - component: {fileID: 6049680522863671618}
+  - component: {fileID: 5890051654317657796}
   m_Layer: 0
   m_Name: Dust
   m_TagString: Untagged
@@ -46,7 +47,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4842,9 +4843,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1925460215
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: 1175597187
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4870,6 +4871,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5890051654317657796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049680522863671616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10475c66a744e67449732c4227857822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6049680524487091377}
+  targetOffset: 10
 --- !u!1 &6049680524487091278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4882,6 +4897,7 @@ GameObject:
   - component: {fileID: 6049680524487091376}
   - component: {fileID: 6049680524487091279}
   - component: {fileID: 6306291711022714493}
+  - component: {fileID: 7784105735762737214}
   m_Layer: 0
   m_Name: Slash_Hit
   m_TagString: Untagged
@@ -9715,9 +9731,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1925460215
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: 1175597187
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -9757,6 +9773,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleName: slash_hit
   disableTime: 0.91999966
+--- !u!114 &7784105735762737214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049680524487091278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10475c66a744e67449732c4227857822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6049680524487091377}
+  targetOffset: 10
 --- !u!1 &6049680524732299465
 GameObject:
   m_ObjectHideFlags: 0
@@ -9768,6 +9798,7 @@ GameObject:
   - component: {fileID: 6049680524732299466}
   - component: {fileID: 6049680524732299468}
   - component: {fileID: 6049680524732299467}
+  - component: {fileID: 5297017882527787237}
   m_Layer: 0
   m_Name: Flare
   m_TagString: Untagged
@@ -9803,7 +9834,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -14599,9 +14630,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1925460215
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: 1175597187
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -14627,3 +14658,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5297017882527787237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049680524732299465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10475c66a744e67449732c4227857822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6049680524487091377}
+  targetOffset: 10
