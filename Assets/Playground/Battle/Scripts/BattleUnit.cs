@@ -43,11 +43,6 @@ namespace ProjectOneMore.Battle
 
         public float moveSpeedMultiplier = 1f;
 
-        [Header("Column Tester")]
-        public int column = 0;
-        public int columnIndex = 0;
-        public float columnDepth = 0f;
-
         [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
         public bool isMovingToTarget = false;
@@ -55,8 +50,8 @@ namespace ProjectOneMore.Battle
         [Header("Auto Attack")]
         public BattleActionCard autoAttackCard;
 
+        // TODO Test
         public Vector3 targetPosition;
-        private Vector3 targetPositionRange;
 
         private BattleActionCard _currentBattleActionCard;
 
@@ -102,7 +97,6 @@ namespace ProjectOneMore.Battle
 
             autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
-            BattleManager.main.ColumnUpdateEvent += HandleColumnUpdateEvent;
         }
 
         #endregion
@@ -113,7 +107,6 @@ namespace ProjectOneMore.Battle
             InitLinkedSTB();
             InitStats();
             targetPosition = transform.position;
-            targetPositionRange = new Vector3(Random.Range(-0.1f, 0.1f), 0f, Random.Range(-0.1f, 0.1f));
 
             InitBattleParameter();
             if(centerTransform == null)
@@ -122,7 +115,6 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            //UpdatePositionByColumn();
             UpdatePosition();
 
             UpdateAutoAttack();
@@ -133,7 +125,6 @@ namespace ProjectOneMore.Battle
         private void OnDisable()
         {
             BattleManager.main.UnitDeadEvent -= HandleUnitDeadEvent;
-            BattleManager.main.ColumnUpdateEvent -= HandleColumnUpdateEvent;
         }
         #endregion
 
@@ -375,50 +366,12 @@ namespace ProjectOneMore.Battle
 
         #endregion
 
-        #region Positioning By Column
-
-        private void UpdatePositionByColumn()
-        {
-            if (!isUseSpecificPosition)
-            {
-                UpdateTargetPosition();
-                MoveToTargetPosition();
-            }
-        }
-
-        private void UpdateTargetPosition()
-        {
-            if (BattleManager.main == null)
-                return;
-
-            targetPosition = BattleManager.main.columnManager.GetBattlePosition(team, column, columnDepth) + targetPositionRange;
-            isMovingToTarget = !(transform.position == targetPosition);
-        }
-        #endregion
-
         #region Battle Event Handler
         private void HandleUnitDeadEvent(BattleUnit unit)
         {
-            UpdateColumnIndexOnUnitDead(unit);
+            
         }
 
-        private void UpdateColumnIndexOnUnitDead(BattleUnit unit)
-        {
-            if (unit.team == team && unit.column == column)
-            {
-                if (unit.columnIndex < columnIndex)
-                    columnIndex--;
-            }
-        }
-
-        private void HandleColumnUpdateEvent(BattleColumn battleColumn)
-        {
-            if(battleColumn.team == team && battleColumn.columnNumber == column)
-            {
-                columnDepth = BattleManager.main.columnManager.GetNearestBattleColumnDepth(team, column, columnDepth, this);
-                columnIndex = BattleManager.main.columnManager.GetColumnIndex(team, column, columnDepth);
-            }
-        }
         #endregion
 
         #region Test Animation

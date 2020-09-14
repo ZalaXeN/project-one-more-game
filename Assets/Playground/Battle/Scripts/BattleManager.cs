@@ -23,11 +23,9 @@ namespace ProjectOneMore.Battle
 
         //-- Delegate
         public delegate void UnitDeadDelegate(BattleUnit unit);
-        public delegate void ColumnUpdatedDelegate(BattleColumn column);
 
         //-- Event
         public event UnitDeadDelegate UnitDeadEvent;
-        public event ColumnUpdatedDelegate ColumnUpdateEvent;
 
         private BattleState _battleState;
         public BattleState battleState
@@ -56,7 +54,6 @@ namespace ProjectOneMore.Battle
         public MinionPrefabController minionPrefabController;
 
         [Header("Manager Settings.")]
-        public BattleColumnManager columnManager;
         public BattleFieldManager fieldManager;
         public BattleLevelManager levelManager;
 
@@ -100,7 +97,6 @@ namespace ProjectOneMore.Battle
 
         private void Start()
         {
-            InitBattleColumns();
             LoadLevel();
             ReadyBattle();
         }
@@ -128,7 +124,6 @@ namespace ProjectOneMore.Battle
 
         private IEnumerator ReadyBattleCoroutine()
         {
-            UpdateBattleColumns(BattleTeam.Enemy, false);
             Coroutine spawnEnemy = levelManager.SpawnStartMinion();
             yield return spawnEnemy;
             battleState = BattleState.Battle;
@@ -306,72 +301,8 @@ namespace ProjectOneMore.Battle
         {
             _battleUnitList.Remove(unit);
             UnitDeadEvent?.Invoke(unit);
-
-            //columnManager.RepositionUnitToEmptySlot(unit.team, unit.attackType, 
-            //    columnManager.GetBattleColumn(unit.team, unit.columnIndex), true);
         }
         #endregion
-
-        #region Column Grid Manager
-
-        public void TriggerColumnUpdatedEvent(BattleColumn column)
-        {
-            ColumnUpdateEvent?.Invoke(column);
-        }
-
-        private void InitBattleColumns()
-        {
-            columnManager.Initizialize();
-        }
-
-        private void UpdateBattleColumns(BattleTeam team, bool triggerEvent = true)
-        {
-            columnManager.UpdateBattleColumns(team, triggerEvent);
-        }
-
-        public bool SpawnMinionByColumn(GameObject minionPrefab, BattleUnit unit, BattleTeam team)
-        {
-            if (minionPrefab == null)
-                return false;
-
-            if (columnManager.HasEmptySlotOnZone(team, unit.attackType, out BattleColumn targetColumn))
-            {
-                columnManager.RepositionUnitToEmptySlot(team, unit.attackType, targetColumn);
-            }
-            else
-            {
-                // Can't Spawn
-                return false;
-            }
-
-            // Get Empty after reposition again
-            if (columnManager.HasEmptySlotOnZone(team, unit.attackType, out targetColumn))
-            {
-                GameObject minionGO = Instantiate(minionPrefab);
-                minionGO.transform.position = columnManager.GetSpawnPosition(team);
-                BattleUnit minionUnit = minionGO.GetComponent<BattleUnit>();
-
-                targetColumn.AssignUnit(minionUnit);
-                targetColumn.UpdateRows();
-
-                minionUnit.column = targetColumn.columnNumber;
-                minionUnit.columnDepth = targetColumn.GetEmptyCenteredFirstColumnDepth(minionUnit);
-                minionUnit.columnIndex = targetColumn.GetColumnIndex(minionUnit.columnDepth);
-                minionUnit.isMovingToTarget = true;
-                minionUnit.team = team;
-                minionUnit.DebugShowAttackTypeOutline();
-
-                Vector3 scale = minionUnit.transform.localScale;
-                scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x : -scale.x;
-                minionUnit.transform.localScale = scale;
-
-                _battleUnitList.Add(minionUnit);
-
-                return true;
-            }
-
-            return false;
-        }
 
         public BattleUnit GetFrontmostUnit(BattleTeam team, BattleUnitAttackType attackType, bool shouldAlive = true)
         {
@@ -386,19 +317,10 @@ namespace ProjectOneMore.Battle
 
                 if (target == null)
                     target = unit;
-                else
-                {
-                    if (target.column > unit.column)
-                        target = unit;
-                    else if (target.column == unit.column && target.columnIndex > unit.columnIndex)
-                        target = unit;
-                }
             }
 
             return target;
         }
-
-        #endregion
 
         #region Time Manage
         // Slow Time
