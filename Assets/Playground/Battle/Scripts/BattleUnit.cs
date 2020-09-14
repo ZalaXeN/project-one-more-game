@@ -20,8 +20,14 @@ namespace ProjectOneMore.Battle
 
     public class BattleUnit : MonoBehaviour
     {
+        [Header("Settings")]
+        public Animator animator;
         public Transform centerTransform;
+        public Collider unitCollider;
 
+        public float neighborRadius = 1.5f;
+
+        [Header("Data")]
         public BattleTeam team;
 
         public KeeperData baseData;
@@ -35,18 +41,21 @@ namespace ProjectOneMore.Battle
 
         public BattleUnitAttackType attackType;
 
+        public float moveSpeedMultiplier = 1f;
+
+        [Header("Column Tester")]
         public int column = 0;
         public int columnIndex = 0;
         public float columnDepth = 0f;
-        public float moveSpeedMultiplier = 1f;
+
+        [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
         public bool isMovingToTarget = false;
 
-        public Animator animator;
-
+        [Header("Auto Attack")]
         public BattleActionCard autoAttackCard;
 
-        private Vector3 targetPosition;
+        public Vector3 targetPosition;
         private Vector3 targetPositionRange;
 
         private BattleActionCard _currentBattleActionCard;
@@ -55,7 +64,7 @@ namespace ProjectOneMore.Battle
 
         private SpriteRenderer[] _spriteRenderers;
 
-        #region Initialiazation
+        #region Initialization
         // Mock Up
         private void InitStats()
         {
@@ -113,11 +122,8 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            if (!isUseSpecificPosition)
-            {
-                UpdateTargetPosition();
-                MoveToTargetPosition();
-            }
+            //UpdatePositionByColumn();
+            UpdatePosition();
 
             UpdateAutoAttack();
 
@@ -168,6 +174,14 @@ namespace ProjectOneMore.Battle
 
         #region On Update Script
 
+        private void UpdateAnimation()
+        {
+            if (animator == null || testMoving)
+                return;
+
+            animator.SetBool("moving", isMovingToTarget);
+        }
+
         public void ExecuteCurrentBattleAction()
         {
             // TODO 
@@ -212,6 +226,7 @@ namespace ProjectOneMore.Battle
 
         #endregion
 
+        #region Battle
         public void TakeDamage(BattleDamage damage)
         {
             BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
@@ -248,7 +263,9 @@ namespace ProjectOneMore.Battle
 
             Destroy(gameObject);
         }
+        #endregion
 
+        #region Outline Highlight
         public void DebugShowAttackTypeOutline()
         {
             //// Debug
@@ -269,72 +286,6 @@ namespace ProjectOneMore.Battle
             {
                 sprite.material.SetColor("Outline_Color", targetColor);
                 sprite.material.SetInt("Outline", 1);
-            }
-        }
-
-        private void SetSpriteMaterial(Material mat)
-        {
-            if (_spriteRenderers == null)
-            {
-                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            }
-
-            foreach (SpriteRenderer sprite in _spriteRenderers)
-            {
-                if (sprite.GetComponent<SwingEffector>())
-                    continue;
-
-                sprite.material = mat;
-            }
-        }
-
-        private void UpdateTargetPosition()
-        {
-            if (BattleManager.main == null)
-                return;
-
-            targetPosition = BattleManager.main.columnManager.GetBattlePosition(team, column, columnDepth) + targetPositionRange;
-            isMovingToTarget = !(transform.position == targetPosition);
-        }
-
-        private void MoveToTargetPosition()
-        {
-            if (!isMovingToTarget || !IsAlive())
-                return;
-
-            float step = spd.current * moveSpeedMultiplier * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
-            {
-                targetPosition = transform.position;
-                isMovingToTarget = !(transform.position == targetPosition);
-            }
-        }
-
-        private void UpdateAnimation()
-        {
-            if (animator == null || testMoving)
-                return;
-
-            animator.SetBool("moving", isMovingToTarget);
-        }
-
-        private void HandleUnitDeadEvent(BattleUnit unit)
-        {
-            if(unit.team == team && unit.column == column)
-            {
-                if (unit.columnIndex < columnIndex)
-                    columnIndex--;
-            }
-        }
-
-        private void HandleColumnUpdateEvent(BattleColumn battleColumn)
-        {
-            if(battleColumn.team == team && battleColumn.columnNumber == column)
-            {
-                columnDepth = BattleManager.main.columnManager.GetNearestBattleColumnDepth(team, column, columnDepth, this);
-                columnIndex = BattleManager.main.columnManager.GetColumnIndex(team, column, columnDepth);
             }
         }
 
@@ -371,6 +322,104 @@ namespace ProjectOneMore.Battle
                 SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
             }
         }
+        #endregion
+
+        #region Sprite
+        private void SetSpriteMaterial(Material mat)
+        {
+            if (_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach (SpriteRenderer sprite in _spriteRenderers)
+            {
+                if (sprite.GetComponent<SwingEffector>())
+                    continue;
+
+                sprite.material = mat;
+            }
+        }
+        #endregion
+
+        #region Positioning
+
+        public void Move(Vector3 targetPosition)
+        {
+            isMovingToTarget = true;
+            this.targetPosition = targetPosition;
+        }
+
+        private void UpdatePosition()
+        {
+            if (!isUseSpecificPosition)
+            {
+                MoveToTargetPosition();
+            }
+        }
+
+        private void MoveToTargetPosition()
+        {
+            if (!isMovingToTarget || !IsAlive())
+                return;
+
+            float step = spd.current * moveSpeedMultiplier * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
+            if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
+            {
+                targetPosition = transform.position;
+                isMovingToTarget = !(transform.position == targetPosition);
+            }
+        }
+
+        #endregion
+
+        #region Positioning By Column
+
+        private void UpdatePositionByColumn()
+        {
+            if (!isUseSpecificPosition)
+            {
+                UpdateTargetPosition();
+                MoveToTargetPosition();
+            }
+        }
+
+        private void UpdateTargetPosition()
+        {
+            if (BattleManager.main == null)
+                return;
+
+            targetPosition = BattleManager.main.columnManager.GetBattlePosition(team, column, columnDepth) + targetPositionRange;
+            isMovingToTarget = !(transform.position == targetPosition);
+        }
+        #endregion
+
+        #region Battle Event Handler
+        private void HandleUnitDeadEvent(BattleUnit unit)
+        {
+            UpdateColumnIndexOnUnitDead(unit);
+        }
+
+        private void UpdateColumnIndexOnUnitDead(BattleUnit unit)
+        {
+            if (unit.team == team && unit.column == column)
+            {
+                if (unit.columnIndex < columnIndex)
+                    columnIndex--;
+            }
+        }
+
+        private void HandleColumnUpdateEvent(BattleColumn battleColumn)
+        {
+            if(battleColumn.team == team && battleColumn.columnNumber == column)
+            {
+                columnDepth = BattleManager.main.columnManager.GetNearestBattleColumnDepth(team, column, columnDepth, this);
+                columnIndex = BattleManager.main.columnManager.GetColumnIndex(team, column, columnDepth);
+            }
+        }
+        #endregion
 
         #region Test Animation
 
