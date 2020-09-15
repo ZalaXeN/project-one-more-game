@@ -1409,7 +1409,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 4163117802076973776}
   centerTransform: {fileID: 9142076126290995145}
+  unitCollider: {fileID: 0}
+  neighborRadius: 5
+  attackRadius: 2
   team: 1
   baseData:
     keeperId: m01
@@ -1434,14 +1438,11 @@ MonoBehaviour:
   def:
     max: 10
   attackType: 0
-  column: 0
-  columnIndex: 0
-  columnDepth: 0
   moveSpeedMultiplier: 0.35
   isUseSpecificPosition: 0
   isMovingToTarget: 0
-  animator: {fileID: 4163117802076973776}
   autoAttackCard: {fileID: 8334711047990634619}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &3195478052552448982
 MonoBehaviour:
   m_ObjectHideFlags: 0

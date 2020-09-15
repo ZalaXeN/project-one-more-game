@@ -1753,7 +1753,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 5547465876102455473}
   centerTransform: {fileID: 2549281927507743054}
+  unitCollider: {fileID: 0}
+  neighborRadius: 5
+  attackRadius: 10
   team: 1
   baseData:
     keeperId: m01
@@ -1778,14 +1782,11 @@ MonoBehaviour:
   def:
     max: 10
   attackType: 1
-  column: 0
-  columnIndex: 0
-  columnDepth: 0
   moveSpeedMultiplier: 0.3
   isUseSpecificPosition: 0
   isMovingToTarget: 0
-  animator: {fileID: 5547465876102455473}
   autoAttackCard: {fileID: 1382872694966955983}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2127135122936331756
 MonoBehaviour:
   m_ObjectHideFlags: 0

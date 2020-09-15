@@ -25,7 +25,8 @@ namespace ProjectOneMore.Battle
         public Transform centerTransform;
         public Collider unitCollider;
 
-        public float neighborRadius = 1.5f;
+        public float neighborRadius = 5f;
+        public float attackRadius = 2f;
 
         [Header("Data")]
         public BattleTeam team;
@@ -413,6 +414,11 @@ namespace ProjectOneMore.Battle
             DrawMovePath();
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            DrawRangeSphere();
+        }
+
         private void DrawHpLabel()
         {
             Handles.Label(transform.position + Vector3.up * 0.2f, string.Format("HP: {0} / {1}", hp.current, hp.max));
@@ -422,6 +428,17 @@ namespace ProjectOneMore.Battle
         {
             Handles.color = Color.green;
             Handles.DrawLine(transform.position, targetPosition);
+        }
+
+        private void DrawRangeSphere()
+        {
+            Transform trans = centerTransform == null ? transform : centerTransform;
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(trans.position, neighborRadius);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(trans.position, attackRadius);
         }
 #endif
         #endregion
