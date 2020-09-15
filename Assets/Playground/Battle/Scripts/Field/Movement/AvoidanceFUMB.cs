@@ -30,6 +30,13 @@ namespace ProjectOneMore.Battle
             if (nAvoid > 0)
                 avoidanceMove /= nAvoid;
 
+            // Test
+            // No Walk Back
+            if (unit.transform.localScale.x > 0 && avoidanceMove.x > 0)
+                avoidanceMove.x = 0;
+            else if (unit.transform.localScale.x < 0 && avoidanceMove.x < 0)
+                avoidanceMove.x = 0;
+
             return unit.targetPosition + avoidanceMove;
         }
     }

@@ -178,8 +178,11 @@ namespace ProjectOneMore.Battle
         {
             // TODO 
             // Change target follow BAC
-            BattleUnit target = BattleManager.main.GetFrontmostUnit(
-                BattleManager.main.GetOppositeTeam(team), attackType);
+
+            //BattleUnit target = BattleManager.main.GetFrontmostUnit(
+            //    BattleManager.main.GetOppositeTeam(team), attackType);
+
+            BattleUnit target = BattleManager.main.fieldManager.GetAttackTarget(this);
 
             if (target == null || !target.IsAlive() || _currentBattleActionCard == null)
                 return;
@@ -201,8 +204,10 @@ namespace ProjectOneMore.Battle
                 BattleManager.main.battleState != BattleState.Battle)
                 return;
 
-            BattleUnit target = BattleManager.main.GetFrontmostUnit(
-                BattleManager.main.GetOppositeTeam(team), attackType);
+            //BattleUnit target = BattleManager.main.GetFrontmostUnit(
+            //    BattleManager.main.GetOppositeTeam(team), attackType);
+
+            BattleUnit target = BattleManager.main.fieldManager.GetAttackTarget(this);
 
             if (target != null)
             {

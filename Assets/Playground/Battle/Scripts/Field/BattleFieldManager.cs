@@ -48,6 +48,23 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        public BattleUnit GetAttackTarget(BattleUnit unit)
+        {
+            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
+            foreach (Collider c in contextColliders)
+            {
+                if (c != unit.unitCollider)
+                {
+                    BattleUnit u = c.GetComponent<BattleUnit>();
+                    if (u && u.team != unit.team)
+                    {
+                        return u;
+                    }
+                }
+            }
+            return null;
+        }
+
         private List<Transform> GetNearbyObjects(BattleUnit unit)
         {
             List<Transform> context = new List<Transform>();

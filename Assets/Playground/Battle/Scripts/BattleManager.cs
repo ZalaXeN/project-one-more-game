@@ -106,6 +106,8 @@ namespace ProjectOneMore.Battle
             UpdateSpawnTimer();
 
             UpdateTimeScale();
+
+            UpdateBattlePosition();
         }
 
         #region Ready Phase
