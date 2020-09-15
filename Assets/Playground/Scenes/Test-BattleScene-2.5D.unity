@@ -12364,9 +12364,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  centerTransform: {fileID: 0}
-  unitCollider: {fileID: 0}
+  centerTransform: {fileID: 1225113676}
+  unitCollider: {fileID: 1225113674}
   neighborRadius: 1.5
+  attackRadius: 2
   team: 0
   baseData:
     keeperId: h01
@@ -21418,8 +21419,10 @@ MonoBehaviour:
   enemySpawnArea: {fileID: 1805315030}
   playerSpawnArea: {fileID: 2025774763}
   battleFieldArea: {fileID: 151382783}
-  basicMovementBehaviour: {fileID: 11400000, guid: db8db3fc07e0a6c448c87219f476c497,
+  basicMovementBehaviour: {fileID: 11400000, guid: e0bf96564d4aad64bac56936c38034ab,
     type: 2}
+  squareAvoidanceRadius: 3
+  squareCohesionRadius: 0.5
 --- !u!4 &2013619060
 Transform:
   m_ObjectHideFlags: 0

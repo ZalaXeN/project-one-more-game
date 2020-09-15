@@ -1755,8 +1755,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5547465876102455473}
   centerTransform: {fileID: 2549281927507743054}
-  unitCollider: {fileID: 0}
-  neighborRadius: 5
+  unitCollider: {fileID: 1728194267}
+  neighborRadius: 1.2
   attackRadius: 10
   team: 1
   baseData:

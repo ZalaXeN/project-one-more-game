@@ -11,8 +11,10 @@ namespace ProjectOneMore.Battle
             if (field.battleFieldArea.bounds.Contains(unit.targetPosition))
                 return unit.targetPosition;
 
-            Vector3 randPos = field.GetRandomBattleFieldPosition();
-            return randPos;
+            Vector3 currentPos = unit.transform.position;
+            Vector3 closestPoint = field.battleFieldArea.bounds.ClosestPoint(currentPos);
+            
+            return closestPoint;
         }
     }
 }
