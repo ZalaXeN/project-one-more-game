@@ -160,11 +160,8 @@ namespace ProjectOneMore.Battle
             if (minionPrefab == null)
                 return false;
 
-            BattleUnit minion = minionPrefab.GetComponent<BattleUnit>();
-            //return SpawnMinionByColumn(minionPrefab, minion, team);
-
-            bool spawnSuccess = SpawnMinion(minionPrefab, minion, team);
-            //if(spawnSuccess) { UpdateBattlePosition(); }
+            bool spawnSuccess = SpawnMinion(minionPrefab, team);
+            if(spawnSuccess) { UpdateBattlePosition(); }
 
             return spawnSuccess;
         }
@@ -178,13 +175,12 @@ namespace ProjectOneMore.Battle
             fieldManager.UpdateBattlePosition(_battleUnitList);
         }
 
-        private bool SpawnMinion(GameObject minionPrefab, BattleUnit unit, BattleTeam team)
+        private bool SpawnMinion(GameObject minionPrefab, BattleTeam team)
         {
             GameObject minionGO = Instantiate(minionPrefab);
             minionGO.transform.position = fieldManager.GetSpawnPosition(team);
             BattleUnit minionUnit = minionGO.GetComponent<BattleUnit>();
 
-            //minionUnit.isMovingToTarget = true;
             minionUnit.team = team;
 
             Vector3 scale = minionUnit.transform.localScale;
@@ -311,6 +307,9 @@ namespace ProjectOneMore.Battle
             BattleUnit target = null;
             foreach (BattleUnit u in _battleUnitList)
             {
+                if (u && !u.IsAlive() && shouldAlive)
+                    continue;
+
                 if (u && u.team != unit.team)
                 {
                     if (!fieldManager.battleFieldArea.bounds.Contains(u.transform.position))

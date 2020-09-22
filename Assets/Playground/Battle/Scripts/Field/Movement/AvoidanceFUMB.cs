@@ -32,10 +32,10 @@ namespace ProjectOneMore.Battle
 
             // Test
             // No Walk Back
-            if (unit.transform.localScale.x > 0 && avoidanceMove.x > 0)
-                avoidanceMove.x = 0;
-            else if (unit.transform.localScale.x < 0 && avoidanceMove.x < 0)
-                avoidanceMove.x = 0;
+            //if (unit.transform.localScale.x > 0 && avoidanceMove.x > 0)
+            //    avoidanceMove.x = 0;
+            //else if (unit.transform.localScale.x < 0 && avoidanceMove.x < 0)
+            //    avoidanceMove.x = 0;
 
             return avoidanceMove;
         }

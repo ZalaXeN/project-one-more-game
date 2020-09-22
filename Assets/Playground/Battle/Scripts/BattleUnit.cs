@@ -55,8 +55,8 @@ namespace ProjectOneMore.Battle
         public Vector3 targetPosition;
 
         private BattleActionCard _currentBattleActionCard;
-
-        private float autoAttackCooldown = 0f;
+        private float _autoAttackCooldown = 0f;
+        private BattleUnit _currentActionTarget;
 
         private SpriteRenderer[] _spriteRenderers;
 
@@ -96,7 +96,7 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
-            autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+            _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
         }
 
@@ -178,16 +178,12 @@ namespace ProjectOneMore.Battle
         {
             // TODO 
             // Change target follow BAC
+            _currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
 
-            //BattleUnit target = BattleManager.main.GetFrontmostUnit(
-            //    BattleManager.main.GetOppositeTeam(team), attackType);
-
-            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
-
-            if (target == null || !target.IsAlive() || _currentBattleActionCard == null)
+            if (_currentActionTarget == null || _currentBattleActionCard == null)
                 return;
 
-            _currentBattleActionCard.SetTarget(target);
+            _currentBattleActionCard.SetTarget(_currentActionTarget);
             _currentBattleActionCard.Execute();
         }
 
@@ -196,28 +192,25 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
-            if (autoAttackCooldown > 0f)
-                autoAttackCooldown -= Time.deltaTime;
+            if (_autoAttackCooldown > 0f)
+                _autoAttackCooldown -= Time.deltaTime;
 
-            if (autoAttackCooldown > 0f || 
+            if (_autoAttackCooldown > 0f || 
                 isMovingToTarget || isUseSpecificPosition || !IsAlive() ||
                 BattleManager.main.battleState != BattleState.Battle)
                 return;
 
-            //BattleUnit target = BattleManager.main.GetFrontmostUnit(
-            //    BattleManager.main.GetOppositeTeam(team), attackType);
+            _currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
 
-            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
-
-            if (target != null)
+            if (_currentActionTarget != null)
             {
                 _currentBattleActionCard = autoAttackCard;
-                autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+                _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
                 animator.SetTrigger("attack");
             }
             else
             {
-                autoAttackCooldown = GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED;
+                _autoAttackCooldown = GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED;
             }
         }
 
