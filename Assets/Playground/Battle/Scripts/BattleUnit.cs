@@ -96,6 +96,8 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
+            BattleManager.main.AddUnitIfNeed(this);
+
             _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
         }

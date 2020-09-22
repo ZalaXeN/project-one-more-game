@@ -78,7 +78,7 @@ namespace ProjectOneMore.Battle
         public float slowingLength = 0.3f;
 
         private BattleActionCard _currentActionCard;
-        private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
+        [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
         private float _targetTimeScale = 1f;
 
@@ -169,6 +169,14 @@ namespace ProjectOneMore.Battle
         #endregion
 
         #region Field
+
+        public void AddUnitIfNeed(BattleUnit unit)
+        {
+            if (_battleUnitList.Contains(unit))
+                return;
+
+            _battleUnitList.Add(unit);
+        }
 
         private void UpdateBattlePosition()
         {
