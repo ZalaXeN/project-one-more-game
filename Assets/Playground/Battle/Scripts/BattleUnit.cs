@@ -225,13 +225,16 @@ namespace ProjectOneMore.Battle
 
             hp.current -= damage.damage;
 
-            animator.SetTrigger("hit");
             BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
             BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
 
             if (!IsAlive())
             {
                 Dead();
+            }
+            else
+            {
+                animator.SetTrigger("hit");
             }
         }
 
@@ -245,7 +248,6 @@ namespace ProjectOneMore.Battle
         {
             //BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
             animator.SetTrigger("dead");
-            BattleManager.main.TriggerUnitDead(this);
         }
 
         public void DestroyUnit()
@@ -253,6 +255,7 @@ namespace ProjectOneMore.Battle
             if (hp.current > 0)
                 return;
 
+            BattleManager.main.TriggerUnitDead(this);
             Destroy(gameObject);
         }
         #endregion
