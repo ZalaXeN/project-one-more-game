@@ -182,7 +182,7 @@ namespace ProjectOneMore.Battle
             //BattleUnit target = BattleManager.main.GetFrontmostUnit(
             //    BattleManager.main.GetOppositeTeam(team), attackType);
 
-            BattleUnit target = BattleManager.main.fieldManager.GetAttackTarget(this);
+            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
 
             if (target == null || !target.IsAlive() || _currentBattleActionCard == null)
                 return;
@@ -207,7 +207,7 @@ namespace ProjectOneMore.Battle
             //BattleUnit target = BattleManager.main.GetFrontmostUnit(
             //    BattleManager.main.GetOppositeTeam(team), attackType);
 
-            BattleUnit target = BattleManager.main.fieldManager.GetAttackTarget(this);
+            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
 
             if (target != null)
             {

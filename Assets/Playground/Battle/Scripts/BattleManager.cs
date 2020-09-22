@@ -306,19 +306,23 @@ namespace ProjectOneMore.Battle
         }
         #endregion
 
-        public BattleUnit GetFrontmostUnit(BattleTeam team, BattleUnitAttackType attackType, bool shouldAlive = true)
+        public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true)
         {
             BattleUnit target = null;
-            foreach (BattleUnit unit in _battleUnitList)
+            foreach (BattleUnit u in _battleUnitList)
             {
-                if (unit.team != team || unit.isMovingToTarget)
-                    continue;
+                if (u && u.team != unit.team)
+                {
+                    if (!fieldManager.battleFieldArea.bounds.Contains(u.transform.position))
+                        continue;
 
-                if (shouldAlive && !unit.IsAlive())
-                    continue;
-
-                if (target == null)
-                    target = unit;
+                    if (target == null)
+                        target = u;
+                    else if (
+                        Vector3.Distance(unit.transform.position, u.transform.position) <
+                        Vector3.Distance(unit.transform.position, target.transform.position))
+                        target = u;
+                }
             }
 
             return target;

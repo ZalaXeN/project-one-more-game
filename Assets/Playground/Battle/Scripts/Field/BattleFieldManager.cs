@@ -48,21 +48,33 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        public BattleUnit GetAttackTarget(BattleUnit unit)
+        public BattleUnit GetNearestEnemyUnitInAttackRange(BattleUnit unit)
         {
+            BattleUnit target = null;
             Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
             foreach (Collider c in contextColliders)
             {
-                if (c != unit.unitCollider)
+                if (c == unit.unitCollider)
+                    continue;
+
+                BattleUnit u = c.GetComponent<BattleUnit>();
+
+                if (u && u.team != unit.team)
                 {
-                    BattleUnit u = c.GetComponent<BattleUnit>();
-                    if (u && u.team != unit.team)
-                    {
-                        return u;
-                    }
+                    if (target == null)
+                        target = u;
+                    else if (
+                        Vector3.Distance(unit.transform.position, u.transform.position) < 
+                        Vector3.Distance(unit.transform.position, target.transform.position))
+                        target = u;
                 }
             }
-            return null;
+            return target;
+        }
+
+        public BattleUnit GetNearestAttackTarget(BattleUnit unit)
+        {
+            return BattleManager.main.GetNearestAttackTarget(unit);
         }
 
         private List<Transform> GetNearbyObjects(BattleUnit unit)

@@ -8,7 +8,7 @@ namespace ProjectOneMore.Battle
     {
         public override Vector3 CalculateMove(BattleFieldManager field, List<Transform> context, BattleUnit unit)
         {
-            if (field.battleFieldArea.bounds.Contains(unit.targetPosition))
+            if (field.battleFieldArea.bounds.Contains(unit.transform.position))
                 return Vector3.zero;
 
             Vector3 currentPos = unit.transform.position;
