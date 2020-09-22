@@ -8,32 +8,26 @@ namespace ProjectOneMore.Battle
     {
         public BattleUnitMovementBehaviour[] behaviours;
 
-        public override Vector3 CalculateBattlePosition(BattleFieldManager field, List<Transform> context, BattleUnit unit)
+        public override Vector3 CalculateMove(BattleFieldManager field, List<Transform> context, BattleUnit unit)
         {
             //set up move
-            Vector3 moveTargetPos = unit.targetPosition;
-            int calcCounter = 1;
+            Vector3 moveVector = Vector3.zero;
+            int calcCounter = 0;
 
             //iterate through behaviors
             for (int i = 0; i < behaviours.Length; i++)
             {
-                Vector3 partialTargetPos = behaviours[i].CalculateBattlePosition(field, context, unit);
-                if (partialTargetPos == unit.targetPosition)
+                Vector3 partialMove = behaviours[i].CalculateMove(field, context, unit);
+                if (partialMove == Vector3.zero)
                     continue;
 
                 calcCounter++;
-                moveTargetPos += partialTargetPos;
+                moveVector += partialMove;
             }
 
-            moveTargetPos /= calcCounter;
+            if (calcCounter > 0) { moveVector /= calcCounter; }
 
-            //if (field.battleFieldArea.bounds.Contains(moveTargetPos))
-            //    return moveTargetPos;
-
-            //Vector3 closestPoint = field.battleFieldArea.bounds.ClosestPoint(moveTargetPos);
-            //return closestPoint;
-
-            return moveTargetPos;
+            return moveVector;
         }
     }
 }

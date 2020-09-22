@@ -42,7 +42,7 @@ namespace ProjectOneMore.Battle
             {
                 List<Transform> context = GetNearbyObjects(unit);
 
-                Vector3 target = basicMovementBehaviour.CalculateBattlePosition(this, context, unit);
+                Vector3 target = unit.transform.position + basicMovementBehaviour.CalculateMove(this, context, unit);
 
                 unit.Move(target);
             }

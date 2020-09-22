@@ -164,7 +164,7 @@ namespace ProjectOneMore.Battle
             //return SpawnMinionByColumn(minionPrefab, minion, team);
 
             bool spawnSuccess = SpawnMinion(minionPrefab, minion, team);
-            if(spawnSuccess) { UpdateBattlePosition(); }
+            //if(spawnSuccess) { UpdateBattlePosition(); }
 
             return spawnSuccess;
         }

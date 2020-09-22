@@ -6,11 +6,11 @@ namespace ProjectOneMore.Battle
     [CreateAssetMenu(menuName = "Field/Behavior/Avoidance")]
     public class AvoidanceFUMB : BattleFilteredUnitMovementBehaviour
     {
-        public override Vector3 CalculateBattlePosition(BattleFieldManager field, List<Transform> context, BattleUnit unit)
+        public override Vector3 CalculateMove(BattleFieldManager field, List<Transform> context, BattleUnit unit)
         {
             //if no neighbors, return no adjustment
             if (context.Count == 0)
-                return unit.targetPosition;
+                return Vector3.zero;
 
             //add all points together and average
             Vector3 avoidanceMove = Vector3.zero;
@@ -37,7 +37,7 @@ namespace ProjectOneMore.Battle
             else if (unit.transform.localScale.x < 0 && avoidanceMove.x < 0)
                 avoidanceMove.x = 0;
 
-            return unit.targetPosition + avoidanceMove;
+            return avoidanceMove;
         }
     }
 }
