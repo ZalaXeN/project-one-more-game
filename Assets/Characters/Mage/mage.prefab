@@ -1756,8 +1756,8 @@ MonoBehaviour:
   animator: {fileID: 5547465876102455473}
   centerTransform: {fileID: 2549281927507743054}
   unitCollider: {fileID: 1728194267}
-  neighborRadius: 1.2
-  attackRadius: 10
+  neighborRadius: 1
+  attackRadius: 8
   team: 1
   baseData:
     keeperId: m01

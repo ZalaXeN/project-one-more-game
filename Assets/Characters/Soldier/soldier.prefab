@@ -1413,7 +1413,7 @@ MonoBehaviour:
   centerTransform: {fileID: 9142076126290995145}
   unitCollider: {fileID: 1419636775256182721}
   neighborRadius: 1.2
-  attackRadius: 2
+  attackRadius: 1.8
   team: 1
   baseData:
     keeperId: m01
