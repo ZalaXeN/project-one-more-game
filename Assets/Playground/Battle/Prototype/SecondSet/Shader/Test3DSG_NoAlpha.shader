@@ -25,7 +25,7 @@
             // Render State
             Blend One Zero, One Zero
             Cull Back
-            ZTest LEqual
+            ZTest Always
             ZWrite On
             ColorMask RGB
 

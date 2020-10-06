@@ -188,14 +188,14 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAutoAttack()
         {
-            if (BattleManager.main == null)
+            if (BattleManager.main == null || autoAttackCard == null)
                 return;
 
             if (_autoAttackCooldown > 0f)
                 _autoAttackCooldown -= Time.deltaTime;
 
             if (_autoAttackCooldown > 0f || 
-                isMovingToTarget || isUseSpecificPosition || !IsAlive() ||
+                isMovingToTarget || !IsAlive() ||
                 BattleManager.main.battleState != BattleState.Battle)
                 return;
 
