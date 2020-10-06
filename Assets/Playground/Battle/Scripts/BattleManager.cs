@@ -60,6 +60,7 @@ namespace ProjectOneMore.Battle
         [Header("Settings.")]
         public BattleDamageNumberPool battleDamageNumberPool;
         public BattleParticleManager battleParticleManager;
+        public BattleCameraManager battleCameraManager;
 
         [Header("Test Settings.")]
         public string testLevelId;
@@ -313,6 +314,7 @@ namespace ProjectOneMore.Battle
         public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true)
         {
             BattleUnit target = null;
+            Vector3 unitPos;
             foreach (BattleUnit u in _battleUnitList)
             {
                 if (u && !u.IsAlive() && shouldAlive)
@@ -320,7 +322,10 @@ namespace ProjectOneMore.Battle
 
                 if (u && u.team != unit.team)
                 {
-                    if (!fieldManager.battleFieldArea.bounds.Contains(u.transform.position))
+                    unitPos = u.transform.position;
+                    unitPos.y = fieldManager.battleFieldArea.transform.position.y;
+
+                    if (!fieldManager.battleFieldArea.bounds.Contains(unitPos))
                         continue;
 
                     if (target == null)
