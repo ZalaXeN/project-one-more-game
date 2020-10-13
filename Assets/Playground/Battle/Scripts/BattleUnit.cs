@@ -21,6 +21,7 @@ namespace ProjectOneMore.Battle
         public Animator animator;
         public Transform centerTransform;
         public Collider unitCollider;
+        public Collider interactCollider;
 
         public float neighborRadius = 5f;
         public float attackRadius = 2f;
