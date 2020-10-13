@@ -2697,7 +2697,7 @@ MonoBehaviour:
   linecastResolution: 2
   canHit:
     serializedVersion: 2
-    m_Bits: 513
+    m_Bits: 512
   targetPos: {x: 5, y: 0, z: 0}
   travelTime: 1.3607454
   isFixedY: 1

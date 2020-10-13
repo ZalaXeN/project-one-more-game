@@ -50,7 +50,7 @@ public class BattleProjectile : MonoBehaviour
 
     private void Update()
     {
-        if (trajectoryController != null && trajectoryController.line.enabled)
+        if (trajectoryController != null && trajectoryController.line.enabled && BattleManager.main.battleState == BattleState.PlayerInput)
         {
             _mousePos = Input.mousePosition;
 
@@ -75,7 +75,7 @@ public class BattleProjectile : MonoBehaviour
             trajectoryController.RenderTrajectory();
         }
 
-        if(Input.GetMouseButtonDown(0) && rb.isKinematic)
+        if(Input.GetMouseButtonDown(0) && rb.isKinematic && BattleManager.main.battleState == BattleState.PlayerInput)
         {
             if (trajectoryController != null)
             {

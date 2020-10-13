@@ -298,7 +298,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             ResetTime();
-
+            HideOutlineFXColor();
             battleState = BattleState.Battle;
         }
         #endregion
