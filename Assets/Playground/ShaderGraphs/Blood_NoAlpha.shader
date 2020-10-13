@@ -2,17 +2,17 @@
 {
     Properties
     {
-        [HDR] Color_3C818018("Color", Color) = (5.073663, 5.073663, 5.073663, 1)
+        [HDR] Color_3C818018("Color", Color) = (2, 2, 2, 1)
         [NoScaleOffset]Texture2D_78672357("MainTexture", 2D) = "white" {}
-        Vector1_E1B5B4BB("Power", Range(0, 2)) = 2
+        Vector1_E1B5B4BB("Power", Float) = 2
     }
         SubShader
         {
             Tags
             {
                 "RenderPipeline" = "UniversalPipeline"
-                "RenderType" = "Opaque"
-                "Queue" = "Geometry+0"
+                "RenderType" = "Transparent"
+                "Queue" = "Transparent+0"
             }
 
             Pass
@@ -24,10 +24,10 @@
                 }
 
             // Render State
-            Blend One Zero, One Zero
+            Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
             Cull Off
             ZTest LEqual
-            ZWrite On
+            ZWrite Off
             ColorMask RGB
 
 
@@ -60,6 +60,7 @@
             // GraphKeywords: <None>
 
             // Defines
+            #define _SURFACE_TYPE_TRANSPARENT 1
             #define _AlphaClip 1
             #define _NORMAL_DROPOFF_TS 1
             #define ATTRIBUTES_NEED_NORMAL
@@ -108,6 +109,11 @@
             void Unity_OneMinus_float(float In, out float Out)
             {
                 Out = 1 - In;
+            }
+
+            void Unity_Multiply_float(float A, float B, out float Out)
+            {
+                Out = A * B;
             }
 
             void Unity_Power_float(float A, float B, out float Out)
@@ -159,19 +165,21 @@
                 float _Split_2F43A451_A_4 = _UV_F1F4C88A_Out_0[3];
                 float _OneMinus_57A1CE57_Out_1;
                 Unity_OneMinus_float(_Split_2F43A451_R_1, _OneMinus_57A1CE57_Out_1);
-                float _OneMinus_A1373C35_Out_1;
-                Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_A1373C35_Out_1);
-                float _Property_87884E23_Out_0 = Vector1_E1B5B4BB;
-                float _Power_91F8DE09_Out_2;
-                Unity_Power_float(_OneMinus_A1373C35_Out_1, _Property_87884E23_Out_0, _Power_91F8DE09_Out_2);
+                float _Multiply_DB0D0F87_Out_2;
+                Unity_Multiply_float(_SampleTexture2D_B9C8DFD1_A_7, _OneMinus_57A1CE57_Out_1, _Multiply_DB0D0F87_Out_2);
+                float _OneMinus_5BC335F5_Out_1;
+                Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_5BC335F5_Out_1);
+                float _Property_F2A9400C_Out_0 = Vector1_E1B5B4BB;
+                float _Power_B298F265_Out_2;
+                Unity_Power_float(_OneMinus_5BC335F5_Out_1, _Property_F2A9400C_Out_0, _Power_B298F265_Out_2);
                 surface.Albedo = (_Multiply_1C65AD92_Out_2.xyz);
                 surface.Normal = IN.TangentSpaceNormal;
                 surface.Emission = IsGammaSpace() ? float3(0, 0, 0) : SRGBToLinear(float3(0, 0, 0));
                 surface.Metallic = 0;
                 surface.Smoothness = 0.5;
                 surface.Occlusion = 1;
-                surface.Alpha = _OneMinus_57A1CE57_Out_1;
-                surface.AlphaClipThreshold = _Power_91F8DE09_Out_2;
+                surface.Alpha = _Multiply_DB0D0F87_Out_2;
+                surface.AlphaClipThreshold = _Power_B298F265_Out_2;
                 return surface;
             }
 
@@ -373,8 +381,8 @@
             }
 
                 // Render State
-                Blend One Zero, One Zero
-                Cull Back
+                Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                Cull Off
                 ZTest LEqual
                 ZWrite On
                 // ColorMask: <None>
@@ -401,6 +409,7 @@
                 // GraphKeywords: <None>
 
                 // Defines
+                #define _SURFACE_TYPE_TRANSPARENT 1
                 #define _AlphaClip 1
                 #define _NORMAL_DROPOFF_TS 1
                 #define ATTRIBUTES_NEED_NORMAL
@@ -438,6 +447,11 @@
                     Out = 1 - In;
                 }
 
+                void Unity_Multiply_float(float A, float B, out float Out)
+                {
+                    Out = A * B;
+                }
+
                 void Unity_Power_float(float A, float B, out float Out)
                 {
                     Out = pow(A, B);
@@ -463,6 +477,11 @@
                 SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                 {
                     SurfaceDescription surface = (SurfaceDescription)0;
+                    float4 _SampleTexture2D_B9C8DFD1_RGBA_0 = SAMPLE_TEXTURE2D(Texture2D_78672357, samplerTexture2D_78672357, IN.uv0.xy);
+                    float _SampleTexture2D_B9C8DFD1_R_4 = _SampleTexture2D_B9C8DFD1_RGBA_0.r;
+                    float _SampleTexture2D_B9C8DFD1_G_5 = _SampleTexture2D_B9C8DFD1_RGBA_0.g;
+                    float _SampleTexture2D_B9C8DFD1_B_6 = _SampleTexture2D_B9C8DFD1_RGBA_0.b;
+                    float _SampleTexture2D_B9C8DFD1_A_7 = _SampleTexture2D_B9C8DFD1_RGBA_0.a;
                     float4 _UV_F1F4C88A_Out_0 = IN.uv1;
                     float _Split_2F43A451_R_1 = _UV_F1F4C88A_Out_0[0];
                     float _Split_2F43A451_G_2 = _UV_F1F4C88A_Out_0[1];
@@ -470,18 +489,15 @@
                     float _Split_2F43A451_A_4 = _UV_F1F4C88A_Out_0[3];
                     float _OneMinus_57A1CE57_Out_1;
                     Unity_OneMinus_float(_Split_2F43A451_R_1, _OneMinus_57A1CE57_Out_1);
-                    float4 _SampleTexture2D_B9C8DFD1_RGBA_0 = SAMPLE_TEXTURE2D(Texture2D_78672357, samplerTexture2D_78672357, IN.uv0.xy);
-                    float _SampleTexture2D_B9C8DFD1_R_4 = _SampleTexture2D_B9C8DFD1_RGBA_0.r;
-                    float _SampleTexture2D_B9C8DFD1_G_5 = _SampleTexture2D_B9C8DFD1_RGBA_0.g;
-                    float _SampleTexture2D_B9C8DFD1_B_6 = _SampleTexture2D_B9C8DFD1_RGBA_0.b;
-                    float _SampleTexture2D_B9C8DFD1_A_7 = _SampleTexture2D_B9C8DFD1_RGBA_0.a;
-                    float _OneMinus_A1373C35_Out_1;
-                    Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_A1373C35_Out_1);
-                    float _Property_87884E23_Out_0 = Vector1_E1B5B4BB;
-                    float _Power_91F8DE09_Out_2;
-                    Unity_Power_float(_OneMinus_A1373C35_Out_1, _Property_87884E23_Out_0, _Power_91F8DE09_Out_2);
-                    surface.Alpha = _OneMinus_57A1CE57_Out_1;
-                    surface.AlphaClipThreshold = _Power_91F8DE09_Out_2;
+                    float _Multiply_DB0D0F87_Out_2;
+                    Unity_Multiply_float(_SampleTexture2D_B9C8DFD1_A_7, _OneMinus_57A1CE57_Out_1, _Multiply_DB0D0F87_Out_2);
+                    float _OneMinus_5BC335F5_Out_1;
+                    Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_5BC335F5_Out_1);
+                    float _Property_F2A9400C_Out_0 = Vector1_E1B5B4BB;
+                    float _Power_B298F265_Out_2;
+                    Unity_Power_float(_OneMinus_5BC335F5_Out_1, _Property_F2A9400C_Out_0, _Power_B298F265_Out_2);
+                    surface.Alpha = _Multiply_DB0D0F87_Out_2;
+                    surface.AlphaClipThreshold = _Power_B298F265_Out_2;
                     return surface;
                 }
 
@@ -629,8 +645,8 @@
                 }
 
                     // Render State
-                    Blend One Zero, One Zero
-                    Cull Back
+                    Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                    Cull Off
                     ZTest LEqual
                     ZWrite On
                     ColorMask 0
@@ -657,6 +673,7 @@
                     // GraphKeywords: <None>
 
                     // Defines
+                    #define _SURFACE_TYPE_TRANSPARENT 1
                     #define _AlphaClip 1
                     #define _NORMAL_DROPOFF_TS 1
                     #define ATTRIBUTES_NEED_NORMAL
@@ -694,6 +711,11 @@
                         Out = 1 - In;
                     }
 
+                    void Unity_Multiply_float(float A, float B, out float Out)
+                    {
+                        Out = A * B;
+                    }
+
                     void Unity_Power_float(float A, float B, out float Out)
                     {
                         Out = pow(A, B);
@@ -719,6 +741,11 @@
                     SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                     {
                         SurfaceDescription surface = (SurfaceDescription)0;
+                        float4 _SampleTexture2D_B9C8DFD1_RGBA_0 = SAMPLE_TEXTURE2D(Texture2D_78672357, samplerTexture2D_78672357, IN.uv0.xy);
+                        float _SampleTexture2D_B9C8DFD1_R_4 = _SampleTexture2D_B9C8DFD1_RGBA_0.r;
+                        float _SampleTexture2D_B9C8DFD1_G_5 = _SampleTexture2D_B9C8DFD1_RGBA_0.g;
+                        float _SampleTexture2D_B9C8DFD1_B_6 = _SampleTexture2D_B9C8DFD1_RGBA_0.b;
+                        float _SampleTexture2D_B9C8DFD1_A_7 = _SampleTexture2D_B9C8DFD1_RGBA_0.a;
                         float4 _UV_F1F4C88A_Out_0 = IN.uv1;
                         float _Split_2F43A451_R_1 = _UV_F1F4C88A_Out_0[0];
                         float _Split_2F43A451_G_2 = _UV_F1F4C88A_Out_0[1];
@@ -726,18 +753,15 @@
                         float _Split_2F43A451_A_4 = _UV_F1F4C88A_Out_0[3];
                         float _OneMinus_57A1CE57_Out_1;
                         Unity_OneMinus_float(_Split_2F43A451_R_1, _OneMinus_57A1CE57_Out_1);
-                        float4 _SampleTexture2D_B9C8DFD1_RGBA_0 = SAMPLE_TEXTURE2D(Texture2D_78672357, samplerTexture2D_78672357, IN.uv0.xy);
-                        float _SampleTexture2D_B9C8DFD1_R_4 = _SampleTexture2D_B9C8DFD1_RGBA_0.r;
-                        float _SampleTexture2D_B9C8DFD1_G_5 = _SampleTexture2D_B9C8DFD1_RGBA_0.g;
-                        float _SampleTexture2D_B9C8DFD1_B_6 = _SampleTexture2D_B9C8DFD1_RGBA_0.b;
-                        float _SampleTexture2D_B9C8DFD1_A_7 = _SampleTexture2D_B9C8DFD1_RGBA_0.a;
-                        float _OneMinus_A1373C35_Out_1;
-                        Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_A1373C35_Out_1);
-                        float _Property_87884E23_Out_0 = Vector1_E1B5B4BB;
-                        float _Power_91F8DE09_Out_2;
-                        Unity_Power_float(_OneMinus_A1373C35_Out_1, _Property_87884E23_Out_0, _Power_91F8DE09_Out_2);
-                        surface.Alpha = _OneMinus_57A1CE57_Out_1;
-                        surface.AlphaClipThreshold = _Power_91F8DE09_Out_2;
+                        float _Multiply_DB0D0F87_Out_2;
+                        Unity_Multiply_float(_SampleTexture2D_B9C8DFD1_A_7, _OneMinus_57A1CE57_Out_1, _Multiply_DB0D0F87_Out_2);
+                        float _OneMinus_5BC335F5_Out_1;
+                        Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_5BC335F5_Out_1);
+                        float _Property_F2A9400C_Out_0 = Vector1_E1B5B4BB;
+                        float _Power_B298F265_Out_2;
+                        Unity_Power_float(_OneMinus_5BC335F5_Out_1, _Property_F2A9400C_Out_0, _Power_B298F265_Out_2);
+                        surface.Alpha = _Multiply_DB0D0F87_Out_2;
+                        surface.AlphaClipThreshold = _Power_B298F265_Out_2;
                         return surface;
                     }
 
@@ -885,8 +909,8 @@
                     }
 
                         // Render State
-                        Blend One Zero, One Zero
-                        Cull Back
+                        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                        Cull Off
                         ZTest LEqual
                         ZWrite On
                         // ColorMask: <None>
@@ -912,6 +936,7 @@
                         // GraphKeywords: <None>
 
                         // Defines
+                        #define _SURFACE_TYPE_TRANSPARENT 1
                         #define _AlphaClip 1
                         #define _NORMAL_DROPOFF_TS 1
                         #define ATTRIBUTES_NEED_NORMAL
@@ -956,6 +981,11 @@
                         void Unity_OneMinus_float(float In, out float Out)
                         {
                             Out = 1 - In;
+                        }
+
+                        void Unity_Multiply_float(float A, float B, out float Out)
+                        {
+                            Out = A * B;
                         }
 
                         void Unity_Power_float(float A, float B, out float Out)
@@ -1003,15 +1033,17 @@
                             float _Split_2F43A451_A_4 = _UV_F1F4C88A_Out_0[3];
                             float _OneMinus_57A1CE57_Out_1;
                             Unity_OneMinus_float(_Split_2F43A451_R_1, _OneMinus_57A1CE57_Out_1);
-                            float _OneMinus_A1373C35_Out_1;
-                            Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_A1373C35_Out_1);
-                            float _Property_87884E23_Out_0 = Vector1_E1B5B4BB;
-                            float _Power_91F8DE09_Out_2;
-                            Unity_Power_float(_OneMinus_A1373C35_Out_1, _Property_87884E23_Out_0, _Power_91F8DE09_Out_2);
+                            float _Multiply_DB0D0F87_Out_2;
+                            Unity_Multiply_float(_SampleTexture2D_B9C8DFD1_A_7, _OneMinus_57A1CE57_Out_1, _Multiply_DB0D0F87_Out_2);
+                            float _OneMinus_5BC335F5_Out_1;
+                            Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_5BC335F5_Out_1);
+                            float _Property_F2A9400C_Out_0 = Vector1_E1B5B4BB;
+                            float _Power_B298F265_Out_2;
+                            Unity_Power_float(_OneMinus_5BC335F5_Out_1, _Property_F2A9400C_Out_0, _Power_B298F265_Out_2);
                             surface.Albedo = (_Multiply_1C65AD92_Out_2.xyz);
                             surface.Emission = IsGammaSpace() ? float3(0, 0, 0) : SRGBToLinear(float3(0, 0, 0));
-                            surface.Alpha = _OneMinus_57A1CE57_Out_1;
-                            surface.AlphaClipThreshold = _Power_91F8DE09_Out_2;
+                            surface.Alpha = _Multiply_DB0D0F87_Out_2;
+                            surface.AlphaClipThreshold = _Power_B298F265_Out_2;
                             return surface;
                         }
 
@@ -1166,10 +1198,10 @@
                             }
 
                             // Render State
-                            Blend One Zero, One Zero
-                            Cull Back
+                            Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                            Cull Off
                             ZTest LEqual
-                            ZWrite On
+                            ZWrite Off
                             // ColorMask: <None>
 
 
@@ -1194,6 +1226,7 @@
                             // GraphKeywords: <None>
 
                             // Defines
+                            #define _SURFACE_TYPE_TRANSPARENT 1
                             #define _AlphaClip 1
                             #define _NORMAL_DROPOFF_TS 1
                             #define ATTRIBUTES_NEED_NORMAL
@@ -1236,6 +1269,11 @@
                             void Unity_OneMinus_float(float In, out float Out)
                             {
                                 Out = 1 - In;
+                            }
+
+                            void Unity_Multiply_float(float A, float B, out float Out)
+                            {
+                                Out = A * B;
                             }
 
                             void Unity_Power_float(float A, float B, out float Out)
@@ -1282,14 +1320,16 @@
                                 float _Split_2F43A451_A_4 = _UV_F1F4C88A_Out_0[3];
                                 float _OneMinus_57A1CE57_Out_1;
                                 Unity_OneMinus_float(_Split_2F43A451_R_1, _OneMinus_57A1CE57_Out_1);
-                                float _OneMinus_A1373C35_Out_1;
-                                Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_A1373C35_Out_1);
-                                float _Property_87884E23_Out_0 = Vector1_E1B5B4BB;
-                                float _Power_91F8DE09_Out_2;
-                                Unity_Power_float(_OneMinus_A1373C35_Out_1, _Property_87884E23_Out_0, _Power_91F8DE09_Out_2);
+                                float _Multiply_DB0D0F87_Out_2;
+                                Unity_Multiply_float(_SampleTexture2D_B9C8DFD1_A_7, _OneMinus_57A1CE57_Out_1, _Multiply_DB0D0F87_Out_2);
+                                float _OneMinus_5BC335F5_Out_1;
+                                Unity_OneMinus_float(_SampleTexture2D_B9C8DFD1_R_4, _OneMinus_5BC335F5_Out_1);
+                                float _Property_F2A9400C_Out_0 = Vector1_E1B5B4BB;
+                                float _Power_B298F265_Out_2;
+                                Unity_Power_float(_OneMinus_5BC335F5_Out_1, _Property_F2A9400C_Out_0, _Power_B298F265_Out_2);
                                 surface.Albedo = (_Multiply_1C65AD92_Out_2.xyz);
-                                surface.Alpha = _OneMinus_57A1CE57_Out_1;
-                                surface.AlphaClipThreshold = _Power_91F8DE09_Out_2;
+                                surface.Alpha = _Multiply_DB0D0F87_Out_2;
+                                surface.AlphaClipThreshold = _Power_B298F265_Out_2;
                                 return surface;
                             }
 
