@@ -61,6 +61,7 @@ namespace ProjectOneMore.Battle
         public BattleDamageNumberPool battleDamageNumberPool;
         public BattleParticleManager battleParticleManager;
         public BattleCameraManager battleCameraManager;
+        public BattleProjectileManager battleProjectileManager;
 
         [Header("Test Settings.")]
         public string testLevelId;
@@ -242,7 +243,11 @@ namespace ProjectOneMore.Battle
 
         private void ShowTargeting()
         {
+            Debug.Log("Targeting");
+
             // TODO
+            // Make Targeting for all type of action
+            _currentActionCard.ShowTargeting();
         }
 
         private bool CanCurrentActionTargetAlly()

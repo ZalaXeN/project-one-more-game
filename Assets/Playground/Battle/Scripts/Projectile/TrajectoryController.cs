@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 [ExecuteInEditMode()]
@@ -13,7 +11,7 @@ public class TrajectoryController : MonoBehaviour
 
     [Header("Formula Variables")]
     public Vector3 velocity;
-    public float yLimit; //for later
+    private float yLimit = 0; //for later
     private float g;
 
     [Header("Linecast Variables")]
@@ -29,17 +27,26 @@ public class TrajectoryController : MonoBehaviour
 
     private void Start()
     {
+        RenderTrajectory();
+    }
+
+    [ContextMenu("Render Trajectory")]
+    public void RenderTrajectory()
+    {
         g = Mathf.Abs(Physics.gravity.y);
         CalcVerocityFromTarget();
-        StartCoroutine(RenderArc());
+        RenderArc();
     }
 
-    private void Update()
+    private void RenderArc()
     {
-        //StartCoroutine(RenderArc());
+        if (!line)
+            return;
+
+        StartCoroutine(RenderArcProgress());
     }
 
-    private IEnumerator RenderArc()
+    private IEnumerator RenderArcProgress()
     {
         line.positionCount = resolution + 1;
         line.SetPositions(CalculateLineArray());
@@ -130,25 +137,5 @@ public class TrajectoryController : MonoBehaviour
         velocity.x = (targetPos.x - transform.position.x) / travelTime;
         velocity.y = isFixedY ? fixedVerocity.y : ((targetPos.y - transform.position.y) + ((g * (travelTime * travelTime)) / 2)) / travelTime;
         velocity.z = (targetPos.z - transform.position.z) / travelTime;
-    }
-
-    [ContextMenu("Render Trajectory")]
-    public void RenderTrajectory()
-    {
-        CalcVerocityFromTarget();
-        StartCoroutine(RenderArc());
-    }
-
-    // Test
-    private void OnEnable()
-    {
-        if(line)
-            line.enabled = true;
-    }
-
-    private void OnDisable()
-    {
-        if(line)
-            line.enabled = false;
     }
 }

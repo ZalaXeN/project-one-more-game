@@ -16,6 +16,11 @@ namespace ProjectOneMore.Battle
 
         private List<BattleUnit> _targets = new List<BattleUnit>();
 
+        // TEST Only
+        // make Battle Action Targeting for replace this
+        private Vector3 launchPosition = new Vector3(-4f, 5f, 0.4f);
+        private float travelTime = 1f;
+
         public void SetTarget(BattleUnit target)
         {
             _targets.Clear();
@@ -40,6 +45,13 @@ namespace ProjectOneMore.Battle
         public void Target()
         {
             BattleManager.main.EnterPlayerInput(this);
+        }
+
+        public void ShowTargeting()
+        {
+            // Test Only
+            if (skillTargetType == SkillTargetType.Projectile)
+                BattleManager.main.battleProjectileManager.SpawnProjectile(launchPosition, travelTime);
         }
 
         public void Execute()

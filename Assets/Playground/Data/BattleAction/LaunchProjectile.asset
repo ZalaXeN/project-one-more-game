@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b93f3e198379e499cdf9ce7802d7e0, type: 3}
   m_Name: LaunchProjectile
   m_EditorClassIdentifier: 
+  projectilePrefabId: {fileID: 0}
+  launchPosition: {x: -4, y: 5, z: 0.4}
+  travelTime: 1
+  inputable: 1
