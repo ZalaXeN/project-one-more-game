@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01b93f3e198379e499cdf9ce7802d7e0, type: 3}
-  m_Name: LaunchProjectile
+  m_Script: {fileID: 11500000, guid: 56e73de819790f741830e37a17bf6c56, type: 3}
+  m_Name: Spawn Player Minion Projectile
   m_EditorClassIdentifier: 
-  projectilePrefabId: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
-    type: 3}
+  minionPrefabId: p01
+  battleTeam: 0

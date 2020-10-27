@@ -184,6 +184,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             _currentBattleActionCard.SetTarget(_currentActionTarget);
+            _currentBattleActionCard.targetPosition = _currentActionTarget.transform.position;
             _currentBattleActionCard.Execute();
         }
 
@@ -219,6 +220,9 @@ namespace ProjectOneMore.Battle
         #region Battle
         public void TakeDamage(BattleDamage damage)
         {
+            if (damage.owner.team == team)
+                return;
+
             BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
 
             hp.current -= damage.damage;

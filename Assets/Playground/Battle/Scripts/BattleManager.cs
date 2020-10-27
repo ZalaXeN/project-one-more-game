@@ -230,7 +230,6 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             battleState = BattleState.PlayerInput;
-            DoSlowtime();
 
             if (_currentActionCard.skillType != SkillType.Instant &&
                _currentActionCard.skillType != SkillType.Passive)
@@ -243,8 +242,6 @@ namespace ProjectOneMore.Battle
 
         private void ShowTargeting()
         {
-            Debug.Log("Targeting");
-
             // TODO
             // Make Targeting for all type of action
             _currentActionCard.ShowTargeting();
@@ -287,6 +284,11 @@ namespace ProjectOneMore.Battle
         public void SetCurrentActionTarget(BattleUnit unit)
         {
             _currentActionCard.SetTarget(unit);
+        }
+
+        public void SetCurrentActionTarget(Vector3 targetPosition)
+        {
+            _currentActionCard.targetPosition = targetPosition;
         }
 
         public void CurrentActionTakeAction()

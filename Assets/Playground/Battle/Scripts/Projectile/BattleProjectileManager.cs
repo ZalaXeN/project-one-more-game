@@ -6,9 +6,7 @@ namespace ProjectOneMore.Battle
     {
         public LineRenderer lineRenderer;
 
-        // TEST
-        public GameObject projectileGO;
-        public BattleProjectile projectile;
+        private BattleProjectile targetingProjectile;
 
         [SerializeField]
         private Vector3 _mousePos;
@@ -28,20 +26,86 @@ namespace ProjectOneMore.Battle
             lineRenderer.enabled = false;
         }
 
-        public void SpawnProjectile(Vector3 position, float travelTime)
+        private BattleProjectile CreateProjectile(BattleProjectile projectilePrefab, Vector3 position)
         {
-            projectile.gameObject.SetActive(true);
+            GameObject projectileGO = Instantiate(projectilePrefab.gameObject, position, Quaternion.identity);
+            BattleProjectile projectile = projectileGO.GetComponent<BattleProjectile>();
+            return projectile;
+        }
+
+        public void SpawnProjectileWithTargeting(BattleProjectile projectilePrefab, Vector3 position, float travelTime)
+        {
+            BattleProjectile projectile = CreateProjectile(projectilePrefab, position);
+
+            targetingProjectile = projectile;
             projectile.Show(position);
             _travelTime = travelTime;
 
-            projectile.SetLineRenderer(lineRenderer);
+            targetingProjectile.collider.enabled = false;
+            targetingProjectile.SetLineRenderer(lineRenderer);
             ShowLine();
+        }
+
+        public void Launch(BattleProjectile projetilePrefab, Vector3 launchPosition, Vector3 targetPosition, float travelTime, BattleUnit owner = null)
+        {
+            BattleProjectile projectile = CreateProjectile(projetilePrefab, launchPosition);
+
+            if(owner != null)
+            {
+                projectile.SetDamager(owner);
+            }
+
+            projectile.Show(launchPosition);
+            projectile.Launch(targetPosition, travelTime);
         }
 
         public void HideProjectile()
         {
-            projectile.Hide();
+            if (!targetingProjectile)
+                return;
+
+            targetingProjectile.Hide();
             HideLine();
+        }
+
+        private void SetPointPosition()
+        {
+            _mousePos = Input.mousePosition;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(_mousePos);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, targetingProjectile.trajectoryController.canHit))
+            {
+                _pointPos = hit.point;
+            }
+            else
+            {
+                _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
+                _mousePos.y = 0f;
+
+                _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
+                _pointPos.y = 0f;
+                _pointPos.z = transform.position.z;
+            }
+        }
+
+        private void RenderTrajectory()
+        {
+            if (targetingProjectile.trajectoryController == null)
+                return;
+
+            targetingProjectile.trajectoryController.travelTime = _travelTime;
+            targetingProjectile.trajectoryController.targetPos = _pointPos;
+            targetingProjectile.trajectoryController.RenderTrajectory();
+        }
+
+        private bool IsTargeting()
+        {
+            return 
+                targetingProjectile != null &&
+                targetingProjectile.gameObject.activeInHierarchy &&
+                BattleManager.main.battleState == BattleState.PlayerInput &&
+                targetingProjectile.rb.isKinematic;
         }
 
         private void Start()
@@ -51,42 +115,21 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            if (projectile.gameObject.activeInHierarchy && 
-                projectile.trajectoryController != null && 
-                BattleManager.main.battleState == BattleState.PlayerInput &&
-                projectile.rb.isKinematic)
+            // Targeting
+            if (IsTargeting())
             {
                 ShowLine();
-                _mousePos = Input.mousePosition;
+                SetPointPosition();
+                RenderTrajectory();
 
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(_mousePos);
-
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, projectile.trajectoryController.canHit))
+                // Launch Click
+                if (Input.GetMouseButtonDown(0))
                 {
-                    _pointPos = hit.point;
+                    BattleManager.main.SetCurrentActionTarget(_pointPos);
+                    HideLine();
+                    Destroy(targetingProjectile.gameObject);
+                    BattleManager.main.CurrentActionTakeAction();
                 }
-                else
-                {
-                    _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
-                    _mousePos.y = 0f;
-
-                    _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
-                    _pointPos.y = 0f;
-                    _pointPos.z = transform.position.z;
-                }
-
-                projectile.trajectoryController.targetPos = _pointPos;
-                projectile.trajectoryController.RenderTrajectory();
-            }
-
-            if (projectile.gameObject.activeInHierarchy && Input.GetMouseButtonDown(0) && projectile.rb.isKinematic && BattleManager.main.battleState == BattleState.PlayerInput)
-            {
-                projectile.Launch(_pointPos, _travelTime);
-                HideLine();
-
-                // Test Only Remove After Test
-                BattleManager.main.ExitPlayerInput();
             }
         }
     }

@@ -7,8 +7,10 @@ namespace ProjectOneMore.Battle
     public class BattleProjectile : MonoBehaviour
     {
         public Rigidbody rb;
+        public Collider collider;
         public Vector3 moveSpeed;
         public TrajectoryController trajectoryController;
+        public BattleDamager damager;
 
         private Vector3 _startPos;
 
@@ -40,11 +42,7 @@ namespace ProjectOneMore.Battle
             trajectoryController.travelTime = travelTime;
             trajectoryController.CalcVerocityFromTarget();
 
-            moveSpeed = trajectoryController.velocity;
-
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.velocity = moveSpeed;
+            StartCoroutine(LaunchProgress());
         }
 
         public void SetLineRenderer(LineRenderer lineRenderer)
@@ -52,10 +50,23 @@ namespace ProjectOneMore.Battle
             trajectoryController.line = lineRenderer;
         }
 
+        public void SetDamager(BattleUnit unit)
+        {
+            damager.damage = new BattleDamage(unit, unit.pow.current, BattleDamageType.Physical, "slash_hit");
+        }
+
+        private IEnumerator LaunchProgress()
+        {
+            yield return null;
+
+            moveSpeed = trajectoryController.velocity;
+            rb.velocity = moveSpeed;
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+
         private void Reset()
         {
-            transform.position = _startPos;
-
             rb.isKinematic = true;
             rb.useGravity = false;
             rb.rotation = Quaternion.identity;
@@ -69,7 +80,7 @@ namespace ProjectOneMore.Battle
         private void DisableIfOffscreen()
         {
             if (transform.position.y < -20f)
-                Hide();
+                Destroy(gameObject);
         }
     }
 }

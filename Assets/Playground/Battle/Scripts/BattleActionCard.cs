@@ -14,12 +14,13 @@ namespace ProjectOneMore.Battle
 
         public BattleAction[] battleActions;
 
-        private List<BattleUnit> _targets = new List<BattleUnit>();
-
         // TEST Only
-        // make Battle Action Targeting for replace this
-        private Vector3 launchPosition = new Vector3(-4f, 5f, 0.4f);
-        private float travelTime = 1f;
+        // make Battle Action Targeting Data for replace this set
+        private List<BattleUnit> _targets = new List<BattleUnit>();
+        public BattleProjectile projectilePrefab;
+        public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
+        public Vector3 targetPosition = Vector3.zero;
+        public float travelTime = 1f;
 
         public void SetTarget(BattleUnit target)
         {
@@ -51,7 +52,10 @@ namespace ProjectOneMore.Battle
         {
             // Test Only
             if (skillTargetType == SkillTargetType.Projectile)
-                BattleManager.main.battleProjectileManager.SpawnProjectile(launchPosition, travelTime);
+                BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
+                    projectilePrefab,
+                    owner.transform.position + launchPositionOffset, 
+                    travelTime);
         }
 
         public void Execute()
