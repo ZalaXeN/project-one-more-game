@@ -41,7 +41,7 @@ namespace ProjectOneMore.Battle
             projectile.Show(position);
             _travelTime = travelTime;
 
-            targetingProjectile.collider.enabled = false;
+            targetingProjectile.projectileCollider.enabled = false;
             targetingProjectile.SetLineRenderer(lineRenderer);
             ShowLine();
         }

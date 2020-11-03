@@ -7,7 +7,7 @@ namespace ProjectOneMore.Battle
     public class BattleProjectile : MonoBehaviour
     {
         public Rigidbody rb;
-        public Collider collider;
+        public Collider projectileCollider;
         public Vector3 moveSpeed;
         public TrajectoryController trajectoryController;
         public BattleDamager damager;
