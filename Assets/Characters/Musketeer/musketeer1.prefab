@@ -614,7 +614,7 @@ MonoBehaviour:
   skillEffectTarget: 2
   skillTargetType: 0
   battleActions:
-  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
+  - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: 0, y: 5, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}

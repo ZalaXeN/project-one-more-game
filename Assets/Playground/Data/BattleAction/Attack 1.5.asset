@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Attack 1.5
   m_EditorClassIdentifier: 
   powMultiplier: 1.5
+  hitParticleId: slash_hit

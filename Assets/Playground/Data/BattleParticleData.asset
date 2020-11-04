@@ -15,3 +15,6 @@ MonoBehaviour:
   particles:
   - {fileID: 6306291711022714493, guid: 55d42aa72b848514ca70eba276ced845, type: 3}
   - {fileID: 2168177651543391351, guid: 3aecfd888682a1640ae525fdc164639a, type: 3}
+  - {fileID: 8474443335187002954, guid: 3b5f04339ce846842929bab76fa23285, type: 3}
+  - {fileID: 6883398216674258864, guid: d1599c7de5925224a90afe4d30f98fbb, type: 3}
+  - {fileID: 842328361244005124, guid: 6f80ed53005df8c46a41bf6646249d43, type: 3}

@@ -9772,7 +9772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleName: slash_hit
-  disableTime: 0.91999966
+  disableTime: 1
 --- !u!114 &7784105735762737214
 MonoBehaviour:
   m_ObjectHideFlags: 0

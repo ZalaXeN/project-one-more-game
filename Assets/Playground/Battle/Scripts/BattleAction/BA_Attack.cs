@@ -9,6 +9,8 @@ namespace ProjectOneMore.Battle
         [Range(0.1f, 10f)]
         public float powMultiplier = 1f;
 
+        public string hitParticleId = "slash_hit";
+
         public override void Execute(BattleActionCard card)
         {
             if (card.owner == null || card.GetTarget() == null)
@@ -18,7 +20,7 @@ namespace ProjectOneMore.Battle
                 card.owner,
                 (int)math.round(card.owner.pow.current * powMultiplier),
                 BattleDamageType.Physical,
-                "slash_hit");
+                hitParticleId);
 
             card.GetTarget().TakeDamage(damage);
         }
