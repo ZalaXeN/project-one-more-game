@@ -22,3 +22,6 @@ MonoBehaviour:
   - prefabId: p01
     prefab: {fileID: 5085891716047410089, guid: 9dee16cd68d8ba54c882153e6b3ea2eb,
       type: 3}
+  - prefabId: r02
+    prefab: {fileID: 1485443926932229435, guid: 30543204f8ff42e44a5269ae637df793,
+      type: 3}

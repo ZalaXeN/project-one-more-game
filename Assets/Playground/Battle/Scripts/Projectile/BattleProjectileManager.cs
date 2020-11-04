@@ -50,6 +50,7 @@ namespace ProjectOneMore.Battle
         {
             BattleProjectile projectile = CreateProjectile(projetilePrefab, launchPosition);
 
+            // Test Damage
             if(owner != null)
             {
                 projectile.SetDamager(owner);

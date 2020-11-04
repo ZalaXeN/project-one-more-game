@@ -1767,7 +1767,7 @@ MonoBehaviour:
     baseStats:
       POW: 10
       CRI: 10
-      SPD: 10
+      SPD: 200
       HP: 20
       DEF: 10
       EN: 40
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   def:
     max: 10
   attackType: 1
-  moveSpeedMultiplier: 0.3
+  moveSpeedMultiplier: 3
   isUseSpecificPosition: 0
   isMovingToTarget: 0
   autoAttackCard: {fileID: 1382872694966955983}

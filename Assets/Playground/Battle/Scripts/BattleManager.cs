@@ -210,6 +210,12 @@ namespace ProjectOneMore.Battle
             return Mathf.Max(5 - (spd / 100f), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
+        public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
+        {
+            //return spd * moveSpeedMultiplier * Time.deltaTime;
+            return moveSpeedMultiplier * Time.deltaTime;
+        }
+
         public BattleTeam GetOppositeTeam(BattleTeam team)
         {
             return team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;

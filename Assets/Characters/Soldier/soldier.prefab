@@ -1396,7 +1396,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.35, y: 3.88, z: 0.4}
+  m_Size: {x: 2.35, y: 3.88, z: 0.2}
   m_Center: {x: -0.06, y: 1.81, z: 0}
 --- !u!114 &5790581145077102727
 MonoBehaviour:
@@ -1423,7 +1423,7 @@ MonoBehaviour:
     baseStats:
       POW: 15
       CRI: 10
-      SPD: 10
+      SPD: 300
       HP: 30
       DEF: 10
       EN: 40
@@ -1440,7 +1440,7 @@ MonoBehaviour:
   def:
     max: 10
   attackType: 0
-  moveSpeedMultiplier: 0.35
+  moveSpeedMultiplier: 5
   isUseSpecificPosition: 0
   isMovingToTarget: 0
   autoAttackCard: {fileID: 8334711047990634619}
@@ -1491,6 +1491,10 @@ MonoBehaviour:
   skillTargetType: 0
   battleActions:
   - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
+  projectilePrefab: {fileID: 0}
+  launchPositionOffset: {x: 0, y: 5, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  travelTime: 1
 --- !u!1 &4640355226419835021
 GameObject:
   m_ObjectHideFlags: 0

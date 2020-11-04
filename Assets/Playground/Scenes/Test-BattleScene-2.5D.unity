@@ -9538,7 +9538,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 150, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856653447
 MonoBehaviour:
@@ -9700,7 +9700,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 150, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &907177075
 MonoBehaviour:
@@ -10923,7 +10923,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1030891502
 MonoBehaviour:
@@ -10943,7 +10943,7 @@ MonoBehaviour:
   skillEffectTarget: 0
   skillTargetType: 1
   battleActions:
-  - {fileID: 11400000, guid: 81880e22016907342b920080500949e7, type: 2}
+  - {fileID: 11400000, guid: 7930f1168a8516a40b66c065c475cac9, type: 2}
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -13417,7 +13417,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Spawn
 
-    Range'
+    Musketeer'
 --- !u!222 &1267008202
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14992,7 +14992,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 180, y: 150}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1515443448
 MonoBehaviour:
@@ -15012,7 +15012,7 @@ MonoBehaviour:
   skillEffectTarget: 0
   skillTargetType: 1
   battleActions:
-  - {fileID: 11400000, guid: d50b61af48b186948a9582d2fd297518, type: 2}
+  - {fileID: 11400000, guid: 0acfcbbe40b8e3a4a8319e967427bdaa, type: 2}
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -23554,7 +23554,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Range
+  m_Text: Musketeer
 --- !u!222 &2128761110
 CanvasRenderer:
   m_ObjectHideFlags: 0

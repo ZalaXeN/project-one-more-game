@@ -360,7 +360,7 @@ namespace ProjectOneMore.Battle
             if (!isMovingToTarget || !IsAlive())
                 return;
 
-            float step = spd.current * moveSpeedMultiplier * Time.deltaTime;
+            float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.001f)

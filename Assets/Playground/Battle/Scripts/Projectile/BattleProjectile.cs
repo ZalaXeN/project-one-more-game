@@ -50,9 +50,16 @@ namespace ProjectOneMore.Battle
             trajectoryController.line = lineRenderer;
         }
 
+        // Test Damage
         public void SetDamager(BattleUnit unit)
         {
             damager.damage = new BattleDamage(unit, unit.pow.current, BattleDamageType.Physical, "slash_hit");
+        }
+
+        // Test Destroy On Damager
+        public void DestroyOnHit()
+        {
+            Destroy(gameObject);
         }
 
         private IEnumerator LaunchProgress()
