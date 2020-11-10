@@ -65,7 +65,14 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main == null)
                 return;
 
-            BattleManager.main.battleParticleManager.ShowParticle(particleId, m_MonoBehaviour.transform.position + positionOffset);
+            // Adjust Scale and flip position
+            bool isFlip = m_MonoBehaviour.transform.localScale.x < 0;
+            positionOffset.x *= isFlip ? -1f : 1f;
+
+            BattleManager.main.battleParticleManager.ShowParticle(
+                particleId, 
+                m_MonoBehaviour.transform.position + positionOffset,
+                isFlip);
         }
     }
 }
