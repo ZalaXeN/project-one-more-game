@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56e73de819790f741830e37a17bf6c56, type: 3}
-  m_Name: Spawn Player Minion Musketeer
+  m_Name: Spawn Player Minion Swordsman 1
   m_EditorClassIdentifier: 
-  minionPrefabId: r02
+  minionPrefabId: s01
   battleTeam: 0
