@@ -283,7 +283,9 @@ namespace ProjectOneMore.Battle
 
         private IEnumerator SinkAndDestroy()
         {
+            Coroutine sinkCoroutine = StartCoroutine(Sinking());
             yield return StartCoroutine(Dissolving());
+            StopCoroutine(sinkCoroutine);
             Destroy(gameObject);
         }
 
