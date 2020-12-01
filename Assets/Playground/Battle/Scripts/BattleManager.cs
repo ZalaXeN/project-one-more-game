@@ -80,6 +80,7 @@ namespace ProjectOneMore.Battle
         public float slowingLength = 0.3f;
 
         private BattleActionCard _currentActionCard;
+        private BattleActionCard _previousActionCard;
         [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
         private float _targetTimeScale = 1f;
@@ -136,6 +137,13 @@ namespace ProjectOneMore.Battle
 
         #region Battle Phase
 
+        public bool CanUpdateTimer()
+        {
+            return
+                battleState == BattleState.Battle ||
+                battleState == BattleState.PlayerInput;
+        }
+
         private void InitSpawnTimer()
         {
             levelManager.spawnTimer = 0f;
@@ -144,8 +152,7 @@ namespace ProjectOneMore.Battle
 
         private void UpdateSpawnTimer()
         {
-            if (battleState != BattleState.Battle && 
-                battleState != BattleState.PlayerInput)
+            if (!CanUpdateTimer())
                 return;
 
             battleTime += Time.deltaTime;
@@ -248,6 +255,8 @@ namespace ProjectOneMore.Battle
 
         private void ShowTargeting()
         {
+            DoSlowtime();
+
             // TODO
             // Make Targeting for all type of action
             _currentActionCard.ShowTargeting();
@@ -299,8 +308,11 @@ namespace ProjectOneMore.Battle
 
         public void CurrentActionTakeAction()
         {
-            if(_currentActionCard != null)
-                _currentActionCard.Execute();
+            if (_currentActionCard != null)
+            {
+                _previousActionCard = _currentActionCard;
+                _previousActionCard.Execute();
+            }
 
             ExitPlayerInput();
         }
@@ -310,6 +322,7 @@ namespace ProjectOneMore.Battle
             if(battleState != BattleState.PlayerInput)
                 return;
 
+            _currentActionCard = null;
             ResetTime();
             HideOutlineFXColor();
             battleState = BattleState.Battle;

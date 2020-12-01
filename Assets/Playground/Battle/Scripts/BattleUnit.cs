@@ -198,7 +198,7 @@ namespace ProjectOneMore.Battle
 
             if (_autoAttackCooldown > 0f || 
                 isMovingToTarget || !IsAlive() ||
-                BattleManager.main.battleState != BattleState.Battle)
+                !BattleManager.main.CanUpdateTimer())
                 return;
 
             _currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
