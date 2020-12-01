@@ -23,9 +23,11 @@ namespace ProjectOneMore.Battle
 
         //-- Delegate
         public delegate void UnitDeadDelegate(BattleUnit unit);
+        public delegate void PlayerTakeActionDelegate(BattleActionCard card);
 
         //-- Event
         public event UnitDeadDelegate UnitDeadEvent;
+        public event PlayerTakeActionDelegate PlayerTakeActionEvent;
 
         private BattleState _battleState;
         public BattleState battleState
@@ -312,6 +314,9 @@ namespace ProjectOneMore.Battle
             {
                 _previousActionCard = _currentActionCard;
                 _previousActionCard.Execute();
+
+                //Shuffle Action Card
+                PlayerTakeActionEvent?.Invoke(_previousActionCard);
             }
 
             ExitPlayerInput();

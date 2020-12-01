@@ -6071,7 +6071,7 @@ RectTransform:
   m_Children:
   - {fileID: 775200673}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6542,6 +6542,16 @@ MonoBehaviour:
   - {fileID: 1863294376}
   - {fileID: 645975197}
   inputPanel: {fileID: 1754371049}
+  commandActions:
+  - {fileID: 1734827288}
+  - {fileID: 2121182946}
+  - {fileID: 491496132}
+  - {fileID: 1092438071}
+  - {fileID: 1515443446}
+  - {fileID: 2147383019}
+  - {fileID: 1920047336}
+  - {fileID: 1812184644}
+  actionPerDraw: 5
 --- !u!1 &523096295
 GameObject:
   m_ObjectHideFlags: 0
@@ -12039,7 +12049,7 @@ RectTransform:
   m_Children:
   - {fileID: 1531231878}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15756,6 +15766,7 @@ GameObject:
   - component: {fileID: 1499841806}
   - component: {fileID: 1499841805}
   - component: {fileID: 1499841804}
+  - component: {fileID: 1499841807}
   m_Layer: 5
   m_Name: BattleDeckPanel
   m_TagString: Untagged
@@ -15774,13 +15785,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1737342545}
   - {fileID: 1734827289}
   - {fileID: 2121182947}
   - {fileID: 491496133}
   - {fileID: 1092438072}
   - {fileID: 1515443447}
   - {fileID: 2147383020}
-  - {fileID: 1737342545}
   - {fileID: 1920047337}
   - {fileID: 1812184645}
   m_Father: {fileID: 519336633}
@@ -15805,10 +15816,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 10
-    m_Right: 0
+    m_Right: 150
     m_Top: 10
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 150, y: 80}
@@ -15853,6 +15864,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499841802}
   m_CullTransparentMesh: 0
+--- !u!114 &1499841807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499841802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!1 &1500485638
 GameObject:
   m_ObjectHideFlags: 0
@@ -15998,7 +16023,7 @@ RectTransform:
   m_Children:
   - {fileID: 1267008200}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18733,7 +18758,7 @@ RectTransform:
   m_Children:
   - {fileID: 1196287286}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18869,7 +18894,6 @@ GameObject:
   - component: {fileID: 1737342549}
   - component: {fileID: 1737342548}
   - component: {fileID: 1737342547}
-  - component: {fileID: 1737342546}
   - component: {fileID: 1737342550}
   m_Layer: 5
   m_Name: ShuffleButton
@@ -18891,36 +18915,13 @@ RectTransform:
   m_Children:
   - {fileID: 662448832}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -10, y: 0}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &1737342546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737342544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 1225113670}
-  skillName: Attack
-  skillType: 2
-  skillEffectTarget: 2
-  skillTargetType: 0
-  battleActions:
-  - {fileID: 11400000, guid: feca50ee942a5034486f3478bc27bb9f, type: 2}
-  projectilePrefab: {fileID: 0}
-  launchPositionOffset: {x: -4, y: 5, z: 0.4}
-  targetPosition: {x: 0, y: 0, z: 0}
-  travelTime: 1
 --- !u!114 &1737342547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18964,9 +18965,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737342546}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Target
+      - m_Target: {fileID: 519336634}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUIManager, Assembly-CSharp
+        m_MethodName: Shuffle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25109,7 +25110,7 @@ RectTransform:
   m_Children:
   - {fileID: 1755678153}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -25505,7 +25506,7 @@ RectTransform:
   m_Children:
   - {fileID: 1629827135}
   m_Father: {fileID: 1499841803}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
