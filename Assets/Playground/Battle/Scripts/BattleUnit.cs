@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections;
 
 namespace ProjectOneMore.Battle
 {
@@ -13,6 +14,15 @@ namespace ProjectOneMore.Battle
     {
         Melee,
         Range
+    }
+
+    public enum BattleUnitState
+    {
+        Idle,
+        Moving,
+        Action,
+        Hit,
+        Dead
     }
 
     public class BattleUnit : MonoBehaviour
@@ -44,13 +54,16 @@ namespace ProjectOneMore.Battle
 
         [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
-        public bool isMovingToTarget = false;
+
+        // TODO Test
+        public Vector3 targetPosition;
 
         [Header("Auto Attack")]
         public BattleActionCard autoAttackCard;
 
-        // TODO Test
-        public Vector3 targetPosition;
+        [Header("Unit State")]
+        [SerializeField]
+        private BattleUnitState _currentState;
 
         private BattleActionCard _currentBattleActionCard;
         private float _autoAttackCooldown = 0f;
@@ -171,7 +184,7 @@ namespace ProjectOneMore.Battle
             if (animator == null || testMoving)
                 return;
 
-            animator.SetBool("moving", isMovingToTarget);
+            animator.SetBool("moving", _currentState == BattleUnitState.Moving);
         }
 
         public void ExecuteCurrentBattleAction()
@@ -197,7 +210,7 @@ namespace ProjectOneMore.Battle
                 _autoAttackCooldown -= Time.deltaTime;
 
             if (_autoAttackCooldown > 0f || 
-                isMovingToTarget || !IsAlive() ||
+                _currentState != BattleUnitState.Idle ||
                 !BattleManager.main.CanUpdateTimer())
                 return;
 
@@ -218,6 +231,12 @@ namespace ProjectOneMore.Battle
         #endregion
 
         #region Battle
+
+        public void SetState(BattleUnitState state)
+        {
+            _currentState = state;
+        }
+
         public void TakeDamage(BattleDamage damage)
         {
             if (damage.owner.team == team)
@@ -232,7 +251,8 @@ namespace ProjectOneMore.Battle
 
             if (!IsAlive())
             {
-                Dead();
+                if(_currentState != BattleUnitState.Dead)
+                    Dead();
             }
             else
             {
@@ -248,7 +268,6 @@ namespace ProjectOneMore.Battle
         // Dead
         public void Dead()
         {
-            //BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
             animator.SetTrigger("dead");
         }
 
@@ -258,19 +277,40 @@ namespace ProjectOneMore.Battle
                 return;
 
             BattleManager.main.TriggerUnitDead(this);
+
+            StartCoroutine(SinkAndDestroy());
+        }
+
+        private IEnumerator SinkAndDestroy()
+        {
+            yield return StartCoroutine(Dissolving());
             Destroy(gameObject);
         }
+
+        private IEnumerator Sinking()
+        {
+            while (transform.position.y > -10f)
+            {
+                transform.position += Vector3.down * Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator Dissolving()
+        {
+            float progress = 0f;
+            while (progress < 1f)
+            {
+                progress += 1 * Time.deltaTime;
+                SetDissolveProgress(progress);
+                yield return null;
+            }
+            progress = 1f;
+        }
+
         #endregion
 
         #region Outline Highlight
-        public void DebugShowAttackTypeOutline()
-        {
-            //// Debug
-            //if (attackType == BattleUnitAttackType.Melee)
-            //    SetOutlineColor(Color.red);
-            //else
-            //    SetOutlineColor(Color.green);
-        }
 
         private void SetOutlineColor(Color targetColor)
         {
@@ -288,36 +328,14 @@ namespace ProjectOneMore.Battle
 
         private void Highlight()
         {
-            if (_spriteRenderers == null)
-            {
-                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            }
-
             BattleManager.main.SetOutlineFXColor();
-            foreach (SpriteRenderer sprite in _spriteRenderers)
-            {
-                // Tint
-                //sprite.color = Color.red;
-
-                SetSpriteMaterial(BattleManager.main.outlineMaterial);
-            }
+            SetSpriteMaterial(BattleManager.main.outlineMaterial);
         }
 
         private void DeHighlight()
         {
-            if (_spriteRenderers == null)
-            {
-                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            }
-
             BattleManager.main.HideOutlineFXColor();
-            foreach (SpriteRenderer sprite in _spriteRenderers)
-            {
-                // Tint
-                //sprite.color = Color.white;
-
-                SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
-            }
+            SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
         }
         #endregion
 
@@ -337,13 +355,30 @@ namespace ProjectOneMore.Battle
                 sprite.material = mat;
             }
         }
+
+        private void SetDissolveProgress(float progress)
+        {
+            if (_spriteRenderers == null)
+            {
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            }
+
+            foreach (SpriteRenderer sprite in _spriteRenderers)
+            {
+                if (sprite.GetComponent<SwingEffector>())
+                    continue;
+
+                sprite.gameObject.layer = LayerMask.NameToLayer("Effect");
+                sprite.material.SetFloat("Dissolve_Progress", progress);
+            }
+        }
+
         #endregion
 
         #region Positioning
 
         public void Move(Vector3 targetPosition)
         {
-            isMovingToTarget = true;
             this.targetPosition = targetPosition;
         }
 
@@ -357,8 +392,11 @@ namespace ProjectOneMore.Battle
 
         private void MoveToTargetPosition()
         {
-            if (!isMovingToTarget || !IsAlive())
+            if (_currentState != BattleUnitState.Idle &&
+                _currentState != BattleUnitState.Moving)
                 return;
+
+            _currentState = BattleUnitState.Moving;
 
             float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
@@ -366,7 +404,7 @@ namespace ProjectOneMore.Battle
             if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
             {
                 targetPosition = transform.position;
-                isMovingToTarget = !(transform.position == targetPosition);
+                _currentState = BattleUnitState.Idle;
             }
         }
 
@@ -399,14 +437,14 @@ namespace ProjectOneMore.Battle
         {
             ToggleAnimatorBool("moving");
             testMoving = !testMoving;
-            isMovingToTarget = testMoving;
+            _currentState = BattleUnitState.Moving;
         }
 
         public void ToggleIdle()
         {
             animator.SetBool("moving", false);
             testMoving = false;
-            isMovingToTarget = testMoving;
+            _currentState = BattleUnitState.Idle;
         }
 
         #endregion
