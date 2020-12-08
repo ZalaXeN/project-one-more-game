@@ -12,7 +12,7 @@ namespace ProjectOneMore.Battle
 
         private void Reset()
         {
-            disableTime = GetParticleSystem().duration;
+            disableTime = GetParticleSystem().main.duration;
         }
 
         private void OnEnable()
