@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEditor;
 using System.Collections;
 
@@ -25,7 +27,7 @@ namespace ProjectOneMore.Battle
         Dead
     }
 
-    public class BattleUnit : MonoBehaviour
+    public class BattleUnit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [Header("Settings")]
         public Animator animator;
@@ -142,9 +144,24 @@ namespace ProjectOneMore.Battle
         }
         #endregion
 
-        #region Unity Script Event
-        // Click
-        public void OnMouseUpAsButton()
+        #region Event Systems
+
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+        {
+            HighlightThisUnitTarget();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            DeHighlightThisUnitTarget();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            SetCurrentActionTargetThisUnit();
+        }
+
+        private void SetCurrentActionTargetThisUnit()
         {
             if (BattleManager.main.battleState != BattleState.PlayerInput)
                 return;
@@ -157,8 +174,7 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        // Hover
-        public void OnMouseEnter()
+        private void HighlightThisUnitTarget()
         {
             if (BattleManager.main.battleState != BattleState.PlayerInput)
                 return;
@@ -167,7 +183,7 @@ namespace ProjectOneMore.Battle
                 Highlight();
         }
 
-        public void OnMouseExit()
+        private void DeHighlightThisUnitTarget()
         {
             if (BattleManager.main.battleState != BattleState.PlayerInput)
                 return;
@@ -175,6 +191,7 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main.CanCurrentActionTarget(this))
                 DeHighlight();
         }
+
         #endregion
 
         #region On Update Script
