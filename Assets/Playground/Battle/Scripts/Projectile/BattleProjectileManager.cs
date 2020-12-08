@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ProjectOneMore.Battle
 {
@@ -71,7 +72,7 @@ namespace ProjectOneMore.Battle
 
         private void SetPointPosition()
         {
-            _mousePos = Input.mousePosition;
+            _mousePos = Mouse.current.position.ReadValue();
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(_mousePos);
 
@@ -124,7 +125,7 @@ namespace ProjectOneMore.Battle
                 RenderTrajectory();
 
                 // Launch Click
-                if (Input.GetMouseButtonDown(0))
+                if (Mouse.current.leftButton.wasPressedThisFrame)
                 {
                     BattleManager.main.SetCurrentActionTarget(_pointPos);
                     HideLine();
