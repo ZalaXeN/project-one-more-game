@@ -37,6 +37,7 @@
         Blend One Zero
         ZTest LEqual
         ZWrite On
+        ColorMask RGB
 
         // Debug
         // <None>
