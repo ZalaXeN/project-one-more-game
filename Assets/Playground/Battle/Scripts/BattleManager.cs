@@ -189,6 +189,14 @@ namespace ProjectOneMore.Battle
             _battleUnitList.Add(unit);
         }
 
+        public bool CheckUnitInBattleField(BattleUnit unit)
+        {
+            if (Vector3.Distance(fieldManager.battleFieldArea.bounds.ClosestPoint(unit.transform.position), unit.transform.position) < 0.02f)
+                return true;
+
+            return false;
+        }
+
         private void UpdateBattlePosition()
         {
             fieldManager.UpdateBattlePosition(_battleUnitList);

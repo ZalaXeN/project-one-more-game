@@ -75,6 +75,9 @@ namespace ProjectOneMore.Battle
 
         private BattleUnitController _controller;
 
+        private float _hitLockTimer;
+        private float _hitLockBreakTimer;
+
         #region Initialization
         // Mock Up
         private void InitStats()
@@ -157,6 +160,8 @@ namespace ProjectOneMore.Battle
             UpdateAutoAttack();
 
             UpdateAnimation();
+
+            UpdateHitLockTime();
         }
 
         private void OnDisable()
@@ -267,6 +272,20 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        private void UpdateHitLockTime()
+        {
+            if(!CanMove())
+                _hitLockTimer += Time.deltaTime;
+            else
+                _hitLockTimer = 0f;
+
+            if (_hitLockTimer > GameConfig.BATTLE_MOVEMENT_HIT_LOCK_TIME_MAX)
+                _hitLockBreakTimer = GameConfig.BATTLE_MOVEMENT_HIT_LOCK_BREAK_TIME;
+
+            if (_hitLockBreakTimer > 0f)
+                _hitLockBreakTimer -= Time.deltaTime;
+        }
+
         #endregion
 
         #region Battle
@@ -286,6 +305,11 @@ namespace ProjectOneMore.Battle
             return 
                 (_currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Moving) &&
                 !isUseSpecificPosition;
+        }
+
+        public bool IsHitLockBreakTime()
+        {
+            return (_currentState == BattleUnitState.Hit && _hitLockBreakTimer > 0f);
         }
 
         public void TakeDamage(BattleDamage damage)
@@ -435,14 +459,25 @@ namespace ProjectOneMore.Battle
             this.targetPosition = targetPosition;
         }
 
+        public bool InBattlefield()
+        {
+            return BattleManager.main.CheckUnitInBattleField(this);
+        }
+
         private void UpdatePosition()
         {
             MoveToTargetPosition();
+
+            if (transform.position == targetPosition)
+            {
+                if(_controller && _controller.HasMoveInput()) { }
+                else { _currentState = BattleUnitState.Idle; }
+            }
         }
 
         private void MoveToTargetPosition()
         {
-            if (!CanMove())
+            if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
             _currentState = BattleUnitState.Moving;
@@ -453,7 +488,6 @@ namespace ProjectOneMore.Battle
             if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
             {
                 targetPosition = transform.position;
-                _currentState = BattleUnitState.Idle;
             }
         }
 

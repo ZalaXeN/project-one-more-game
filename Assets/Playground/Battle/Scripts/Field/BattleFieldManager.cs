@@ -16,6 +16,9 @@ namespace ProjectOneMore.Battle
         [Header("Movement Basic Behaviour")]
         public BattleUnitMovementBehaviour basicMovementBehaviour;
 
+        [Header("Controllable Unit Movement Behaviour")]
+        public BattleUnitMovementBehaviour controllableMovementBehaviour;
+
         public Vector3 GetSpawnPosition(BattleTeam team)
         {
             Bounds bound = team == BattleTeam.Player ? playerSpawnArea.bounds : enemySpawnArea.bounds;
@@ -40,15 +43,27 @@ namespace ProjectOneMore.Battle
         {
             foreach (BattleUnit unit in unitList)
             {
-                if (unit.IsControlled())
-                    continue;
-
-                List<Transform> context = GetNearbyObjects(unit);
-
-                Vector3 target = unit.transform.position + basicMovementBehaviour.CalculateMove(this, context, unit);
-
-                unit.Move(target);
+                UpdateBattlePosition(unit);
             }
+        }
+
+        public void UpdateBattlePosition(BattleUnit unit)
+        {
+            List<Transform> context = GetNearbyObjects(unit);
+
+            BattleUnitMovementBehaviour targetBehaviour;
+            if (unit.IsControlled())
+            {
+                targetBehaviour = controllableMovementBehaviour;
+            }
+            else
+            {
+                targetBehaviour = basicMovementBehaviour;
+            }
+
+            Vector3 targetPos = unit.transform.position + targetBehaviour.CalculateMove(this, context, unit);
+
+            unit.Move(targetPos);
         }
 
         public BattleUnit GetNearestEnemyUnitInAttackRange(BattleUnit unit, bool shouldAlive = true)
