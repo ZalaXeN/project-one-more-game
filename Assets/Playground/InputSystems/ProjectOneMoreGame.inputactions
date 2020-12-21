@@ -259,7 +259,7 @@
             "actions": [
                 {
                     "name": "Navigate",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "dc2a725f-13ea-4a00-bf04-9e2432376bf1",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -267,7 +267,7 @@
                 },
                 {
                     "name": "Submit",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "bcc4104f-0e01-4cc7-bddc-b120d4fb455a",
                     "expectedControlType": "Button",
                     "processors": "",

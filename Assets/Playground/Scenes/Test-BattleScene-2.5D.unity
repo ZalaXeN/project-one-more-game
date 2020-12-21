@@ -5560,8 +5560,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -6439,6 +6439,7 @@ GameObject:
   - component: {fileID: 519336630}
   - component: {fileID: 519336629}
   - component: {fileID: 519336634}
+  - component: {fileID: 519336635}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -6574,6 +6575,25 @@ MonoBehaviour:
   - {fileID: 1920047336}
   - {fileID: 1812184644}
   actionPerDraw: 5
+--- !u!114 &519336635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519336628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe3cda3e244f60419474164d6ba3b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_MaxDistance: 1000
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &523096295
 GameObject:
   m_ObjectHideFlags: 0
@@ -14452,8 +14472,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.4669833, y: 3.1912794, z: -0.00005}
-    m_Extent: {x: 5.0728016, y: 11.563928, z: 0.00005}
+    m_Center: {x: 4.4669843, y: 3.1912794, z: -0.00005}
+    m_Extent: {x: 5.0728025, y: 11.563928, z: 0.00005}
 --- !u!4 &1323886704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -18508,7 +18528,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 814998688, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_SortingOrder
-      value: -141
+      value: -205
       objectReference: {fileID: 0}
     - target: {fileID: 2109378538129425334, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
@@ -23133,8 +23153,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: -1.2907243, y: 7.278978, z: -0.00005}
-    m_Extent: {x: 4.9478683, y: 13.718824, z: 0.00005}
+    m_Center: {x: -1.2907252, y: 7.278978, z: -0.00005}
+    m_Extent: {x: 4.9478674, y: 13.718824, z: 0.00005}
 --- !u!1001 &2005092877
 PrefabInstance:
   m_ObjectHideFlags: 0
