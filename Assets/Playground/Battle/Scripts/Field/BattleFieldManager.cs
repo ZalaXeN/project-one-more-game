@@ -40,6 +40,9 @@ namespace ProjectOneMore.Battle
         {
             foreach (BattleUnit unit in unitList)
             {
+                if (unit.IsControlled())
+                    continue;
+
                 List<Transform> context = GetNearbyObjects(unit);
 
                 Vector3 target = unit.transform.position + basicMovementBehaviour.CalculateMove(this, context, unit);

@@ -73,6 +73,8 @@ namespace ProjectOneMore.Battle
 
         private SpriteRenderer[] _spriteRenderers;
 
+        private BattleUnitController _controller;
+
         #region Initialization
         // Mock Up
         private void InitStats()
@@ -113,6 +115,25 @@ namespace ProjectOneMore.Battle
 
             _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
+        }
+
+        #endregion
+
+        #region Controller
+
+        public void SetController(BattleUnitController controller)
+        {
+            _controller = controller;
+        }
+
+        public void RemoveController()
+        {
+            _controller = null;
+        }
+
+        public bool IsControlled()
+        {
+            return (_controller && _controller.enabled);
         }
 
         #endregion
@@ -204,6 +225,7 @@ namespace ProjectOneMore.Battle
             animator.SetBool("moving", _currentState == BattleUnitState.Moving);
         }
 
+        // Use on SMB
         public void ExecuteCurrentBattleAction()
         {
             // TODO 
@@ -227,7 +249,7 @@ namespace ProjectOneMore.Battle
                 _autoAttackCooldown -= Time.deltaTime;
 
             if (_autoAttackCooldown > 0f || 
-                _currentState != BattleUnitState.Idle ||
+                !CanAutoAttack() ||
                 !BattleManager.main.CanUpdateTimer())
                 return;
 
@@ -252,6 +274,18 @@ namespace ProjectOneMore.Battle
         public void SetState(BattleUnitState state)
         {
             _currentState = state;
+        }
+
+        public bool CanAutoAttack()
+        {
+            return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit;
+        }
+
+        public bool CanMove()
+        {
+            return 
+                (_currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Moving) &&
+                !isUseSpecificPosition;
         }
 
         public void TakeDamage(BattleDamage damage)
@@ -403,16 +437,12 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
-            if (!isUseSpecificPosition)
-            {
-                MoveToTargetPosition();
-            }
+            MoveToTargetPosition();
         }
 
         private void MoveToTargetPosition()
         {
-            if (_currentState != BattleUnitState.Idle &&
-                _currentState != BattleUnitState.Moving)
+            if (!CanMove())
                 return;
 
             _currentState = BattleUnitState.Moving;
