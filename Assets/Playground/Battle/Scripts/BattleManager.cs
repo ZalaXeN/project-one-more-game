@@ -321,13 +321,24 @@ namespace ProjectOneMore.Battle
             if (_currentActionCard != null)
             {
                 _previousActionCard = _currentActionCard;
-                _previousActionCard.Execute();
+                _previousActionCard.TakeAction();
+
+                // Execute on animation take action
+                //_previousActionCard.Execute();
 
                 //Shuffle Action Card
                 PlayerTakeActionEvent?.Invoke(_previousActionCard);
             }
 
             ExitPlayerInput();
+        }
+
+        public void CurrentActionExecute()
+        {
+            if (_previousActionCard != null)
+            {
+                _previousActionCard.Execute();
+            }
         }
 
         public void ExitPlayerInput()

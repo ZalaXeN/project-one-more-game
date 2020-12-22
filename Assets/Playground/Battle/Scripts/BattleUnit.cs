@@ -159,8 +159,6 @@ namespace ProjectOneMore.Battle
 
             UpdateAutoAttack();
 
-            UpdateAnimation();
-
             UpdateHitLockTime();
         }
 
@@ -222,20 +220,24 @@ namespace ProjectOneMore.Battle
 
         #region On Update Script
 
-        private void UpdateAnimation()
-        {
-            if (animator == null || testMoving)
-                return;
-
-            animator.SetBool("moving", _currentState == BattleUnitState.Moving);
-        }
-
         // Use on SMB
         public void ExecuteCurrentBattleAction()
         {
+            if (IsControlled())
+            {
+                BattleManager.main.CurrentActionExecute();
+            }
+            else 
+            {
+                ExecuteAutoAction();
+            }
+        }
+
+        private void ExecuteAutoAction()
+        {
             // TODO 
             // Change target follow BAC
-            _currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
+            //_currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
 
             if (_currentActionTarget == null || _currentBattleActionCard == null)
                 return;
@@ -309,6 +311,16 @@ namespace ProjectOneMore.Battle
                 !isUseSpecificPosition;
         }
 
+        public bool CanAnimateHit()
+        {
+            return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit || _currentState == BattleUnitState.Moving;
+        }
+
+        public bool CanTakeAction()
+        {
+            return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit || _currentState == BattleUnitState.Moving;
+        }
+
         public bool IsHitLockBreakTime()
         {
             return (_currentState == BattleUnitState.Hit && _hitLockBreakTimer > 0f);
@@ -328,10 +340,10 @@ namespace ProjectOneMore.Battle
 
             if (!IsAlive())
             {
-                if(_currentState != BattleUnitState.Dead)
+                if (_currentState != BattleUnitState.Dead)
                     Dead();
             }
-            else
+            else if (CanAnimateHit())
             {
                 animator.SetTrigger("hit");
             }
@@ -473,7 +485,10 @@ namespace ProjectOneMore.Battle
             if (transform.position == targetPosition)
             {
                 if(_controller && _controller.HasMoveInput()) { }
-                else { _currentState = BattleUnitState.Idle; }
+                else
+                {
+                    animator.SetBool("moving", false);
+                }
             }
         }
 
@@ -482,7 +497,7 @@ namespace ProjectOneMore.Battle
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
-            _currentState = BattleUnitState.Moving;
+            animator.SetBool("moving", true);
 
             UpdateFlipScale(targetPosition);
 
@@ -543,14 +558,12 @@ namespace ProjectOneMore.Battle
         {
             ToggleAnimatorBool("moving");
             testMoving = !testMoving;
-            _currentState = BattleUnitState.Moving;
         }
 
         public void ToggleIdle()
         {
             animator.SetBool("moving", false);
             testMoving = false;
-            _currentState = BattleUnitState.Idle;
         }
 
         #endregion

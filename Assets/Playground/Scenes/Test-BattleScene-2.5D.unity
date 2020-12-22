@@ -5181,10 +5181,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 032edf17d8d738644ad130445d4a3ba2, type: 2}
   projectilePrefab: {fileID: 0}
@@ -6111,10 +6113,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Attack
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: feca50ee942a5034486f3478bc27bb9f, type: 2}
   projectilePrefab: {fileID: 0}
@@ -9948,10 +9952,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 9a14cc9b85902f44c8075693832049a8, type: 2}
   projectilePrefab: {fileID: 0}
@@ -10111,10 +10117,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: e6be0801b7728a44d857fdb65b757608, type: 2}
   projectilePrefab: {fileID: 0}
@@ -11337,10 +11345,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 7930f1168a8516a40b66c065c475cac9, type: 2}
   projectilePrefab: {fileID: 0}
@@ -11975,10 +11985,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Spawn Melee
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 34d5ae340656aeb4881f12d0e71606cd, type: 2}
   projectilePrefab: {fileID: 0}
@@ -13024,10 +13036,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 257b5c8c66096034a952cdfd9dca3d5a, type: 2}
   projectilePrefab: {fileID: 0}
@@ -13865,10 +13879,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 26248d064dfaf1841b5eadeb63cec807, type: 2}
   projectilePrefab: {fileID: 0}
@@ -14101,10 +14117,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: d6266e515043a50408eecddb282813f3, type: 2}
   projectilePrefab: {fileID: 0}
@@ -14472,8 +14490,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.4669843, y: 3.1912794, z: -0.00005}
-    m_Extent: {x: 5.0728025, y: 11.563928, z: 0.00005}
+    m_Center: {x: 4.4669833, y: 3.1912794, z: -0.00005}
+    m_Extent: {x: 5.0728016, y: 11.563928, z: 0.00005}
 --- !u!4 &1323886704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -15996,10 +16014,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Spawn Range
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 0acfcbbe40b8e3a4a8319e967427bdaa, type: 2}
   projectilePrefab: {fileID: 0}
@@ -18814,10 +18834,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Meteor
   skillType: 3
   skillEffectTarget: 2
   skillTargetType: 2
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 67d3ae21a41657c4189d9c4e2f771883, type: 2}
   projectilePrefab: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
@@ -20040,10 +20062,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Spawn Melee
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 10c494a8382800c46b56353134787f56, type: 2}
   projectilePrefab: {fileID: 0}
@@ -21701,10 +21725,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Spawn Melee
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: e0e75a084172a6445811a50010338732, type: 2}
   projectilePrefab: {fileID: 0}
@@ -24268,10 +24294,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  canUseWithoutOwner: 1
   skillName: Spawn
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 9fe97e3c5f079424c8806f1318252180, type: 2}
   projectilePrefab: {fileID: 0}
@@ -25196,10 +25224,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Attack
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: feca50ee942a5034486f3478bc27bb9f, type: 2}
   projectilePrefab: {fileID: 0}
@@ -25593,10 +25623,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
   skillName: Spawn Projectile
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 1
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 64eabf8d32527364e856af9db74113dc, type: 2}
   projectilePrefab: {fileID: 0}

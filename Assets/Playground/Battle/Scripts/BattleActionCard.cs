@@ -6,12 +6,14 @@ namespace ProjectOneMore.Battle
     public class BattleActionCard : MonoBehaviour
     {
         public BattleUnit owner;
+        public bool canUseWithoutOwner;
 
         public string skillName;
         public SkillType skillType;
         public SkillEffectTarget skillEffectTarget;
         public SkillTargetType skillTargetType;
 
+        public string animationId;
         public BattleAction[] battleActions;
 
         // TEST Only
@@ -64,6 +66,20 @@ namespace ProjectOneMore.Battle
             {
                 battleAction.Execute(this);
             }
+        }
+
+        public void TakeAction()
+        {
+            if (!owner)
+            {
+                if (canUseWithoutOwner)
+                {
+                    Execute();
+                }
+                return;
+            }
+
+            owner.animator.SetTrigger(animationId);
         }
     }
 }
