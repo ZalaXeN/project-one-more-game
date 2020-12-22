@@ -10,7 +10,7 @@ namespace ProjectOneMore
 
         public static readonly float BATTLE_HIGHEST_AUTO_ATTACK_SPEED = 0.2f;
 
-        public static readonly float BATTLE_MOVEMENT_HIT_LOCK_TIME_MAX = 1f;
+        public static readonly float BATTLE_MOVEMENT_HIT_LOCK_TIME_MAX = 0.7f;
         public static readonly float BATTLE_MOVEMENT_HIT_LOCK_BREAK_TIME = 1f;
 
         public static readonly int ACTIVE_CAMERA_PRIORITY = 20;

@@ -262,6 +262,8 @@ namespace ProjectOneMore.Battle
 
             if (_currentActionTarget != null)
             {
+                UpdateFlipScale(_currentActionTarget.transform.position);
+
                 _currentBattleActionCard = autoAttackCard;
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
                 animator.SetTrigger("attack");
@@ -482,6 +484,8 @@ namespace ProjectOneMore.Battle
 
             _currentState = BattleUnitState.Moving;
 
+            UpdateFlipScale(targetPosition);
+
             float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
@@ -489,6 +493,25 @@ namespace ProjectOneMore.Battle
             {
                 targetPosition = transform.position;
             }
+        }
+
+        private void UpdateFlipScale(Vector3 lookPos)
+        {
+            if (lookPos.x < transform.position.x && transform.localScale.x < 0)
+            {
+                FlipScaleX();
+            }
+            else if (lookPos.x > transform.position.x && transform.localScale.x > 0)
+            {
+                FlipScaleX();
+            }
+        }
+
+        private void FlipScaleX()
+        {
+            Vector3 targetFlipScale = transform.localScale;
+            targetFlipScale.x *= -1;
+            transform.localScale = targetFlipScale;
         }
 
         #endregion
