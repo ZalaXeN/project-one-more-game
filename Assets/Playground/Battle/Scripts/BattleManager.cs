@@ -85,6 +85,7 @@ namespace ProjectOneMore.Battle
         private BattleActionCard _previousActionCard;
         [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
+        private float _beforePauseTimeScale;
         private float _previousTargetTimeScale;
         private float _targetTimeScale = 1f;
 
@@ -400,12 +401,13 @@ namespace ProjectOneMore.Battle
 
         public void PauseGame()
         {
+            _beforePauseTimeScale = _targetTimeScale;
             _targetTimeScale = 0f;
         }
 
         public void ResumeGame()
         {
-            _targetTimeScale = 1f;
+            _targetTimeScale = _beforePauseTimeScale;
         }
 
         private void DoSlowtime()

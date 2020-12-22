@@ -16,6 +16,8 @@ namespace ProjectOneMore.Battle
             if (card.owner == null)
                 return;
 
+            card.owner.UpdateFlipScale(card.targetPosition);
+
             BattleManager.main.battleProjectileManager.Launch(
                 projectilePrefabId,
                 card.owner.transform.position + card.launchPositionOffset,

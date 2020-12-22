@@ -24,7 +24,8 @@ namespace ProjectOneMore.Battle
         Moving,
         Action,
         Hit,
-        Dead
+        Dead,
+        TakeAction
     }
 
     public class BattleUnit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -220,6 +221,12 @@ namespace ProjectOneMore.Battle
 
         #region On Update Script
 
+        // Use on Battle Action Card to break Hit Lock
+        public void SetTakeActionState()
+        {
+            _currentState = BattleUnitState.TakeAction;
+        }
+
         // Use on SMB
         public void ExecuteCurrentBattleAction()
         {
@@ -278,16 +285,21 @@ namespace ProjectOneMore.Battle
 
         private void UpdateHitLockTime()
         {
-            if(!CanMove())
+            if(_currentState == BattleUnitState.Hit)
                 _hitLockTimer += Time.deltaTime;
             else
                 _hitLockTimer = 0f;
 
             if (_hitLockTimer > GameConfig.BATTLE_MOVEMENT_HIT_LOCK_TIME_MAX)
+            {
                 _hitLockBreakTimer = GameConfig.BATTLE_MOVEMENT_HIT_LOCK_BREAK_TIME;
+            }
 
             if (_hitLockBreakTimer > 0f)
+            {
                 _hitLockBreakTimer -= Time.deltaTime;
+                _hitLockTimer = 0f;
+            }
         }
 
         #endregion
@@ -316,9 +328,14 @@ namespace ProjectOneMore.Battle
             return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit || _currentState == BattleUnitState.Moving;
         }
 
-        public bool CanTakeAction()
+        public bool IsTakeAction()
         {
-            return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit || _currentState == BattleUnitState.Moving;
+            return _currentState == BattleUnitState.TakeAction || _currentState == BattleUnitState.Action;
+        }
+
+        public bool OnDeadState()
+        {
+            return _currentState == BattleUnitState.Dead;
         }
 
         public bool IsHitLockBreakTime()
@@ -480,6 +497,9 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
+            if (OnDeadState() || IsTakeAction())
+                return;
+
             MoveToTargetPosition();
 
             if (transform.position == targetPosition)
@@ -510,7 +530,7 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        private void UpdateFlipScale(Vector3 lookPos)
+        public void UpdateFlipScale(Vector3 lookPos)
         {
             if (lookPos.x < transform.position.x && transform.localScale.x < 0)
             {

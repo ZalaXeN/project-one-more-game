@@ -12,6 +12,7 @@ namespace ProjectOneMore.Battle
         [Header("Panel")]
         public GameObject[] otherPanels;
         public GameObject inputPanel;
+        public GameObject pausePanel;
 
         [Header("Shuffle Deck")]
         public GameObject[] commandActions;
@@ -43,6 +44,11 @@ namespace ProjectOneMore.Battle
                 HideInputPanel();
                 ShowOtherPanels();
             }
+
+            if (Time.timeScale == 0f && !pausePanel.activeInHierarchy)
+                pausePanel.SetActive(true);
+            else if (Time.timeScale != 0f && pausePanel.activeInHierarchy)
+                pausePanel.SetActive(false);
         }
 
         //--- Test

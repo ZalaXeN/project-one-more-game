@@ -16,6 +16,8 @@ namespace ProjectOneMore.Battle
             if (card.owner == null || card.GetTarget() == null)
                 return;
 
+            card.owner.UpdateFlipScale(card.GetTarget().transform.position);
+
             BattleDamage damage = new BattleDamage(
                 card.owner,
                 (int)math.round(card.owner.pow.current * powMultiplier),

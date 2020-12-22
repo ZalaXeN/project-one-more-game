@@ -6443,7 +6443,6 @@ GameObject:
   - component: {fileID: 519336630}
   - component: {fileID: 519336629}
   - component: {fileID: 519336634}
-  - component: {fileID: 519336635}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -6570,7 +6569,9 @@ MonoBehaviour:
   - {fileID: 1499841802}
   - {fileID: 1863294376}
   - {fileID: 645975197}
+  - {fileID: 972076292}
   inputPanel: {fileID: 1754371049}
+  pausePanel: {fileID: 1640795264}
   commandActions:
   - {fileID: 1734827288}
   - {fileID: 2121182946}
@@ -6581,25 +6582,6 @@ MonoBehaviour:
   - {fileID: 1920047336}
   - {fileID: 1812184644}
   actionPerDraw: 5
---- !u!114 &519336635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519336628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afe3cda3e244f60419474164d6ba3b0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 0
-  m_CheckFor2DOcclusion: 0
-  m_CheckFor3DOcclusion: 0
-  m_MaxDistance: 1000
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &523096295
 GameObject:
   m_ObjectHideFlags: 0

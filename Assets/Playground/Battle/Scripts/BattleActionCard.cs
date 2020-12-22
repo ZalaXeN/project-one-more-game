@@ -79,6 +79,8 @@ namespace ProjectOneMore.Battle
                 return;
             }
 
+            owner.SetTakeActionState();
+            owner.animator.ResetTrigger("hit");
             owner.animator.SetTrigger(animationId);
         }
     }
