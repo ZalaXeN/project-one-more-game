@@ -85,6 +85,7 @@ namespace ProjectOneMore.Battle
         private BattleActionCard _previousActionCard;
         [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
+        private float _previousTargetTimeScale;
         private float _targetTimeScale = 1f;
 
         private void Awake()
@@ -397,6 +398,16 @@ namespace ProjectOneMore.Battle
             _targetTimeScale = target;
         }
 
+        public void PauseGame()
+        {
+            _targetTimeScale = 0f;
+        }
+
+        public void ResumeGame()
+        {
+            _targetTimeScale = 1f;
+        }
+
         private void DoSlowtime()
         {
             _targetTimeScale = slowTimeFactor;
@@ -427,10 +438,16 @@ namespace ProjectOneMore.Battle
                 }
             }
 
-            if(_targetTimeScale != 1.0f)
+            if(Time.timeScale != _targetTimeScale)
             {
                 Time.timeScale = math.clamp(Time.timeScale, 0f, 10f);
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }
+
+            if(Time.timeScale == _targetTimeScale && _targetTimeScale != _previousTargetTimeScale)
+            {
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+                _previousTargetTimeScale = _targetTimeScale;
             }
         }
         //--------------
