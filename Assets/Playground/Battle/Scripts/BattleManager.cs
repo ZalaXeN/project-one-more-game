@@ -89,6 +89,8 @@ namespace ProjectOneMore.Battle
         private float _previousTargetTimeScale;
         private float _targetTimeScale = 1f;
 
+        private BattleUnitController _unitController;
+
         private void Awake()
         {
             // Singleton
@@ -410,6 +412,11 @@ namespace ProjectOneMore.Battle
             _targetTimeScale = _beforePauseTimeScale;
         }
 
+        public bool IsPaused()
+        {
+            return _targetTimeScale == 0f;
+        }
+
         private void DoSlowtime()
         {
             _targetTimeScale = slowTimeFactor;
@@ -469,6 +476,20 @@ namespace ProjectOneMore.Battle
             outlineFXMaterial.SetFloat("_Distance", 0);
             outlineFXMaterial.SetColor("_Color", Color.clear);
         }
+        #endregion
+
+        #region Input Systems
+
+        public void SetupFocusUnitController(BattleUnitController unitController)
+        {
+            _unitController = unitController;
+        }
+
+        public BattleUnitController GetFocusedUnitController()
+        {
+            return _unitController;
+        }
+
         #endregion
     }
 }
