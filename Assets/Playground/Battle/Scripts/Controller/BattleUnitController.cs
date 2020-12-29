@@ -21,9 +21,6 @@ namespace ProjectOneMore.Battle
             if (_battleUnit)
             {
                 _battleUnit.SetController(this);
-
-                BattleManager.main.ChangeBattleStateEvent += AddNormalActionOnBattleState;
-                BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
             }
         }
 
@@ -40,6 +37,9 @@ namespace ProjectOneMore.Battle
         private void Start()
         {
             BattleManager.main?.SetupFocusUnitController(this);
+
+            BattleManager.main.ChangeBattleStateEvent += AddNormalActionOnBattleState;
+            BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
         }
 
         private void Update()
