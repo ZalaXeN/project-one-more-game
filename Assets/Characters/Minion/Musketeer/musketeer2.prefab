@@ -2143,9 +2143,9 @@ MonoBehaviour:
   attackType: 1
   moveSpeedMultiplier: 4
   isUseSpecificPosition: 0
-  isMovingToTarget: 0
-  autoAttackCard: {fileID: 710622704109429358}
   targetPosition: {x: 0, y: 0, z: 0}
+  normalActionCard: {fileID: 710622704109429358}
+  _currentState: 0
 --- !u!114 &6896297629828219858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,10 +2186,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 152593496325042007}
+  canUseWithoutOwner: 0
   skillName: Range
   skillType: 3
   skillEffectTarget: 2
   skillTargetType: 0
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
   projectilePrefab: {fileID: 0}

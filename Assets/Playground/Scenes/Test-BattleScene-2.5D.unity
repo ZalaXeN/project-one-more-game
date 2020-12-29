@@ -5955,8 +5955,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -20500,7 +20500,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 814998688, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_SortingOrder
-      value: -205
+      value: -141
       objectReference: {fileID: 0}
     - target: {fileID: 2109378538129425334, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
@@ -20565,6 +20565,11 @@ PrefabInstance:
     - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
       propertyPath: autoAttackCard
+      value: 
+      objectReference: {fileID: 1489161806}
+    - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,
+        type: 3}
+      propertyPath: normalActionCard
       value: 
       objectReference: {fileID: 1489161806}
     - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,

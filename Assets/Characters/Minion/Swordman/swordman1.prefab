@@ -2508,9 +2508,9 @@ MonoBehaviour:
   attackType: 0
   moveSpeedMultiplier: 5
   isUseSpecificPosition: 0
-  isMovingToTarget: 0
-  autoAttackCard: {fileID: 125378345024149850}
   targetPosition: {x: 0, y: 0, z: 0}
+  normalActionCard: {fileID: 125378345024149850}
+  _currentState: 0
 --- !u!114 &248685421262967173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,10 +2551,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 7880152313396881123}
+  canUseWithoutOwner: 0
   skillName: Attack
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
+  animationId: 
   battleActions:
   - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
   projectilePrefab: {fileID: 0}

@@ -61,8 +61,9 @@ namespace ProjectOneMore.Battle
         // TODO Test
         public Vector3 targetPosition;
 
-        [Header("Auto Attack")]
-        public BattleActionCard autoAttackCard;
+        [Header("Card Settings")]
+        [Tooltip("use on Auto Action too.")]
+        public BattleActionCard normalActionCard;
 
         [Header("Unit State")]
         [SerializeField]
@@ -158,7 +159,7 @@ namespace ProjectOneMore.Battle
         {
             UpdatePosition();
 
-            UpdateAutoAttack();
+            UpdateAutoAction();
 
             UpdateHitLockTime();
         }
@@ -264,9 +265,9 @@ namespace ProjectOneMore.Battle
             _currentBattleActionCard.Execute();
         }
 
-        private void UpdateAutoAttack()
+        private void UpdateAutoAction()
         {
-            if (BattleManager.main == null || autoAttackCard == null || IsControlled())
+            if (BattleManager.main == null || normalActionCard == null || IsControlled())
                 return;
 
             if (_autoAttackCooldown > 0f)
@@ -283,7 +284,7 @@ namespace ProjectOneMore.Battle
             {
                 UpdateFlipScale(_currentActionTarget.transform.position);
 
-                _currentBattleActionCard = autoAttackCard;
+                _currentBattleActionCard = normalActionCard;
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
                 animator.SetTrigger("attack");
             }
