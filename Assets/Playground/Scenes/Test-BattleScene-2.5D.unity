@@ -5586,6 +5586,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &419076387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6750,6 +6751,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &491496135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11103,6 +11105,7 @@ MonoBehaviour:
   launchPositionOffset: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &856653448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11347,6 +11350,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &907177076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12651,6 +12655,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1030891503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13503,6 +13508,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1092438074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14492,6 +14498,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1219407557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15335,6 +15342,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1264412634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15573,6 +15581,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1303272491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17669,6 +17678,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1515443449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20268,7 +20278,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 814998688, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_SortingOrder
-      value: -141
+      value: -205
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: isOnlyTargetInAttackRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2109378538129425334, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
@@ -20562,6 +20576,7 @@ MonoBehaviour:
   launchPositionOffset: {x: 0, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1734827291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21929,6 +21944,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1812184647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23592,6 +23608,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &1920047339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26161,6 +26178,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &2065507450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27091,6 +27109,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &2121182949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27490,6 +27509,7 @@ MonoBehaviour:
   launchPositionOffset: {x: -4, y: 5, z: 0.4}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
 --- !u!114 &2147383022
 MonoBehaviour:
   m_ObjectHideFlags: 0
