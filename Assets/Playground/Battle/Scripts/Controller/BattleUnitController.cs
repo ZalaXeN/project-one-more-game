@@ -11,7 +11,7 @@ namespace ProjectOneMore.Battle
 
         private BattleUnit _battleUnit;
 
-        private Vector2 m_MoveInput;
+        private Vector2 _moveInput;
 
         private void OnEnable()
         {
@@ -37,7 +37,7 @@ namespace ProjectOneMore.Battle
         {
             SetInputActiveState(BattleManager.main.IsPaused());
 
-            Move(m_MoveInput);
+            Move(_moveInput);
         }
 
         public PlayerInput GetPlayerInput()
@@ -61,12 +61,12 @@ namespace ProjectOneMore.Battle
 
         public void InputMove(InputAction.CallbackContext context)
         {
-            m_MoveInput = context.ReadValue<Vector2>();
+            _moveInput = context.ReadValue<Vector2>();
         }
 
         public bool HasMoveInput()
         {
-            return m_MoveInput.sqrMagnitude >= 0.01;
+            return _moveInput.sqrMagnitude >= 0.01;
         }
 
         private void Move(Vector2 moveDirection)

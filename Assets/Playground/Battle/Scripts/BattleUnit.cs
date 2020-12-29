@@ -508,18 +508,20 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
-            if (OnDeadState() || IsTakeAction())
+            if (OnDeadState())
                 return;
-
-            MoveToTargetPosition();
 
             if (transform.position == targetPosition)
             {
-                if(_controller && _controller.HasMoveInput()) { }
+                if (_controller && _controller.HasMoveInput()) { }
                 else
                 {
                     animator.SetBool("moving", false);
                 }
+            }
+            else if (!IsTakeAction())
+            {
+                MoveToTargetPosition();
             }
         }
 
@@ -535,7 +537,7 @@ namespace ProjectOneMore.Battle
             float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-            if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
                 targetPosition = transform.position;
             }
