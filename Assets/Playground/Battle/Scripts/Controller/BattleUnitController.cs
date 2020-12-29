@@ -19,13 +19,22 @@ namespace ProjectOneMore.Battle
             _battleUnit = GetComponent<BattleUnit>();
 
             if (_battleUnit)
+            {
                 _battleUnit.SetController(this);
+
+                BattleManager.main.ChangeBattleStateEvent += AddNormalActionOnBattleState;
+                BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+            }
         }
 
         private void OnDisable()
         {
             if (_battleUnit)
+            {
                 _battleUnit.RemoveController();
+
+                BattleManager.main.ChangeBattleStateEvent -= AddNormalActionOnBattleState;
+            }
         }
 
         private void Start()
@@ -38,6 +47,14 @@ namespace ProjectOneMore.Battle
             SetInputActiveState(BattleManager.main.IsPaused());
 
             Move(_moveInput);
+        }
+
+        private void AddNormalActionOnBattleState(BattleState battleState)
+        {
+            if (battleState != BattleState.Battle || _battleUnit == null || _battleUnit.normalActionCard == null)
+                return;
+
+            BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
         }
 
         public PlayerInput GetPlayerInput()

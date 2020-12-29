@@ -24,10 +24,12 @@ namespace ProjectOneMore.Battle
         //-- Delegate
         public delegate void UnitDeadDelegate(BattleUnit unit);
         public delegate void PlayerTakeActionDelegate(BattleActionCard card);
+        public delegate void ChangeBattleStateDelegate(BattleState battleState);
 
         //-- Event
         public event UnitDeadDelegate UnitDeadEvent;
         public event PlayerTakeActionDelegate PlayerTakeActionEvent;
+        public event ChangeBattleStateDelegate ChangeBattleStateEvent;
 
         private BattleState _battleState;
         public BattleState battleState
@@ -138,6 +140,7 @@ namespace ProjectOneMore.Battle
             Coroutine spawnEnemy = levelManager.SpawnStartMinion();
             yield return spawnEnemy;
             battleState = BattleState.Battle;
+            ChangeBattleStateEvent?.Invoke(battleState);
         }
         #endregion
 
@@ -323,12 +326,48 @@ namespace ProjectOneMore.Battle
             if (_currentActionCard == null)
                 return false;
 
-            if (CanCurrentActionTargetAlly() && unit.team == _currentActionCard.owner.team)
-                return true;
+            if (!CheckTargetingTeam(unit))
+                return false;
 
-            if (CanCurrentActionTargetEnemy() && unit.team != _currentActionCard.owner.team)
-                return true;
+            if (!CheckTargetingAttackRange(unit))
+                return false;
 
+            return true;
+        }
+
+        private bool CheckTargetingTeam(BattleUnit unit)
+        {
+            bool result = false;
+            if (CanCurrentActionTargetAlly())
+                result = unit.team == _currentActionCard.owner.team;
+
+            if (CanCurrentActionTargetEnemy())
+                result = unit.team != _currentActionCard.owner.team;
+
+            return result;
+        }
+
+        private bool CheckTargetingAttackRange(BattleUnit unit)
+        {
+            bool result = true;
+            if (_currentActionCard.isOnlyTargetInAttackRange)
+                result = IsUnitInCurrentActionTargetRange(unit);
+
+            return result;
+        }
+
+        private bool IsUnitInCurrentActionTargetRange(BattleUnit unit)
+        {
+            if (_currentActionCard == null)
+                return false;
+
+            BattleUnit owner = _currentActionCard.owner;
+            Collider[] contextColliders = Physics.OverlapSphere(owner.centerTransform.position, owner.attackRadius);
+            foreach (Collider c in contextColliders)
+            {
+                if (c == unit.unitCollider)
+                    return true;
+            }
             return false;
         }
 

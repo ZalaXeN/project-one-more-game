@@ -23,6 +23,7 @@ namespace ProjectOneMore.Battle
         public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
         public Vector3 targetPosition = Vector3.zero;
         public float travelTime = 1f;
+        public bool isOnlyTargetInAttackRange = false;
 
         public void SetTarget(BattleUnit target)
         {

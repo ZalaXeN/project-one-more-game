@@ -206,8 +206,11 @@ namespace ProjectOneMore.Battle
             if (BattleManager.main.battleState != BattleState.Battle)
                 return;
 
-            DeHighlight();
-            BattleManager.main.NormalAttack(this);
+            if (BattleManager.main.CanCurrentActionTarget(this))
+            {
+                DeHighlight();
+                BattleManager.main.NormalAttack(this);
+            }
         }
 
         private void HighlightThisUnitTarget()
