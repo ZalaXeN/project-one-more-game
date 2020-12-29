@@ -82,7 +82,7 @@ namespace ProjectOneMore.Battle
         {
             if (context.performed)
             {
-                //Debug.Log("Attack");
+                BattleManager.main.SetNormalAction(_battleUnit.autoAttackCard);
             }
         }
     }

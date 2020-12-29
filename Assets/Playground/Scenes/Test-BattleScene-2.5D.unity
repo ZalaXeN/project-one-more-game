@@ -5955,8 +5955,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -17436,6 +17436,31 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1694552725}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1489161806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489161805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 377033080}
+  canUseWithoutOwner: 0
+  skillName: Attack
+  skillType: 2
+  skillEffectTarget: 2
+  skillTargetType: 0
+  animationId: attack
+  battleActions:
+  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
+  projectilePrefab: {fileID: 0}
+  launchPositionOffset: {x: -4, y: 5, z: 0.4}
+  targetPosition: {x: 0, y: 0, z: 0}
+  travelTime: 1
 --- !u!114 &1489161812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20475,7 +20500,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 814998688, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_SortingOrder
-      value: -141
+      value: -205
       objectReference: {fileID: 0}
     - target: {fileID: 2109378538129425334, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
@@ -20537,6 +20562,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: keeper_test
       objectReference: {fileID: 0}
+    - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,
+        type: 3}
+      propertyPath: autoAttackCard
+      value: 
+      objectReference: {fileID: 1489161806}
     - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
       propertyPath: isUseSpecificPosition

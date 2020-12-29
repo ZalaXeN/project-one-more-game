@@ -184,6 +184,7 @@ namespace ProjectOneMore.Battle
         public void OnPointerClick(PointerEventData eventData)
         {
             SetCurrentActionTargetThisUnit();
+            SetNormalAttackTarget();
         }
 
         private void SetCurrentActionTargetThisUnit()
@@ -199,9 +200,18 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        private void SetNormalAttackTarget()
+        {
+            if (BattleManager.main.battleState != BattleState.Battle)
+                return;
+
+            DeHighlight();
+            BattleManager.main.NormalAttack(this);
+        }
+
         private void HighlightThisUnitTarget()
         {
-            if (BattleManager.main.battleState != BattleState.PlayerInput)
+            if (BattleManager.main.battleState != BattleState.Battle && BattleManager.main.battleState != BattleState.PlayerInput)
                 return;
 
             if (BattleManager.main.CanCurrentActionTarget(this))
@@ -210,8 +220,8 @@ namespace ProjectOneMore.Battle
 
         private void DeHighlightThisUnitTarget()
         {
-            if (BattleManager.main.battleState != BattleState.PlayerInput)
-                return;
+            //if (BattleManager.main.battleState != BattleState.PlayerInput)
+            //    return;
 
             if (BattleManager.main.CanCurrentActionTarget(this))
                 DeHighlight();
@@ -256,7 +266,7 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAutoAttack()
         {
-            if (BattleManager.main == null || autoAttackCard == null)
+            if (BattleManager.main == null || autoAttackCard == null || IsControlled())
                 return;
 
             if (_autoAttackCooldown > 0f)

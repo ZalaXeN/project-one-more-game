@@ -249,6 +249,28 @@ namespace ProjectOneMore.Battle
 
         #endregion
 
+        #region Normal Attack
+
+        public void SetNormalAction(BattleActionCard action)
+        {
+            if (battleState != BattleState.Battle)
+                return;
+
+            _currentActionCard = action;
+        }
+
+        public void NormalAttack(BattleUnit unit)
+        {
+            if (battleState != BattleState.Battle || _currentActionCard == null)
+                return;
+
+            SetCurrentActionTarget(unit);
+
+            CurrentActionTakeAction(false);
+        }
+
+        #endregion
+
         #region Input Phase
         public void EnterPlayerInput(BattleActionCard action)
         {
@@ -265,7 +287,7 @@ namespace ProjectOneMore.Battle
             {
                 CurrentActionTakeAction();
             }
-        }
+        }      
 
         private void ShowTargeting()
         {
@@ -320,18 +342,18 @@ namespace ProjectOneMore.Battle
             _currentActionCard.targetPosition = targetPosition;
         }
 
-        public void CurrentActionTakeAction()
+        public void CurrentActionTakeAction(bool triggerTakeActionEvent = true)
         {
             if (_currentActionCard != null)
             {
                 _previousActionCard = _currentActionCard;
                 _previousActionCard.TakeAction();
 
-                // Execute on animation take action
-                //_previousActionCard.Execute();
-
-                //Shuffle Action Card
-                PlayerTakeActionEvent?.Invoke(_previousActionCard);
+                if (triggerTakeActionEvent)
+                {
+                    //Shuffle Action Card
+                    PlayerTakeActionEvent?.Invoke(_previousActionCard);
+                }
             }
 
             ExitPlayerInput();
