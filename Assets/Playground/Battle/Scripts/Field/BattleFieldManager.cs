@@ -93,6 +93,31 @@ namespace ProjectOneMore.Battle
             return target;
         }
 
+        public List<BattleUnit> GetUnitListInAttackRange(BattleUnit unit, BattleTeam team, bool shouldAlive = true)
+        {
+            List<BattleUnit> targets = null;
+            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
+            foreach (Collider c in contextColliders)
+            {
+                if (c == unit.unitCollider)
+                    continue;
+
+                BattleUnit u = c.GetComponent<BattleUnit>();
+
+                if (u && shouldAlive && !u.IsAlive())
+                    continue;
+
+                if (u && u.team == team)
+                {
+                    if (targets == null)
+                        targets = new List<BattleUnit>();
+
+                    targets.Add(u);
+                }
+            }
+            return targets;
+        }
+
         public BattleUnit GetNearestAttackTarget(BattleUnit unit)
         {
             return BattleManager.main.GetNearestAttackTarget(unit);

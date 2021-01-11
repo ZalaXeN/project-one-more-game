@@ -11,6 +11,7 @@ namespace ProjectOneMore.Battle
     {
         [Header("Panel")]
         public GameObject[] otherPanels;
+        public GameObject[] actionPanels;
         public GameObject inputPanel;
         public GameObject pausePanel;
 
@@ -49,6 +50,17 @@ namespace ProjectOneMore.Battle
                 pausePanel.SetActive(true);
             else if (Time.timeScale != 0f && pausePanel.activeInHierarchy)
                 pausePanel.SetActive(false);
+
+            if(!inputPanel.activeInHierarchy)
+            {
+                if (actionPanels[0].activeInHierarchy != BattleManager.main.isOnActionSelector)
+                {
+                    foreach (GameObject go in actionPanels)
+                    {
+                        go.SetActive(BattleManager.main.isOnActionSelector);
+                    }
+                }
+            }
         }
 
         //--- Test

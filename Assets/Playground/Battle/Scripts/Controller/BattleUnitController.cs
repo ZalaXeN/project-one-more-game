@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace ProjectOneMore.Battle
@@ -99,7 +100,24 @@ namespace ProjectOneMore.Battle
         {
             if (context.performed)
             {
-                BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+                // Instant Normal Attack
+                if (_battleUnit.normalActionCard.skillType == SkillType.Instant || _battleUnit.normalActionCard.isInstantTarget)
+                {
+                    BattleManager.main.InstantNormalAttack(_battleUnit.normalActionCard);
+                }
+                // Single Normal Attack
+                else
+                {
+                    BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+                }
+            }
+        }
+
+        public void ToggleActionCardSelector(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                BattleManager.main.isOnActionSelector = !BattleManager.main.isOnActionSelector;
             }
         }
     }

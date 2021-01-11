@@ -93,6 +93,9 @@ namespace ProjectOneMore.Battle
 
         private BattleUnitController _unitController;
 
+        [HideInInspector]
+        public bool isOnActionSelector;
+
         private void Awake()
         {
             // Singleton
@@ -262,9 +265,28 @@ namespace ProjectOneMore.Battle
             _currentActionCard = action;
         }
 
+        public void InstantNormalAttack(BattleActionCard action)
+        {
+            if (battleState != BattleState.Battle || isOnActionSelector)
+                return;
+
+            if (action.skillTargetType == SkillTargetType.Area)
+            {
+                BattleTeam oppositeTeam = action.owner.team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;
+                List<BattleUnit> units = fieldManager.GetUnitListInAttackRange(action.owner, oppositeTeam);
+                action.SetTargets(units);
+
+                _currentActionCard = action;
+                CurrentActionTakeAction(false);
+            }
+        }
+
+        // Single target normal attack
         public void NormalAttack(BattleUnit unit)
         {
-            if (battleState != BattleState.Battle || _currentActionCard == null)
+            if (battleState != BattleState.Battle || _currentActionCard == null || 
+                _currentActionCard.skillTargetType != SkillTargetType.Target || 
+                isOnActionSelector)
                 return;
 
             SetCurrentActionTarget(unit);
@@ -376,6 +398,11 @@ namespace ProjectOneMore.Battle
             _currentActionCard.SetTarget(unit);
         }
 
+        public void SetCurrentActionTargets(List<BattleUnit> unitList)
+        {
+            _currentActionCard.SetTargets(unitList);
+        }
+
         public void SetCurrentActionTarget(Vector3 targetPosition)
         {
             _currentActionCard.targetPosition = targetPosition;
@@ -395,15 +422,19 @@ namespace ProjectOneMore.Battle
                 }
             }
 
+            _currentActionCard = null;
             ExitPlayerInput();
         }
 
+        // Execute after Animation Take Action
         public void CurrentActionExecute()
         {
             if (_previousActionCard != null)
             {
                 _previousActionCard.Execute();
             }
+
+            _previousActionCard = null;
         }
 
         public void ExitPlayerInput()
@@ -411,7 +442,6 @@ namespace ProjectOneMore.Battle
             if(battleState != BattleState.PlayerInput)
                 return;
 
-            _currentActionCard = null;
             ResetTime();
             HideOutlineFXColor();
             battleState = BattleState.Battle;

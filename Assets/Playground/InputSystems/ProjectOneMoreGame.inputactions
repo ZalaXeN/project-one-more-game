@@ -68,6 +68,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ActionSelector",
+                    "type": "Button",
+                    "id": "6a608c1e-e419-4549-ae5d-0d49d2ae600a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -299,6 +307,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Skill5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7eb53a3-4c37-48ba-858a-cbe2b5d5f6d8",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ActionSelector",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

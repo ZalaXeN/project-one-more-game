@@ -18,15 +18,19 @@ namespace ProjectOneMore.Battle
 
         // TEST Only
         // make Battle Action Targeting Data for replace this set
-        private List<BattleUnit> _targets = new List<BattleUnit>();
+        private List<BattleUnit> _targets;
         public BattleProjectile projectilePrefab;
         public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
         public Vector3 targetPosition = Vector3.zero;
         public float travelTime = 1f;
         public bool isOnlyTargetInAttackRange = false;
+        public bool isInstantTarget = false;
 
         public void SetTarget(BattleUnit target)
         {
+            if (_targets == null)
+                _targets = new List<BattleUnit>();
+
             _targets.Clear();
             _targets.Add(target);
         }
@@ -44,6 +48,14 @@ namespace ProjectOneMore.Battle
         public List<BattleUnit> GetTargets()
         {
             return _targets;
+        }
+
+        public bool IsEmptyTarget()
+        {
+            if (_targets != null && _targets.Count > 0)
+                return false;
+
+            return true;
         }
 
         public void Target()

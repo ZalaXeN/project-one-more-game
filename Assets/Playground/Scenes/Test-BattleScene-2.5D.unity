@@ -2781,6 +2781,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &209208174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1489161812, guid: d01476d2ad5f92742aecf9df631706ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 1694552725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280fd10ba455a634ea7687dc3fead798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &210035909
 GameObject:
   m_ObjectHideFlags: 0
@@ -5702,6 +5714,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &419076387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6867,6 +6880,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &491496135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7313,6 +7327,9 @@ MonoBehaviour:
   - {fileID: 1863294376}
   - {fileID: 645975197}
   - {fileID: 972076292}
+  actionPanels:
+  - {fileID: 1499841802}
+  - {fileID: 1863294376}
   inputPanel: {fileID: 1754371049}
   pausePanel: {fileID: 1640795264}
   commandActions:
@@ -9218,6 +9235,7 @@ MonoBehaviour:
   slowTimeFactor: 0.2
   slowingLength: 0.3
   _battleUnitList: []
+  isOnActionSelector: 0
 --- !u!4 &671892079
 Transform:
   m_ObjectHideFlags: 0
@@ -9630,7 +9648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fa25ad00a8d244d43ba0a111b273621b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11296,6 +11314,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &856653448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11541,6 +11560,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &907177076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12846,6 +12866,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1030891503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13699,6 +13720,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1092438074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14689,6 +14711,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1219407557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15533,6 +15556,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1264412634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15772,6 +15796,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1303272491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17875,6 +17900,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1515443449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20474,11 +20500,72 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 814998688, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_SortingOrder
-      value: -141
+      value: -205
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: skillName
+      value: Slash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: isInstantTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: skillTargetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: skillEffectTarget
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: isOnlyTargetInAttackRange
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161806, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: battleActions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558,
+        type: 2}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      value: 6a608c1e-e419-4549-ae5d-0d49d2ae600a
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      value: Player/ActionSelector[/Keyboard/backquote]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 209208174}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleActionCardSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ProjectOneMore.Battle.BattleUnitController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489161813, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2109378538129425334, guid: d01476d2ad5f92742aecf9df631706ee,
         type: 3}
@@ -20539,6 +20626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: keeper_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133905215242461051, guid: d01476d2ad5f92742aecf9df631706ee,
+        type: 3}
+      propertyPath: baseData.baseStats.HP
+      value: 20000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
@@ -20773,6 +20865,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1734827291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22141,6 +22234,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1812184647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23805,6 +23899,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &1920047339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26375,6 +26470,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &2065507450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27306,6 +27402,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &2121182949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27706,6 +27803,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
   isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
 --- !u!114 &2147383022
 MonoBehaviour:
   m_ObjectHideFlags: 0

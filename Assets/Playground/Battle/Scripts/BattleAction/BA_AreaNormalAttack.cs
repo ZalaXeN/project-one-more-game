@@ -3,8 +3,8 @@ using Unity.Mathematics;
 
 namespace ProjectOneMore.Battle
 {
-    [CreateAssetMenu(fileName = "Attack", menuName = "Battle/Action/Attack", order = 1)]
-    public class BA_Attack : BattleAction
+    [CreateAssetMenu(fileName = "AreaAttack", menuName = "Battle/Action/AreaAttack", order = 4)]
+    public class BA_AreaNormalAttack : BattleAction
     {
         [Range(0.1f, 10f)]
         public float powMultiplier = 1f;
@@ -18,13 +18,16 @@ namespace ProjectOneMore.Battle
 
             card.owner.UpdateFlipScale(card.GetTarget().transform.position);
 
-            BattleDamage damage = new BattleDamage(
+            foreach (BattleUnit target in card.GetTargets())
+            {
+                BattleDamage damage = new BattleDamage(
                 card.owner,
                 (int)math.round(card.owner.pow.current * powMultiplier),
                 BattleDamageType.Physical,
                 hitParticleId);
 
-            card.GetTarget().TakeDamage(damage);
+                target.TakeDamage(damage);
+            }
         }
     }
 }
