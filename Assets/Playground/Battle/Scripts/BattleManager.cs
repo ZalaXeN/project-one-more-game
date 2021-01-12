@@ -87,6 +87,7 @@ namespace ProjectOneMore.Battle
         private BattleActionCard _previousActionCard;
         [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
 
+        private BattleState _previousBattleState;
         private float _beforePauseTimeScale;
         private float _previousTargetTimeScale;
         private float _targetTimeScale = 1f;
@@ -257,26 +258,24 @@ namespace ProjectOneMore.Battle
 
         #region Normal Attack
 
-        public void SetNormalAction(BattleActionCard action)
+        public void SetNormalActionCard(BattleActionCard card)
         {
             if (battleState != BattleState.Battle)
                 return;
 
-            _currentActionCard = action;
+            _currentActionCard = card;
         }
 
-        public void InstantNormalAttack(BattleActionCard action)
+        public void InstantNormalAction(BattleActionCard card)
         {
             if (battleState != BattleState.Battle || isOnActionSelector)
                 return;
 
-            if (action.skillTargetType == SkillTargetType.Area)
+            if (card.skillTargetType == SkillTargetType.Area)
             {
-                BattleTeam oppositeTeam = action.owner.team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;
-                List<BattleUnit> units = fieldManager.GetUnitListInAttackRange(action.owner, oppositeTeam);
-                action.SetTargets(units);
+                card.SetTargetsWithActionArea();
 
-                _currentActionCard = action;
+                _currentActionCard = card;
                 CurrentActionTakeAction(false);
             }
         }
@@ -496,11 +495,16 @@ namespace ProjectOneMore.Battle
         {
             _beforePauseTimeScale = _targetTimeScale;
             _targetTimeScale = 0f;
+
+            _previousBattleState = _battleState;
+            _battleState = BattleState.Pause;
         }
 
         public void ResumeGame()
         {
             _targetTimeScale = _beforePauseTimeScale;
+
+            _battleState = _previousBattleState;
         }
 
         public bool IsPaused()

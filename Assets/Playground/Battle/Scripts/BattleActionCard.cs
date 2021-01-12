@@ -25,6 +25,7 @@ namespace ProjectOneMore.Battle
         public float travelTime = 1f;
         public bool isOnlyTargetInAttackRange = false;
         public bool isInstantTarget = false;
+        public BattleActionArea actionArea;
 
         public void SetTarget(BattleUnit target)
         {
@@ -38,6 +39,42 @@ namespace ProjectOneMore.Battle
         public void SetTargets(List<BattleUnit> targets)
         {
             _targets = targets;
+        }
+
+        public void SetTargetsWithActionArea(bool shouldAlive = true)
+        {
+            if (!actionArea)
+                return;
+
+            List<BattleUnit> tempUnitList = actionArea.GetUnitInAreaList();
+            if(canUseWithoutOwner)
+            {
+                _targets = tempUnitList;
+                return;
+            }
+
+            ClearTargets();
+
+            foreach (BattleUnit unit in tempUnitList)
+            {
+                if (!unit.IsAlive() && shouldAlive)
+                    continue;
+
+                if(skillEffectTarget == SkillEffectTarget.Ally || skillEffectTarget == SkillEffectTarget.Allies)
+                {
+                    if (unit.team == owner.team)
+                        _targets.Add(unit);
+                }
+                else if (skillEffectTarget == SkillEffectTarget.Enemy || skillEffectTarget == SkillEffectTarget.Enemies)
+                {
+                    if (unit.team != owner.team)
+                        _targets.Add(unit);
+                }
+                else if (skillEffectTarget == SkillEffectTarget.All)
+                {
+                    _targets.Add(unit);
+                }
+            }
         }
 
         public BattleUnit GetTarget()
@@ -95,6 +132,13 @@ namespace ProjectOneMore.Battle
             owner.SetTakeActionState();
             owner.animator.ResetTrigger("hit");
             owner.animator.SetTrigger(animationId);
+        }
+
+        private void ClearTargets()
+        {
+            if (_targets == null)
+                _targets = new List<BattleUnit>();
+            _targets.Clear();
         }
     }
 }

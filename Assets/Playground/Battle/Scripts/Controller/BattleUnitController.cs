@@ -40,7 +40,7 @@ namespace ProjectOneMore.Battle
             BattleManager.main?.SetupFocusUnitController(this);
 
             BattleManager.main.ChangeBattleStateEvent += AddNormalActionOnBattleState;
-            BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+            BattleManager.main.SetNormalActionCard(_battleUnit.normalActionCard);
         }
 
         private void Update()
@@ -55,7 +55,7 @@ namespace ProjectOneMore.Battle
             if (battleState != BattleState.Battle || _battleUnit == null || _battleUnit.normalActionCard == null)
                 return;
 
-            BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+            BattleManager.main.SetNormalActionCard(_battleUnit.normalActionCard);
         }
 
         public PlayerInput GetPlayerInput()
@@ -103,12 +103,12 @@ namespace ProjectOneMore.Battle
                 // Instant Normal Attack
                 if (_battleUnit.normalActionCard.skillType == SkillType.Instant || _battleUnit.normalActionCard.isInstantTarget)
                 {
-                    BattleManager.main.InstantNormalAttack(_battleUnit.normalActionCard);
+                    BattleManager.main.InstantNormalAction(_battleUnit.normalActionCard);
                 }
                 // Single Normal Attack
                 else
                 {
-                    BattleManager.main.SetNormalAction(_battleUnit.normalActionCard);
+                    BattleManager.main.SetNormalActionCard(_battleUnit.normalActionCard);
                 }
             }
         }

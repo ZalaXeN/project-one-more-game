@@ -36,6 +36,7 @@ namespace ProjectOneMore.Battle
         public Collider unitCollider;
         public Collider interactCollider;
 
+        // For Auto Attack and minion AI
         public float neighborRadius = 5f;
         public float attackRadius = 2f;
 
