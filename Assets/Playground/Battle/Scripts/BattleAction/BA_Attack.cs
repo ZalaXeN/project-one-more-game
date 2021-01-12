@@ -24,7 +24,7 @@ namespace ProjectOneMore.Battle
                 BattleDamageType.Physical,
                 hitParticleId);
 
-            card.GetTarget().TakeDamage(damage);
+            card.GetTarget()?.TakeDamage(damage);
         }
     }
 }
