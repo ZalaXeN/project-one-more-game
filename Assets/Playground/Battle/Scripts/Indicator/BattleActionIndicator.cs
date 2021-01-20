@@ -11,6 +11,7 @@ namespace ProjectOneMore.Battle
         public BattleActionArea actionArea;
 
         public GameObject attackRangeIndicator;
+        public Image indicatorImage;
 
         private RectTransform rectTransform;
 
@@ -41,6 +42,11 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main?.battleState != BattleState.Battle && attackRangeIndicator.activeInHierarchy)
                 attackRangeIndicator.SetActive(false);
+
+            if (!attackRangeIndicator.activeInHierarchy)
+                return;
+
+            indicatorImage.color = actionArea.HasUnitInArea() ? Color.red : Color.green;
         }
     }
 }

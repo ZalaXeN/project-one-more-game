@@ -1289,8 +1289,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.9499998, y: 0}
-  m_SizeDelta: {x: 3, y: 3}
+  m_AnchoredPosition: {x: -1.5999999, y: 0}
+  m_SizeDelta: {x: 5, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77547859
 MonoBehaviour:
@@ -1306,6 +1306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionArea: {fileID: 1694552727}
   attackRangeIndicator: {fileID: 728293827}
+  indicatorImage: {fileID: 728293829}
 --- !u!1 &83991305
 GameObject:
   m_ObjectHideFlags: 0
@@ -6073,8 +6074,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -9645,7 +9646,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: cc0949cbff43a424eb31718824f563a0, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -20502,7 +20503,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1437988117, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.2
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437988117, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437988117, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437988117, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8433914
       objectReference: {fileID: 0}
     - target: {fileID: 1437988118, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: groundTransform
@@ -20512,9 +20525,17 @@ PrefabInstance:
       propertyPath: parentTransform
       value: 
       objectReference: {fileID: 1694552726}
+    - target: {fileID: 1437988118, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: offsetPosition.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1437988119, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1437988119, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_Size.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1437988119, guid: d01476d2ad5f92742aecf9df631706ee, type: 3}
       propertyPath: m_Center.x

@@ -9,6 +9,7 @@ namespace ProjectOneMore.Battle
     {
         public Transform parentTransform;
         public Transform groundTransform;
+        public Vector3 offsetPosition;
 
         private Collider _areaCollider;
 
@@ -16,6 +17,7 @@ namespace ProjectOneMore.Battle
         private List<BattleUnit> _unitInAreaList = new List<BattleUnit>();
 
         private Vector3 _areaIndicatorScale = Vector3.one;
+        private Vector3 _areaPosition = Vector3.zero;
 
         private void OnEnable()
         {
@@ -44,12 +46,27 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            CounterBillboard();
+            UpdateActionArea();
         }
 
-        private void CounterBillboard()
+        [ContextMenu("Update Action Area")]
+        private void UpdateActionArea()
+        {
+            RotateToGround();
+            UpdatePosition();
+        }
+
+        private void RotateToGround()
         {
             transform.rotation = Quaternion.Euler(groundTransform.rotation.eulerAngles);
+        }
+
+        private void UpdatePosition()
+        {
+            _areaPosition = offsetPosition;
+            _areaPosition.x += GetExtentsFromCollider().x;
+            _areaPosition.x *= parentTransform.localScale.x < 0 ? -1f : 1f;
+            transform.localPosition = _areaPosition;
         }
 
         private void RemoveMissingUnitFromList()
@@ -59,6 +76,15 @@ namespace ProjectOneMore.Battle
                 if (_unitInAreaList[i] == null)
                     _unitInAreaList.Remove(_unitInAreaList[i]);
             }
+        }
+
+        private Vector3 GetExtentsFromCollider()
+        {
+            if (!_areaCollider)
+                _areaCollider = GetComponent<Collider>();
+
+            if (_areaCollider.GetType() == typeof(BoxCollider)) return (_areaCollider as BoxCollider).size / 2;
+            return _areaCollider.bounds.size / 2;
         }
 
         public Vector3 GetIndicatorScale()
@@ -74,6 +100,11 @@ namespace ProjectOneMore.Battle
         {
             RemoveMissingUnitFromList();
             return _unitInAreaList;
+        }
+
+        public bool HasUnitInArea()
+        {
+            return GetUnitInAreaList().Count > 0;
         }
 
         public Vector2 GetAreaSizeDelta()
