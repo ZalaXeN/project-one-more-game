@@ -10,9 +10,6 @@ namespace ProjectOneMore.Battle
         private BattleProjectile targetingProjectile;
 
         [SerializeField]
-        private Vector3 _mousePos;
-
-        [SerializeField]
         private Vector3 _pointPos;
 
         private float _travelTime = 1f;
@@ -72,23 +69,7 @@ namespace ProjectOneMore.Battle
 
         private void SetPointPosition()
         {
-            _mousePos = Mouse.current.position.ReadValue();
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(_mousePos);
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, targetingProjectile.trajectoryController.canHit))
-            {
-                _pointPos = hit.point;
-            }
-            else
-            {
-                _mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
-                _mousePos.y = 0f;
-
-                _pointPos = Camera.main.ScreenToWorldPoint(_mousePos);
-                _pointPos.y = 0f;
-                _pointPos.z = transform.position.z;
-            }
+            _pointPos = BattleManager.main.GetGroundMousePosition();
         }
 
         private void RenderTrajectory()

@@ -100,16 +100,7 @@ namespace ProjectOneMore.Battle
         {
             if (context.performed)
             {
-                // Instant Normal Attack
-                if (_battleUnit.normalActionCard.skillType == SkillType.Instant || _battleUnit.normalActionCard.isInstantTarget)
-                {
-                    BattleManager.main.InstantNormalAction(_battleUnit.normalActionCard);
-                }
-                // Single Normal Attack
-                else
-                {
-                    BattleManager.main.SetNormalActionCard(_battleUnit.normalActionCard);
-                }
+                BattleManager.main.InputAttack(_battleUnit.normalActionCard);
             }
         }
 

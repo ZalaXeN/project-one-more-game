@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace ProjectOneMore.Battle
 {
@@ -258,6 +259,33 @@ namespace ProjectOneMore.Battle
 
         #region Normal Attack
 
+        public void InputAttack(BattleActionCard card)
+        {
+            // Command
+            if (_battleState == BattleState.PlayerInput)
+            {
+                if (_currentActionCard.skillTargetType == SkillTargetType.Area)
+                {
+                    _currentActionCard.SetTargetsWithActionArea();
+                    CurrentActionTakeAction();
+                }
+            }
+            // Normal Attack
+            else
+            {
+                // Instant Normal Attack
+                if (card.skillType == SkillType.Instant || card.isInstantTarget)
+                {
+                    InstantNormalAction(card);
+                }
+                // Single Normal Attack
+                else
+                {
+                    SetNormalActionCard(card);
+                }
+            }
+        }
+
         public void SetNormalActionCard(BattleActionCard card)
         {
             if (battleState != BattleState.Battle)
@@ -390,6 +418,11 @@ namespace ProjectOneMore.Battle
                     return true;
             }
             return false;
+        }
+
+        public bool IsCurrentActionHasTargetType(SkillTargetType skillTargetType)
+        {
+            return _currentActionCard.skillTargetType == skillTargetType;
         }
 
         public void SetCurrentActionTarget(BattleUnit unit)
@@ -583,6 +616,32 @@ namespace ProjectOneMore.Battle
         public BattleUnitController GetFocusedUnitController()
         {
             return _unitController;
+        }
+
+        private Vector3 lastGroundMousePos;
+        public Vector3 GetGroundMousePosition()
+        {
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            LayerMask mask = LayerMask.GetMask("Ground");
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+            {
+                lastGroundMousePos = hit.point;
+            }
+            else if(lastGroundMousePos == null)
+            {
+                mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
+                mousePos.y = 0f;
+
+                Vector3 pointPos = Camera.main.ScreenToWorldPoint(mousePos);
+                pointPos.y = 0f;
+                pointPos.z = transform.position.z;
+                return pointPos;
+            }
+
+            return lastGroundMousePos;
         }
 
         #endregion
