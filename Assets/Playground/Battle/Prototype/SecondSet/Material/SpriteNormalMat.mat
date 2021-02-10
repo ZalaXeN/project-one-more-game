@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_8e5f9a3f5fad4ca5a70acb55d4614ec7:
+        m_Texture: {fileID: 2800000, guid: 405185f7da22a514b91bef62481a429e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_CF8BF172:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -64,11 +68,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 76c66ad3af84fc147a93749a11ef2ecd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMapping_59422182aabd48b6ba981b7bdb043fd0_Heightmap_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -98,6 +110,7 @@ Material:
     - Normal_Strength: 4
     - Outline: 0
     - Outline_Thickness: 0.01
+    - Parallax_Amplitude: 3
     - Vector1_A852A0CD: 0.005
     - Vector1_Dissolve: 0
     - _AlphaClip: 0
