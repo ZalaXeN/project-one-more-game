@@ -5,6 +5,8 @@ namespace ProjectOneMore.Battle
 {
     public class BattleCameraManager : MonoBehaviour
     {
+        [SerializeField] private Camera _mainCamera;
+
         [SerializeField]
         private CinemachineVirtualCamera[] virtualCameras;
 
@@ -20,6 +22,11 @@ namespace ProjectOneMore.Battle
                 else
                     virtualCameras[i].Priority = GameConfig.INACTIVE_CAMERA_PRIORITY;
             }
+        }
+
+        public void SetAllowHDR(bool value)
+        {
+            _mainCamera.allowHDR = value;
         }
     }
 }

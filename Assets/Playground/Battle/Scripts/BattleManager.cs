@@ -595,12 +595,14 @@ namespace ProjectOneMore.Battle
         // Test Outline
         public void SetOutlineFXColor()
         {
+            battleCameraManager.SetAllowHDR(false);
             outlineFXMaterial.SetFloat("_Distance", outlineSampleDistance);
             outlineFXMaterial.SetColor("_Color", outlineColor);
         }
 
         public void HideOutlineFXColor()
         {
+            battleCameraManager.SetAllowHDR(true);
             outlineFXMaterial.SetFloat("_Distance", 0);
             outlineFXMaterial.SetColor("_Color", Color.clear);
         }
