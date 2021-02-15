@@ -72,12 +72,6 @@ namespace ProjectOneMore.Battle
         public string testLevelId;
         [Range(1, 10)]
         public int rowsPerColumn = 4;
-        public Material outlineMaterial;
-        public Material noAlphaMaterial;
-
-        public Material outlineFXMaterial;
-        public float outlineSampleDistance = 1f;
-        public Color outlineColor = Color.red;
 
         [Range(0.1f, 0.5f)]
         public float slowTimeFactor = 0.2f;
@@ -475,7 +469,6 @@ namespace ProjectOneMore.Battle
                 return;
 
             ResetTime();
-            HideOutlineFXColor();
             battleState = BattleState.Battle;
         }
         #endregion
@@ -589,23 +582,6 @@ namespace ProjectOneMore.Battle
         }
         //--------------
 
-        #endregion
-
-        #region Sprite Outline
-        // Test Outline
-        public void SetOutlineFXColor()
-        {
-            battleCameraManager.SetAllowHDR(false);
-            outlineFXMaterial.SetFloat("_Distance", outlineSampleDistance);
-            outlineFXMaterial.SetColor("_Color", outlineColor);
-        }
-
-        public void HideOutlineFXColor()
-        {
-            battleCameraManager.SetAllowHDR(true);
-            outlineFXMaterial.SetFloat("_Distance", 0);
-            outlineFXMaterial.SetColor("_Color", Color.clear);
-        }
         #endregion
 
         #region Input Systems

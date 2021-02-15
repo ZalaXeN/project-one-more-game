@@ -81,6 +81,8 @@ namespace ProjectOneMore.Battle
         private float _hitLockTimer;
         private float _hitLockBreakTimer;
 
+        private int _tempLayer;
+
         #region Initialization
         // Mock Up
         private void InitStats()
@@ -121,7 +123,8 @@ namespace ProjectOneMore.Battle
 
             _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
             BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
-        }
+            BattleManager.main.ChangeBattleStateEvent += HandleChangeBattleStateEvent;
+    }
 
         #endregion
 
@@ -151,6 +154,8 @@ namespace ProjectOneMore.Battle
             InitStats();
             targetPosition = transform.position;
 
+            _tempLayer = gameObject.layer;
+
             InitBattleParameter();
             if(centerTransform == null)
                 centerTransform = transform;
@@ -168,6 +173,7 @@ namespace ProjectOneMore.Battle
         private void OnDisable()
         {
             BattleManager.main.UnitDeadEvent -= HandleUnitDeadEvent;
+            BattleManager.main.ChangeBattleStateEvent -= HandleChangeBattleStateEvent;
         }
         #endregion
 
@@ -209,7 +215,6 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main.CanCurrentActionTarget(this))
             {
-                DeHighlight();
                 BattleManager.main.NormalAttack(this);
             }
         }
@@ -230,7 +235,7 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main.CanCurrentActionTarget(this))
                 DeHighlight();
-        }
+        }     
 
         #endregion
 
@@ -451,14 +456,23 @@ namespace ProjectOneMore.Battle
 
         private void Highlight()
         {
-            BattleManager.main.SetOutlineFXColor();
-            SetSpriteMaterial(BattleManager.main.outlineMaterial);
+            int targetLayer = 13; // Layer "Target"
+            _tempLayer = gameObject.layer;
+            ChangeLayerForAll(targetLayer);
         }
 
         private void DeHighlight()
         {
-            BattleManager.main.HideOutlineFXColor();
-            SetSpriteMaterial(BattleManager.main.noAlphaMaterial);
+            ChangeLayerForAll(_tempLayer);
+        }
+
+        private void ChangeLayerForAll(int targetLayer)
+        {
+            gameObject.layer = targetLayer;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = targetLayer;
+            }
         }
         #endregion
 
@@ -572,6 +586,14 @@ namespace ProjectOneMore.Battle
         private void HandleUnitDeadEvent(BattleUnit unit)
         {
             
+        }
+
+        private void HandleChangeBattleStateEvent(BattleState state)
+        {
+            if (state != BattleState.PlayerInput)
+            {
+                DeHighlight();
+            }
         }
 
         #endregion
