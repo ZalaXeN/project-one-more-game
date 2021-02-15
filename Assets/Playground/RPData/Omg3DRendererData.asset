@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d973779fa3211fc488fdc9e5dcb08e2b, type: 3}
   m_Name: SpriteOutlineFX
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: f18ba3302f5976746b918a0fc5fdbd39, type: 2}
@@ -86,9 +86,9 @@ MonoBehaviour:
       RenderQueueType: 1
       LayerMask:
         serializedVersion: 2
-        m_Bits: 3895
+        m_Bits: 7991
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 6c0da76b3ae46cb459e89b7c156a5275, type: 2}
+    overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 8

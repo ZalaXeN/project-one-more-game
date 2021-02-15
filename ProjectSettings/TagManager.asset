@@ -21,8 +21,8 @@ TagManager:
   - Unit
   - Obstacle
   - Bullet
-  - 
-  - 
+  - Target
+  - Target_Outline
   - Effect
   - 
   - 
