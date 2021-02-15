@@ -6183,8 +6183,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -7365,7 +7365,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &519336632
 Canvas:
   m_ObjectHideFlags: 0
@@ -17412,6 +17412,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ActionArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053648637748376661, guid: 0e013aaca9dbc6444aadde74d58b5ded,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7053648637748376662, guid: 0e013aaca9dbc6444aadde74d58b5ded,
         type: 3}
@@ -27701,7 +27706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 0
+  m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 1
@@ -27711,7 +27716,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -28788,6 +28793,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764540351980344146, guid: e73af8c8688ba2a4aa74847cb099fb9c,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764540351980344146, guid: e73af8c8688ba2a4aa74847cb099fb9c,
+        type: 3}
       propertyPath: m_Direction
       value: 2
       objectReference: {fileID: 0}
@@ -28825,6 +28835,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ActionAreaCapsule
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761276184643221038, guid: e73af8c8688ba2a4aa74847cb099fb9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6761276184643221039, guid: e73af8c8688ba2a4aa74847cb099fb9c,
         type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectOneMore.Battle
 {
-    [RequireComponent(typeof(Collider), typeof(Rigidbody))]
+    [RequireComponent(typeof(Collider))]
     public class BattleActionArea : MonoBehaviour
     {
         public enum AreaType
@@ -77,6 +77,12 @@ namespace ProjectOneMore.Battle
         private void UpdateState()
         {
             _isFollowMouse = BattleManager.main.battleState == BattleState.PlayerInput;
+
+            if (_areaCollider && BattleManager.main)
+            {
+                _areaCollider.enabled = BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Area) ||
+                    BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Projectile);
+            }   
         }
 
         private void UpdatePosition()

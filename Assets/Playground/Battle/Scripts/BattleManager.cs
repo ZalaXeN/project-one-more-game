@@ -325,6 +325,7 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             battleState = BattleState.PlayerInput;
+            ChangeBattleStateEvent?.Invoke(battleState);
 
             if (_currentActionCard.skillType != SkillType.Instant &&
                _currentActionCard.skillType != SkillType.Passive)
@@ -416,6 +417,9 @@ namespace ProjectOneMore.Battle
 
         public bool IsCurrentActionHasTargetType(SkillTargetType skillTargetType)
         {
+            if (_currentActionCard == null)
+                return false;
+
             return _currentActionCard.skillTargetType == skillTargetType;
         }
 
@@ -470,6 +474,7 @@ namespace ProjectOneMore.Battle
 
             ResetTime();
             battleState = BattleState.Battle;
+            ChangeBattleStateEvent?.Invoke(battleState);
         }
         #endregion
 
