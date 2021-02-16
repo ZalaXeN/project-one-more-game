@@ -24,13 +24,13 @@ MonoBehaviour:
       PassNames: []
     overrideMaterial: {fileID: 2100000, guid: 478eacf417d421544adb630f75bb0721, type: 2}
     overrideMaterialPassIndex: 0
-    overrideDepthState: 0
-    depthCompareFunction: 4
+    overrideDepthState: 1
+    depthCompareFunction: 2
     enableWrite: 1
     stencilSettings:
-      overrideStencilState: 0
-      stencilReference: 0
-      stencilCompareFunction: 8
+      overrideStencilState: 1
+      stencilReference: 1
+      stencilCompareFunction: 6
       passOperation: 0
       failOperation: 0
       zFailOperation: 0
@@ -74,8 +74,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   m_DefaultStencilState:
-    overrideStencilState: 0
-    stencilReference: 0
+    overrideStencilState: 1
+    stencilReference: 1
     stencilCompareFunction: 8
     passOperation: 2
     failOperation: 0

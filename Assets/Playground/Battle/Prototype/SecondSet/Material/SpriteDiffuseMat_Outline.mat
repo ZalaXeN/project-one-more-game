@@ -80,7 +80,7 @@ Material:
     - Boolean_803099C1: 0
     - Dissolve_Progress: 0
     - Outline: 1
-    - Outline_Thickness: 0.05
+    - Outline_Thickness: 0.1
     - Vector1_A852A0CD: 0.005
     - Vector1_Dissolve: 0
     - _AlphaClip: 0
