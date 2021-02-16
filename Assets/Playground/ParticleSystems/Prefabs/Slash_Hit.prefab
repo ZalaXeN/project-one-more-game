@@ -4847,9 +4847,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1175597187
-  m_SortingLayer: 3
-  m_SortingOrder: 10
+  m_SortingLayerID: 1925460215
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4888,7 +4888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 6049680524487091377}
-  targetOffset: 10
+  targetOffset: 0
 --- !u!1 &6049680524487091278
 GameObject:
   m_ObjectHideFlags: 0
@@ -14642,9 +14642,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1175597187
-  m_SortingLayer: 3
-  m_SortingOrder: 10
+  m_SortingLayerID: 1925460215
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -14683,4 +14683,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 6049680524487091377}
-  targetOffset: 10
+  targetOffset: 0
