@@ -2239,7 +2239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 151382782}
   - component: {fileID: 151382783}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BattlefieldArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5024,7 +5024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 387981820}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BattleField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9339,6 +9339,7 @@ MonoBehaviour:
   rowsPerColumn: 4
   slowTimeFactor: 0.2
   slowingLength: 0.3
+  _currentActionCard: {fileID: 0}
   _battleUnitList: []
   isOnActionSelector: 0
 --- !u!4 &671892079
@@ -22596,7 +22597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1805315029}
   - component: {fileID: 1805315030}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemySpawnArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24000,7 +24001,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 48947
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -26516,7 +26517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2025774762}
   - component: {fileID: 2025774763}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerSpawnArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28853,7 +28854,7 @@ PrefabInstance:
     - target: {fileID: 8982781059478591555, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}
       propertyPath: moveSpeedMultiplier
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8982781059478591556, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}

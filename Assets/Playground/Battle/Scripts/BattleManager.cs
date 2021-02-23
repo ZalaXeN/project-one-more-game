@@ -78,6 +78,7 @@ namespace ProjectOneMore.Battle
         [Range(0.1f, 1f)]
         public float slowingLength = 0.3f;
 
+        [SerializeField]
         private BattleActionCard _currentActionCard;
         private BattleActionCard _previousActionCard;
         [SerializeField] private List<BattleUnit> _battleUnitList = new List<BattleUnit>();
