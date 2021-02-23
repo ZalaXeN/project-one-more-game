@@ -92,8 +92,8 @@ namespace ProjectOneMore.Battle
             if (!_battleUnit || moveDirection.sqrMagnitude < 0.01 || !_battleUnit.InBattlefield())
                 return;
 
-            var direction = new Vector3(moveDirection.x, 0, moveDirection.y);
-            _battleUnit.Move(_battleUnit.transform.position + direction);
+            Vector3 move = new Vector3(moveDirection.x, 0, moveDirection.y);
+            _battleUnit.Move(move);
         }
 
         public void InputAttack(InputAction.CallbackContext context)

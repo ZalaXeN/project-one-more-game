@@ -41,6 +41,7 @@ namespace ProjectOneMore.Battle
         public Transform centerTransform;
         public Collider unitCollider;
         public Collider interactCollider;
+        public Rigidbody rb;
 
         // For Auto Attack and minion AI
         public float neighborRadius = 5f;
@@ -68,6 +69,7 @@ namespace ProjectOneMore.Battle
 
         // TODO Test
         public Vector3 targetPosition;
+        private Vector3 _move;
 
         [Header("Card Settings")]
         [Tooltip("use on Auto Action too.")]
@@ -521,9 +523,10 @@ namespace ProjectOneMore.Battle
 
         #region Positioning
 
-        public void Move(Vector3 targetPosition)
+        public void Move(Vector3 move)
         {
-            this.targetPosition = targetPosition;
+            targetPosition = transform.position + move;
+            _move = move;
         }
 
         public bool InBattlefield()
@@ -536,35 +539,36 @@ namespace ProjectOneMore.Battle
             if (OnDeadState())
                 return;
 
-            if (transform.position == targetPosition)
+            if (_move == Vector3.zero)
             {
-                if (_controller && _controller.HasMoveInput()) { }
-                else
-                {
-                    animator.SetBool("moving", false);
-                }
+                animator.SetBool("moving", false);
+                return;
             }
-            else if (!IsTakeAction())
+
+            if (!IsTakeAction())
             {
-                MoveToTargetPosition();
+                MoveWithMoveDirection();
             }
         }
 
-        private void MoveToTargetPosition()
+        private void MoveWithMoveDirection()
         {
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
-            animator.SetBool("moving", true);
+            float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
+            Vector3 moveStepTarget = Vector3.MoveTowards(transform.position, targetPosition, step);
 
+            animator.SetBool("moving", true);
             UpdateFlipScale(targetPosition);
 
-            float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            if (rb)
             {
-                targetPosition = transform.position;
+                rb.MovePosition(transform.position + _move * step);
+            }
+            else
+            {
+                transform.position = moveStepTarget;
             }
         }
 

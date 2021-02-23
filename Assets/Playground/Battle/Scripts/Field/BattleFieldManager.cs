@@ -61,9 +61,9 @@ namespace ProjectOneMore.Battle
                 targetBehaviour = basicMovementBehaviour;
             }
 
-            Vector3 targetPos = unit.transform.position + targetBehaviour.CalculateMove(this, context, unit);
+            Vector3 move = targetBehaviour.CalculateMove(this, context, unit);
 
-            unit.Move(targetPos);
+            unit.Move(move);
         }
 
         public BattleUnit GetNearestEnemyUnitInAttackRange(BattleUnit unit, bool shouldAlive = true)

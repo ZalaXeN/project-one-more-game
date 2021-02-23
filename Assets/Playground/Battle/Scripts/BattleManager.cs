@@ -452,7 +452,9 @@ namespace ProjectOneMore.Battle
                 }
             }
 
-            _currentActionCard = null;
+            if(triggerTakeActionEvent)
+                _currentActionCard = null;
+
             ExitPlayerInput();
         }
 
