@@ -42,11 +42,11 @@ public class SpriteDepthSortHelper : MonoBehaviour
 
     void UpdateSortingOrder()
     {
-        _updateTimer -= Time.deltaTime;
-        if (_updateTimer > 0f)
-            return;
+        //_updateTimer -= Time.deltaTime;
+        //if (_updateTimer > 0f)
+        //    return;
 
-        _updateTimer = UPDATE_TIME;
+        //_updateTimer = UPDATE_TIME;
 
         if (target == null)
             target = transform;

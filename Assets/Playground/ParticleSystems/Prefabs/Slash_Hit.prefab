@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6049680522863671619}
   - component: {fileID: 6049680522863671618}
   - component: {fileID: 5890051654317657796}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,9 +284,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 0.08
+      minScalar: 0.03
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -337,7 +337,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -390,7 +390,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -4902,7 +4902,7 @@ GameObject:
   - component: {fileID: 6049680524487091279}
   - component: {fileID: 6306291711022714493}
   - component: {fileID: 7784105735762737214}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Slash_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9807,7 +9807,7 @@ GameObject:
   - component: {fileID: 6049680524732299468}
   - component: {fileID: 6049680524732299467}
   - component: {fileID: 5297017882527787237}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Flare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

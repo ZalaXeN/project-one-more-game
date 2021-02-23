@@ -28,6 +28,12 @@ namespace ProjectOneMore.Battle
         TakeAction
     }
 
+    public enum BattleUnitSpriteLookDirection
+    {
+        Left,
+        Right
+    }
+
     public class BattleUnit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [Header("Settings")]
@@ -58,6 +64,7 @@ namespace ProjectOneMore.Battle
 
         [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
+        public BattleUnitSpriteLookDirection spriteLookDirection;
 
         // TODO Test
         public Vector3 targetPosition;
@@ -563,13 +570,19 @@ namespace ProjectOneMore.Battle
 
         public void UpdateFlipScale(Vector3 lookPos)
         {
-            if (lookPos.x < transform.position.x && transform.localScale.x < 0)
+            if (lookPos.x < transform.position.x)
             {
-                FlipScaleX();
+                if(transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
+                    FlipScaleX();
+                else if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
+                    FlipScaleX();
             }
-            else if (lookPos.x > transform.position.x && transform.localScale.x > 0)
+            else if (lookPos.x > transform.position.x)
             {
-                FlipScaleX();
+                if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
+                    FlipScaleX();
+                else if (transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
+                    FlipScaleX();
             }
         }
 
