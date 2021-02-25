@@ -1272,7 +1272,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1175597187
   m_SortingLayer: 3
-  m_SortingOrder: -106
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: c038da956b1d7704582b1405070acf86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1296,8 +1296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646e64045958fff4fbb9c1bbe8e8c36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 270468531336959223}
-  targetOffset: 1
+  target: {fileID: 1725000813071703447}
+  targetOffset: 20
 --- !u!114 &7874713807004019967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2480,6 +2480,7 @@ MonoBehaviour:
   centerTransform: {fileID: 5092918442256098333}
   unitCollider: {fileID: 1127997590766693003}
   interactCollider: {fileID: 1127997590766693003}
+  rb: {fileID: 0}
   neighborRadius: 1.2
   attackRadius: 1.8
   team: 1
@@ -2508,6 +2509,7 @@ MonoBehaviour:
   attackType: 0
   moveSpeedMultiplier: 5
   isUseSpecificPosition: 0
+  spriteLookDirection: 0
   targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 125378345024149850}
   _currentState: 0
@@ -2563,6 +2565,9 @@ MonoBehaviour:
   launchPositionOffset: {x: 0, y: 5, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
+  actionArea: {fileID: 0}
 --- !u!1 &8650413643039807872
 GameObject:
   m_ObjectHideFlags: 0

@@ -69,7 +69,7 @@ namespace ProjectOneMore.Battle
 
         // TODO Test
         public Vector3 targetPosition;
-        private Vector3 _move;
+        private Vector3 _move = Vector3.zero;
 
         [Header("Card Settings")]
         [Tooltip("use on Auto Action too.")]
@@ -526,7 +526,7 @@ namespace ProjectOneMore.Battle
         public void Move(Vector3 move)
         {
             targetPosition = transform.position + move;
-            _move = move;
+            _move += move;
         }
 
         public bool InBattlefield()
@@ -568,8 +568,11 @@ namespace ProjectOneMore.Battle
             }
             else
             {
-                transform.position = moveStepTarget;
+                //transform.position = moveStepTarget;
+                transform.position += _move * step;
             }
+
+            _move = Vector3.zero;
         }
 
         public void UpdateFlipScale(Vector3 lookPos)

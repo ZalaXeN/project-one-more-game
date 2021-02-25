@@ -167,7 +167,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1175597187
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: c038da956b1d7704582b1405070acf86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4305401477027747376}
-  targetOffset: 1
+  targetOffset: 20
 --- !u!114 &7522319442725357915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1304,7 +1304,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4485155107748313009}
-  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.976296}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
@@ -1414,6 +1414,7 @@ MonoBehaviour:
   centerTransform: {fileID: 9142076126290995145}
   unitCollider: {fileID: 3663715107457156044}
   interactCollider: {fileID: 1419636775256182721}
+  rb: {fileID: 0}
   neighborRadius: 1.2
   attackRadius: 1.8
   team: 1
@@ -1442,6 +1443,7 @@ MonoBehaviour:
   attackType: 0
   moveSpeedMultiplier: 5
   isUseSpecificPosition: 0
+  spriteLookDirection: 0
   targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 8334711047990634619}
   _currentState: 0
@@ -1497,6 +1499,9 @@ MonoBehaviour:
   launchPositionOffset: {x: 0, y: 5, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
+  actionArea: {fileID: 0}
 --- !u!1 &4640355226419835021
 GameObject:
   m_ObjectHideFlags: 0
