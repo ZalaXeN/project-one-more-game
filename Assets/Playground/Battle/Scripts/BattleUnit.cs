@@ -531,7 +531,6 @@ namespace ProjectOneMore.Battle
             if (IsTakeAction() || OnDeadState())
                 return;
 
-            targetPosition = transform.position + move;
             _move += move;
         }
 
@@ -559,6 +558,7 @@ namespace ProjectOneMore.Battle
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
+            targetPosition = transform.position + _move;
             float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
             Vector3 moveStepTarget = Vector3.MoveTowards(transform.position, targetPosition, step);
 
