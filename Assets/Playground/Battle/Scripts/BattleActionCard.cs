@@ -129,9 +129,7 @@ namespace ProjectOneMore.Battle
                 return;
             }
 
-            owner.SetTakeActionState();
-            owner.animator.ResetTrigger("hit");
-            owner.animator.SetTrigger(animationId);
+            owner.SetTakeActionState(animationId);
         }
 
         private void ClearTargets()

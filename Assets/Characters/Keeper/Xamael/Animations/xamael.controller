@@ -158,8 +158,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 6140437441703225930}
   - {fileID: -785713085054126821}
+  - {fileID: 6140437441703225930}
   m_StateMachineBehaviours:
   - {fileID: -3008507249925364533}
   - {fileID: -1405679996791895946}
@@ -227,10 +227,10 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -6152446380320421948}
   - {fileID: -8511425345293167936}
-  - {fileID: -5768943292687343381}
   - {fileID: -3675725372177672295}
+  - {fileID: -5768943292687343381}
+  - {fileID: -6152446380320421948}
   m_StateMachineBehaviours:
   - {fileID: 2263992961797265194}
   m_Position: {x: 50, y: 50, z: 0}
@@ -322,8 +322,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5738000137342207366}
-  - {fileID: -1526687063255882493}
   - {fileID: -8129124756073916614}
+  - {fileID: -1526687063255882493}
   - {fileID: 6097681151738783136}
   - {fileID: 550678874546667110}
   m_StateMachineBehaviours:
@@ -604,43 +604,43 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: take_action
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: attack2
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: dead
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: cast
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -848,8 +848,8 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: -220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
-  - {fileID: -635904847822027628}
   - {fileID: -3203201932186035142}
+  - {fileID: -635904847822027628}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []

@@ -60,7 +60,7 @@ namespace ProjectOneMore.Battle
         bool CheckShowIndicatorByBattleState()
         {
             if (BattleManager.main?.battleState == BattleState.Battle)
-                return true;
+                return false;
 
             if (BattleManager.main?.battleState == BattleState.PlayerInput)
             {

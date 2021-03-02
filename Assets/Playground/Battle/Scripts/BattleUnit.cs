@@ -251,9 +251,12 @@ namespace ProjectOneMore.Battle
         #region On Update Script
 
         // Use on Battle Action Card to break Hit Lock
-        public void SetTakeActionState()
+        public void SetTakeActionState(string animationId)
         {
             _currentState = BattleUnitState.TakeAction;
+            _move = Vector3.zero;
+            animator.ResetTrigger("hit");
+            animator.SetTrigger(animationId);
         }
 
         // Use on SMB
@@ -525,6 +528,9 @@ namespace ProjectOneMore.Battle
 
         public void Move(Vector3 move)
         {
+            if (IsTakeAction() || OnDeadState())
+                return;
+
             targetPosition = transform.position + move;
             _move += move;
         }
@@ -536,19 +542,16 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
-            if (OnDeadState())
-                return;
-
             if (_move == Vector3.zero)
             {
                 animator.SetBool("moving", false);
-                return;
             }
 
-            if (!IsTakeAction())
-            {
+            if (IsTakeAction() || OnDeadState())
+                return;
+
+            if (_move != Vector3.zero)
                 MoveWithMoveDirection();
-            }
         }
 
         private void MoveWithMoveDirection()
