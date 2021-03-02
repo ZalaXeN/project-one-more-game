@@ -3,6 +3,7 @@ using System.Collections;
 
 [ExecuteInEditMode()]
 [RequireComponent(typeof(Renderer))]
+[DisallowMultipleComponent]
 public class SpriteDepthSortHelper : MonoBehaviour
 {
     private const int SORTING_BASE = 100;
