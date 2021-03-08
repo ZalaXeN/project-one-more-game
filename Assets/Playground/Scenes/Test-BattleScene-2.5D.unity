@@ -6487,8 +6487,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -9651,6 +9651,10 @@ MonoBehaviour:
   battleParticleManager: {fileID: 671892080}
   battleCameraManager: {fileID: 1114344864}
   battleProjectileManager: {fileID: 305766422}
+  physicsRaycaster: {fileID: 1892726096}
+  playerInputLayerMask:
+    serializedVersion: 2
+    m_Bits: 9216
   testLevelId: 00
   rowsPerColumn: 4
   slowTimeFactor: 0.2

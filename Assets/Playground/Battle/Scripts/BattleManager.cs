@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace ProjectOneMore.Battle
@@ -58,16 +59,25 @@ namespace ProjectOneMore.Battle
         [Header("Data Settings.")]
         public MinionPrefabController minionPrefabController;
 
+        [Space]
         [Header("Manager Settings.")]
         public BattleFieldManager fieldManager;
         public BattleLevelManager levelManager;
 
+        [Space]
         [Header("Settings.")]
         public BattleDamageNumberPool battleDamageNumberPool;
         public BattleParticleManager battleParticleManager;
         public BattleCameraManager battleCameraManager;
         public BattleProjectileManager battleProjectileManager;
 
+        [Space]
+        [Header("Raycaster Settings.")]
+        public PhysicsRaycaster physicsRaycaster;
+        public LayerMask playerInputLayerMask;
+        private LayerMask _tempRaycasterEventLayerMask;
+
+        [Space]
         [Header("Test Settings.")]
         public string testLevelId;
         [Range(1, 10)]
@@ -340,6 +350,7 @@ namespace ProjectOneMore.Battle
         private void ShowTargeting()
         {
             DoSlowtime();
+            SetPhysicsRaycasterEventLayer(battleState);
 
             // TODO
             // Make Targeting for all type of action
@@ -478,6 +489,21 @@ namespace ProjectOneMore.Battle
             ResetTime();
             battleState = BattleState.Battle;
             ChangeBattleStateEvent?.Invoke(battleState);
+
+            SetPhysicsRaycasterEventLayer(battleState);
+        }
+
+        private void SetPhysicsRaycasterEventLayer(BattleState state)
+        {
+            if(state == BattleState.PlayerInput)
+            {
+                _tempRaycasterEventLayerMask = physicsRaycaster.eventMask;
+                physicsRaycaster.eventMask = playerInputLayerMask;
+            }
+            else
+            {
+                physicsRaycaster.eventMask = _tempRaycasterEventLayerMask;
+            }
         }
         #endregion
 

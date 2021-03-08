@@ -483,6 +483,9 @@ namespace ProjectOneMore.Battle
             gameObject.layer = targetLayer;
             foreach (Transform child in transform)
             {
+                if (child.GetComponent<SwingEffector>())
+                    continue;
+
                 child.gameObject.layer = targetLayer;
             }
         }
