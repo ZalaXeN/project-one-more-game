@@ -30,10 +30,12 @@ namespace ProjectOneMore.Battle
         public void SetTarget(BattleUnit target)
         {
             if (_targets == null)
-                _targets = new List<BattleUnit>();
+                _targets = new List<BattleUnit>(); 
 
             _targets.Clear();
-            _targets.Add(target);
+
+            if (target != null)
+                _targets.Add(target);
         }
 
         public void SetTargets(List<BattleUnit> targets)
