@@ -75,7 +75,7 @@ namespace ProjectOneMore.Battle
         [Header("Raycaster Settings.")]
         public PhysicsRaycaster physicsRaycaster;
         public LayerMask playerInputLayerMask;
-        private LayerMask _tempRaycasterEventLayerMask;
+        public LayerMask normalEventLayerMask;
 
         [Space]
         [Header("Test Settings.")]
@@ -100,7 +100,9 @@ namespace ProjectOneMore.Battle
 
         private BattleController _controller;
         private BattleUnit _controlledUnit;
-        private BattleUnit _selectedUnit;
+
+        [HideInInspector]
+        public BattleUnit selectedUnit;
 
         [HideInInspector]
         public bool isOnActionSelector;
@@ -131,6 +133,8 @@ namespace ProjectOneMore.Battle
             UpdateTimeScale();
 
             UpdateBattlePosition();
+
+            UpdateData();
         }
 
         #region Ready Phase
@@ -485,14 +489,13 @@ namespace ProjectOneMore.Battle
 
         private void SetPhysicsRaycasterEventLayer(BattleState state)
         {
-            if(state == BattleState.PlayerInput)
+            if (state == BattleState.PlayerInput)
             {
-                _tempRaycasterEventLayerMask = physicsRaycaster.eventMask;
                 physicsRaycaster.eventMask = playerInputLayerMask;
             }
             else
             {
-                physicsRaycaster.eventMask = _tempRaycasterEventLayerMask;
+                physicsRaycaster.eventMask = normalEventLayerMask;
             }
         }
         #endregion
@@ -625,11 +628,6 @@ namespace ProjectOneMore.Battle
             return _controlledUnit;
         }
 
-        public BattleUnit GetCurrentSelectedUnit()
-        {
-            return _selectedUnit;
-        }
-
         private Vector3 lastGroundMousePos;
         public Vector3 GetGroundMousePosition()
         {
@@ -654,6 +652,21 @@ namespace ProjectOneMore.Battle
             }
 
             return lastGroundMousePos;
+        }
+
+        #endregion
+
+        #region Data Manage
+
+        private void UpdateData()
+        {
+            if (!selectedUnit)
+                return;
+                
+            if(!selectedUnit.IsAlive())
+            {
+                selectedUnit = null;
+            }
         }
 
         #endregion

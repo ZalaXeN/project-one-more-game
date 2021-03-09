@@ -85,7 +85,6 @@ namespace ProjectOneMore.Battle
 
         private BattleActionCard _currentBattleActionCard;
         private float _autoAttackCooldown = 0f;
-        private BattleUnit _currentActionTarget;
 
         private SpriteRenderer[] _spriteRenderers;
 
@@ -192,8 +191,14 @@ namespace ProjectOneMore.Battle
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            SetSelectedUnit();
             SetCurrentActionTargetThisUnit();
             SetNormalAttackTarget();
+        }
+
+        private void SetSelectedUnit()
+        {
+            BattleManager.main.selectedUnit = this;
         }
 
         private void SetCurrentActionTargetThisUnit()
