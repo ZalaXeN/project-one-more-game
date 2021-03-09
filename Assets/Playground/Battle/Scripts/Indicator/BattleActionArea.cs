@@ -97,8 +97,18 @@ namespace ProjectOneMore.Battle
             }
             else
             {
-                _areaPosition = parentTransform.position + offsetPosition;
-                _areaPosition.x += GetExtentsFromCollider().x;
+                if (parentTransform.localScale.x < 0)
+                {
+                    _areaPosition = parentTransform.position - offsetPosition;
+                    _areaPosition.x -= GetExtentsFromCollider().x;
+                }
+                else
+                {
+                    _areaPosition = parentTransform.position + offsetPosition;
+                    _areaPosition.x += GetExtentsFromCollider().x;
+                }
+
+
                 transform.localPosition = _areaPosition;
             }
         }
