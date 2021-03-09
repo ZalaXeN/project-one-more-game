@@ -15,7 +15,7 @@ namespace ProjectOneMore.Battle
             Vector3 closestPoint = field.battleFieldArea.bounds.ClosestPoint(currentPos);
             Vector3 centerOffset = (closestPoint - currentPos);
 
-            return centerOffset;
+            return centerOffset.normalized;
         }
     }
 }

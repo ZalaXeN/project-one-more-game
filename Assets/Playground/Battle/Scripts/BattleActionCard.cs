@@ -87,12 +87,23 @@ namespace ProjectOneMore.Battle
             return _targets;
         }
 
-        public bool IsEmptyTarget()
+        public bool HasTarget()
         {
-            if (_targets != null && _targets.Count > 0)
-                return false;
+            switch (skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    if (_targets != null && _targets.Count > 0)
+                        return true;
+                    return false;
+                case SkillTargetType.Projectile:
+                    return true;
+                case SkillTargetType.Area:
+                    if (_targets != null && _targets.Count > 0)
+                        return true;
+                    return false;
+            }
 
-            return true;
+            return false;
         }
 
         public void Target()
@@ -108,6 +119,24 @@ namespace ProjectOneMore.Battle
                     projectilePrefab,
                     owner.transform.position + launchPositionOffset, 
                     travelTime);
+        }
+
+        public void FindTarget()
+        {
+            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
+
+            switch (skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    SetTarget(target);
+                    break;
+                case SkillTargetType.Projectile:
+                    targetPosition = target.transform.position;
+                    break;
+                case SkillTargetType.Area:
+                    SetTargetsWithActionArea();
+                    break;
+            }
         }
 
         public void Execute()

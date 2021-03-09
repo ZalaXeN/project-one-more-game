@@ -98,7 +98,9 @@ namespace ProjectOneMore.Battle
         private float _previousTargetTimeScale;
         private float _targetTimeScale = 1f;
 
-        private BattleUnitController _unitController;
+        private BattleController _controller;
+        private BattleUnit _controlledUnit;
+        private BattleUnit _selectedUnit;
 
         [HideInInspector]
         public bool isOnActionSelector;
@@ -264,7 +266,7 @@ namespace ProjectOneMore.Battle
 
         #region Normal Attack
 
-        public void InputAttack(BattleActionCard card)
+        public void InputAttack()
         {
             // Command
             if (_battleState == BattleState.PlayerInput)
@@ -273,20 +275,6 @@ namespace ProjectOneMore.Battle
                 {
                     _currentActionCard.SetTargetsWithActionArea();
                     CurrentActionTakeAction();
-                }
-            }
-            // Normal Attack
-            else
-            {
-                // Instant Normal Attack
-                if (card.skillType == SkillType.Instant || card.isInstantTarget)
-                {
-                    InstantNormalAction(card);
-                }
-                // Single Normal Attack
-                else
-                {
-                    SetNormalActionCard(card);
                 }
             }
         }
@@ -335,6 +323,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             _currentActionCard = action;
+            _controlledUnit = _currentActionCard.owner;
             battleState = BattleState.PlayerInput;
             ChangeBattleStateEvent?.Invoke(battleState);
 
@@ -479,6 +468,7 @@ namespace ProjectOneMore.Battle
             }
 
             _previousActionCard = null;
+            _controlledUnit = null;
         }
 
         public void ExitPlayerInput()
@@ -515,7 +505,7 @@ namespace ProjectOneMore.Battle
         }
         #endregion
 
-        public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true)
+        public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true, bool shouldInBattlefield = true)
         {
             BattleUnit target = null;
             Vector3 unitPos;
@@ -529,7 +519,7 @@ namespace ProjectOneMore.Battle
                     unitPos = u.transform.position;
                     unitPos.y = fieldManager.battleFieldArea.transform.position.y;
 
-                    if (!fieldManager.battleFieldArea.bounds.Contains(unitPos))
+                    if (shouldInBattlefield && !fieldManager.battleFieldArea.bounds.Contains(unitPos))
                         continue;
 
                     if (target == null)
@@ -620,14 +610,24 @@ namespace ProjectOneMore.Battle
 
         #region Input Systems
 
-        public void SetupFocusUnitController(BattleUnitController unitController)
+        public void SetupFocusUnitController(BattleController unitController)
         {
-            _unitController = unitController;
+            _controller = unitController;
         }
 
-        public BattleUnitController GetFocusedUnitController()
+        public BattleController GetFocusedController()
         {
-            return _unitController;
+            return _controller;
+        }
+
+        public BattleUnit GetCurrentControlledUnit()
+        {
+            return _controlledUnit;
+        }
+
+        public BattleUnit GetCurrentSelectedUnit()
+        {
+            return _selectedUnit;
         }
 
         private Vector3 lastGroundMousePos;

@@ -69,26 +69,18 @@ namespace ProjectOneMore.Battle
         public BattleUnit GetNearestEnemyUnitInAttackRange(BattleUnit unit, bool shouldAlive = true)
         {
             BattleUnit target = null;
-            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
-            foreach (Collider c in contextColliders)
+            List<BattleUnit> targetList = GetUnitListInAttackRange(unit, BattleManager.main.GetOppositeTeam(unit.team), shouldAlive);
+            if (targetList == null)
+                return target;
+
+            foreach (BattleUnit u in targetList)
             {
-                if (c == unit.unitCollider)
-                    continue;
-
-                BattleUnit u = c.GetComponent<BattleUnit>();
-
-                if (u && shouldAlive && !u.IsAlive())
-                    continue;
-
-                if (u && u.team != unit.team)
-                {
-                    if (target == null)
-                        target = u;
-                    else if (
-                        Vector3.Distance(unit.transform.position, u.transform.position) < 
-                        Vector3.Distance(unit.transform.position, target.transform.position))
-                        target = u;
-                }
+                if (target == null)
+                    target = u;
+                else if (
+                    Vector3.Distance(unit.transform.position, u.transform.position) < 
+                    Vector3.Distance(unit.transform.position, target.transform.position))
+                    target = u;
             }
             return target;
         }

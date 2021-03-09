@@ -1260,7 +1260,7 @@ MonoBehaviour:
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
-  animationId: 
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
   projectilePrefab: {fileID: 0}

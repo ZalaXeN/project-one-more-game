@@ -243,8 +243,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         //--- My Resolve for rebind on player input
         void GetFocusedPlayerInput()
         {
-            BattleUnitController focusedUnitController = BattleManager.main?.GetFocusedUnitController();
-            _focusedPlayerInput = focusedUnitController?.GetPlayerInput();
+            BattleController focusedController = BattleManager.main?.GetFocusedController();
+            _focusedPlayerInput = focusedController?.GetPlayerInput();
             UpdateBindingDisplay();
         }
 

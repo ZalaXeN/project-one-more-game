@@ -538,6 +538,7 @@ MonoBehaviour:
   centerTransform: {fileID: 3444322382351597784}
   unitCollider: {fileID: 3857988090159865505}
   interactCollider: {fileID: 3857988090159865505}
+  rb: {fileID: 0}
   neighborRadius: 1.2
   attackRadius: 8
   team: 1
@@ -566,6 +567,7 @@ MonoBehaviour:
   attackType: 1
   moveSpeedMultiplier: 4
   isUseSpecificPosition: 0
+  spriteLookDirection: 0
   targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 6671197400657741432}
   _currentState: 0
@@ -614,13 +616,16 @@ MonoBehaviour:
   skillType: 3
   skillEffectTarget: 2
   skillTargetType: 0
-  animationId: 
+  animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: 0, y: 5, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   travelTime: 1
+  isOnlyTargetInAttackRange: 0
+  isInstantTarget: 0
+  actionArea: {fileID: 0}
 --- !u!1 &1979160516513416652
 GameObject:
   m_ObjectHideFlags: 0

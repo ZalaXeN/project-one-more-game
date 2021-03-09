@@ -78,11 +78,11 @@ namespace ProjectOneMore.Battle
         {
             _isFollowMouse = BattleManager.main.battleState == BattleState.PlayerInput;
 
-            if (_areaCollider && BattleManager.main)
-            {
-                _areaCollider.enabled = BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Area) ||
-                    BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Projectile);
-            }   
+            //if (_areaCollider && BattleManager.main)
+            //{
+            //    _areaCollider.enabled = BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Area) ||
+            //        BattleManager.main.IsCurrentActionHasTargetType(SkillTargetType.Projectile);
+            //}   
         }
 
         private void UpdatePosition()

@@ -47,6 +47,7 @@ namespace ProjectOneMore.Battle
         public float neighborRadius = 5f;
         public float attackRadius = 2f;
 
+        [Space]
         [Header("Data")]
         public BattleTeam team;
 
@@ -63,6 +64,7 @@ namespace ProjectOneMore.Battle
 
         public float moveSpeedMultiplier = 1f;
 
+        [Space]
         [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
@@ -71,10 +73,12 @@ namespace ProjectOneMore.Battle
         public Vector3 targetPosition;
         private Vector3 _move = Vector3.zero;
 
+        [Space]
         [Header("Card Settings")]
         [Tooltip("use on Auto Action too.")]
         public BattleActionCard normalActionCard;
 
+        [Space]
         [Header("Unit State")]
         [SerializeField]
         private BattleUnitState _currentState;
@@ -84,8 +88,6 @@ namespace ProjectOneMore.Battle
         private BattleUnit _currentActionTarget;
 
         private SpriteRenderer[] _spriteRenderers;
-
-        private BattleUnitController _controller;
 
         private float _hitLockTimer;
         private float _hitLockBreakTimer;
@@ -139,19 +141,9 @@ namespace ProjectOneMore.Battle
 
         #region Controller
 
-        public void SetController(BattleUnitController controller)
-        {
-            _controller = controller;
-        }
-
-        public void RemoveController()
-        {
-            _controller = null;
-        }
-
         public bool IsControlled()
         {
-            return (_controller && _controller.enabled);
+            return (BattleManager.main?.GetCurrentControlledUnit() == this);
         }
 
         #endregion
@@ -274,15 +266,11 @@ namespace ProjectOneMore.Battle
 
         private void ExecuteAutoAction()
         {
-            // TODO 
-            // Change target follow BAC
-            //_currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
-
-            if (_currentActionTarget == null || _currentBattleActionCard == null)
+            if (_currentBattleActionCard == null)
                 return;
 
-            _currentBattleActionCard.SetTarget(_currentActionTarget);
-            _currentBattleActionCard.targetPosition = _currentActionTarget.transform.position;
+            _currentBattleActionCard.FindTarget();
+
             _currentBattleActionCard.Execute();
         }
 
@@ -299,15 +287,13 @@ namespace ProjectOneMore.Battle
                 !BattleManager.main.CanUpdateTimer())
                 return;
 
-            _currentActionTarget = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(this);
+            normalActionCard.FindTarget();
 
-            if (_currentActionTarget != null)
+            if (normalActionCard.HasTarget())
             {
-                UpdateFlipScale(_currentActionTarget.transform.position);
-
                 _currentBattleActionCard = normalActionCard;
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-                animator.SetTrigger("attack");
+                animator.SetTrigger(_currentBattleActionCard.animationId);
             }
             else
             {
