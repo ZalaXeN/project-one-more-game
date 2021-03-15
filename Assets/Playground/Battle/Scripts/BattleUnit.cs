@@ -37,6 +37,7 @@ namespace ProjectOneMore.Battle
     public class BattleUnit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [Header("Settings")]
+        public Transform spriteRootTransform;
         public Animator animator;
         public Transform centerTransform;
         public Collider unitCollider;
@@ -181,24 +182,21 @@ namespace ProjectOneMore.Battle
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
-            HighlightThisUnitTarget();
+            if (BattleManager.main.battleState == BattleState.PlayerInput)
+                BattleManager.main.SelectUnit(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            DeHighlightThisUnitTarget();
+            if (BattleManager.main.battleState == BattleState.PlayerInput)
+                BattleManager.main.DeselectUnit();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            SetSelectedUnit();
+            BattleManager.main.SelectUnit(this);
             SetCurrentActionTargetThisUnit();
             SetNormalAttackTarget();
-        }
-
-        private void SetSelectedUnit()
-        {
-            BattleManager.main.selectedUnit = this;
         }
 
         private void SetCurrentActionTargetThisUnit()
@@ -208,7 +206,6 @@ namespace ProjectOneMore.Battle
 
             if (BattleManager.main.CanCurrentActionTarget(this))
             {
-                DeHighlight();
                 BattleManager.main.SetCurrentActionTarget(this);
                 BattleManager.main.CurrentActionTakeAction();
             }
@@ -224,24 +221,6 @@ namespace ProjectOneMore.Battle
                 BattleManager.main.NormalAttack(this);
             }
         }
-
-        private void HighlightThisUnitTarget()
-        {
-            if (BattleManager.main.battleState != BattleState.Battle && BattleManager.main.battleState != BattleState.PlayerInput)
-                return;
-
-            if (BattleManager.main.CanCurrentActionTarget(this))
-                Highlight();
-        }
-
-        private void DeHighlightThisUnitTarget()
-        {
-            //if (BattleManager.main.battleState != BattleState.PlayerInput)
-            //    return;
-
-            if (BattleManager.main.CanCurrentActionTarget(this))
-                DeHighlight();
-        }     
 
         #endregion
 
@@ -443,28 +422,14 @@ namespace ProjectOneMore.Battle
 
         #region Outline Highlight
 
-        private void SetOutlineColor(Color targetColor)
-        {
-            if(_spriteRenderers == null)
-            {
-                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-            }
-
-            foreach(SpriteRenderer sprite in _spriteRenderers)
-            {
-                sprite.material.SetColor("Outline_Color", targetColor);
-                sprite.material.SetInt("Outline", 1);
-            }
-        }
-
-        private void Highlight()
+        public void Highlight()
         {
             int targetLayer = 13; // Layer "Target"
             _tempLayer = gameObject.layer;
             ChangeLayerForAll(targetLayer);
         }
 
-        private void DeHighlight()
+        public void DeHighlight()
         {
             ChangeLayerForAll(_tempLayer);
         }
@@ -472,7 +437,8 @@ namespace ProjectOneMore.Battle
         private void ChangeLayerForAll(int targetLayer)
         {
             gameObject.layer = targetLayer;
-            foreach (Transform child in transform)
+            Transform targetTransform = spriteRootTransform ? spriteRootTransform : transform;
+            foreach (Transform child in targetTransform)
             {
                 if (child.GetComponent<SwingEffector>())
                     continue;
@@ -607,10 +573,7 @@ namespace ProjectOneMore.Battle
 
         private void HandleChangeBattleStateEvent(BattleState state)
         {
-            if (state != BattleState.PlayerInput)
-            {
-                DeHighlight();
-            }
+
         }
 
         #endregion

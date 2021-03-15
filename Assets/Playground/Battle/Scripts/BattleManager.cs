@@ -281,6 +281,11 @@ namespace ProjectOneMore.Battle
                     CurrentActionTakeAction();
                 }
             }
+
+            if(_battleState == BattleState.Battle)
+            {
+                DeselectUnit();
+            }
         }
 
         public void SetNormalActionCard(BattleActionCard card)
@@ -328,6 +333,7 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             _controlledUnit = _currentActionCard.owner;
+            DeselectUnit();
             battleState = BattleState.PlayerInput;
             ChangeBattleStateEvent?.Invoke(battleState);
 
@@ -498,6 +504,23 @@ namespace ProjectOneMore.Battle
                 physicsRaycaster.eventMask = normalEventLayerMask;
             }
         }
+
+        public void SelectUnit(BattleUnit unit)
+        {
+            DeselectUnit();
+            selectedUnit = unit;
+            selectedUnit.Highlight();
+        }
+
+        public void DeselectUnit()
+        {
+            if (!selectedUnit)
+                return;
+
+            selectedUnit.DeHighlight();
+            selectedUnit = null;
+        }
+
         #endregion
 
         #region Event Trigger
@@ -665,7 +688,7 @@ namespace ProjectOneMore.Battle
                 
             if(!selectedUnit.IsAlive())
             {
-                selectedUnit = null;
+                DeselectUnit();
             }
         }
 

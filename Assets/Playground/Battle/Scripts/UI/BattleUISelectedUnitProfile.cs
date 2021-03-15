@@ -19,13 +19,17 @@ namespace ProjectOneMore.Battle
 
         private void SetSelectedUnit(BattleUnit selectedUnit)
         {
-            if (!selectedUnit)
+            if (selectedUnit && !panelGo.activeInHierarchy)
+            {
+                panelGo.SetActive(true);
+            }
+            else if (!selectedUnit && panelGo.activeInHierarchy)
             {
                 panelGo.SetActive(false);
             }
-            else
+
+            if (panelGo.activeInHierarchy)
             {
-                panelGo.SetActive(true);
                 unitNameText.text = selectedUnit.baseData.keeperName;
                 unitHpText.text = string.Format("{0} / {1}", selectedUnit.hp.current, selectedUnit.hp.max);
                 unitHpBarImage.fillAmount = (float)selectedUnit.hp.current / (float)selectedUnit.hp.max;
