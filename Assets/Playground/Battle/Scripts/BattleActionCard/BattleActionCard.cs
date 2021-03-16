@@ -8,24 +8,12 @@ namespace ProjectOneMore.Battle
         public BattleUnit owner;
         public bool canUseWithoutOwner;
 
-        public string skillName;
-        public SkillType skillType;
-        public SkillEffectTarget skillEffectTarget;
-        public SkillTargetType skillTargetType;
+        public SkillData baseData;
 
-        public string animationId;
-        public BattleAction[] battleActions;
-
-        // TEST Only
-        // make Battle Action Targeting Data for replace this set
+        // TODO
+        // Target
         private List<BattleUnit> _targets;
-        public BattleProjectile projectilePrefab;
-        public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
         public Vector3 targetPosition = Vector3.zero;
-        public float travelTime = 1f;
-        public bool isOnlyTargetInAttackRange = false;
-        public bool isInstantTarget = false;
-        public BattleActionArea actionArea;
 
         public void SetTarget(BattleUnit target)
         {
@@ -45,11 +33,10 @@ namespace ProjectOneMore.Battle
 
         public void SetTargetsWithActionArea(bool shouldAlive = true)
         {
-            if (!actionArea)
-                return;
-
-            List<BattleUnit> tempUnitList = actionArea.GetUnitInAreaList();
-            if(canUseWithoutOwner)
+            AreaSkillData data = baseData as AreaSkillData;
+            Vector3 castPosition = targetPosition + data.offset;
+            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, data.sizeDelta.x);
+            if (canUseWithoutOwner)
             {
                 _targets = tempUnitList;
                 return;
@@ -62,17 +49,17 @@ namespace ProjectOneMore.Battle
                 if (!unit.IsAlive() && shouldAlive)
                     continue;
 
-                if(skillEffectTarget == SkillEffectTarget.Ally || skillEffectTarget == SkillEffectTarget.Allies)
+                if(baseData.skillEffectTarget == SkillEffectTarget.Ally || baseData.skillEffectTarget == SkillEffectTarget.Allies)
                 {
                     if (unit.team == owner.team)
                         _targets.Add(unit);
                 }
-                else if (skillEffectTarget == SkillEffectTarget.Enemy || skillEffectTarget == SkillEffectTarget.Enemies)
+                else if (baseData.skillEffectTarget == SkillEffectTarget.Enemy || baseData.skillEffectTarget == SkillEffectTarget.Enemies)
                 {
                     if (unit.team != owner.team)
                         _targets.Add(unit);
                 }
-                else if (skillEffectTarget == SkillEffectTarget.All)
+                else if (baseData.skillEffectTarget == SkillEffectTarget.All)
                 {
                     _targets.Add(unit);
                 }
@@ -91,7 +78,7 @@ namespace ProjectOneMore.Battle
 
         public bool HasTarget()
         {
-            switch (skillTargetType)
+            switch (baseData.skillTargetType)
             {
                 case SkillTargetType.Target:
                     if (_targets != null && _targets.Count > 0)
@@ -115,19 +102,43 @@ namespace ProjectOneMore.Battle
 
         public void ShowTargeting()
         {
-            // Test Only
-            if (skillTargetType == SkillTargetType.Projectile)
-                BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
-                    projectilePrefab,
-                    owner.transform.position + launchPositionOffset, 
-                    travelTime);
+            switch (baseData.skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    break;
+                case SkillTargetType.Projectile:
+                    ShowProjectileTargeting();
+                    break;
+                case SkillTargetType.Area:
+                    ShowAreaTargeting();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ShowProjectileTargeting() 
+        {
+            ProjectileSkillData data = (baseData as ProjectileSkillData);
+
+            BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
+                    data.projectilePrefab,
+                    owner.transform.position + data.launchPositionOffset,
+                    data.travelTime);
+        }
+
+        private void ShowAreaTargeting()
+        {
+            AreaSkillData data = (baseData as AreaSkillData);
+
+            BattleManager.main.battleActionIndicator.ShowAreaIndicator(owner.transform.position, data.sizeDelta);
         }
 
         public void FindTarget()
         {
             BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
 
-            switch (skillTargetType)
+            switch (baseData.skillTargetType)
             {
                 case SkillTargetType.Target:
                     SetTarget(target);
@@ -136,6 +147,7 @@ namespace ProjectOneMore.Battle
                     targetPosition = target.transform.position;
                     break;
                 case SkillTargetType.Area:
+                    targetPosition = owner.transform.position;
                     SetTargetsWithActionArea();
                     break;
             }
@@ -143,7 +155,7 @@ namespace ProjectOneMore.Battle
 
         public void Execute()
         {
-            foreach(BattleAction battleAction in battleActions)
+            foreach(BattleAction battleAction in baseData.battleActions)
             {
                 battleAction.Execute(this);
             }
@@ -160,7 +172,15 @@ namespace ProjectOneMore.Battle
                 return;
             }
 
-            owner.SetTakeActionState(animationId);
+            // Animate
+            if (string.IsNullOrEmpty(baseData.animationId))
+            {
+                Execute();
+            }
+            else
+            {
+                owner.SetTakeActionState(baseData.animationId);
+            }
         }
 
         private void ClearTargets()

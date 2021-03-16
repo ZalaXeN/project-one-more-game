@@ -70,6 +70,7 @@ namespace ProjectOneMore.Battle
         public BattleParticleManager battleParticleManager;
         public BattleCameraManager battleCameraManager;
         public BattleProjectileManager battleProjectileManager;
+        public BattleActionIndicator battleActionIndicator;
 
         [Space]
         [Header("Raycaster Settings.")]
@@ -84,7 +85,7 @@ namespace ProjectOneMore.Battle
         public int rowsPerColumn = 4;
 
         [Range(0.1f, 0.5f)]
-        public float slowTimeFactor = 0.2f;
+        public float slowTimeFactor = 0.1f;
         [Range(0.1f, 1f)]
         public float slowingLength = 0.3f;
 
@@ -148,6 +149,7 @@ namespace ProjectOneMore.Battle
         {
             battleState = BattleState.Ready;
             InitSpawnTimer();
+            SetPhysicsRaycasterEventLayer(battleState);
             StartCoroutine(ReadyBattleCoroutine());
         }
 
@@ -275,8 +277,9 @@ namespace ProjectOneMore.Battle
             // Command
             if (_battleState == BattleState.PlayerInput)
             {
-                if (_currentActionCard.skillTargetType == SkillTargetType.Area)
+                if (_currentActionCard.baseData.skillTargetType == SkillTargetType.Area)
                 {
+                    _currentActionCard.targetPosition = lastGroundMousePos;
                     _currentActionCard.SetTargetsWithActionArea();
                     CurrentActionTakeAction();
                 }
@@ -285,6 +288,12 @@ namespace ProjectOneMore.Battle
             if(_battleState == BattleState.Battle)
             {
                 DeselectUnit();
+
+                // Click on UI
+                //if (EventSystem.current.IsPointerOverGameObject())
+                //{
+                //    return;
+                //}
             }
         }
 
@@ -301,7 +310,7 @@ namespace ProjectOneMore.Battle
             if (battleState != BattleState.Battle || isOnActionSelector)
                 return;
 
-            if (card.skillTargetType == SkillTargetType.Area)
+            if (card.baseData.skillTargetType == SkillTargetType.Area)
             {
                 card.SetTargetsWithActionArea();
 
@@ -314,7 +323,7 @@ namespace ProjectOneMore.Battle
         public void NormalAttack(BattleUnit unit)
         {
             if (battleState != BattleState.Battle || _currentActionCard == null || 
-                _currentActionCard.skillTargetType != SkillTargetType.Target || 
+                _currentActionCard.baseData.skillTargetType != SkillTargetType.Target || 
                 isOnActionSelector)
                 return;
 
@@ -337,8 +346,8 @@ namespace ProjectOneMore.Battle
             battleState = BattleState.PlayerInput;
             ChangeBattleStateEvent?.Invoke(battleState);
 
-            if (_currentActionCard.skillType != SkillType.Instant &&
-               _currentActionCard.skillType != SkillType.Passive)
+            if (_currentActionCard.baseData.skillType != SkillType.Instant &&
+               _currentActionCard.baseData.skillType != SkillType.Passive)
                 ShowTargeting();
             else
             {
@@ -351,16 +360,14 @@ namespace ProjectOneMore.Battle
             DoSlowtime();
             SetPhysicsRaycasterEventLayer(battleState);
 
-            // TODO
-            // Make Targeting for all type of action
             _currentActionCard.ShowTargeting();
         }
 
         private bool CanCurrentActionTargetAlly()
         {
-            if (_currentActionCard.skillEffectTarget == SkillEffectTarget.Ally ||
-                _currentActionCard.skillEffectTarget == SkillEffectTarget.Allies ||
-                _currentActionCard.skillEffectTarget == SkillEffectTarget.All)
+            if (_currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Ally ||
+                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Allies ||
+                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -368,9 +375,9 @@ namespace ProjectOneMore.Battle
 
         private bool CanCurrentActionTargetEnemy()
         {
-            if (_currentActionCard.skillEffectTarget == SkillEffectTarget.Enemy ||
-                _currentActionCard.skillEffectTarget == SkillEffectTarget.Enemies ||
-                _currentActionCard.skillEffectTarget == SkillEffectTarget.All)
+            if (_currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Enemy ||
+                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Enemies ||
+                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.All)
                 return true;
 
             return false;
@@ -384,9 +391,6 @@ namespace ProjectOneMore.Battle
             if (!CheckTargetingTeam(unit))
                 return false;
 
-            if (!CheckTargetingAttackRange(unit))
-                return false;
-
             return true;
         }
 
@@ -398,15 +402,6 @@ namespace ProjectOneMore.Battle
 
             if (CanCurrentActionTargetEnemy())
                 result = unit.team != _currentActionCard.owner.team;
-
-            return result;
-        }
-
-        private bool CheckTargetingAttackRange(BattleUnit unit)
-        {
-            bool result = true;
-            if (_currentActionCard.isOnlyTargetInAttackRange)
-                result = IsUnitInCurrentActionTargetRange(unit);
 
             return result;
         }
@@ -431,7 +426,7 @@ namespace ProjectOneMore.Battle
             if (_currentActionCard == null)
                 return false;
 
-            return _currentActionCard.skillTargetType == skillTargetType;
+            return _currentActionCard.baseData.skillTargetType == skillTargetType;
         }
 
         public void SetCurrentActionTarget(BattleUnit unit)
@@ -491,6 +486,8 @@ namespace ProjectOneMore.Battle
             ChangeBattleStateEvent?.Invoke(battleState);
 
             SetPhysicsRaycasterEventLayer(battleState);
+
+            battleActionIndicator.HideAreaIndicator();
         }
 
         private void SetPhysicsRaycasterEventLayer(BattleState state)

@@ -52,7 +52,7 @@ namespace ProjectOneMore.Battle
         [Header("Data")]
         public BattleTeam team;
 
-        public KeeperData baseData;
+        public UnitData baseData;
 
         public BattleUnitStat hp;
         public BattleUnitStat en;
@@ -60,10 +60,6 @@ namespace ProjectOneMore.Battle
         public BattleUnitStat cri;
         public BattleUnitStat spd;
         public BattleUnitStat def;
-
-        public BattleUnitAttackType attackType;
-
-        public float moveSpeedMultiplier = 1f;
 
         [Space]
         [Header("Movement Tester")]
@@ -277,7 +273,7 @@ namespace ProjectOneMore.Battle
             {
                 _currentBattleActionCard = normalActionCard;
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-                animator.SetTrigger(_currentBattleActionCard.animationId);
+                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
             }
             else
             {
@@ -519,8 +515,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             targetPosition = transform.position + _move;
-            float step = BattleManager.main.GetMovespeedStep(spd.current, moveSpeedMultiplier);
-            Vector3 moveStepTarget = Vector3.MoveTowards(transform.position, targetPosition, step);
+            float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
 
             animator.SetBool("moving", true);
             UpdateFlipScale(targetPosition);

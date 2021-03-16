@@ -2515,17 +2515,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 8982781059905519124}
   animator: {fileID: 8982781059905519125}
   centerTransform: {fileID: 8982781059905519146}
-  unitCollider: {fileID: 8982781059905519122}
-  interactCollider: {fileID: 8982781059905519122}
+  unitCollider: {fileID: 8982781059478591558}
+  interactCollider: {fileID: 8982781059478591558}
   rb: {fileID: 8982781059478591559}
   neighborRadius: 1.5
   attackRadius: 2.8
   team: 0
   baseData:
     keeperId: k_s01
-    keeperName: Keeper
+    keeperName: Xamael
     baseStats:
       POW: 35
       CRI: 10
@@ -3606,7 +3607,6 @@ GameObject:
   - component: {fileID: 8982781059905519132}
   - component: {fileID: 8982781059905519125}
   - component: {fileID: 8982781059905519133}
-  - component: {fileID: 8982781059905519122}
   - component: {fileID: 8982781059905519120}
   - component: {fileID: 8982781059905519121}
   m_Layer: 10
@@ -3734,19 +3734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd68305bfbf2f741873d5bba8916ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8982781059905519122
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8982781059905519147}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.93, y: 5.96, z: 0.3}
-  m_Center: {x: 0, y: 2.9735363, z: 0.00000029315413}
 --- !u!114 &8982781059905519120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3762,7 +3749,7 @@ MonoBehaviour:
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 680519910, guid: e359c259961c3d7459d3d5cfdadda5ff, type: 3}
+      - m_Target: {fileID: 8982781059478591555}
         m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUnit, Assembly-CSharp
         m_MethodName: TakeDamage
         m_Mode: 0

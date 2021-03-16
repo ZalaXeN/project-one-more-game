@@ -5,10 +5,7 @@ namespace ProjectOneMore.Battle
     [CreateAssetMenu(fileName = "LaunchProjectile", menuName = "Battle/Action/LaunchProjectile", order = 2)]
     public class BA_LaunchProjectile : BattleAction
     {
-        // TODO
-        // use scriptable object for projectile data instead
-        //public string projectilePrefabId;
-
+        // Real Projectile
         public BattleProjectile projectilePrefabId;
 
         public override void Execute(BattleActionCard card)
@@ -18,11 +15,13 @@ namespace ProjectOneMore.Battle
 
             card.owner.UpdateFlipScale(card.targetPosition);
 
+            ProjectileSkillData skillData = card.baseData as ProjectileSkillData;
+
             BattleManager.main.battleProjectileManager.Launch(
                 projectilePrefabId,
-                card.owner.transform.position + card.launchPositionOffset,
-                card.targetPosition, 
-                card.travelTime,
+                card.owner.transform.position + skillData.launchPositionOffset,
+                card.targetPosition,
+                skillData.travelTime,
                 card.owner);
         }
     }

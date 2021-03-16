@@ -6,11 +6,20 @@ namespace ProjectOneMore.Battle
     [CreateAssetMenu(menuName = "Field/Behavior/Avoidance")]
     public class AvoidanceFUMB : BattleFilteredUnitMovementBehaviour
     {
+        public bool ShouldCheckAvoidOnAction;
+
         public override Vector3 CalculateMove(BattleFieldManager field, List<Transform> context, BattleUnit unit)
         {
             //if no neighbors, return no adjustment
             if (context.Count == 0)
                 return Vector3.zero;
+
+            // if have action target no avoidance
+            if (!ShouldCheckAvoidOnAction)
+            {
+                if (unit.normalActionCard.HasTarget())
+                    return Vector3.zero;
+            }
 
             //add all points together and average
             Vector3 avoidanceMove = Vector3.zero;

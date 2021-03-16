@@ -30,7 +30,7 @@ namespace ProjectOneMore.Battle
 
             if (panelGo.activeInHierarchy)
             {
-                unitNameText.text = selectedUnit.baseData.keeperName;
+                unitNameText.text = selectedUnit.baseData.unitName;
                 unitHpText.text = string.Format("{0} / {1}", selectedUnit.hp.current, selectedUnit.hp.max);
                 unitHpBarImage.fillAmount = (float)selectedUnit.hp.current / (float)selectedUnit.hp.max;
             }

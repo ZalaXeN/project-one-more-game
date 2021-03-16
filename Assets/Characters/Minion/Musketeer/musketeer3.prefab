@@ -357,6 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 0}
   animator: {fileID: 8705988165754397354}
   centerTransform: {fileID: 7276749132599759651}
   unitCollider: {fileID: 7490741031823902555}
@@ -365,16 +366,7 @@ MonoBehaviour:
   neighborRadius: 1.2
   attackRadius: 8
   team: 0
-  baseData:
-    keeperId: r04
-    keeperName: Master Musketeer
-    baseStats:
-      POW: 40
-      CRI: 10
-      SPD: 400
-      HP: 60
-      DEF: 10
-      EN: 40
+  baseData: {fileID: 11400000, guid: 2797483660d9d4b40ad1565b9f265709, type: 2}
   hp:
     max: 0
   en:
@@ -387,8 +379,6 @@ MonoBehaviour:
     max: 0
   def:
     max: 0
-  attackType: 1
-  moveSpeedMultiplier: 4
   isUseSpecificPosition: 0
   spriteLookDirection: 0
   targetPosition: {x: 0, y: 0, z: 0}
@@ -435,20 +425,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 2052101001102475226}
   canUseWithoutOwner: 0
-  skillName: Range
-  skillType: 3
-  skillEffectTarget: 2
-  skillTargetType: 0
-  animationId: attack
-  battleActions:
-  - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
-  projectilePrefab: {fileID: 0}
-  launchPositionOffset: {x: 0, y: 5, z: 0}
+  baseData: {fileID: 11400000, guid: ba3fde5fc59d6254a9dd7d81715a5371, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
-  travelTime: 1
-  isOnlyTargetInAttackRange: 0
-  isInstantTarget: 0
-  actionArea: {fileID: 0}
 --- !u!1 &520311320681486173
 GameObject:
   m_ObjectHideFlags: 0
