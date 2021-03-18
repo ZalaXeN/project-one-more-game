@@ -6,6 +6,8 @@ namespace ProjectOneMore.Battle
 {
     public class BattleActionIndicator : MonoBehaviour
     {
+        public string indicatorId;
+
         public GameObject actionAreaIndicator;
         public Image indicatorImage;
 
@@ -16,23 +18,43 @@ namespace ProjectOneMore.Battle
         private RectTransform rectTransform;
 
         private bool _isFollowMouse;
+        public bool isFollowMouse
+        {
+            get
+            {
+                return _isFollowMouse;
+            }
+            private set
+            {
+                _isFollowMouse = value;
+            }
+        }
 
         private void Update()
         {
-            //UpdateIndicatorStatus();
             UpdateIndicator();
         }
 
-        public void ShowAreaIndicator(Vector3 position, Vector2 sizeDelta, bool followMouse = true)
+        public void Show(Vector3 position, Vector2 sizeDelta, float showTime = 0f)
         {
+            if (!rectTransform)
+                rectTransform = transform as RectTransform;
+
             transform.position = position;
             rectTransform.sizeDelta = sizeDelta;
-            _isFollowMouse = followMouse;
+
+            if(showTime == 0f)
+                _isFollowMouse = true;
+            else
+            {
+                _isFollowMouse = false;
+                Invoke("Hide", showTime);
+            }
 
             actionAreaIndicator.SetActive(true);
         }
 
-        public void HideAreaIndicator()
+        public void Hide()
         {
             actionAreaIndicator.SetActive(false);
         }
@@ -42,18 +64,8 @@ namespace ProjectOneMore.Battle
             if (!actionAreaIndicator || !actionAreaIndicator.activeInHierarchy)
                 return;
 
-            if (!rectTransform)
-                rectTransform = transform as RectTransform;
-
-            indicatorImage.sprite = indicatorSprite;
-
             if (_isFollowMouse)
                 transform.position = BattleManager.main.GetGroundMousePosition();
-        }
-
-        void UpdateIndicatorStatus()
-        {
-            //indicatorImage.color = actionArea.HasUnitInArea() ? Color.red : Color.green;
         }
     }
 }

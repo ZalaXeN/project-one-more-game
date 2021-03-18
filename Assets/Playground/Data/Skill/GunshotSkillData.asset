@@ -20,4 +20,4 @@ MonoBehaviour:
   animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
-  targetRange: 10
+  targetRange: 7

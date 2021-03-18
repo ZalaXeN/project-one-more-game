@@ -70,7 +70,7 @@ namespace ProjectOneMore.Battle
         public BattleParticleManager battleParticleManager;
         public BattleCameraManager battleCameraManager;
         public BattleProjectileManager battleProjectileManager;
-        public BattleActionIndicator battleActionIndicator;
+        public BattleActionIndicatorManager battleActionIndicatorManager;
 
         [Space]
         [Header("Raycaster Settings.")]
@@ -487,7 +487,7 @@ namespace ProjectOneMore.Battle
 
             SetPhysicsRaycasterEventLayer(battleState);
 
-            battleActionIndicator.HideAreaIndicator();
+            battleActionIndicatorManager.HideAreaIndicator();
         }
 
         private void SetPhysicsRaycasterEventLayer(BattleState state)
