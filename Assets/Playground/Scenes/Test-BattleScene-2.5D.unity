@@ -10195,7 +10195,6 @@ MonoBehaviour:
   indicatorId: 
   actionAreaIndicator: {fileID: 728293827}
   indicatorImage: {fileID: 728293829}
-  actionRangeIndicator: {fileID: 0}
   indicatorSprite: {fileID: 21300000, guid: fa25ad00a8d244d43ba0a111b273621b, type: 3}
 --- !u!4 &731653732 stripped
 Transform:
@@ -26359,7 +26358,7 @@ MonoBehaviour:
   battleFieldArea: {fileID: 151382783}
   basicMovementBehaviour: {fileID: 11400000, guid: e0bf96564d4aad64bac56936c38034ab,
     type: 2}
-  controllableMovementBehaviour: {fileID: 11400000, guid: 2de9d72a4dce5b143818de8d19e9b593,
+  controllableMovementBehaviour: {fileID: 11400000, guid: e0bf96564d4aad64bac56936c38034ab,
     type: 2}
 --- !u!4 &2013619060
 Transform:

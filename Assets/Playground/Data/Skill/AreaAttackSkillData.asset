@@ -20,6 +20,6 @@ MonoBehaviour:
   animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558, type: 2}
-  targetRange: 0
+  targetRange: {x: 0, y: 0}
   offset: {x: 1.5, y: 0, z: 0}
   sizeDelta: {x: 3, y: 0}

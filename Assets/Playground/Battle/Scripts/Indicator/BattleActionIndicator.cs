@@ -41,12 +41,14 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        private Transform _followTransform;
+
         private void Update()
         {
             UpdateIndicator();
         }
 
-        public void Show(Vector3 position, Vector2 sizeDelta, float showTime = 0f, bool isFollowMouse = false)
+        public void Show(Vector3 position, Vector2 sizeDelta, bool isFollowMouse = false, float showTime = 0f)
         {
             if (!rectTransform)
                 rectTransform = transform as RectTransform;
@@ -55,11 +57,32 @@ namespace ProjectOneMore.Battle
             rectTransform.sizeDelta = sizeDelta;
 
             _isFollowMouse = isFollowMouse;
+            _showTime = showTime;
+            _followTransform = null;
 
             if (showTime != 0f)
             {
                 Invoke("Hide", showTime);
-                _showTime = showTime;
+            }
+
+            actionAreaIndicator.SetActive(true);
+        }
+
+        public void Show(Vector3 position, Vector2 sizeDelta, Transform followTarget, float showTime = 0f)
+        {
+            if (!rectTransform)
+                rectTransform = transform as RectTransform;
+
+            transform.position = position;
+            rectTransform.sizeDelta = sizeDelta;
+
+            _isFollowMouse = false;
+            _showTime = showTime;
+            _followTransform = followTarget;
+
+            if (showTime != 0f)
+            {
+                Invoke("Hide", showTime);
             }
 
             actionAreaIndicator.SetActive(true);
@@ -77,6 +100,9 @@ namespace ProjectOneMore.Battle
 
             if (_isFollowMouse)
                 transform.position = BattleManager.main.GetGroundMousePosition();
+
+            if (_followTransform)
+                transform.position = _followTransform.position;
         }
     }
 }
