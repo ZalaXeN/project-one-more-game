@@ -131,7 +131,7 @@ namespace ProjectOneMore.Battle
         {
             AreaSkillData data = (baseData as AreaSkillData);
 
-            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", owner.transform.position, data.sizeDelta);
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", owner.transform.position, data.sizeDelta, 0f, true);
         }
 
         public void FindTarget()

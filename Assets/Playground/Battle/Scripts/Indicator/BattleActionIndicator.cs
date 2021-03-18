@@ -11,8 +11,6 @@ namespace ProjectOneMore.Battle
         public GameObject actionAreaIndicator;
         public Image indicatorImage;
 
-        public GameObject actionRangeIndicator;
-
         public Sprite indicatorSprite;
 
         private RectTransform rectTransform;
@@ -30,12 +28,25 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        private float _showTime;
+        public float showTime
+        {
+            get
+            {
+                return _showTime;
+            }
+            private set
+            {
+                _showTime = value;
+            }
+        }
+
         private void Update()
         {
             UpdateIndicator();
         }
 
-        public void Show(Vector3 position, Vector2 sizeDelta, float showTime = 0f)
+        public void Show(Vector3 position, Vector2 sizeDelta, float showTime = 0f, bool isFollowMouse = false)
         {
             if (!rectTransform)
                 rectTransform = transform as RectTransform;
@@ -43,12 +54,12 @@ namespace ProjectOneMore.Battle
             transform.position = position;
             rectTransform.sizeDelta = sizeDelta;
 
-            if(showTime == 0f)
-                _isFollowMouse = true;
-            else
+            _isFollowMouse = isFollowMouse;
+
+            if (showTime != 0f)
             {
-                _isFollowMouse = false;
                 Invoke("Hide", showTime);
+                _showTime = showTime;
             }
 
             actionAreaIndicator.SetActive(true);
