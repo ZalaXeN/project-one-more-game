@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558, type: 2}
   targetAreaType: 1
   targetRange: {x: 10, y: 10, z: 0}
-  offset: {x: 5, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
   sizeDelta: {x: 3, y: 3, z: 0}
   radius: 1.5
   projectilePrefab: {fileID: 0}

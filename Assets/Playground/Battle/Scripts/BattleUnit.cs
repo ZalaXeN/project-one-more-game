@@ -606,10 +606,13 @@ namespace ProjectOneMore.Battle
 
         private void DrawRangeSphere()
         {
-            Transform trans = centerTransform == null ? transform : centerTransform;
+            //Transform trans = centerTransform == null ? transform : centerTransform;
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(trans.position, neighborRadius);
+            UnityEditor.Handles.color = new Color(0f, 0, 0.70f, 0.2f);
+            UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, neighborRadius);
+
+            UnityEditor.Handles.color = new Color(0.7f, 0, 0f, 0.2f);
+            UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, attackRadius);
         }
 #endif
         #endregion

@@ -273,30 +273,21 @@ namespace ProjectOneMore.Battle
         {
             Transform trans = owner == null ? transform : owner.transform;
 
-            Gizmos.color = Color.green;
-
-            switch (baseData.skillTargetType)
+            if (baseData.targetAreaType == SkillData.AreaType.Circle)
             {
-                case SkillTargetType.Target:
-                    break;
-                case SkillTargetType.Projectile:
-                    break;
-                case SkillTargetType.Area:
-                    Gizmos.DrawWireSphere(trans.position + baseData.offset, baseData.targetRange.x / 2);
-                    break;
+                UnityEditor.Handles.color = new Color(0f, 0.7f, 0f, 0.2f);
+                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.targetRange.x / 2);
+
+                UnityEditor.Handles.color = new Color(0.7f, 0.0f, 0f, 0.2f);
+                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.radius);
             }
-
-            Gizmos.color = Color.red;
-
-            switch (baseData.skillTargetType)
+            else
             {
-                case SkillTargetType.Target:
-                    break;
-                case SkillTargetType.Projectile:
-                    break;
-                case SkillTargetType.Area:
-                    Gizmos.DrawWireSphere(trans.position + baseData.offset, baseData.radius);
-                    break;
+                UnityEditor.Handles.color = new Color(0f, 0.7f, 0f, 0.2f);
+                UnityEditor.Handles.DrawWireCube(trans.position + baseData.offset, baseData.targetRange);
+
+                UnityEditor.Handles.color = new Color(0.7f, 0.0f, 0f, 0.2f);
+                UnityEditor.Handles.DrawWireCube(trans.position + baseData.offset, baseData.sizeDelta);
             }
         }
 #endif
