@@ -11,51 +11,29 @@ namespace ProjectOneMore.Battle
 
         private List<BattleActionIndicator> _indicatorPool = new List<BattleActionIndicator>();
 
-        public void ShowAreaIndicator(string indicatorId, Vector3 position, Vector2 sizeDelta, bool isFollowMouse = false, float showTime = 0f)
+        public void ShowAreaIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
-            bool reuseSuccess = ReuseIndicatorFromPool(indicatorId, position, sizeDelta, isFollowMouse, showTime);
+            bool reuseSuccess = ReuseIndicatorFromPool(indicatorId, message);
 
             if (!reuseSuccess)
-                CreateNewIndicator(indicatorId, position, sizeDelta, isFollowMouse, showTime);
+                CreateNewIndicator(indicatorId, message);
         }
 
-        public void ShowAreaIndicator(string indicatorId, Vector3 position, Vector2 sizeDelta, Transform followTransform, float showTime = 0f)
-        {
-            bool reuseSuccess = ReuseIndicatorFromPool(indicatorId, position, sizeDelta, followTransform, showTime);
-
-            if (!reuseSuccess)
-                CreateNewIndicator(indicatorId, position, sizeDelta, followTransform, showTime);
-        }
-
-        private bool ReuseIndicatorFromPool(string indicatorId, Vector3 position, Vector2 sizeDelta, bool isFollowMouse, float showTime)
+        private bool ReuseIndicatorFromPool(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
             foreach (BattleActionIndicator indicator in _indicatorPool)
             {
                 if (indicator.indicatorId == indicatorId && !indicator.gameObject.activeInHierarchy)
                 {
                     indicator.gameObject.SetActive(true);
-                    indicator.Show(position, sizeDelta, isFollowMouse, showTime);
+                    indicator.Show(message);
                     return true;
                 }
             }
             return false;
         }
 
-        private bool ReuseIndicatorFromPool(string indicatorId, Vector3 position, Vector2 sizeDelta, Transform followTransform, float showTime)
-        {
-            foreach (BattleActionIndicator indicator in _indicatorPool)
-            {
-                if (indicator.indicatorId == indicatorId && !indicator.gameObject.activeInHierarchy)
-                {
-                    indicator.gameObject.SetActive(true);
-                    indicator.Show(position, sizeDelta, followTransform, showTime);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void CreateNewIndicator(string indicatorId, Vector3 position, Vector2 sizeDelta, bool isFollowMouse, float showTime)
+        private void CreateNewIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
             GameObject indicatorPrefab = GetIndicatorPrefab(indicatorId);
             if (indicatorPrefab == null)
@@ -64,21 +42,7 @@ namespace ProjectOneMore.Battle
             GameObject indicatorGO = Instantiate(indicatorPrefab, transform);
 
             BattleActionIndicator indicator = indicatorGO.GetComponent<BattleActionIndicator>();
-            indicator.Show(position, sizeDelta, isFollowMouse, showTime);
-
-            _indicatorPool.Add(indicator);
-        }
-
-        private void CreateNewIndicator(string indicatorId, Vector3 position, Vector2 sizeDelta, Transform followTransform, float showTime)
-        {
-            GameObject indicatorPrefab = GetIndicatorPrefab(indicatorId);
-            if (indicatorPrefab == null)
-                return;
-
-            GameObject indicatorGO = Instantiate(indicatorPrefab, transform);
-
-            BattleActionIndicator indicator = indicatorGO.GetComponent<BattleActionIndicator>();
-            indicator.Show(position, sizeDelta, followTransform, showTime);
+            indicator.Show(message);
 
             _indicatorPool.Add(indicator);
         }

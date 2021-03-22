@@ -108,6 +108,10 @@ namespace ProjectOneMore.Battle
         [HideInInspector]
         public bool isOnActionSelector;
 
+        private Vector3 _lastGroundMousePos;
+        private Bounds _castBounds;
+        private Vector3 _castBoundsSize;
+
         private void Awake()
         {
             // Singleton
@@ -279,7 +283,19 @@ namespace ProjectOneMore.Battle
             {
                 if (_currentActionCard.baseData.skillTargetType == SkillTargetType.Area)
                 {
-                    _currentActionCard.targetPosition = lastGroundMousePos;
+                    AreaSkillData areaData = _currentActionCard.baseData as AreaSkillData;
+                    Vector3 castPoint = _currentActionCard.owner.transform.position + areaData.offset;
+
+                    switch (areaData.targetAreaType)
+                    {
+                        case AreaSkillData.AreaType.Box:
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, areaData.targetRange);
+                            break;
+                        case AreaSkillData.AreaType.Circle:
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, areaData.targetRange.x / 2);
+                            break;
+                    }
+                        
                     _currentActionCard.SetTargetsWithActionArea();
                     CurrentActionTakeAction();
                 }
@@ -647,8 +663,7 @@ namespace ProjectOneMore.Battle
         {
             return _controlledUnit;
         }
-
-        private Vector3 lastGroundMousePos;
+        
         public Vector3 GetGroundMousePosition()
         {
             Vector3 mousePos = Mouse.current.position.ReadValue();
@@ -658,9 +673,9 @@ namespace ProjectOneMore.Battle
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
             {
-                lastGroundMousePos = hit.point;
+                _lastGroundMousePos = hit.point;
             }
-            else if(lastGroundMousePos == null)
+            else if(_lastGroundMousePos == null)
             {
                 mousePos.z = Camera.main.nearClipPlane - Camera.main.transform.position.z;
                 mousePos.y = 0f;
@@ -671,7 +686,48 @@ namespace ProjectOneMore.Battle
                 return pointPos;
             }
 
-            return lastGroundMousePos;
+            return _lastGroundMousePos;
+        }
+
+        public Vector3 GetGroundMousePosition(Vector3 castPosition, Vector2 castRange)
+        {
+            GetGroundMousePosition();
+
+            if (_castBounds == null)
+                _castBounds = new Bounds();
+
+            _castBounds.center = castPosition;
+            _castBoundsSize.x = castRange.x;
+            _castBoundsSize.z = castRange.y;
+            _castBounds.size = _castBoundsSize;
+
+            if (_castBounds.Contains(_lastGroundMousePos))
+            {
+                return _lastGroundMousePos;
+            }
+            else
+            {
+                _lastGroundMousePos = _castBounds.ClosestPoint(_lastGroundMousePos);
+                return _lastGroundMousePos;
+            }
+        }
+
+        public Vector3 GetGroundMousePosition(Vector3 castPosition, float castRadius)
+        {
+            GetGroundMousePosition();
+
+            float distance = Vector3.Distance(_lastGroundMousePos, castPosition);
+
+            if (distance < castRadius)
+            {
+                return _lastGroundMousePos;
+            }
+            else
+            {
+                Vector3 direction = _lastGroundMousePos - castPosition;
+                _lastGroundMousePos = castPosition + (direction.normalized * castRadius);
+                return _lastGroundMousePos;
+            }
         }
 
         #endregion

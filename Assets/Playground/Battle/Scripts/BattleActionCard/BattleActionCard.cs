@@ -10,6 +10,8 @@ namespace ProjectOneMore.Battle
 
         public SkillData baseData;
 
+        protected static Collider[] s_hitCache;
+
         // TODO
         // Target
         private List<BattleUnit> _targets;
@@ -35,7 +37,11 @@ namespace ProjectOneMore.Battle
         {
             AreaSkillData data = baseData as AreaSkillData;
             Vector3 castPosition = targetPosition + data.offset;
-            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, data.sizeDelta.x);
+
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
+
+            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, data.sizeDelta.x, s_hitCache);
             if (canUseWithoutOwner)
             {
                 _targets = tempUnitList;
@@ -131,8 +137,30 @@ namespace ProjectOneMore.Battle
         {
             AreaSkillData data = (baseData as AreaSkillData);
 
-            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", owner.transform.position, data.sizeDelta, true);
-            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", owner.transform.position, data.targetRange, owner.transform);
+            BattleActionIndicator.IndicatorMessage castMsg;
+            castMsg.position = owner.transform.position;
+            castMsg.sizeDelta = data.sizeDelta;
+            castMsg.showTime = 0;
+            castMsg.isFollowMouse = true;
+            castMsg.isFollowOwner = false;
+            castMsg.ownerTransform = owner.transform;
+            castMsg.hasCastRange = true;
+            castMsg.castRange = data.targetRange;
+            castMsg.castAreaType = AreaSkillData.AreaType.Circle;
+
+            BattleActionIndicator.IndicatorMessage rangeMsg;
+            rangeMsg.position = owner.transform.position;
+            rangeMsg.sizeDelta = data.targetRange;
+            rangeMsg.showTime = 0;
+            rangeMsg.isFollowMouse = false;
+            rangeMsg.isFollowOwner = true;
+            rangeMsg.ownerTransform = owner.transform;
+            rangeMsg.hasCastRange = false;
+            rangeMsg.castRange = data.targetRange;
+            rangeMsg.castAreaType = AreaSkillData.AreaType.Circle;
+
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", castMsg);
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
         }
 
         public void FindTarget()

@@ -6,12 +6,17 @@ namespace ProjectOneMore.Battle
 {
     public static class BattleActionArea
     {
-        public static List<BattleUnit> GetUnitListFromOverlapSphere(Vector3 position, float radius)
+        public static List<BattleUnit> GetUnitListFromOverlapSphere(Vector3 position, float radius, Collider[] hitCache)
         {
             List<BattleUnit> unitList = new List<BattleUnit>();
-            Collider[] colliders = Physics.OverlapSphere(position, radius);
-            foreach(Collider collider in colliders)
+            int contacts = Physics.OverlapSphereNonAlloc(position, radius, hitCache);
+
+            for(int i = 0; i < contacts; ++i)
             {
+                Collider collider = hitCache[i];
+                if (collider == null)
+                    continue;
+
                 if(collider.TryGetComponent(out BattleUnit unit))
                 {
                     unitList.Add(unit);
