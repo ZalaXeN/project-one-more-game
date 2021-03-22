@@ -2277,6 +2277,8 @@ GameObject:
   - component: {fileID: 8982781059478591558}
   - component: {fileID: 8982781059478591559}
   - component: {fileID: 8982781059478591555}
+  - component: {fileID: 6400798485243586021}
+  - component: {fileID: 8827825807810246075}
   m_Layer: 10
   m_Name: xamael_battle
   m_TagString: Untagged
@@ -2349,7 +2351,7 @@ MonoBehaviour:
   neighborRadius: 1.5
   attackRadius: 2.8
   team: 0
-  baseData: {fileID: 0}
+  baseData: {fileID: 11400000, guid: 511daac597d4cc84290bf4ef4b8656fe, type: 2}
   hp:
     max: 100
   en:
@@ -2365,8 +2367,51 @@ MonoBehaviour:
   isUseSpecificPosition: 0
   spriteLookDirection: 1
   targetPosition: {x: 0, y: 0, z: 0}
-  normalActionCard: {fileID: 8982781059905519121}
+  normalActionCard: {fileID: 8827825807810246075}
   _currentState: 0
+--- !u!114 &6400798485243586021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982781059478591557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8982781059478591555}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUnit, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8827825807810246075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982781059478591557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 8982781059478591555}
+  canUseWithoutOwner: 0
+  baseData: {fileID: 11400000, guid: 053be88f07839934c84ae1835f25bae4, type: 2}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &8982781059488195406
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,8 +3466,6 @@ GameObject:
   - component: {fileID: 8982781059905519132}
   - component: {fileID: 8982781059905519125}
   - component: {fileID: 8982781059905519133}
-  - component: {fileID: 8982781059905519120}
-  - component: {fileID: 8982781059905519121}
   m_Layer: 10
   m_Name: xamael_in_use
   m_TagString: Untagged
@@ -3547,49 +3590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd68305bfbf2f741873d5bba8916ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8982781059905519120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8982781059905519147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnTakeDamage:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8982781059478591555}
-        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleUnit, Assembly-CSharp
-        m_MethodName: TakeDamage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8982781059905519121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8982781059905519147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fb711d93f0c374d8a29a901efad6c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 8982781059478591555}
-  canUseWithoutOwner: 0
-  baseData: {fileID: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &8982781059930298835
 GameObject:
   m_ObjectHideFlags: 0

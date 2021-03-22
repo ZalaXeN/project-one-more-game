@@ -20,11 +20,11 @@ namespace ProjectOneMore.Battle
 
             foreach (BattleUnit target in card.GetTargets())
             {
-                BattleDamage damage = new BattleDamage(
-                card.owner,
-                (int)math.round(card.owner.pow.current * powMultiplier),
-                BattleDamageType.Physical,
-                hitParticleId);
+                BattleDamage.DamageMessage damage;
+                damage.owner = card.owner;
+                damage.damage = (int)math.round(card.owner.pow.current * powMultiplier);
+                damage.damageType = BattleDamageType.Physical;
+                damage.hitEffect = hitParticleId;
 
                 target.TakeDamage(damage);
             }

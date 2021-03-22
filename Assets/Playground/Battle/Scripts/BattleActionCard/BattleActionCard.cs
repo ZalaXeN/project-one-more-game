@@ -12,9 +12,8 @@ namespace ProjectOneMore.Battle
 
         protected static Collider[] s_hitCache;
 
-        // TODO
-        // Target
         private List<BattleUnit> _targets;
+        [HideInInspector]
         public Vector3 targetPosition = Vector3.zero;
 
         public void SetTarget(BattleUnit target)

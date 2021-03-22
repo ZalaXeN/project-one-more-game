@@ -19,11 +19,11 @@ namespace ProjectOneMore.Battle
             if(card.GetTarget())
                 card.owner.UpdateFlipScale(card.GetTarget().transform.position);
 
-            BattleDamage damage = new BattleDamage(
-                card.owner,
-                (int)math.round(card.owner.pow.current * powMultiplier),
-                BattleDamageType.Physical,
-                hitParticleId);
+            BattleDamage.DamageMessage damage;
+            damage.owner = card.owner;
+            damage.damage = (int)math.round(card.owner.pow.current * powMultiplier);
+            damage.damageType = BattleDamageType.Physical;
+            damage.hitEffect = hitParticleId;
 
             card.GetTarget()?.TakeDamage(damage);
         }

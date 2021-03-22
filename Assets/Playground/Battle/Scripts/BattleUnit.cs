@@ -341,7 +341,7 @@ namespace ProjectOneMore.Battle
             return (_currentState == BattleUnitState.Hit && _hitLockBreakTimer > 0f);
         }
 
-        public void TakeDamage(BattleDamage damage)
+        public void TakeDamage(BattleDamage.DamageMessage damage)
         {
             if (damage.owner.team == team)
                 return;

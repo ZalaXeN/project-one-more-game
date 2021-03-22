@@ -65,6 +65,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e856d4c1a90d4468a38f0a0157fc90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage:
+    owner: {fileID: 0}
+    damage: 100
+    damageType: 0
+    hitEffect: slash_hit
   OnHit:
     m_PersistentCalls:
       m_Calls:
