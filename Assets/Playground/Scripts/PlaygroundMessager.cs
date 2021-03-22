@@ -4,9 +4,9 @@ using Unity.Mathematics;
 
 public class PlaygroundMessager : MonoBehaviour
 {
-    private float _targetTimeScale;
-    private float slowTimeFactor = 0.2f;
-    private float slowingLength = 0.3f;
+    //private float _targetTimeScale;
+    //private float slowTimeFactor = 0.2f;
+    //private float slowingLength = 0.3f;
 
     private Vector3 _mousePos;
     private string _particleTargetName;

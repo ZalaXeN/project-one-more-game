@@ -7,9 +7,9 @@ using System.Collections;
 public class SpriteDepthSortHelper : MonoBehaviour
 {
     private const int SORTING_BASE = 100;
-    private const float UPDATE_TIME = 0.1f;
+    //private const float UPDATE_TIME = 0.1f;
 
-    private float _updateTimer = 0f;
+    //private float _updateTimer = 0f;
     private Renderer _renderer;
 
     public Transform target;
