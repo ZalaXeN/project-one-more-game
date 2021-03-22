@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 896f063d949b05444b418c183a76d864, type: 3}
-  m_Name: SpawnPlayerMusketeerSkillData
+  m_Name: TargetProjectileSkillData
   m_EditorClassIdentifier: 
   skillId: 
   skillName: 
-  skillType: 1
-  skillEffectTarget: 0
-  skillTargetType: 0
-  animationId: 
+  skillType: 3
+  skillEffectTarget: 2
+  skillTargetType: 2
+  animationId: cast
   battleActions:
-  - {fileID: 11400000, guid: 10c494a8382800c46b56353134787f56, type: 2}
+  - {fileID: 11400000, guid: 67d3ae21a41657c4189d9c4e2f771883, type: 2}
   targetAreaType: 0
-  targetRange: {x: 0, y: 0, z: 0}
-  offset: {x: 0, y: 0, z: 0}
-  sizeDelta: {x: 0, y: 0, z: 0}
-  radius: 0
-  projectilePrefab: {fileID: 0}
+  targetRange: {x: 10, y: 3, z: 0}
+  offset: {x: 6.42, y: 0, z: 0}
+  sizeDelta: {x: 2, y: 2, z: 0}
+  radius: 1
+  projectilePrefab: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
+    type: 3}
   launchPositionOffset: {x: 0, y: 5, z: 0}
   travelTime: 1

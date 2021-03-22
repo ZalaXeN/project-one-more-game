@@ -34,13 +34,12 @@ namespace ProjectOneMore.Battle
 
         public void SetTargetsWithActionArea(bool shouldAlive = true)
         {
-            AreaSkillData data = baseData as AreaSkillData;
-            Vector3 castPosition = targetPosition + data.offset;
+            Vector3 castPosition = targetPosition + baseData.offset;
 
             if (s_hitCache == null)
                 s_hitCache = new Collider[32];
 
-            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, data.sizeDelta.x, s_hitCache);
+            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, baseData.radius, s_hitCache);
             if (canUseWithoutOwner)
             {
                 _targets = tempUnitList;
@@ -110,6 +109,7 @@ namespace ProjectOneMore.Battle
             switch (baseData.skillTargetType)
             {
                 case SkillTargetType.Target:
+                    ShowUnitTargeting();
                     break;
                 case SkillTargetType.Projectile:
                     ShowProjectileTargeting();
@@ -122,41 +122,85 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        private void ShowProjectileTargeting() 
+        private void ShowUnitTargeting()
         {
-            ProjectileSkillData data = (baseData as ProjectileSkillData);
-
-            BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
-                    data.projectilePrefab,
-                    owner.transform.position + data.launchPositionOffset,
-                    data.travelTime);
-        }
-
-        private void ShowAreaTargeting()
-        {
-            AreaSkillData data = (baseData as AreaSkillData);
-
-            BattleActionIndicator.IndicatorMessage castMsg;
-            castMsg.position = owner.transform.position;
-            castMsg.sizeDelta = data.sizeDelta;
-            castMsg.showTime = 0;
-            castMsg.isFollowMouse = true;
-            castMsg.isFollowOwner = false;
-            castMsg.ownerTransform = owner.transform;
-            castMsg.hasCastRange = true;
-            castMsg.castRange = data.targetRange;
-            castMsg.castAreaType = AreaSkillData.AreaType.Circle;
-
             BattleActionIndicator.IndicatorMessage rangeMsg;
             rangeMsg.position = owner.transform.position;
-            rangeMsg.sizeDelta = data.targetRange;
+            rangeMsg.offset = baseData.offset;
+            rangeMsg.sizeDelta = baseData.targetRange;
             rangeMsg.showTime = 0;
             rangeMsg.isFollowMouse = false;
             rangeMsg.isFollowOwner = true;
             rangeMsg.ownerTransform = owner.transform;
             rangeMsg.hasCastRange = false;
-            rangeMsg.castRange = data.targetRange;
-            rangeMsg.castAreaType = AreaSkillData.AreaType.Circle;
+            rangeMsg.castRange = baseData.targetRange;
+            rangeMsg.castAreaType = baseData.targetAreaType;
+
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
+        }
+
+        private void ShowProjectileTargeting() 
+        {
+            BattleActionIndicator.IndicatorMessage castMsg;
+            castMsg.position = owner.transform.position;
+            castMsg.offset = baseData.offset;
+            castMsg.sizeDelta = baseData.sizeDelta;
+            castMsg.showTime = 0;
+            castMsg.isFollowMouse = true;
+            castMsg.isFollowOwner = false;
+            castMsg.ownerTransform = owner.transform;
+            castMsg.hasCastRange = true;
+            castMsg.castRange = baseData.targetRange;
+            castMsg.castAreaType = baseData.targetAreaType;
+
+            BattleActionIndicator.IndicatorMessage rangeMsg;
+            rangeMsg.position = owner.transform.position;
+            rangeMsg.offset = baseData.offset;
+            rangeMsg.sizeDelta = baseData.targetRange;
+            rangeMsg.showTime = 0;
+            rangeMsg.isFollowMouse = false;
+            rangeMsg.isFollowOwner = true;
+            rangeMsg.ownerTransform = owner.transform;
+            rangeMsg.hasCastRange = false;
+            rangeMsg.castRange = baseData.targetRange;
+            rangeMsg.castAreaType = baseData.targetAreaType;
+
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", castMsg);
+            BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
+
+            BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
+                    baseData.projectilePrefab,
+                    owner.transform.position + baseData.launchPositionOffset,
+                    baseData.travelTime,
+                    owner.transform.position + baseData.offset,
+                    baseData.targetRange);
+        }
+
+        private void ShowAreaTargeting()
+        {
+            BattleActionIndicator.IndicatorMessage castMsg;
+            castMsg.position = owner.transform.position;
+            castMsg.offset = baseData.offset;
+            castMsg.sizeDelta = baseData.sizeDelta;
+            castMsg.showTime = 0;
+            castMsg.isFollowMouse = true;
+            castMsg.isFollowOwner = false;
+            castMsg.ownerTransform = owner.transform;
+            castMsg.hasCastRange = true;
+            castMsg.castRange = baseData.targetRange;
+            castMsg.castAreaType = baseData.targetAreaType;
+
+            BattleActionIndicator.IndicatorMessage rangeMsg;
+            rangeMsg.position = owner.transform.position;
+            rangeMsg.offset = baseData.offset;
+            rangeMsg.sizeDelta = baseData.targetRange;
+            rangeMsg.showTime = 0;
+            rangeMsg.isFollowMouse = false;
+            rangeMsg.isFollowOwner = true;
+            rangeMsg.ownerTransform = owner.transform;
+            rangeMsg.hasCastRange = false;
+            rangeMsg.castRange = baseData.targetRange;
+            rangeMsg.castAreaType = baseData.targetAreaType;
 
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", castMsg);
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
@@ -217,5 +261,45 @@ namespace ProjectOneMore.Battle
                 _targets = new List<BattleUnit>();
             _targets.Clear();
         }
+
+        #region Gizmos
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            DrawGizmoSkillRange();
+        }
+
+        private void DrawGizmoSkillRange()
+        {
+            Transform trans = owner == null ? transform : owner.transform;
+
+            Gizmos.color = Color.green;
+
+            switch (baseData.skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    break;
+                case SkillTargetType.Projectile:
+                    break;
+                case SkillTargetType.Area:
+                    Gizmos.DrawWireSphere(trans.position + baseData.offset, baseData.targetRange.x / 2);
+                    break;
+            }
+
+            Gizmos.color = Color.red;
+
+            switch (baseData.skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    break;
+                case SkillTargetType.Projectile:
+                    break;
+                case SkillTargetType.Area:
+                    Gizmos.DrawWireSphere(trans.position + baseData.offset, baseData.radius);
+                    break;
+            }
+        }
+#endif
+        #endregion
     }
 }

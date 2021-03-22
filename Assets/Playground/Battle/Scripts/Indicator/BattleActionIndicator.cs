@@ -9,6 +9,7 @@ namespace ProjectOneMore.Battle
         public struct IndicatorMessage
         {
             public Vector3 position;
+            public Vector3 offset;
             public Vector3 sizeDelta;
             public bool isFollowMouse;
             public bool isFollowOwner;
@@ -16,7 +17,7 @@ namespace ProjectOneMore.Battle
             public Transform ownerTransform;
             public float showTime;
             public Vector2 castRange;
-            public AreaSkillData.AreaType castAreaType;
+            public SkillData.AreaType castAreaType;
         }
 
         public string indicatorId;
@@ -35,8 +36,9 @@ namespace ProjectOneMore.Battle
         private bool _isFollowOwner;
         private bool _hasCastRange;
         private Transform _ownerTransform;
+        private Vector3 _offset;
         private Vector2 _castRange;
-        private AreaSkillData.AreaType _castAreaType;
+        private SkillData.AreaType _castAreaType;
 
         private void Update()
         {
@@ -50,6 +52,7 @@ namespace ProjectOneMore.Battle
 
             transform.position = message.position;
             rectTransform.sizeDelta = message.sizeDelta;
+            _offset = message.offset;
 
             _isFollowMouse = message.isFollowMouse;
             _isFollowOwner = message.isFollowOwner;
@@ -84,11 +87,11 @@ namespace ProjectOneMore.Battle
                 {
                     switch (_castAreaType)
                     {
-                        case AreaSkillData.AreaType.Box:
-                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position, _castRange);
+                        case SkillData.AreaType.Box:
+                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange);
                             break;
-                        case AreaSkillData.AreaType.Circle:
-                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position, _castRange.x / 2);
+                        case SkillData.AreaType.Circle:
+                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange.x / 2);
                             break;
                     }
                 }
@@ -98,7 +101,7 @@ namespace ProjectOneMore.Battle
                 }
             }
             else if (_isFollowOwner && _ownerTransform)
-                transform.position = _ownerTransform.position;
+                transform.position = _ownerTransform.position + _offset;
         }
     }
 }

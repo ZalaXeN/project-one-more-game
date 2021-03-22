@@ -13,6 +13,8 @@ namespace ProjectOneMore.Battle
         private Vector3 _pointPos;
 
         private float _travelTime = 1f;
+        private Vector3 _castPosition;
+        private Vector3 _castRange;
 
         public void ShowLine()
         {
@@ -31,13 +33,16 @@ namespace ProjectOneMore.Battle
             return projectile;
         }
 
-        public void SpawnProjectileWithTargeting(BattleProjectile projectilePrefab, Vector3 position, float travelTime)
+        public void SpawnProjectileWithTargeting(BattleProjectile projectilePrefab, Vector3 position, float travelTime, Vector3 castPosition, Vector3 castRange)
         {
             BattleProjectile projectile = CreateProjectile(projectilePrefab, position);
 
             targetingProjectile = projectile;
             projectile.Show(position);
             _travelTime = travelTime;
+
+            _castPosition = castPosition;
+            _castRange = castRange;
 
             targetingProjectile.projectileCollider.enabled = false;
             targetingProjectile.SetLineRenderer(lineRenderer);
@@ -69,7 +74,7 @@ namespace ProjectOneMore.Battle
 
         private void SetPointPosition()
         {
-            _pointPos = BattleManager.main.GetGroundMousePosition();
+            _pointPos = BattleManager.main.GetGroundMousePosition(_castPosition, _castRange);
         }
 
         private void RenderTrajectory()

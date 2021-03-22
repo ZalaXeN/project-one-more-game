@@ -283,16 +283,16 @@ namespace ProjectOneMore.Battle
             {
                 if (_currentActionCard.baseData.skillTargetType == SkillTargetType.Area)
                 {
-                    AreaSkillData areaData = _currentActionCard.baseData as AreaSkillData;
-                    Vector3 castPoint = _currentActionCard.owner.transform.position + areaData.offset;
+                    SkillData skillData = _currentActionCard.baseData;
+                    Vector3 castPoint = _currentActionCard.owner.transform.position + skillData.offset;
 
-                    switch (areaData.targetAreaType)
+                    switch (skillData.targetAreaType)
                     {
-                        case AreaSkillData.AreaType.Box:
-                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, areaData.targetRange);
+                        case SkillData.AreaType.Box:
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange);
                             break;
-                        case AreaSkillData.AreaType.Circle:
-                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, areaData.targetRange.x / 2);
+                        case SkillData.AreaType.Circle:
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.radius);
                             break;
                     }
                         
@@ -420,21 +420,6 @@ namespace ProjectOneMore.Battle
                 result = unit.team != _currentActionCard.owner.team;
 
             return result;
-        }
-
-        private bool IsUnitInCurrentActionTargetRange(BattleUnit unit)
-        {
-            if (_currentActionCard == null)
-                return false;
-
-            BattleUnit owner = _currentActionCard.owner;
-            Collider[] contextColliders = Physics.OverlapSphere(owner.centerTransform.position, owner.attackRadius);
-            foreach (Collider c in contextColliders)
-            {
-                if (c == unit.unitCollider)
-                    return true;
-            }
-            return false;
         }
 
         public bool IsCurrentActionHasTargetType(SkillTargetType skillTargetType)

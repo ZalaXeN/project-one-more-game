@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: SpawnEnemyMusketeerSkillData
   m_EditorClassIdentifier: 
   skillId: 
-  skillName: Spawn
+  skillName: 
   skillType: 1
   skillEffectTarget: 0
   skillTargetType: 0
   animationId: 
   battleActions:
   - {fileID: 11400000, guid: 26248d064dfaf1841b5eadeb63cec807, type: 2}
+  targetAreaType: 0
+  targetRange: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  sizeDelta: {x: 0, y: 0, z: 0}
+  radius: 0
+  projectilePrefab: {fileID: 0}
+  launchPositionOffset: {x: 0, y: 5, z: 0}
+  travelTime: 1

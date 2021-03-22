@@ -66,8 +66,7 @@ namespace ProjectOneMore.Battle
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
 
-        // TODO Test
-        public Vector3 targetPosition;
+        private Vector3 targetPosition;
         private Vector3 _move = Vector3.zero;
 
         [Space]
@@ -90,8 +89,16 @@ namespace ProjectOneMore.Battle
 
         private int _tempLayer;
 
+        // Parameters
+        public static readonly int m_HashMoving = Animator.StringToHash("moving");
+        public static readonly int m_HashHit = Animator.StringToHash("hit");
+        public static readonly int m_HashDead = Animator.StringToHash("dead");
+        public static readonly int m_HashAttack = Animator.StringToHash("attack");
+        public static readonly int m_HashAttack2 = Animator.StringToHash("attack2");
+        public static readonly int m_HashCast = Animator.StringToHash("cast");
+        public static readonly int m_HashTakeAction = Animator.StringToHash("take_action");
+
         #region Initialization
-        // Mock Up
         private void InitStats()
         {
             hp.max = baseData.baseStats.HP;
@@ -227,7 +234,7 @@ namespace ProjectOneMore.Battle
         {
             _currentState = BattleUnitState.TakeAction;
             _move = Vector3.zero;
-            animator.ResetTrigger("hit");
+            animator.ResetTrigger(m_HashHit);
             animator.SetTrigger(animationId);
         }
 
@@ -360,7 +367,7 @@ namespace ProjectOneMore.Battle
             }
             else if (CanAnimateHit())
             {
-                animator.SetTrigger("hit");
+                animator.SetTrigger(m_HashHit);
             }
         }
 
@@ -372,7 +379,7 @@ namespace ProjectOneMore.Battle
         // Dead
         public void Dead()
         {
-            animator.SetTrigger("dead");
+            animator.SetTrigger(m_HashDead);
         }
 
         public void DestroyUnit()
@@ -499,7 +506,7 @@ namespace ProjectOneMore.Battle
         {
             if (_move == Vector3.zero)
             {
-                animator.SetBool("moving", false);
+                animator.SetBool(m_HashMoving, false);
             }
 
             if (IsTakeAction() || OnDeadState())
@@ -517,7 +524,7 @@ namespace ProjectOneMore.Battle
             targetPosition = transform.position + _move;
             float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
 
-            animator.SetBool("moving", true);
+            animator.SetBool(m_HashMoving, true);
             UpdateFlipScale(targetPosition);
 
             if (rb)
@@ -573,35 +580,6 @@ namespace ProjectOneMore.Battle
 
         #endregion
 
-        #region Test Animation
-
-        private bool testMoving = false;
-
-        public void TriggerTestAnimation(string name)
-        {
-            animator.SetTrigger(name);
-        }
-
-        public void ToggleAnimatorBool(string name)
-        {
-            bool current = animator.GetBool(name);
-            animator.SetBool(name, !current);
-        }
-
-        public void ToggleTestMoving()
-        {
-            ToggleAnimatorBool("moving");
-            testMoving = !testMoving;
-        }
-
-        public void ToggleIdle()
-        {
-            animator.SetBool("moving", false);
-            testMoving = false;
-        }
-
-        #endregion
-
         #region Gizmos
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -622,7 +600,7 @@ namespace ProjectOneMore.Battle
 
         private void DrawMovePath()
         {
-            Handles.color = Color.green;
+            Handles.color = Color.blue;
             Handles.DrawLine(transform.position, targetPosition);
         }
 
@@ -632,9 +610,6 @@ namespace ProjectOneMore.Battle
 
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(trans.position, neighborRadius);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(trans.position, attackRadius);
         }
 #endif
         #endregion

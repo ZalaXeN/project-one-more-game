@@ -15,7 +15,7 @@ namespace ProjectOneMore.Battle
 
             card.owner.UpdateFlipScale(card.targetPosition);
 
-            ProjectileSkillData skillData = card.baseData as ProjectileSkillData;
+            SkillData skillData = card.baseData;
 
             BattleManager.main.battleProjectileManager.Launch(
                 projectilePrefabId,

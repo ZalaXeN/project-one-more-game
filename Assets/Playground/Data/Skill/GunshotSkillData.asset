@@ -9,15 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b614e32e889d804da8847b105740373, type: 3}
+  m_Script: {fileID: 11500000, guid: 896f063d949b05444b418c183a76d864, type: 3}
   m_Name: GunshotSkillData
   m_EditorClassIdentifier: 
   skillId: 
-  skillName: Shot
-  skillType: 1
+  skillName: Gun
+  skillType: 3
   skillEffectTarget: 2
   skillTargetType: 0
   animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
-  targetRange: 7
+  targetAreaType: 1
+  targetRange: {x: 10, y: 10, z: 10}
+  offset: {x: 0, y: 0, z: 0}
+  sizeDelta: {x: 10, y: 10, z: 0}
+  radius: 5
+  projectilePrefab: {fileID: 0}
+  launchPositionOffset: {x: 0, y: 5, z: 0}
+  travelTime: 1
