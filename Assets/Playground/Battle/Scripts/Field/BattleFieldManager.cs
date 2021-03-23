@@ -91,9 +91,9 @@ namespace ProjectOneMore.Battle
         public List<BattleUnit> GetUnitListInAttackRange(BattleUnit unit, BattleTeam team, bool shouldAlive = true)
         {
             List<BattleUnit> targets = null;
-            //Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
-            Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_attackRangeCollider);
-            foreach (Collider c in s_attackRangeCollider)
+            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
+            //Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_attackRangeCollider);
+            foreach (Collider c in contextColliders)
             {
                 if (c == null || c == unit.unitCollider)
                     continue;
@@ -122,9 +122,9 @@ namespace ProjectOneMore.Battle
         private List<Transform> GetNearbyObjects(BattleUnit unit)
         {
             List<Transform> context = new List<Transform>();
-            //Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.neighborRadius);
-            Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_nearbyObjectCollider);
-            foreach (Collider c in s_nearbyObjectCollider)
+            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.neighborRadius);
+            //Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_nearbyObjectCollider);
+            foreach (Collider c in contextColliders)
             {
                 if (c == null)
                     continue;

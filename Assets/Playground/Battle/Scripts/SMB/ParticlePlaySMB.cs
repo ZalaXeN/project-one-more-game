@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace ProjectOneMore.Battle
 {
-    public class BattleActionSTB : BehaviourLinkedSMB<BattleUnit>
+    // TODO
+    // Use Animation Event Instead
+    public class ParticlePlaySMB : BehaviourLinkedSMB<BattleUnit>
     {
         public enum OperationMode
         {
@@ -14,6 +16,8 @@ namespace ProjectOneMore.Battle
 
         public OperationMode operationMode;
         public float[] executeTimesForUpdateMode;
+        public string[] particlesOnEachTime;
+        public Vector3[] playPositionOffsetOnEachTime;
 
         private float _timer;
         private int _counter;
@@ -26,7 +30,7 @@ namespace ProjectOneMore.Battle
             if (operationMode != OperationMode.Enter || m_MonoBehaviour == null)
                 return;
 
-            m_MonoBehaviour.ExecuteCurrentBattleAction();
+            PlayParticle(particlesOnEachTime[0], playPositionOffsetOnEachTime[0]);
         }
 
         protected override void OnLinkedStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,7 +38,7 @@ namespace ProjectOneMore.Battle
             if (operationMode != OperationMode.Exit || m_MonoBehaviour == null)
                 return;
 
-            m_MonoBehaviour.ExecuteCurrentBattleAction();
+            PlayParticle(particlesOnEachTime[0], playPositionOffsetOnEachTime[0]);
         }
 
         protected override void OnLinkedStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -46,7 +50,7 @@ namespace ProjectOneMore.Battle
 
             if (_counter < executeTimesForUpdateMode.Length && _timer > executeTimesForUpdateMode[_counter])
             {
-                m_MonoBehaviour.ExecuteCurrentBattleAction();
+                PlayParticle(particlesOnEachTime[_counter], playPositionOffsetOnEachTime[_counter]);
                 _counter++;
             }
 
@@ -56,6 +60,21 @@ namespace ProjectOneMore.Battle
             // TODO
             // execute Last update frame - for set bool or something
             // animator.SetBool("", false);
+        }
+
+        private void PlayParticle(string particleId, Vector3 positionOffset)
+        {
+            if (BattleManager.main == null)
+                return;
+
+            // Adjust Scale and flip position
+            bool isFlip = m_MonoBehaviour.transform.localScale.x < 0;
+            positionOffset.x *= isFlip ? -1f : 1f;
+
+            BattleManager.main.battleParticleManager.ShowParticle(
+                particleId, 
+                m_MonoBehaviour.transform.position + positionOffset,
+                isFlip);
         }
     }
 }

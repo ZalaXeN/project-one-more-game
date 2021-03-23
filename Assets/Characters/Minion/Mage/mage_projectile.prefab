@@ -1641,6 +1641,7 @@ GameObject:
   - component: {fileID: 1728194266}
   - component: {fileID: 2127135122936331756}
   - component: {fileID: 1382872694966955983}
+  - component: {fileID: 4611236908983905378}
   m_Layer: 10
   m_Name: mage_projectile
   m_TagString: Untagged
@@ -1655,7 +1656,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5085891716047410089}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.976296}
   m_LocalPosition: {x: 8, y: 0.055, z: -0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
@@ -1754,6 +1755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 0}
   animator: {fileID: 5547465876102455473}
   centerTransform: {fileID: 2549281927507743054}
   unitCollider: {fileID: 2243764139136963963}
@@ -1762,16 +1764,7 @@ MonoBehaviour:
   neighborRadius: 1
   attackRadius: 8
   team: 1
-  baseData:
-    keeperId: m01
-    keeperName: Mage
-    baseStats:
-      POW: 10
-      CRI: 10
-      SPD: 200
-      HP: 20
-      DEF: 10
-      EN: 40
+  baseData: {fileID: 11400000, guid: 17fcfc5f92a2ff146b70bf0b74bd2ecc, type: 2}
   hp:
     max: 100
   en:
@@ -1784,11 +1777,8 @@ MonoBehaviour:
     max: 10
   def:
     max: 10
-  attackType: 1
-  moveSpeedMultiplier: 3
   isUseSpecificPosition: 0
   spriteLookDirection: 0
-  targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 1382872694966955983}
   _currentState: 0
 --- !u!114 &2127135122936331756
@@ -1832,20 +1822,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 1728194266}
   canUseWithoutOwner: 0
-  skillName: Projectile
-  skillType: 1
-  skillEffectTarget: 2
-  skillTargetType: 2
-  animationId: attack
-  battleActions:
-  - {fileID: 11400000, guid: 67d3ae21a41657c4189d9c4e2f771883, type: 2}
-  projectilePrefab: {fileID: 0}
-  launchPositionOffset: {x: 0, y: 2, z: 0}
+  baseData: {fileID: 11400000, guid: 0593d6e5037c98c4b90cf8e5cfe72c4c, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
-  travelTime: 2
-  isOnlyTargetInAttackRange: 0
-  isInstantTarget: 0
-  actionArea: {fileID: 0}
+--- !u!114 &4611236908983905378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085891716047410089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24aa92997ad1f18489be17b0cc939ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleUnit: {fileID: 1728194266}
 --- !u!1 &5547465876124666135
 GameObject:
   m_ObjectHideFlags: 0

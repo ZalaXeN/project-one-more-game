@@ -1990,6 +1990,7 @@ GameObject:
   - component: {fileID: 152593496325042007}
   - component: {fileID: 6896297629828219858}
   - component: {fileID: 710622704109429358}
+  - component: {fileID: 7937244878106813882}
   m_Layer: 10
   m_Name: musketeer2
   m_TagString: Untagged
@@ -2004,7 +2005,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6428248675777980858}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.976296}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
@@ -2111,6 +2112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 0}
   animator: {fileID: 9002385883480156578}
   centerTransform: {fileID: 3665712052439637534}
   unitCollider: {fileID: 1564907265687367134}
@@ -2119,16 +2121,7 @@ MonoBehaviour:
   neighborRadius: 1.2
   attackRadius: 7
   team: 0
-  baseData:
-    keeperId: r03
-    keeperName: Elite Musketeer
-    baseStats:
-      POW: 30
-      CRI: 10
-      SPD: 300
-      HP: 40
-      DEF: 10
-      EN: 40
+  baseData: {fileID: 11400000, guid: 2797483660d9d4b40ad1565b9f265709, type: 2}
   hp:
     max: 0
   en:
@@ -2141,11 +2134,8 @@ MonoBehaviour:
     max: 0
   def:
     max: 0
-  attackType: 1
-  moveSpeedMultiplier: 4
   isUseSpecificPosition: 0
   spriteLookDirection: 0
-  targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 710622704109429358}
   _currentState: 0
 --- !u!114 &6896297629828219858
@@ -2189,20 +2179,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 152593496325042007}
   canUseWithoutOwner: 0
-  skillName: Range
-  skillType: 3
-  skillEffectTarget: 2
-  skillTargetType: 0
-  animationId: attack
-  battleActions:
-  - {fileID: 11400000, guid: 4822a8e27430a134194f8456dc6dc997, type: 2}
-  projectilePrefab: {fileID: 0}
-  launchPositionOffset: {x: 0, y: 5, z: 0}
+  baseData: {fileID: 11400000, guid: ba3fde5fc59d6254a9dd7d81715a5371, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
-  travelTime: 1
-  isOnlyTargetInAttackRange: 0
-  isInstantTarget: 0
-  actionArea: {fileID: 0}
+--- !u!114 &7937244878106813882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428248675777980858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24aa92997ad1f18489be17b0cc939ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleUnit: {fileID: 152593496325042007}
 --- !u!1 &6512497750404252035
 GameObject:
   m_ObjectHideFlags: 0

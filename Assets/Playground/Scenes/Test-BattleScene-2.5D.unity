@@ -3036,6 +3036,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &224817389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8982781059905519147, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8982781059226244853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &224817395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224817389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24aa92997ad1f18489be17b0cc939ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleUnit: {fileID: 857575094}
 --- !u!1 &231497466
 GameObject:
   m_ObjectHideFlags: 0
@@ -5867,7 +5886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &419076385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5902,7 +5921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   canUseWithoutOwner: 1
-  baseData: {fileID: 0}
+  baseData: {fileID: 11400000, guid: 95188aeccee09d64498e3bbefcc969a1, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &419076387
 MonoBehaviour:
@@ -6380,8 +6399,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -11719,7 +11738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &856653446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11754,7 +11773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   canUseWithoutOwner: 1
-  baseData: {fileID: 0}
+  baseData: {fileID: 11400000, guid: 08bb84fa7b237b443a53ba07835ff7dc, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &856653448
 MonoBehaviour:
@@ -28453,7 +28472,7 @@ PrefabInstance:
     - target: {fileID: 8982781058857227344, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 11520
+      value: 11160
       objectReference: {fileID: 0}
     - target: {fileID: 8982781058907263437, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}
@@ -28700,6 +28719,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.98813826
       objectReference: {fileID: 0}
+    - target: {fileID: 8982781059578770362, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3060072872963268307, guid: e7fb2b0a193099d42bad52e18eb276f6,
+        type: 3}
     - target: {fileID: 8982781059578770362, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}
       propertyPath: m_SortingOrder

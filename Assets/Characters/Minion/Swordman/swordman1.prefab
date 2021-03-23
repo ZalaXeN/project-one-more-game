@@ -2356,6 +2356,7 @@ GameObject:
   - component: {fileID: 7880152313396881123}
   - component: {fileID: 248685421262967173}
   - component: {fileID: 125378345024149850}
+  - component: {fileID: 2831049668862355958}
   m_Layer: 10
   m_Name: swordman1
   m_TagString: Untagged
@@ -2476,6 +2477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343db62e18d79c741a1bd5409072c8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 0}
   animator: {fileID: 8626120126809523117}
   centerTransform: {fileID: 5092918442256098333}
   unitCollider: {fileID: 1127997590766693003}
@@ -2484,16 +2486,7 @@ MonoBehaviour:
   neighborRadius: 1.2
   attackRadius: 1.8
   team: 1
-  baseData:
-    keeperId: s01
-    keeperName: Swordsman
-    baseStats:
-      POW: 15
-      CRI: 10
-      SPD: 300
-      HP: 60
-      DEF: 10
-      EN: 40
+  baseData: {fileID: 11400000, guid: 70f1dad41d46f48408844459d771da5f, type: 2}
   hp:
     max: 100
   en:
@@ -2506,11 +2499,8 @@ MonoBehaviour:
     max: 10
   def:
     max: 10
-  attackType: 0
-  moveSpeedMultiplier: 5
   isUseSpecificPosition: 0
   spriteLookDirection: 0
-  targetPosition: {x: 0, y: 0, z: 0}
   normalActionCard: {fileID: 125378345024149850}
   _currentState: 0
 --- !u!114 &248685421262967173
@@ -2554,20 +2544,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7880152313396881123}
   canUseWithoutOwner: 0
-  skillName: Attack
-  skillType: 2
-  skillEffectTarget: 2
-  skillTargetType: 0
-  animationId: attack
-  battleActions:
-  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
-  projectilePrefab: {fileID: 0}
-  launchPositionOffset: {x: 0, y: 5, z: 0}
+  baseData: {fileID: 11400000, guid: e3199b32019ddcc4bbe49532e0b353c3, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
-  travelTime: 1
-  isOnlyTargetInAttackRange: 0
-  isInstantTarget: 0
-  actionArea: {fileID: 0}
+--- !u!114 &2831049668862355958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463956759382940670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24aa92997ad1f18489be17b0cc939ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleUnit: {fileID: 7880152313396881123}
 --- !u!1 &8650413643039807872
 GameObject:
   m_ObjectHideFlags: 0
