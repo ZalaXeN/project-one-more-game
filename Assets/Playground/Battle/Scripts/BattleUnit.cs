@@ -232,10 +232,11 @@ namespace ProjectOneMore.Battle
         // Use on Battle Action Card to break Hit Lock
         public void SetTakeActionState(string animationId)
         {
+            int animationIdHash = Animator.StringToHash(animationId);
             _currentState = BattleUnitState.TakeAction;
             _move = Vector3.zero;
             animator.ResetTrigger(m_HashHit);
-            animator.SetTrigger(animationId);
+            animator.SetTrigger(animationIdHash);
         }
 
         // Use on SMB

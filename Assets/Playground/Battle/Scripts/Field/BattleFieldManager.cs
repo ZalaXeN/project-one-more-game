@@ -19,6 +19,9 @@ namespace ProjectOneMore.Battle
         [Header("Controllable Unit Movement Behaviour")]
         public BattleUnitMovementBehaviour controllableMovementBehaviour;
 
+        protected static Collider[] s_attackRangeCollider = new Collider[32];
+        protected static Collider[] s_nearbyObjectCollider = new Collider[32];
+
         public Vector3 GetSpawnPosition(BattleTeam team)
         {
             Bounds bound = team == BattleTeam.Player ? playerSpawnArea.bounds : enemySpawnArea.bounds;
@@ -88,10 +91,11 @@ namespace ProjectOneMore.Battle
         public List<BattleUnit> GetUnitListInAttackRange(BattleUnit unit, BattleTeam team, bool shouldAlive = true)
         {
             List<BattleUnit> targets = null;
-            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
-            foreach (Collider c in contextColliders)
+            //Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.attackRadius);
+            Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_attackRangeCollider);
+            foreach (Collider c in s_attackRangeCollider)
             {
-                if (c == unit.unitCollider)
+                if (c == null || c == unit.unitCollider)
                     continue;
 
                 BattleUnit u = c.GetComponent<BattleUnit>();
@@ -118,9 +122,13 @@ namespace ProjectOneMore.Battle
         private List<Transform> GetNearbyObjects(BattleUnit unit)
         {
             List<Transform> context = new List<Transform>();
-            Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.neighborRadius);
-            foreach (Collider c in contextColliders)
+            //Collider[] contextColliders = Physics.OverlapSphere(unit.centerTransform.position, unit.neighborRadius);
+            Physics.OverlapSphereNonAlloc(unit.transform.position, unit.attackRadius, s_nearbyObjectCollider);
+            foreach (Collider c in s_nearbyObjectCollider)
             {
+                if (c == null)
+                    continue;
+
                 if (c != unit.unitCollider)
                 {
                     context.Add(c.transform);
