@@ -9,12 +9,16 @@ namespace ProjectOneMore.Battle
         public override Vector3 CalculateMove(BattleFieldManager field, List<Transform> context, BattleUnit unit)
         {
             // Target in Attack Range
-            if (field.GetNearestEnemyUnitInAttackRange(unit) != null)
-            {
-                unit.normalActionCard.FindTarget();
-                if(unit.normalActionCard.HasTarget())
-                    return Vector3.zero;
-            }
+            //if (field.GetNearestEnemyUnitInAttackRange(unit) != null)
+            //{
+            //    unit.normalActionCard.FindTarget();
+            //    if(unit.normalActionCard.HasTarget())
+            //        return Vector3.zero;
+            //}
+
+            //unit.normalActionCard.FindTarget();
+            if (unit.normalActionCard.HasTarget())
+                return Vector3.zero;
 
             // No Target find new target
             BattleUnit target = field.GetNearestAttackTarget(unit);

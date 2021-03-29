@@ -44,9 +44,8 @@ namespace ProjectOneMore.Battle
         public Collider interactCollider;
         public Rigidbody rb;
 
-        // For Auto Attack and minion AI
+        // For Movement AI
         public float neighborRadius = 5f;
-        public float attackRadius = 2f;
 
         [Space]
         [Header("Data")]
@@ -198,7 +197,6 @@ namespace ProjectOneMore.Battle
         {
             BattleManager.main.SelectUnit(this);
             SetCurrentActionTargetThisUnit();
-            SetNormalAttackTarget();
         }
 
         private void SetCurrentActionTargetThisUnit()
@@ -210,17 +208,6 @@ namespace ProjectOneMore.Battle
             {
                 BattleManager.main.SetCurrentActionTarget(this);
                 BattleManager.main.CurrentActionTakeAction();
-            }
-        }
-
-        private void SetNormalAttackTarget()
-        {
-            if (BattleManager.main.battleState != BattleState.Battle)
-                return;
-
-            if (BattleManager.main.CanCurrentActionTarget(this))
-            {
-                BattleManager.main.NormalAttack(this);
             }
         }
 
@@ -256,8 +243,6 @@ namespace ProjectOneMore.Battle
             if (_currentBattleActionCard == null)
                 return;
 
-            _currentBattleActionCard.FindTarget();
-
             _currentBattleActionCard.Execute();
         }
 
@@ -269,12 +254,12 @@ namespace ProjectOneMore.Battle
             if (_autoAttackCooldown > 0f)
                 _autoAttackCooldown -= Time.deltaTime;
 
+            normalActionCard.FindTarget();
+
             if (_autoAttackCooldown > 0f || 
                 !CanAutoAttack() ||
                 !BattleManager.main.CanUpdateTimer())
                 return;
-
-            normalActionCard.FindTarget();
 
             if (normalActionCard.HasTarget())
             {
@@ -608,13 +593,8 @@ namespace ProjectOneMore.Battle
 
         private void DrawRangeSphere()
         {
-            //Transform trans = centerTransform == null ? transform : centerTransform;
-
             UnityEditor.Handles.color = new Color(0f, 0, 0.70f, 0.2f);
             UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, neighborRadius);
-
-            UnityEditor.Handles.color = new Color(0.7f, 0, 0f, 0.2f);
-            UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, attackRadius);
         }
 #endif
         #endregion

@@ -5923,6 +5923,7 @@ MonoBehaviour:
   canUseWithoutOwner: 1
   baseData: {fileID: 11400000, guid: 95188aeccee09d64498e3bbefcc969a1, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &419076387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7201,6 +7202,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &491496135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11775,6 +11777,7 @@ MonoBehaviour:
   canUseWithoutOwner: 1
   baseData: {fileID: 11400000, guid: 08bb84fa7b237b443a53ba07835ff7dc, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &856653448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13308,6 +13311,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 11400000, guid: 0204c0823432f3d4c82640b10f3136d2, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 1
 --- !u!114 &1030693637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14072,6 +14076,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1092438074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15895,6 +15900,7 @@ MonoBehaviour:
   canUseWithoutOwner: 1
   baseData: {fileID: 11400000, guid: 1bef591ddcbf5b34fbb1a35e5ce0ed55, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1264412634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18296,6 +18302,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1515443449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21199,6 +21206,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 11400000, guid: 61e72c298feb6fb4a9f0c12c699a7d81, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1734827291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22557,6 +22565,7 @@ MonoBehaviour:
   canUseWithoutOwner: 1
   baseData: {fileID: 11400000, guid: 5abc8821264df6943be4ae7dc048b4e5, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1812184647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24270,6 +24279,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &1920047339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27701,6 +27711,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 11400000, guid: f5bcea461d4a33e409307ea6e3f5e74b, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &2121182949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28012,6 +28023,7 @@ MonoBehaviour:
   canUseWithoutOwner: 0
   baseData: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  debug: 0
 --- !u!114 &2147383022
 MonoBehaviour:
   m_ObjectHideFlags: 0

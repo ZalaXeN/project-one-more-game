@@ -292,10 +292,10 @@ namespace ProjectOneMore.Battle
                             _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange);
                             break;
                         case SkillData.AreaType.Circle:
-                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.radius);
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange.x / 2);
                             break;
                     }
-                        
+
                     _currentActionCard.SetTargetsWithActionArea();
                     CurrentActionTakeAction();
                 }
@@ -311,41 +311,6 @@ namespace ProjectOneMore.Battle
                 //    return;
                 //}
             }
-        }
-
-        public void SetNormalActionCard(BattleActionCard card)
-        {
-            if (battleState != BattleState.Battle)
-                return;
-
-            _currentActionCard = card;
-        }
-
-        public void InstantNormalAction(BattleActionCard card)
-        {
-            if (battleState != BattleState.Battle || isOnActionSelector)
-                return;
-
-            if (card.baseData.skillTargetType == SkillTargetType.Area)
-            {
-                card.SetTargetsWithActionArea();
-
-                _currentActionCard = card;
-                CurrentActionTakeAction(false);
-            }
-        }
-
-        // Single target normal attack
-        public void NormalAttack(BattleUnit unit)
-        {
-            if (battleState != BattleState.Battle || _currentActionCard == null || 
-                _currentActionCard.baseData.skillTargetType != SkillTargetType.Target || 
-                isOnActionSelector)
-                return;
-
-            SetCurrentActionTarget(unit);
-
-            CurrentActionTakeAction(false);
         }
 
         #endregion

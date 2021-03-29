@@ -10,7 +10,7 @@ namespace ProjectOneMore.Battle
 
         public SkillData baseData;
 
-        protected Collider[] _hitCache;
+        protected static Collider[] s_hitCache;
 
         private List<BattleUnit> _targets;
         [HideInInspector]
@@ -34,12 +34,17 @@ namespace ProjectOneMore.Battle
 
         public void SetTargetsWithActionArea(bool shouldAlive = true)
         {
-            Vector3 castPosition = targetPosition + baseData.offset;
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
 
-            if (_hitCache == null)
-                _hitCache = new Collider[32];
 
-            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, baseData.radius, _hitCache);
+            List<BattleUnit> tempUnitList;
+
+            if(baseData.targetAreaType == SkillData.AreaType.Circle)
+                tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
+            else
+                tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
+
             if (canUseWithoutOwner)
             {
                 _targets = tempUnitList;
@@ -206,28 +211,96 @@ namespace ProjectOneMore.Battle
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
         }
 
+        // Auto Find for Normal Action
         public void FindTarget()
         {
-            BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
+            //BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
+            BattleUnit target = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
 
             switch (baseData.skillTargetType)
             {
                 case SkillTargetType.Target:
+                    if (target == null)
+                    {
+                        ClearTargets();
+                        return;
+                    }
                     SetTarget(target);
                     break;
                 case SkillTargetType.Projectile:
+                    if (target == null)
+                    {
+                        ClearTargets();
+                        return;
+                    }
                     targetPosition = target.transform.position;
                     break;
                 case SkillTargetType.Area:
-                    targetPosition = owner.transform.position;
+                    if (target == null)
+                    {
+                        targetPosition = owner.transform.position + baseData.offset;
+                    }
+                    else
+                    {
+                        targetPosition = target.transform.position;
+                    }
                     SetTargetsWithActionArea();
                     break;
             }
         }
 
+        private BattleUnit SearchNearestTargetInRange(Vector3 position)
+        {
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
+
+            List<BattleUnit> tempUnitList;
+            switch (baseData.targetAreaType)
+            {
+                case SkillData.AreaType.Circle:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    break;
+                case SkillData.AreaType.Box:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    break;
+                default:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    break;
+            }
+
+            BattleUnit nearestUnit;
+            if (baseData.skillEffectTarget == SkillEffectTarget.Enemies || baseData.skillEffectTarget == SkillEffectTarget.Enemy)
+                nearestUnit = GetNearestUnitFromList(tempUnitList, BattleManager.main.GetOppositeTeam(owner.team));
+            else
+                nearestUnit = GetNearestUnitFromList(tempUnitList, owner.team);
+
+            return nearestUnit;
+        }
+
+        private BattleUnit GetNearestUnitFromList(List<BattleUnit> unitList, BattleTeam team)
+        {
+            BattleUnit nearestUnit = null;
+            foreach (BattleUnit unit in unitList)
+            {
+                if (!unit.IsAlive())
+                    continue;
+
+                if (unit && unit.team == team)
+                {
+                    if (nearestUnit == null)
+                        nearestUnit = unit;
+                    else if (
+                        Vector3.Distance(owner.transform.position, unit.transform.position) <
+                        Vector3.Distance(owner.transform.position, nearestUnit.transform.position))
+                        nearestUnit = unit;
+                }
+            }
+            return nearestUnit;
+        }
+
         public void Execute()
         {
-            foreach(BattleAction battleAction in baseData.battleActions)
+            foreach (BattleAction battleAction in baseData.battleActions)
             {
                 battleAction.Execute(this);
             }

@@ -18,7 +18,7 @@ MonoBehaviour:
     POW: 35
     CRI: 10
     SPD: 500
-    HP: 2000
+    HP: 20000
     DEF: 10
     EN: 100
   normalSkillData: {fileID: 0}

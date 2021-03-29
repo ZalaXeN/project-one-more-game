@@ -205,9 +205,9 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -6152446380320421948}
   - {fileID: -1125694569527761535}
   - {fileID: -2086829188874908755}
+  - {fileID: -6152446380320421948}
   m_StateMachineBehaviours:
   - {fileID: 2263992961797265194}
   m_Position: {x: 50, y: 50, z: 0}
@@ -665,6 +665,12 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: rand_atk
     m_Type: 3
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ultimate
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
