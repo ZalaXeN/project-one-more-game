@@ -356,6 +356,9 @@ namespace ProjectOneMore.Battle
             if (battleState != BattleState.Battle)
                 return;
 
+            if (!action.canUseWithoutOwner && action.owner == null)
+                return;
+
             _currentActionCard = action;
             _controlledUnit = _currentActionCard.owner;
             DeselectUnit();

@@ -96,7 +96,6 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashAttack2 = Animator.StringToHash("attack2");
         public static readonly int m_HashCast = Animator.StringToHash("cast");
-        public static readonly int m_HashTakeAction = Animator.StringToHash("take_action");
 
         #region Initialization
         private void InitStats()
@@ -366,7 +365,7 @@ namespace ProjectOneMore.Battle
                 if (_currentState != BattleUnitState.Dead)
                     Dead();
             }
-            else if (CanAnimateHit())
+            else if (CanAnimateHit() && !IsHitLockBreakTime())
             {
                 animator.SetTrigger(m_HashHit);
             }
@@ -495,6 +494,9 @@ namespace ProjectOneMore.Battle
             if (IsTakeAction() || OnDeadState())
                 return;
 
+            if (!CanMove() && !IsHitLockBreakTime())
+                return;
+
             _move += move;
         }
 
@@ -534,7 +536,6 @@ namespace ProjectOneMore.Battle
             }
             else
             {
-                //transform.position = moveStepTarget;
                 transform.position += _move * step;
             }
 

@@ -10,7 +10,7 @@ namespace ProjectOneMore.Battle
 
         public SkillData baseData;
 
-        protected static Collider[] s_hitCache;
+        protected Collider[] _hitCache;
 
         private List<BattleUnit> _targets;
         [HideInInspector]
@@ -36,10 +36,10 @@ namespace ProjectOneMore.Battle
         {
             Vector3 castPosition = targetPosition + baseData.offset;
 
-            if (s_hitCache == null)
-                s_hitCache = new Collider[32];
+            if (_hitCache == null)
+                _hitCache = new Collider[32];
 
-            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, baseData.radius, s_hitCache);
+            List<BattleUnit> tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(castPosition, baseData.radius, _hitCache);
             if (canUseWithoutOwner)
             {
                 _targets = tempUnitList;
