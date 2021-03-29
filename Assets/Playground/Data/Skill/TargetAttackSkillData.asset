@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 0
-  animationId: attack2
+  animationId: skill
   battleActions:
   - {fileID: 11400000, guid: feca50ee942a5034486f3478bc27bb9f, type: 2}
   targetAreaType: 0

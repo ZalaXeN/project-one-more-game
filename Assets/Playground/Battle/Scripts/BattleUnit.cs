@@ -94,8 +94,8 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashHit = Animator.StringToHash("hit");
         public static readonly int m_HashDead = Animator.StringToHash("dead");
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
-        public static readonly int m_HashAttack2 = Animator.StringToHash("attack2");
-        public static readonly int m_HashCast = Animator.StringToHash("cast");
+        public static readonly int m_HashSkill = Animator.StringToHash("skill");
+        public static readonly int m_HashCast = Animator.StringToHash("casting");
 
         #region Initialization
         private void InitStats()
