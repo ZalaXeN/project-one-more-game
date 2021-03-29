@@ -298,6 +298,30 @@ namespace ProjectOneMore.Battle
             return nearestUnit;
         }
 
+        public bool IsUnitInTargetRange(BattleUnit unit)
+        {
+            Vector3 position = owner.transform.position + baseData.offset;
+
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
+
+            List<BattleUnit> tempUnitList;
+            switch (baseData.targetAreaType)
+            {
+                case SkillData.AreaType.Circle:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    break;
+                case SkillData.AreaType.Box:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    break;
+                default:
+                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    break;
+            }
+
+            return tempUnitList.Contains(unit);
+        }
+
         public void Execute()
         {
             foreach (BattleAction battleAction in baseData.battleActions)

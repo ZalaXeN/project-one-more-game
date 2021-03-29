@@ -375,6 +375,9 @@ namespace ProjectOneMore.Battle
             if (!CheckTargetingTeam(unit))
                 return false;
 
+            if (!CheckUnitInTargetRange(unit))
+                return false;
+
             return true;
         }
 
@@ -388,6 +391,11 @@ namespace ProjectOneMore.Battle
                 result = unit.team != _currentActionCard.owner.team;
 
             return result;
+        }
+
+        private bool CheckUnitInTargetRange(BattleUnit unit)
+        {
+            return _currentActionCard.IsUnitInTargetRange(unit);
         }
 
         public bool IsCurrentActionHasTargetType(SkillTargetType skillTargetType)
