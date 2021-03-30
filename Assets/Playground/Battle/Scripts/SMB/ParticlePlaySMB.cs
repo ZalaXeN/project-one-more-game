@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace ProjectOneMore.Battle
 {
-    // TODO
-    // Use Animation Event Instead
+    // Use Particle Player on Animation Event Instead
     public class ParticlePlaySMB : BehaviourLinkedSMB<BattleUnit>
     {
         public enum OperationMode

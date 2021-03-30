@@ -105,7 +105,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4885,7 +4885,6 @@ GameObject:
   - component: {fileID: 4354388026869100065}
   - component: {fileID: 3519292375433919385}
   - component: {fileID: 2982143116684185206}
-  - component: {fileID: 6883398216674258864}
   - component: {fileID: 4608151914058663388}
   m_Layer: 15
   m_Name: Cartridge
@@ -4982,7 +4981,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -9751,20 +9750,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6883398216674258864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5997683020394099604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb4b381d714b8f48973d90d98de1692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleName: cartridge
-  disableTime: 7
 --- !u!114 &4608151914058663388
 MonoBehaviour:
   m_ObjectHideFlags: 0

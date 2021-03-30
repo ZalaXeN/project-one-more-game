@@ -17,8 +17,11 @@ namespace ProjectOneMore.Battle
 
         private void OnEnable()
         {
-            Invoke("Disable", disableTime);
-            GetParticleSystem().Play(true);
+            if (disableTime > 0)
+            {
+                Invoke("Disable", disableTime);
+                GetParticleSystem().Play(true);
+            }
         }
 
         private void Disable()
