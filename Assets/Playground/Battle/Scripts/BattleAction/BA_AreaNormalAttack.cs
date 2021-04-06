@@ -13,6 +13,9 @@ namespace ProjectOneMore.Battle
 
         public string hitParticleId = "slash_hit";
 
+        [Range(0f, 10f)]
+        public float knockbackPower = 1f;
+
         public override void Execute(BattleActionCard card)
         {
             if (card.owner == null || !card.HasTarget())
@@ -28,6 +31,8 @@ namespace ProjectOneMore.Battle
                 damage.damageType = BattleDamageType.Physical;
                 damage.hitEffect = hitParticleId;
                 damage.effectTarget = effectTarget;
+                damage.hitPosition = card.owner.transform.position;
+                damage.knockbackPower = knockbackPower;
 
                 BattleDamagable damagable = target.GetBattleDamagable();
                 if (damagable)

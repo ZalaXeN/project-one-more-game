@@ -22,6 +22,8 @@ namespace ProjectOneMore.Battle
             public BattleDamageType damageType;
             public string hitEffect;
             public SkillEffectTarget effectTarget;
+            public Vector3 hitPosition;
+            public float knockbackPower;
         }
     }
 }

@@ -35,7 +35,6 @@ namespace ProjectOneMore.Battle
         public Animator animator;
         public Transform centerTransform;
         public Collider unitCollider;
-        public Collider interactCollider;
         public Rigidbody rb;
 
         // For Movement AI
@@ -59,8 +58,9 @@ namespace ProjectOneMore.Battle
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
 
-        private Vector3 targetPosition;
+        private Vector3 _targetPosition;
         private Vector3 _move = Vector3.zero;
+        private bool _isGrounded;
 
         [Space]
         [Header("Card Settings")]
@@ -87,6 +87,8 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashSkill = Animator.StringToHash("skill");
         public static readonly int m_HashCast = Animator.StringToHash("casting");
+
+        private static readonly float m_groundCheckDistance = 0.1f;
 
         private System.Action _schedule;
 
@@ -147,7 +149,7 @@ namespace ProjectOneMore.Battle
         {
             InitLinkedSTB();
             InitStats();
-            targetPosition = transform.position;
+            _targetPosition = transform.position;
 
             InitBattleParameter();
             if(centerTransform == null)
@@ -156,6 +158,8 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
+            CheckGrounded();
+
             UpdatePosition();
 
             UpdateAutoAction();
@@ -337,10 +341,27 @@ namespace ProjectOneMore.Battle
                 if (_currentState != BattleUnitState.Dead)
                     _schedule += Dead;
             }
-            else if (CanAnimateHit() && !IsHitLockBreakTime())
+            //else if (CanAnimateHit() && !IsHitLockBreakTime())
+            else if (!IsHitLockBreakTime())
             {
                 animator.SetTrigger(m_HashHit);
             }
+
+            if (_isGrounded)
+                Knockback(damage.hitPosition, damage.knockbackPower);
+        }
+
+        private void Knockback(Vector3 hitPosition, float forcePower)
+        {
+            if (!rb)
+                return;
+
+            _move = Vector3.zero;
+
+            Vector3 pushForce = transform.position - hitPosition;
+
+            pushForce.y = 10f;
+            rb.AddForce((pushForce.normalized * forcePower * 100f) - Physics.gravity * 0.6f);
         }
 
         public bool IsAlive()
@@ -441,6 +462,9 @@ namespace ProjectOneMore.Battle
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
+            if (!_isGrounded)
+                return;
+
             _move += move;
         }
 
@@ -468,15 +492,15 @@ namespace ProjectOneMore.Battle
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
-            targetPosition = transform.position + _move;
+            _targetPosition = transform.position + _move;
             float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
 
             animator.SetBool(m_HashMoving, true);
-            UpdateFlipScale(targetPosition);
+            UpdateFlipScale(_targetPosition);
 
             if (rb)
             {
-                rb.MovePosition(transform.position + _move * step);
+                rb.MovePosition(transform.position + _move.normalized * step);
             }
             else
             {
@@ -509,6 +533,12 @@ namespace ProjectOneMore.Battle
             Vector3 targetFlipScale = transform.localScale;
             targetFlipScale.x *= -1;
             transform.localScale = targetFlipScale;
+        }
+
+        private void CheckGrounded()
+        {
+            _isGrounded = Physics.Raycast(transform.position, Vector3.down, m_groundCheckDistance, BattleManager.main.groundLayerMask);
+            Debug.DrawRay(transform.position, Vector3.down * m_groundCheckDistance, _isGrounded ? Color.green : Color.red);
         }
 
         #endregion
@@ -547,7 +577,7 @@ namespace ProjectOneMore.Battle
         private void DrawMovePath()
         {
             Handles.color = Color.blue;
-            Handles.DrawLine(transform.position, targetPosition);
+            Handles.DrawLine(transform.position, _targetPosition);
         }
 
         private void DrawRangeSphere()

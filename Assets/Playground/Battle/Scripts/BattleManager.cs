@@ -73,6 +73,7 @@ namespace ProjectOneMore.Battle
         public PhysicsRaycaster physicsRaycaster;
         public LayerMask playerInputLayerMask;
         public LayerMask normalEventLayerMask;
+        public LayerMask groundLayerMask;
 
         [Space]
         [Header("Test Settings.")]
