@@ -19,7 +19,7 @@ MonoBehaviour:
   skillTargetType: 1
   animationId: skill
   battleActions:
-  - {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558, type: 2}
+  - {fileID: 11400000, guid: 643ff84c219d6ca43ad21e302889bb86, type: 2}
   targetAreaType: 1
   targetRange: {x: 10, y: 10, z: 0}
   offset: {x: 0, y: 0, z: 0}

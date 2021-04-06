@@ -80,6 +80,10 @@ namespace ProjectOneMore.Battle
         private float _hitLockTimer;
         private float _hitLockBreakTimer;
 
+        private float _poise = 0f;
+
+        private System.Action _schedule;
+
         // Parameters
         public static readonly int m_HashMoving = Animator.StringToHash("moving");
         public static readonly int m_HashHit = Animator.StringToHash("hit");
@@ -89,8 +93,6 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashCast = Animator.StringToHash("casting");
 
         private static readonly float m_groundCheckDistance = 0.1f;
-
-        private System.Action _schedule;
 
         #region Initialization
         private void InitStats()
@@ -261,6 +263,11 @@ namespace ProjectOneMore.Battle
             }
         }
 
+        public void SetPoise(float value)
+        {
+            _poise = value;
+        }
+
         #endregion
 
         #region Battle
@@ -282,11 +289,6 @@ namespace ProjectOneMore.Battle
                 !isUseSpecificPosition;
         }
 
-        public bool CanAnimateHit()
-        {
-            return _currentState == BattleUnitState.Idle || _currentState == BattleUnitState.Hit || _currentState == BattleUnitState.Moving;
-        }
-
         public bool IsTakeAction()
         {
             return _currentState == BattleUnitState.TakeAction || _currentState == BattleUnitState.Action;
@@ -299,7 +301,7 @@ namespace ProjectOneMore.Battle
 
         public bool IsHitLockBreakTime()
         {
-            return (_currentState == BattleUnitState.Hit && _hitLockBreakTimer > 0f);
+            return (_hitLockBreakTimer > 0f);
         }
 
         private bool ShouldTakeDamage(BattleDamage.DamageMessage damage)
@@ -341,8 +343,7 @@ namespace ProjectOneMore.Battle
                 if (_currentState != BattleUnitState.Dead)
                     _schedule += Dead;
             }
-            //else if (CanAnimateHit() && !IsHitLockBreakTime())
-            else if (!IsHitLockBreakTime())
+            else if (!IsHitLockBreakTime() && _poise < damage.knockbackPower)
             {
                 animator.SetTrigger(m_HashHit);
             }
@@ -358,8 +359,14 @@ namespace ProjectOneMore.Battle
 
             _move = Vector3.zero;
 
-            Vector3 pushForce = transform.position - hitPosition;
+            if (forcePower > _poise)
+                forcePower -= _poise;
+            else
+            {
+                forcePower = 0.1f;
+            }
 
+            Vector3 pushForce = transform.position - hitPosition;
             pushForce.y = 10f;
             rb.AddForce((pushForce.normalized * forcePower * 100f) - Physics.gravity * 0.6f);
         }

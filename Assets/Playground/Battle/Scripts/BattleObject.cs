@@ -7,6 +7,8 @@ namespace ProjectOneMore.Battle
     {
         public BattleUnitStat hp;
 
+        private Rigidbody rb;
+
         private void Start()
         {
             InitStats();
@@ -29,11 +31,28 @@ namespace ProjectOneMore.Battle
             {
                 Destroy(gameObject);
             }
+            else
+            {
+                Knockback(damage.hitPosition, damage.knockbackPower);
+            }
         }
 
         private bool IsAlive()
         {
             return hp.current > 0;
+        }
+
+        private void Knockback(Vector3 hitPosition, float forcePower)
+        {
+            if (!rb)
+                rb = GetComponent<Rigidbody>();
+
+            if (!rb)
+                return;
+
+            Vector3 pushForce = transform.position - hitPosition;
+            pushForce.y = 10f;
+            rb.AddForce((pushForce.normalized * forcePower * 100f) - Physics.gravity * 0.6f);
         }
     }
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 809a106292c4077439cb6b9e86b7bf69, type: 3}
-  m_Name: AreaAttack
+  m_Name: AreaAttack_Knockback
   m_EditorClassIdentifier: 
   effectTarget: 2
-  powMultiplier: 1
+  powMultiplier: 2
   hitParticleId: slash_hit
-  knockbackPower: 1
+  knockbackPower: 5
