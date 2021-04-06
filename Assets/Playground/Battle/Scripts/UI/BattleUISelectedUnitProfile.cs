@@ -14,25 +14,33 @@ namespace ProjectOneMore.Battle
 
         private void Update()
         {
-            SetSelectedUnit(BattleManager.main?.selectedUnit);
+            SetSelectedUnit(BattleManager.main?.selectedTarget);
         }
 
-        private void SetSelectedUnit(BattleUnit selectedUnit)
+        private void SetSelectedUnit(BattleActionTargetable selectedTarget)
         {
-            if (selectedUnit && !panelGo.activeInHierarchy)
+            if(selectedTarget)
             {
-                panelGo.SetActive(true);
+                BattleUnit selectedUnit = selectedTarget.GetBattleUnit();
+                if (selectedUnit && !panelGo.activeInHierarchy)
+                {
+                    panelGo.SetActive(true);
+                }
+                else if (!selectedUnit && panelGo.activeInHierarchy)
+                {
+                    panelGo.SetActive(false);
+                }
+
+                if (panelGo.activeInHierarchy)
+                {
+                    unitNameText.text = selectedUnit.baseData.unitName;
+                    unitHpText.text = string.Format("{0} / {1}", selectedUnit.hp.current, selectedUnit.hp.max);
+                    unitHpBarImage.fillAmount = (float)selectedUnit.hp.current / (float)selectedUnit.hp.max;
+                }
             }
-            else if (!selectedUnit && panelGo.activeInHierarchy)
+            else
             {
                 panelGo.SetActive(false);
-            }
-
-            if (panelGo.activeInHierarchy)
-            {
-                unitNameText.text = selectedUnit.baseData.unitName;
-                unitHpText.text = string.Format("{0} / {1}", selectedUnit.hp.current, selectedUnit.hp.max);
-                unitHpBarImage.fillAmount = (float)selectedUnit.hp.current / (float)selectedUnit.hp.max;
             }
         }
     }

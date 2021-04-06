@@ -15,7 +15,7 @@ MonoBehaviour:
   unitId: x01
   unitName: Xamael
   baseStats:
-    POW: 35
+    POW: 40
     CRI: 10
     SPD: 500
     HP: 20000

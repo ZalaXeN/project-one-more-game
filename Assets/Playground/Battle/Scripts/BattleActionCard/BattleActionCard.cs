@@ -12,14 +12,14 @@ namespace ProjectOneMore.Battle
 
         protected static Collider[] s_hitCache;
 
-        private List<BattleUnit> _targets;
+        private List<BattleActionTargetable> _targets;
         [HideInInspector]
         public Vector3 targetPosition = Vector3.zero;
 
-        public void SetTarget(BattleUnit target)
+        public void SetTarget(BattleActionTargetable target)
         {
             if (_targets == null)
-                _targets = new List<BattleUnit>(); 
+                _targets = new List<BattleActionTargetable>(); 
 
             _targets.Clear();
 
@@ -27,7 +27,7 @@ namespace ProjectOneMore.Battle
                 _targets.Add(target);
         }
 
-        public void SetTargets(List<BattleUnit> targets)
+        public void SetTargets(List<BattleActionTargetable> targets)
         {
             _targets = targets;
         }
@@ -37,50 +37,71 @@ namespace ProjectOneMore.Battle
             if (s_hitCache == null)
                 s_hitCache = new Collider[32];
 
-
-            List<BattleUnit> tempUnitList;
+            List<BattleActionTargetable> tempUnitList;
 
             if(baseData.targetAreaType == SkillData.AreaType.Circle)
-                tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
+                tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
             else
-                tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
+                tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
+
+            _targets = tempUnitList;
+        }
+
+        public void SetTargetsWithActionAreaForAutoAttack(bool shouldAlive = true)
+        {
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
+
+            List<BattleActionTargetable> tempTargetList;
+
+            if (baseData.targetAreaType == SkillData.AreaType.Circle)
+                tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
+            else
+                tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
 
             if (canUseWithoutOwner)
             {
-                _targets = tempUnitList;
+                _targets = tempTargetList;
                 return;
             }
 
             ClearTargets();
 
-            foreach (BattleUnit unit in tempUnitList)
+            foreach (BattleActionTargetable target in tempTargetList)
             {
+                if (!target)
+                    continue;
+
+                BattleUnit unit = target.GetBattleUnit();
+                if (!unit)
+                    continue;
+
                 if (!unit.IsAlive() && shouldAlive)
                     continue;
 
-                if(baseData.skillEffectTarget == SkillEffectTarget.Ally || baseData.skillEffectTarget == SkillEffectTarget.Allies)
+                if (baseData.skillEffectTarget == SkillEffectTarget.Ally)
                 {
                     if (unit.team == owner.team)
-                        _targets.Add(unit);
+                        _targets.Add(target);
                 }
-                else if (baseData.skillEffectTarget == SkillEffectTarget.Enemy || baseData.skillEffectTarget == SkillEffectTarget.Enemies)
+                else if (baseData.skillEffectTarget == SkillEffectTarget.Enemy)
                 {
                     if (unit.team != owner.team)
-                        _targets.Add(unit);
+                        _targets.Add(target);
                 }
                 else if (baseData.skillEffectTarget == SkillEffectTarget.All)
                 {
-                    _targets.Add(unit);
+                    _targets.Add(target);
                 }
             }
         }
 
-        public BattleUnit GetTarget()
+        public BattleActionTargetable GetTarget()
         {
             return _targets[0];
         }
 
-        public List<BattleUnit> GetTargets()
+        public List<BattleActionTargetable> GetTargets()
         {
             return _targets;
         }
@@ -215,7 +236,8 @@ namespace ProjectOneMore.Battle
         public void FindTarget()
         {
             //BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
-            BattleUnit target = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
+            BattleUnit unit = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
+            BattleActionTargetable target = unit ? unit.GetComponent<BattleActionTargetable>() : null;
 
             switch (baseData.skillTargetType)
             {
@@ -244,7 +266,7 @@ namespace ProjectOneMore.Battle
                     {
                         targetPosition = target.transform.position;
                     }
-                    SetTargetsWithActionArea();
+                    SetTargetsWithActionAreaForAutoAttack();
                     break;
             }
         }
@@ -254,22 +276,22 @@ namespace ProjectOneMore.Battle
             if (s_hitCache == null)
                 s_hitCache = new Collider[32];
 
-            List<BattleUnit> tempUnitList;
+            List<BattleActionTargetable> tempUnitList;
             switch (baseData.targetAreaType)
             {
                 case SkillData.AreaType.Circle:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
                     break;
                 case SkillData.AreaType.Box:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
                 default:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
             }
 
             BattleUnit nearestUnit;
-            if (baseData.skillEffectTarget == SkillEffectTarget.Enemies || baseData.skillEffectTarget == SkillEffectTarget.Enemy)
+            if (baseData.skillEffectTarget == SkillEffectTarget.Enemy)
                 nearestUnit = GetNearestUnitFromList(tempUnitList, BattleManager.main.GetOppositeTeam(owner.team));
             else
                 nearestUnit = GetNearestUnitFromList(tempUnitList, owner.team);
@@ -277,11 +299,15 @@ namespace ProjectOneMore.Battle
             return nearestUnit;
         }
 
-        private BattleUnit GetNearestUnitFromList(List<BattleUnit> unitList, BattleTeam team)
+        private BattleUnit GetNearestUnitFromList(List<BattleActionTargetable> targetList, BattleTeam team)
         {
             BattleUnit nearestUnit = null;
-            foreach (BattleUnit unit in unitList)
+            foreach (BattleActionTargetable target in targetList)
             {
+                BattleUnit unit = target.GetComponent<BattleUnit>();
+                if (!unit)
+                    continue;
+
                 if (!unit.IsAlive())
                     continue;
 
@@ -298,32 +324,45 @@ namespace ProjectOneMore.Battle
             return nearestUnit;
         }
 
-        public bool IsUnitInTargetRange(BattleUnit unit)
+        public bool IsUnitInTargetRange(BattleActionTargetable target)
         {
             Vector3 position = owner.transform.position + baseData.offset;
 
             if (s_hitCache == null)
                 s_hitCache = new Collider[32];
 
-            List<BattleUnit> tempUnitList;
+            List<BattleActionTargetable> tempTargetList;
             switch (baseData.targetAreaType)
             {
                 case SkillData.AreaType.Circle:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
                     break;
                 case SkillData.AreaType.Box:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
                 default:
-                    tempUnitList = BattleActionArea.GetUnitListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
             }
 
-            return tempUnitList.Contains(unit);
+            return tempTargetList.Contains(target);
         }
 
         public void Execute()
         {
+            // Make sure AoE Target for Auto Attack
+            // not just target from find target
+            switch (baseData.skillTargetType)
+            {
+                case SkillTargetType.Target:
+                    break;
+                case SkillTargetType.Projectile:
+                    break;
+                case SkillTargetType.Area:
+                    SetTargetsWithActionArea();
+                    break;
+            }
+
             foreach (BattleAction battleAction in baseData.battleActions)
             {
                 battleAction.Execute(this);
@@ -355,8 +394,48 @@ namespace ProjectOneMore.Battle
         private void ClearTargets()
         {
             if (_targets == null)
-                _targets = new List<BattleUnit>();
+                _targets = new List<BattleActionTargetable>();
             _targets.Clear();
+        }
+
+        private bool CanTargetAlly()
+        {
+            if (baseData.skillEffectTarget == SkillEffectTarget.Ally ||
+                baseData.skillEffectTarget == SkillEffectTarget.All)
+                return true;
+
+            return false;
+        }
+
+        private bool CanTargetEnemy()
+        {
+            if (baseData.skillEffectTarget == SkillEffectTarget.Enemy ||
+                baseData.skillEffectTarget == SkillEffectTarget.All)
+                return true;
+
+            return false;
+        }
+
+        public bool CheckTargetingTeam(BattleActionTargetable target)
+        {
+            bool result = false;
+
+            BattleUnit unit = target.GetComponent<BattleUnit>();
+            if (!unit)
+                return false;
+
+            if (CanTargetAlly())
+                result = unit.team == owner.team;
+
+            if (CanTargetEnemy())
+                result = unit.team != owner.team;
+
+            return result;
+        }
+
+        public bool CheckUnitInTargetRange(BattleActionTargetable target)
+        {
+            return IsUnitInTargetRange(target);
         }
 
         #region Gizmos

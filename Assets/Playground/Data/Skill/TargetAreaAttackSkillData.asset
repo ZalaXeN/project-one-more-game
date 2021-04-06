@@ -15,7 +15,7 @@ MonoBehaviour:
   skillId: 
   skillName: 
   skillType: 3
-  skillEffectTarget: 4
+  skillEffectTarget: 2
   skillTargetType: 1
   animationId: skill
   battleActions:

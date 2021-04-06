@@ -20,11 +20,6 @@ namespace ProjectOneMore.Battle
         [Range(1,10)]
         public int actionPerDraw = 5;
 
-        private void Start()
-        {
-            BattleManager.main.PlayerTakeActionEvent += Shuffle;
-        }
-
         private void Update()
         {
             if (BattleManager.main == null)

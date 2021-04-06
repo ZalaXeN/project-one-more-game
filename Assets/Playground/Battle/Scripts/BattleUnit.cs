@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using System.Collections;
+using UnityEngine.Events;
 
 namespace ProjectOneMore.Battle
 {
@@ -10,12 +11,6 @@ namespace ProjectOneMore.Battle
     {
         Player,
         Enemy
-    }
-
-    public enum BattleUnitAttackType
-    {
-        Melee,
-        Range
     }
 
     public enum BattleUnitState
@@ -34,10 +29,9 @@ namespace ProjectOneMore.Battle
         Right
     }
 
-    public class BattleUnit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class BattleUnit : MonoBehaviour
     {
         [Header("Settings")]
-        public Transform spriteRootTransform;
         public Animator animator;
         public Transform centerTransform;
         public Collider unitCollider;
@@ -86,8 +80,6 @@ namespace ProjectOneMore.Battle
         private float _hitLockTimer;
         private float _hitLockBreakTimer;
 
-        private int _tempLayer;
-
         // Parameters
         public static readonly int m_HashMoving = Animator.StringToHash("moving");
         public static readonly int m_HashHit = Animator.StringToHash("hit");
@@ -95,6 +87,8 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashSkill = Animator.StringToHash("skill");
         public static readonly int m_HashCast = Animator.StringToHash("casting");
+
+        private System.Action _schedule;
 
         #region Initialization
         private void InitStats()
@@ -134,7 +128,6 @@ namespace ProjectOneMore.Battle
             BattleManager.main.AddUnitIfNeed(this);
 
             _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-            BattleManager.main.UnitDeadEvent += HandleUnitDeadEvent;
             BattleManager.main.ChangeBattleStateEvent += HandleChangeBattleStateEvent;
     }
 
@@ -156,8 +149,6 @@ namespace ProjectOneMore.Battle
             InitStats();
             targetPosition = transform.position;
 
-            _tempLayer = gameObject.layer;
-
             InitBattleParameter();
             if(centerTransform == null)
                 centerTransform = transform;
@@ -172,45 +163,19 @@ namespace ProjectOneMore.Battle
             UpdateHitLockTime();
         }
 
-        private void OnDisable()
+        void LateUpdate()
         {
-            BattleManager.main.UnitDeadEvent -= HandleUnitDeadEvent;
-            BattleManager.main.ChangeBattleStateEvent -= HandleChangeBattleStateEvent;
-        }
-        #endregion
-
-        #region Event Systems
-
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-        {
-            if (BattleManager.main.battleState == BattleState.PlayerInput)
-                BattleManager.main.SelectUnit(this);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (BattleManager.main.battleState == BattleState.PlayerInput)
-                BattleManager.main.DeselectUnit();
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            BattleManager.main.SelectUnit(this);
-            SetCurrentActionTargetThisUnit();
-        }
-
-        private void SetCurrentActionTargetThisUnit()
-        {
-            if (BattleManager.main.battleState != BattleState.PlayerInput)
-                return;
-
-            if (BattleManager.main.CanCurrentActionTarget(this))
+            if (_schedule != null)
             {
-                BattleManager.main.SetCurrentActionTarget(this);
-                BattleManager.main.CurrentActionTakeAction();
+                _schedule();
+                _schedule = null;
             }
         }
 
+        private void OnDisable()
+        {
+            BattleManager.main.ChangeBattleStateEvent -= HandleChangeBattleStateEvent;
+        }
         #endregion
 
         #region On Update Script
@@ -333,9 +298,31 @@ namespace ProjectOneMore.Battle
             return (_currentState == BattleUnitState.Hit && _hitLockBreakTimer > 0f);
         }
 
+        private bool ShouldTakeDamage(BattleDamage.DamageMessage damage)
+        {
+            if (damage.effectTarget == SkillEffectTarget.Enemy)
+            {
+                return damage.owner.team != team;
+            }
+            else if (damage.effectTarget == SkillEffectTarget.Ally)
+            {
+                return damage.owner.team == team;
+            }
+            else if (damage.effectTarget == SkillEffectTarget.All)
+            {
+                return true;
+            }
+            else if(damage.effectTarget == SkillEffectTarget.Self)
+            {
+                return damage.owner == this;
+            }
+
+            return false;
+        }
+
         public void TakeDamage(BattleDamage.DamageMessage damage)
         {
-            if (damage.owner.team == team)
+            if (!ShouldTakeDamage(damage))
                 return;
 
             BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
@@ -348,7 +335,7 @@ namespace ProjectOneMore.Battle
             if (!IsAlive())
             {
                 if (_currentState != BattleUnitState.Dead)
-                    Dead();
+                    _schedule += Dead;
             }
             else if (CanAnimateHit() && !IsHitLockBreakTime())
             {
@@ -362,7 +349,7 @@ namespace ProjectOneMore.Battle
         }
 
         // Dead
-        public void Dead()
+        private void Dead()
         {
             animator.SetTrigger(m_HashDead);
         }
@@ -406,34 +393,6 @@ namespace ProjectOneMore.Battle
             progress = 1f;
         }
 
-        #endregion
-
-        #region Outline Highlight
-
-        public void Highlight()
-        {
-            int targetLayer = 13; // Layer "Target"
-            _tempLayer = gameObject.layer;
-            ChangeLayerForAll(targetLayer);
-        }
-
-        public void DeHighlight()
-        {
-            ChangeLayerForAll(_tempLayer);
-        }
-
-        private void ChangeLayerForAll(int targetLayer)
-        {
-            gameObject.layer = targetLayer;
-            Transform targetTransform = spriteRootTransform ? spriteRootTransform : transform;
-            foreach (Transform child in targetTransform)
-            {
-                if (child.GetComponent<SwingEffector>())
-                    continue;
-
-                child.gameObject.layer = targetLayer;
-            }
-        }
         #endregion
 
         #region Sprite

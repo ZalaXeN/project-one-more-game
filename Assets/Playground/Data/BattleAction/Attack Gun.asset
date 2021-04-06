@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a527b695aa3289644b8c3d27a6301e2e, type: 3}
   m_Name: Attack Gun
   m_EditorClassIdentifier: 
+  effectTarget: 2
   powMultiplier: 1
   hitParticleId: bullet_hit

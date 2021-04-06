@@ -6,6 +6,8 @@ namespace ProjectOneMore.Battle
     [CreateAssetMenu(fileName = "Attack", menuName = "Battle/Action/Attack", order = 1)]
     public class BA_Attack : BattleAction
     {
+        public SkillEffectTarget effectTarget;
+
         [Range(0.1f, 10f)]
         public float powMultiplier = 1f;
 
@@ -24,8 +26,11 @@ namespace ProjectOneMore.Battle
             damage.damage = (int)math.round(card.owner.pow.current * powMultiplier);
             damage.damageType = BattleDamageType.Physical;
             damage.hitEffect = hitParticleId;
+            damage.effectTarget = effectTarget;
 
-            card.GetTarget()?.TakeDamage(damage);
+            BattleDamagable damagable = card.GetTarget().GetBattleDamagable();
+            if (damagable)
+                damagable.TakeDamage(damage);
         }
     }
 }

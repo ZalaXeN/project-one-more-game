@@ -15,7 +15,7 @@ MonoBehaviour:
   unitId: 
   unitName: Projectile Tester
   baseStats:
-    POW: 40
+    POW: 50
     CRI: 10
     SPD: 500
     HP: 120

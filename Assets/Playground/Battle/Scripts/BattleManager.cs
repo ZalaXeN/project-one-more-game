@@ -24,13 +24,9 @@ namespace ProjectOneMore.Battle
         public static BattleManager main;
 
         //-- Delegate
-        public delegate void UnitDeadDelegate(BattleUnit unit);
-        public delegate void PlayerTakeActionDelegate(BattleActionCard card);
         public delegate void ChangeBattleStateDelegate(BattleState battleState);
 
         //-- Event
-        public event UnitDeadDelegate UnitDeadEvent;
-        public event PlayerTakeActionDelegate PlayerTakeActionEvent;
         public event ChangeBattleStateDelegate ChangeBattleStateEvent;
 
         private BattleState _battleState;
@@ -103,7 +99,7 @@ namespace ProjectOneMore.Battle
         private BattleUnit _controlledUnit;
 
         [HideInInspector]
-        public BattleUnit selectedUnit;
+        public BattleActionTargetable selectedTarget;
 
         [HideInInspector]
         public bool isOnActionSelector;
@@ -303,7 +299,7 @@ namespace ProjectOneMore.Battle
 
             if(_battleState == BattleState.Battle)
             {
-                DeselectUnit();
+                DeselectTarget();
 
                 // Click on UI
                 //if (EventSystem.current.IsPointerOverGameObject())
@@ -326,7 +322,7 @@ namespace ProjectOneMore.Battle
 
             _currentActionCard = action;
             _controlledUnit = _currentActionCard.owner;
-            DeselectUnit();
+            DeselectTarget();
             battleState = BattleState.PlayerInput;
             ChangeBattleStateEvent?.Invoke(battleState);
 
@@ -347,55 +343,18 @@ namespace ProjectOneMore.Battle
             _currentActionCard.ShowTargeting();
         }
 
-        private bool CanCurrentActionTargetAlly()
-        {
-            if (_currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Ally ||
-                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Allies ||
-                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.All)
-                return true;
-
-            return false;
-        }
-
-        private bool CanCurrentActionTargetEnemy()
-        {
-            if (_currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Enemy ||
-                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.Enemies ||
-                _currentActionCard.baseData.skillEffectTarget == SkillEffectTarget.All)
-                return true;
-
-            return false;
-        }
-
-        public bool CanCurrentActionTarget(BattleUnit unit)
+        public bool CanCurrentActionTarget(BattleActionTargetable target)
         {
             if (_currentActionCard == null)
                 return false;
 
-            if (!CheckTargetingTeam(unit))
+            if (!_currentActionCard.CheckTargetingTeam(target))
                 return false;
 
-            if (!CheckUnitInTargetRange(unit))
+            if (!_currentActionCard.CheckUnitInTargetRange(target))
                 return false;
 
             return true;
-        }
-
-        private bool CheckTargetingTeam(BattleUnit unit)
-        {
-            bool result = false;
-            if (CanCurrentActionTargetAlly())
-                result = unit.team == _currentActionCard.owner.team;
-
-            if (CanCurrentActionTargetEnemy())
-                result = unit.team != _currentActionCard.owner.team;
-
-            return result;
-        }
-
-        private bool CheckUnitInTargetRange(BattleUnit unit)
-        {
-            return _currentActionCard.IsUnitInTargetRange(unit);
         }
 
         public bool IsCurrentActionHasTargetType(SkillTargetType skillTargetType)
@@ -406,14 +365,9 @@ namespace ProjectOneMore.Battle
             return _currentActionCard.baseData.skillTargetType == skillTargetType;
         }
 
-        public void SetCurrentActionTarget(BattleUnit unit)
+        public void SetCurrentActionTarget(BattleActionTargetable target)
         {
-            _currentActionCard.SetTarget(unit);
-        }
-
-        public void SetCurrentActionTargets(List<BattleUnit> unitList)
-        {
-            _currentActionCard.SetTargets(unitList);
+            _currentActionCard.SetTarget(target);
         }
 
         public void SetCurrentActionTarget(Vector3 targetPosition)
@@ -431,7 +385,7 @@ namespace ProjectOneMore.Battle
                 if (triggerTakeActionEvent)
                 {
                     //Shuffle Action Card
-                    PlayerTakeActionEvent?.Invoke(_previousActionCard);
+                    //PlayerTakeActionEvent?.Invoke(_previousActionCard);
                 }
             }
 
@@ -479,20 +433,20 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        public void SelectUnit(BattleUnit unit)
+        public void SelectTarget(BattleActionTargetable target)
         {
-            DeselectUnit();
-            selectedUnit = unit;
-            selectedUnit.Highlight();
+            DeselectTarget();
+            selectedTarget = target;
+            selectedTarget.Highlight();
         }
 
-        public void DeselectUnit()
+        public void DeselectTarget()
         {
-            if (!selectedUnit)
+            if (!selectedTarget)
                 return;
 
-            selectedUnit.DeHighlight();
-            selectedUnit = null;
+            selectedTarget.DeHighlight();
+            selectedTarget = null;
         }
 
         #endregion
@@ -501,7 +455,6 @@ namespace ProjectOneMore.Battle
         public void TriggerUnitDead(BattleUnit unit)
         {
             _battleUnitList.Remove(unit);
-            UnitDeadEvent?.Invoke(unit);
         }
         #endregion
 
@@ -697,12 +650,9 @@ namespace ProjectOneMore.Battle
 
         private void UpdateData()
         {
-            if (!selectedUnit)
-                return;
-                
-            if(!selectedUnit.IsAlive())
+            if (!selectedTarget)
             {
-                DeselectUnit();
+                DeselectTarget();
             }
         }
 

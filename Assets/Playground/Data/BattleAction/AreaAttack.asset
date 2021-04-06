@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809a106292c4077439cb6b9e86b7bf69, type: 3}
   m_Name: AreaAttack
   m_EditorClassIdentifier: 
+  effectTarget: 2
   powMultiplier: 1
   hitParticleId: slash_hit

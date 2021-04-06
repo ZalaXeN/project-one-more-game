@@ -6380,8 +6380,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.471826, y: 0.8877487, z: -0.00005}
-    m_Extent: {x: 5.0679617, y: 9.260397, z: 0.00005}
+    m_Center: {x: 4.471825, y: 0.8877487, z: -0.00005}
+    m_Extent: {x: 5.0679607, y: 9.260397, z: 0.00005}
 --- !u!1 &446451188
 GameObject:
   m_ObjectHideFlags: 0
@@ -9562,17 +9562,17 @@ MonoBehaviour:
   physicsRaycaster: {fileID: 1892726096}
   playerInputLayerMask:
     serializedVersion: 2
-    m_Bits: 9216
+    m_Bits: 11264
   normalEventLayerMask:
     serializedVersion: 2
-    m_Bits: 9216
+    m_Bits: 11264
   testLevelId: 00
   rowsPerColumn: 4
   slowTimeFactor: 0.2
   slowingLength: 0.3
   _currentActionCard: {fileID: 0}
   _battleUnitList: []
-  selectedUnit: {fileID: 0}
+  selectedTarget: {fileID: 0}
   isOnActionSelector: 0
 --- !u!4 &671892079
 Transform:
@@ -10025,6 +10025,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &707948742 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8982781059905519124, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8982781059226244853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &718964636
 GameObject:
   m_ObjectHideFlags: 0
@@ -11873,6 +11879,9 @@ GameObject:
   - component: {fileID: 864627116}
   - component: {fileID: 864627115}
   - component: {fileID: 864627114}
+  - component: {fileID: 864627118}
+  - component: {fileID: 864627117}
+  - component: {fileID: 864627119}
   m_Layer: 11
   m_Name: Obstacle
   m_TagString: Untagged
@@ -11924,6 +11933,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+--- !u!114 &864627117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864627113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 864627119}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleObject, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &864627118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864627113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3282009ad8a884290153a381d85a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 864627116}
+--- !u!114 &864627119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864627113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2655a3cd960641849bd05292a4391c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp:
+    max: 100
 --- !u!4 &885246633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -16060,6 +16123,9 @@ GameObject:
   - component: {fileID: 1268715349}
   - component: {fileID: 1268715348}
   - component: {fileID: 1268715347}
+  - component: {fileID: 1268715351}
+  - component: {fileID: 1268715350}
+  - component: {fileID: 1268715352}
   m_Layer: 11
   m_Name: Obstacle (2)
   m_TagString: Untagged
@@ -16111,6 +16177,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+--- !u!114 &1268715350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268715346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1268715352}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleObject, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1268715351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268715346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3282009ad8a884290153a381d85a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 1268715349}
+--- !u!114 &1268715352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268715346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2655a3cd960641849bd05292a4391c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp:
+    max: 100
 --- !u!4 &1311130358 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -16378,8 +16498,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b52e4dc70b7590b4e99da02b17687660, type: 3}
   m_LocalAABB:
-    m_Center: {x: 4.4669843, y: 3.1912794, z: -0.00005}
-    m_Extent: {x: 5.0728025, y: 11.563928, z: 0.00005}
+    m_Center: {x: 4.4669833, y: 3.1912794, z: -0.00005}
+    m_Extent: {x: 5.0728016, y: 11.563928, z: 0.00005}
 --- !u!4 &1323886704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -22843,6 +22963,9 @@ GameObject:
   - component: {fileID: 1826582833}
   - component: {fileID: 1826582832}
   - component: {fileID: 1826582831}
+  - component: {fileID: 1826582835}
+  - component: {fileID: 1826582834}
+  - component: {fileID: 1826582836}
   m_Layer: 11
   m_Name: Obstacle (1)
   m_TagString: Untagged
@@ -22894,6 +23017,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826582834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826582830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1826582836}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleObject, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1826582835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826582830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3282009ad8a884290153a381d85a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 1826582833}
+--- !u!114 &1826582836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826582830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2655a3cd960641849bd05292a4391c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp:
+    max: 100
 --- !u!1001 &1830351940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26152,6 +26329,9 @@ GameObject:
   - component: {fileID: 2009168561}
   - component: {fileID: 2009168560}
   - component: {fileID: 2009168559}
+  - component: {fileID: 2009168563}
+  - component: {fileID: 2009168562}
+  - component: {fileID: 2009168564}
   m_Layer: 11
   m_Name: Obstacle (3)
   m_TagString: Untagged
@@ -26203,6 +26383,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+--- !u!114 &2009168562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009168558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c10d94045293634081f988dd9d90b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2009168564}
+        m_TargetAssemblyTypeName: ProjectOneMore.Battle.BattleObject, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2009168563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009168558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3282009ad8a884290153a381d85a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRootTransform: {fileID: 2009168561}
+--- !u!114 &2009168564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009168558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2655a3cd960641849bd05292a4391c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp:
+    max: 100
 --- !u!1001 &2010419510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28229,6 +28463,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7933848586691920807, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
+        type: 3}
+      propertyPath: spriteRootTransform
+      value: 
+      objectReference: {fileID: 707948742}
     - target: {fileID: 8982781059478591556, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
         type: 3}
       propertyPath: m_RootOrder

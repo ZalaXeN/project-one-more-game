@@ -15,7 +15,7 @@ MonoBehaviour:
   unitId: 
   unitName: Master Musketeer
   baseStats:
-    POW: 35
+    POW: 20
     CRI: 10
     SPD: 500
     HP: 100

@@ -15,7 +15,7 @@ MonoBehaviour:
   unitId: 
   unitName: Swordsman
   baseStats:
-    POW: 50
+    POW: 30
     CRI: 10
     SPD: 500
     HP: 200

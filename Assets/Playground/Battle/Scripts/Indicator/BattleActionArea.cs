@@ -6,40 +6,40 @@ namespace ProjectOneMore.Battle
 {
     public static class BattleActionArea
     {
-        public static List<BattleUnit> GetUnitListFromOverlapSphere(Vector3 position, float radius, Collider[] hitCache)
+        public static List<BattleActionTargetable> GetTargetListFromOverlapSphere(Vector3 position, float radius, Collider[] hitCache)
         {
-            List<BattleUnit> unitList = new List<BattleUnit>();
+            List<BattleActionTargetable> targetList = new List<BattleActionTargetable>();
             int contacts = Physics.OverlapSphereNonAlloc(position, radius, hitCache);
 
             for(int i = 0; i < contacts; ++i)
             {
                 Collider collider = hitCache[i];
 
-                BattleUnit unit = collider.GetComponentInChildren<BattleUnit>();
+                BattleActionTargetable target = collider.GetComponentInChildren<BattleActionTargetable>();
 
-                if(unit != null)
-                    unitList.Add(unit);
+                if(target != null)
+                    targetList.Add(target);
             }
 
-            return unitList;
+            return targetList;
         }
 
-        public static List<BattleUnit> GetUnitListFromOverlapBox(Vector3 position, Vector3 halfExtents, Collider[] hitCache)
+        public static List<BattleActionTargetable> GetTargetListFromOverlapBox(Vector3 position, Vector3 halfExtents, Collider[] hitCache)
         {
-            List<BattleUnit> unitList = new List<BattleUnit>();
+            List<BattleActionTargetable> targetList = new List<BattleActionTargetable>();
             int contacts = Physics.OverlapBoxNonAlloc(position, halfExtents, hitCache);
 
             for (int i = 0; i < contacts; ++i)
             {
                 Collider collider = hitCache[i];
 
-                BattleUnit unit = collider.GetComponentInChildren<BattleUnit>();
+                BattleActionTargetable target = collider.GetComponentInChildren<BattleActionTargetable>();
 
-                if (unit != null)
-                    unitList.Add(unit);
+                if (target != null)
+                    targetList.Add(target);
             }
 
-            return unitList;
+            return targetList;
         }
     }
 }

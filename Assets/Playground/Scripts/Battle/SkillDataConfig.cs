@@ -27,8 +27,6 @@ namespace ProjectOneMore
         Self,
         Ally,
         Enemy,
-        Allies,
-        Enemies,
         All
     }
 

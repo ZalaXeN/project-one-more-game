@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 8616128461101319016}
   - component: {fileID: 2007019488013410641}
   - component: {fileID: 3914491778103385000}
+  - component: {fileID: -2541832565690284428}
   m_Layer: 10
   m_Name: musketeer3
   m_TagString: Untagged
@@ -453,9 +454,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1753c0cc57fad49ba3c05e87f57b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleName: 
   particles:
   - {fileID: 7866403441985004782}
   - {fileID: 1046694522834111575}
+--- !u!114 &-2541832565690284428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477862688905455013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3282009ad8a884290153a381d85a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &520311320681486173
 GameObject:
   m_ObjectHideFlags: 0

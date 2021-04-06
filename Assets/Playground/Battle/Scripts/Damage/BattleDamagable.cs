@@ -12,5 +12,10 @@ namespace ProjectOneMore.Battle
     public class BattleDamagable : MonoBehaviour
     {
         public BattleTakeDamageEvent OnTakeDamage;
+
+        public void TakeDamage(BattleDamage.DamageMessage damageMessage)
+        {
+            OnTakeDamage.Invoke(damageMessage);
+        }
     }
 }
