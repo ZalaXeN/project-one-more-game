@@ -304,7 +304,7 @@ namespace ProjectOneMore.Battle
             BattleUnit nearestUnit = null;
             foreach (BattleActionTargetable target in targetList)
             {
-                BattleUnit unit = target.GetComponent<BattleUnit>();
+                BattleUnit unit = target.GetBattleUnit();
                 if (!unit)
                     continue;
 
@@ -420,9 +420,9 @@ namespace ProjectOneMore.Battle
         {
             bool result = false;
 
-            BattleUnit unit = target.GetComponent<BattleUnit>();
+            BattleUnit unit = target.GetBattleUnit();
             if (!unit)
-                return false;
+                return true;
 
             if (CanTargetAlly())
                 result = unit.team == owner.team;
@@ -436,6 +436,11 @@ namespace ProjectOneMore.Battle
         public bool CheckUnitInTargetRange(BattleActionTargetable target)
         {
             return IsUnitInTargetRange(target);
+        }
+
+        public bool CheckTargetDamagable(BattleActionTargetable target)
+        {
+            return target.GetBattleDamagable();
         }
 
         #region Gizmos

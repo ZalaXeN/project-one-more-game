@@ -355,6 +355,9 @@ namespace ProjectOneMore.Battle
             if (!_currentActionCard.CheckUnitInTargetRange(target))
                 return false;
 
+            if (!_currentActionCard.CheckTargetDamagable(target))
+                return false;
+
             return true;
         }
 
