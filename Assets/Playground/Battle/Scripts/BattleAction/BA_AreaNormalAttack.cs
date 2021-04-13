@@ -18,7 +18,7 @@ namespace ProjectOneMore.Battle
 
         public override void Execute(BattleActionCard card)
         {
-            if (card.owner == null || !card.HasTarget())
+            if (card.owner == null)
                 return;
 
             card.owner.UpdateFlipScale(card.targetPosition);
