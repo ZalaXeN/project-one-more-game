@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ProjectOneMore.Battle
 {
@@ -18,11 +19,7 @@ namespace ProjectOneMore.Battle
 
         public void SetTarget(BattleActionTargetable target)
         {
-            if (_targets == null)
-                _targets = new List<BattleActionTargetable>(); 
-
-            _targets.Clear();
-
+            ClearTargets();
             if (target != null)
                 _targets.Add(target);
         }
@@ -47,55 +44,6 @@ namespace ProjectOneMore.Battle
             _targets = tempUnitList;
         }
 
-        public void SetTargetsWithActionAreaForAutoAttack(bool shouldAlive = true)
-        {
-            if (s_hitCache == null)
-                s_hitCache = new Collider[32];
-
-            List<BattleActionTargetable> tempTargetList;
-
-            if (baseData.targetAreaType == SkillData.AreaType.Circle)
-                tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
-            else
-                tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
-
-            if (canUseWithoutOwner)
-            {
-                _targets = tempTargetList;
-                return;
-            }
-
-            ClearTargets();
-
-            foreach (BattleActionTargetable target in tempTargetList)
-            {
-                if (!target)
-                    continue;
-
-                BattleUnit unit = target.GetBattleUnit();
-                if (!unit)
-                    continue;
-
-                if (!unit.IsAlive() && shouldAlive)
-                    continue;
-
-                if (baseData.skillEffectTarget == SkillEffectTarget.Ally)
-                {
-                    if (unit.team == owner.team)
-                        _targets.Add(target);
-                }
-                else if (baseData.skillEffectTarget == SkillEffectTarget.Enemy)
-                {
-                    if (unit.team != owner.team)
-                        _targets.Add(target);
-                }
-                else if (baseData.skillEffectTarget == SkillEffectTarget.All)
-                {
-                    _targets.Add(target);
-                }
-            }
-        }
-
         public BattleActionTargetable GetTarget()
         {
             return _targets[0];
@@ -108,19 +56,8 @@ namespace ProjectOneMore.Battle
 
         public bool HasTarget()
         {
-            switch (baseData.skillTargetType)
-            {
-                case SkillTargetType.Target:
-                    if (_targets != null && _targets.Count > 0)
-                        return true;
-                    return false;
-                case SkillTargetType.Projectile:
-                    return true;
-                case SkillTargetType.Area:
-                    if (_targets != null && _targets.Count > 0)
-                        return true;
-                    return false;
-            }
+            if (_targets != null && _targets.Count > 0)
+                return true;
 
             return false;
         }
@@ -235,30 +172,24 @@ namespace ProjectOneMore.Battle
         // Auto Find for Normal Action
         public void FindTarget()
         {
-            //BattleUnit target = BattleManager.main.fieldManager.GetNearestEnemyUnitInAttackRange(owner);
-            BattleUnit unit = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
-            BattleActionTargetable target = unit ? unit.GetComponent<BattleActionTargetable>() : null;
+            BattleActionTargetable target = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
+            if (target == null)
+            {
+                ClearTargets();
+                return;
+            }
 
             switch (baseData.skillTargetType)
             {
                 case SkillTargetType.Target:
-                    if (target == null)
-                    {
-                        ClearTargets();
-                        return;
-                    }
                     SetTarget(target);
                     break;
                 case SkillTargetType.Projectile:
-                    if (target == null)
-                    {
-                        ClearTargets();
-                        return;
-                    }
+                    SetTarget(target);
                     targetPosition = target.transform.position;
                     break;
                 case SkillTargetType.Area:
-                    if (target == null)
+                    if (baseData.lockTargetPositionToOwner)
                     {
                         targetPosition = owner.transform.position + baseData.offset;
                     }
@@ -266,12 +197,13 @@ namespace ProjectOneMore.Battle
                     {
                         targetPosition = target.transform.position;
                     }
-                    SetTargetsWithActionAreaForAutoAttack();
+                    SetTarget(target);
+                    //SetTargetsWithActionArea();
                     break;
             }
         }
 
-        private BattleUnit SearchNearestTargetInRange(Vector3 position)
+        private BattleActionTargetable SearchNearestTargetInRange(Vector3 position)
         {
             if (s_hitCache == null)
                 s_hitCache = new Collider[32];
@@ -290,18 +222,18 @@ namespace ProjectOneMore.Battle
                     break;
             }
 
-            BattleUnit nearestUnit;
+            BattleActionTargetable nearestUnitTarget;
             if (baseData.skillEffectTarget == SkillEffectTarget.Enemy)
-                nearestUnit = GetNearestUnitFromList(tempUnitList, BattleManager.main.GetOppositeTeam(owner.team));
+                nearestUnitTarget = GetNearestUnitTargetFromList(tempUnitList, BattleManager.main.GetOppositeTeam(owner.team));
             else
-                nearestUnit = GetNearestUnitFromList(tempUnitList, owner.team);
+                nearestUnitTarget = GetNearestUnitTargetFromList(tempUnitList, owner.team);
 
-            return nearestUnit;
+            return nearestUnitTarget;
         }
 
-        private BattleUnit GetNearestUnitFromList(List<BattleActionTargetable> targetList, BattleTeam team)
+        private BattleActionTargetable GetNearestUnitTargetFromList(List<BattleActionTargetable> targetList, BattleTeam team)
         {
-            BattleUnit nearestUnit = null;
+            BattleActionTargetable nearestUnitTarget = null;
             foreach (BattleActionTargetable target in targetList)
             {
                 BattleUnit unit = target.GetBattleUnit();
@@ -313,15 +245,15 @@ namespace ProjectOneMore.Battle
 
                 if (unit && unit.team == team)
                 {
-                    if (nearestUnit == null)
-                        nearestUnit = unit;
+                    if (nearestUnitTarget == null)
+                        nearestUnitTarget = target;
                     else if (
                         Vector3.Distance(owner.transform.position, unit.transform.position) <
-                        Vector3.Distance(owner.transform.position, nearestUnit.transform.position))
-                        nearestUnit = unit;
+                        Vector3.Distance(owner.transform.position, nearestUnitTarget.transform.position))
+                        nearestUnitTarget = target;
                 }
             }
-            return nearestUnit;
+            return nearestUnitTarget;
         }
 
         public bool IsUnitInTargetRange(BattleActionTargetable target)
@@ -363,10 +295,18 @@ namespace ProjectOneMore.Battle
                     break;
             }
 
+            StartCoroutine(ExecuteActionProgress());
+        }
+
+        private IEnumerator ExecuteActionProgress()
+        {
             foreach (BattleAction battleAction in baseData.battleActions)
             {
                 battleAction.Execute(this);
             }
+
+            yield return null;
+            ClearTargets();
         }
 
         public void TakeAction()
@@ -384,6 +324,7 @@ namespace ProjectOneMore.Battle
             if (string.IsNullOrEmpty(baseData.animationId))
             {
                 Execute();
+                BattleManager.main.UncontrolledUnit();
             }
             else
             {

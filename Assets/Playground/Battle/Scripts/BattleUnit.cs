@@ -61,6 +61,7 @@ namespace ProjectOneMore.Battle
         private Vector3 _targetPosition;
         private Vector3 _move = Vector3.zero;
         private bool _isGrounded;
+        private float _worldToViewPositionY;
 
         [Space]
         [Header("Card Settings")]
@@ -161,7 +162,6 @@ namespace ProjectOneMore.Battle
         private void Update()
         {
             CheckGrounded();
-
             UpdatePosition();
 
             UpdateAutoAction();
@@ -589,8 +589,8 @@ namespace ProjectOneMore.Battle
 
         private void DrawRangeSphere()
         {
-            UnityEditor.Handles.color = new Color(0f, 0, 0.70f, 0.2f);
-            UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, neighborRadius);
+            Handles.color = new Color(0f, 0, 0.70f, 0.2f);
+            Handles.DrawSolidDisc(transform.position, Vector3.up, neighborRadius);
         }
 #endif
         #endregion

@@ -21,7 +21,7 @@ namespace ProjectOneMore.Battle
             if (card.owner == null || !card.HasTarget())
                 return;
 
-            card.owner.UpdateFlipScale(card.GetTarget().transform.position);
+            card.owner.UpdateFlipScale(card.targetPosition);
 
             foreach (BattleActionTargetable target in card.GetTargets())
             {

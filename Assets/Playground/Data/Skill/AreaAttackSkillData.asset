@@ -21,8 +21,9 @@ MonoBehaviour:
   battleActions:
   - {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558, type: 2}
   targetAreaType: 1
-  targetRange: {x: 0, y: 0, z: 0}
+  targetRange: {x: 6, y: 6, z: 0}
   offset: {x: 0.5, y: 0, z: 0}
+  lockTargetPositionToOwner: 1
   sizeDelta: {x: 6, y: 6, z: 0}
   radius: 3
   projectilePrefab: {fileID: 0}

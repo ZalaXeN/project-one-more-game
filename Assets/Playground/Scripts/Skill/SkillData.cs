@@ -28,6 +28,7 @@ namespace ProjectOneMore
         public AreaType targetAreaType;
         public Vector3 targetRange;
         public Vector3 offset;
+        public bool lockTargetPositionToOwner;
 
         [Space, Header("Area and Draw Indicator")]
         public Vector3 sizeDelta;

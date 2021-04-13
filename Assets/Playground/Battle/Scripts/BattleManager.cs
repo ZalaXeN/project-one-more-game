@@ -223,6 +223,11 @@ namespace ProjectOneMore.Battle
             return false;
         }
 
+        public List<BattleUnit> GetBattleUnitList()
+        {
+            return _battleUnitList;
+        }
+
         private void UpdateBattlePosition()
         {
             fieldManager.UpdateBattlePosition(_battleUnitList);
@@ -271,7 +276,7 @@ namespace ProjectOneMore.Battle
 
         #endregion
 
-        #region Normal Attack
+        #region Input Phase
 
         public void InputAttack()
         {
@@ -310,9 +315,6 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        #endregion
-
-        #region Input Phase
         public void EnterPlayerInput(BattleActionCard action)
         {
             if (battleState != BattleState.Battle)
@@ -580,6 +582,11 @@ namespace ProjectOneMore.Battle
         public BattleUnit GetCurrentControlledUnit()
         {
             return _controlledUnit;
+        }
+
+        public void UncontrolledUnit()
+        {
+            _controlledUnit = null;
         }
         
         public Vector3 GetGroundMousePosition()
