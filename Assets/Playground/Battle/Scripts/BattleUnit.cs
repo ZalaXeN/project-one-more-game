@@ -88,7 +88,8 @@ namespace ProjectOneMore.Battle
         // Parameters
         public static readonly int m_HashMoving = Animator.StringToHash("moving");
         public static readonly int m_HashHit = Animator.StringToHash("hit");
-        public static readonly int m_HashDead = Animator.StringToHash("dead");
+        public static readonly int m_HashDie = Animator.StringToHash("die");
+        public static readonly int m_HashDied = Animator.StringToHash("died");
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashSkill = Animator.StringToHash("skill");
         public static readonly int m_HashCast = Animator.StringToHash("casting");
@@ -339,6 +340,9 @@ namespace ProjectOneMore.Battle
             BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
             BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
 
+            if (_isGrounded)
+                Knockback(damage.hitPosition, damage.knockbackPower);
+
             if (!IsAlive())
             {
                 if (_currentState != BattleUnitState.Dead)
@@ -348,9 +352,6 @@ namespace ProjectOneMore.Battle
             {
                 animator.SetTrigger(m_HashHit);
             }
-
-            if (_isGrounded)
-                Knockback(damage.hitPosition, damage.knockbackPower);
         }
 
         private void Knockback(Vector3 hitPosition, float forcePower)
@@ -380,7 +381,8 @@ namespace ProjectOneMore.Battle
         // Dead
         private void Dead()
         {
-            animator.SetTrigger(m_HashDead);
+            animator.SetTrigger(m_HashDie);
+            animator.SetBool(m_HashDied, true);
         }
 
         public void DestroyUnit()
@@ -389,13 +391,13 @@ namespace ProjectOneMore.Battle
                 return;
 
             BattleManager.main.TriggerUnitDead(this);
-
             StartCoroutine(SinkAndDestroy());
         }
 
         private IEnumerator SinkAndDestroy()
         {
             //Coroutine sinkCoroutine = StartCoroutine(Sinking());
+            yield return new WaitUntil(() => _isGrounded);
             yield return StartCoroutine(Dissolving());
             //StopCoroutine(sinkCoroutine);
             Destroy(gameObject);
