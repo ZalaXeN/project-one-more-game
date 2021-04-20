@@ -410,7 +410,7 @@ namespace ProjectOneMore.Battle
             }
 
             _previousActionCard = null;
-            _controlledUnit = null;
+            UncontrolledUnit();
         }
 
         public void ExitPlayerInput()

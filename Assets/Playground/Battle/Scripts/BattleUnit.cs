@@ -201,14 +201,26 @@ namespace ProjectOneMore.Battle
         // Use on SMB
         public void ExecuteCurrentBattleAction()
         {
-            if (IsControlled())
-            {
-                BattleManager.main.CurrentActionExecute();
-            }
-            else 
+            if(_currentBattleActionCard == normalActionCard)
             {
                 ExecuteAutoAction();
             }
+            else if (IsControlled())
+            {
+                BattleManager.main.CurrentActionExecute();
+            }
+        }
+
+        // Call After Execute Process
+        public void ResetCurrentActionCard()
+        {
+            _currentBattleActionCard = null;
+        }
+
+        // Take Action Process
+        public void SetCurrentActionCard(BattleActionCard card)
+        {
+            _currentBattleActionCard = card;
         }
 
         private void ExecuteAutoAction()

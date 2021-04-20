@@ -295,10 +295,10 @@ namespace ProjectOneMore.Battle
                     break;
             }
 
-            StartCoroutine(ExecuteActionProgress());
+            StartCoroutine(ExecuteActionProcess());
         }
 
-        private IEnumerator ExecuteActionProgress()
+        private IEnumerator ExecuteActionProcess()
         {
             foreach (BattleAction battleAction in baseData.battleActions)
             {
@@ -307,6 +307,9 @@ namespace ProjectOneMore.Battle
 
             yield return null;
             ClearTargets();
+
+            if(owner)
+                owner.ResetCurrentActionCard();
         }
 
         public void TakeAction()
@@ -328,6 +331,7 @@ namespace ProjectOneMore.Battle
             }
             else
             {
+                owner.SetCurrentActionCard(this);
                 owner.SetTakeActionState(baseData.animationId);
             }
         }
