@@ -5,7 +5,7 @@ namespace ProjectOneMore.Battle
 {
     public class BattleDamageNumberPool : MonoBehaviour
     {
-        public Canvas uiCanvas;
+        public Transform poolTransform;
         public BattleDamageNumber battleDamageNumberPrefab;
 
         private List<BattleDamageNumber> _battleDamageNumbers = new List<BattleDamageNumber>();
@@ -28,7 +28,7 @@ namespace ProjectOneMore.Battle
 
             // Create New
             BattleDamageNumber damageNumber = Instantiate(
-                battleDamageNumberPrefab.gameObject, uiCanvas.transform).GetComponent<BattleDamageNumber>();
+                battleDamageNumberPrefab.gameObject, poolTransform).GetComponent<BattleDamageNumber>();
 
             _battleDamageNumbers.Add(damageNumber);
 

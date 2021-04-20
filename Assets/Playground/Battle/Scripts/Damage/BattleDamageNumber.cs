@@ -32,13 +32,17 @@ namespace ProjectOneMore.Battle
         {
             float timeRatio = _timer / _showTime;
             damageText.color = Color.Lerp(Color.red, Color.clear, timeRatio);
-            transform.position += Vector3.up * Time.deltaTime * 100f;
+            transform.position += Vector3.up * Time.deltaTime;
         }
 
         public void Show(string text, Vector3 position)
         {
             damageText.text = text;
-            transform.position = Camera.main.WorldToScreenPoint(position);
+            // Overlay Canvas
+            //transform.position = Camera.main.WorldToScreenPoint(position);
+
+            // World Canvas
+            transform.position = position;
             gameObject.SetActive(true);
         }
 
