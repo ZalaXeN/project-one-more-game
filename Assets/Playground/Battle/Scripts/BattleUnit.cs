@@ -92,6 +92,7 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashSkill = Animator.StringToHash("skill");
         public static readonly int m_HashCast = Animator.StringToHash("casting");
+        public static readonly int m_HashFall = Animator.StringToHash("falling");
 
         private static readonly float m_groundCheckDistance = 0.1f;
 
@@ -545,7 +546,9 @@ namespace ProjectOneMore.Battle
         private void CheckGrounded()
         {
             _isGrounded = Physics.Raycast(transform.position, Vector3.down, m_groundCheckDistance, BattleManager.main.groundLayerMask);
-            Debug.DrawRay(transform.position, Vector3.down * m_groundCheckDistance, _isGrounded ? Color.green : Color.red);
+            //Debug.DrawRay(transform.position, Vector3.down * m_groundCheckDistance, _isGrounded ? Color.green : Color.red);
+
+            animator.SetBool(m_HashFall, !_isGrounded);
         }
 
         #endregion
