@@ -15,3 +15,4 @@ MonoBehaviour:
   effectTarget: 2
   powMultiplier: 1.5
   hitParticleId: slash_hit
+  knockbackPower: 0

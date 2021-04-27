@@ -15,4 +15,4 @@ MonoBehaviour:
   effectTarget: 2
   powMultiplier: 1
   hitParticleId: bullet_hit
-  knockbackPower: 0.1
+  knockbackPower: 0

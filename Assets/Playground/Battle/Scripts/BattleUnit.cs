@@ -60,6 +60,7 @@ namespace ProjectOneMore.Battle
 
         private Vector3 _targetPosition;
         private Vector3 _move = Vector3.zero;
+        [SerializeField]
         private bool _isGrounded;
 
         [Space]
@@ -72,7 +73,7 @@ namespace ProjectOneMore.Battle
         [Header("Unit State")]
         [SerializeField]
         private BattleUnitState _currentState;
-
+        
         private BattleActionCard _currentBattleActionCard;
         private float _autoAttackCooldown = 0f;
         private float _autoSkillCooldown = 0f;
@@ -93,8 +94,9 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashDied = Animator.StringToHash("died");
         public static readonly int m_HashAttack = Animator.StringToHash("attack");
         public static readonly int m_HashSkill = Animator.StringToHash("skill");
-        public static readonly int m_HashCast = Animator.StringToHash("casting");
-        public static readonly int m_HashFall = Animator.StringToHash("falling");
+        public static readonly int m_HashCasting = Animator.StringToHash("casting");
+        public static readonly int m_HashIsGrounded = Animator.StringToHash("isGrounded");
+        public static readonly int m_HashVelocityY = Animator.StringToHash("velocityY");
 
         private static readonly float m_groundCheckDistance = 0.1f;
 
@@ -249,6 +251,9 @@ namespace ProjectOneMore.Battle
 
         private bool IsAutoNormalActionReady()
         {
+            if (normalActionCard == null)
+                return false;
+
             return _autoAttackCooldown <= 0f && normalActionCard.HasTarget();
         }
 
@@ -265,6 +270,9 @@ namespace ProjectOneMore.Battle
 
         private bool IsAutoSkillReady()
         {
+            if (autoSkillActionCard == null)
+                return false;
+
             return _autoSkillCooldown <= 0f && autoSkillActionCard.HasTarget();
         }
 
@@ -298,7 +306,7 @@ namespace ProjectOneMore.Battle
                 return;
 
             // Ensure Skill use after interrupt from animate hit
-            if (_currentBattleActionCard == autoSkillActionCard)
+            if (_currentBattleActionCard != null && _currentBattleActionCard == autoSkillActionCard)
             {
                 animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
                 return;
@@ -598,7 +606,10 @@ namespace ProjectOneMore.Battle
             _isGrounded = Physics.Raycast(transform.position, Vector3.down, m_groundCheckDistance, BattleManager.main.groundLayerMask);
             //Debug.DrawRay(transform.position, Vector3.down * m_groundCheckDistance, _isGrounded ? Color.green : Color.red);
 
-            animator.SetBool(m_HashFall, !_isGrounded);
+            animator.SetBool(m_HashIsGrounded, _isGrounded);
+
+            if(rb)
+                animator.SetFloat(m_HashVelocityY, rb.velocity.y);
         }
 
         #endregion

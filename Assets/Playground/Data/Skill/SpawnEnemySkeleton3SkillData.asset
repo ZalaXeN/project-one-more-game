@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 896f063d949b05444b418c183a76d864, type: 3}
-  m_Name: AttackSkillData
+  m_Name: SpawnEnemySkeleton3SkillData
   m_EditorClassIdentifier: 
   skillId: 
-  skillName: Attack
-  skillType: 2
-  skillEffectTarget: 2
+  skillName: 
+  skillType: 1
+  skillEffectTarget: 0
   skillTargetType: 0
   minCooldown: 0
   maxCooldown: 0
-  animationId: attack
+  animationId: 
   battleActions:
-  - {fileID: 11400000, guid: d16518f41f507ad42b76f643d869b10b, type: 2}
-  targetAreaType: 1
-  targetRange: {x: 3, y: 3, z: 3}
+  - {fileID: 11400000, guid: 1b0e58d474dbf7b409516054f402bae1, type: 2}
+  targetAreaType: 0
+  targetRange: {x: 0, y: 0, z: 0}
   offset: {x: 0, y: 0, z: 0}
   lockTargetPositionToOwner: 0
-  sizeDelta: {x: 3, y: 3, z: 0}
+  sizeDelta: {x: 0, y: 0, z: 0}
   radius: 0
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: 0, y: 5, z: 0}

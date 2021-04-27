@@ -18,10 +18,10 @@ MonoBehaviour:
     POW: 20
     CRI: 10
     SPD: 500
-    HP: 10000
+    HP: 1000
     DEF: 10
     EN: 10
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}
-  moveSpeed: 10
+  moveSpeed: 3

@@ -39,3 +39,6 @@ MonoBehaviour:
   - prefabId: s03
     prefab: {fileID: 4041728944767421866, guid: 80d853f61af40a64c9a0ca57b91ad9ee,
       type: 3}
+  - prefabId: skel03
+    prefab: {fileID: 4000259811454486695, guid: 8457df7995e826446aa876fcff4efb53,
+      type: 3}
