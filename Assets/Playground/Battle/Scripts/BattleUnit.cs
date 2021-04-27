@@ -61,12 +61,12 @@ namespace ProjectOneMore.Battle
         private Vector3 _targetPosition;
         private Vector3 _move = Vector3.zero;
         private bool _isGrounded;
-        private float _worldToViewPositionY;
 
         [Space]
         [Header("Card Settings")]
         [Tooltip("use on Auto Action too.")]
         public BattleActionCard normalActionCard;
+        public BattleActionCard autoSkillActionCard;
 
         [Space]
         [Header("Unit State")]
@@ -75,6 +75,7 @@ namespace ProjectOneMore.Battle
 
         private BattleActionCard _currentBattleActionCard;
         private float _autoAttackCooldown = 0f;
+        private float _autoSkillCooldown = 0f;
 
         private SpriteRenderer[] _spriteRenderers;
 
@@ -135,6 +136,10 @@ namespace ProjectOneMore.Battle
             BattleManager.main.AddUnitIfNeed(this);
 
             _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+
+            if(autoSkillActionCard)
+                _autoSkillCooldown = autoSkillActionCard.baseData.GetRandomSkillCooldown();
+
             BattleManager.main.ChangeBattleStateEvent += HandleChangeBattleStateEvent;
     }
 
@@ -161,14 +166,14 @@ namespace ProjectOneMore.Battle
                 centerTransform = transform;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             CheckGrounded();
             UpdatePosition();
-
+            UpdateAutoSkillAction();
             UpdateAutoAction();
-
             UpdateHitLockTime();
+            DetermineAction();
         }
 
         void LateUpdate()
@@ -201,9 +206,9 @@ namespace ProjectOneMore.Battle
         // Use on SMB
         public void ExecuteCurrentBattleAction()
         {
-            if(_currentBattleActionCard == normalActionCard)
+            if(_currentBattleActionCard != null)
             {
-                ExecuteAutoAction();
+                ExecuteCurrentActionCard();
             }
             else if (IsControlled())
             {
@@ -223,7 +228,7 @@ namespace ProjectOneMore.Battle
             _currentBattleActionCard = card;
         }
 
-        private void ExecuteAutoAction()
+        private void ExecuteCurrentActionCard()
         {
             if (_currentBattleActionCard == null)
                 return;
@@ -237,31 +242,36 @@ namespace ProjectOneMore.Battle
                 return;
 
             if (_autoAttackCooldown > 0f)
-                _autoAttackCooldown -= Time.deltaTime;
+                _autoAttackCooldown -= Time.fixedDeltaTime;
 
             normalActionCard.FindTarget();
+        }
 
-            if (_autoAttackCooldown > 0f || 
-                !CanAutoAttack() ||
-                !BattleManager.main.CanUpdateTimer())
+        private bool IsAutoNormalActionReady()
+        {
+            return _autoAttackCooldown <= 0f && normalActionCard.HasTarget();
+        }
+
+        private void UpdateAutoSkillAction()
+        {
+            if (BattleManager.main == null || autoSkillActionCard == null || IsControlled())
                 return;
 
-            if (normalActionCard.HasTarget())
-            {
-                _currentBattleActionCard = normalActionCard;
-                _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
-            }
-            else
-            {
-                _autoAttackCooldown = GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED;
-            }
+            if (_autoSkillCooldown > 0f)
+                _autoSkillCooldown -= Time.fixedDeltaTime;
+
+            autoSkillActionCard.FindTarget();
+        }
+
+        private bool IsAutoSkillReady()
+        {
+            return _autoSkillCooldown <= 0f && autoSkillActionCard.HasTarget();
         }
 
         private void UpdateHitLockTime()
         {
             if(_currentState == BattleUnitState.Hit)
-                _hitLockTimer += Time.deltaTime;
+                _hitLockTimer += Time.fixedDeltaTime;
             else
                 _hitLockTimer = 0f;
 
@@ -272,7 +282,7 @@ namespace ProjectOneMore.Battle
 
             if (_hitLockBreakTimer > 0f)
             {
-                _hitLockBreakTimer -= Time.deltaTime;
+                _hitLockBreakTimer -= Time.fixedDeltaTime;
                 _hitLockTimer = 0f;
             }
         }
@@ -280,6 +290,32 @@ namespace ProjectOneMore.Battle
         public void SetPoise(float value)
         {
             _poise = value;
+        }
+
+        private void DetermineAction()
+        {
+            if (!BattleManager.main.CanUpdateTimer() || !CanAutoAttack())
+                return;
+
+            // Ensure Skill use after interrupt from animate hit
+            if (_currentBattleActionCard == autoSkillActionCard)
+            {
+                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
+                return;
+            }
+
+            if (IsAutoSkillReady())
+            {
+                SetCurrentActionCard(autoSkillActionCard);
+                _autoSkillCooldown = autoSkillActionCard.baseData.GetRandomSkillCooldown();
+                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
+            }
+            else if (IsAutoNormalActionReady())
+            {
+                SetCurrentActionCard(normalActionCard);
+                _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
+            }
         }
 
         #endregion
@@ -345,6 +381,9 @@ namespace ProjectOneMore.Battle
             if (!ShouldTakeDamage(damage))
                 return;
 
+            if(_isGrounded)
+                Knockback(damage.hitPosition, damage.knockbackPower);
+
             BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
 
             hp.current -= damage.damage;
@@ -352,15 +391,12 @@ namespace ProjectOneMore.Battle
             BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
             BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
 
-            if (_isGrounded)
-                Knockback(damage.hitPosition, damage.knockbackPower);
-
             if (!IsAlive())
             {
                 if (_currentState != BattleUnitState.Dead)
                     _schedule += Dead;
             }
-            else if (!IsHitLockBreakTime() && _poise < damage.knockbackPower)
+            else if (!IsTakeAction() && !IsHitLockBreakTime() && _poise < damage.knockbackPower)
             {
                 animator.SetTrigger(m_HashHit);
             }

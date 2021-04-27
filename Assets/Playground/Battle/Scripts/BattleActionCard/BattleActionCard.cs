@@ -308,8 +308,10 @@ namespace ProjectOneMore.Battle
             yield return null;
             ClearTargets();
 
-            if(owner)
+            if (owner)
+            {
                 owner.ResetCurrentActionCard();
+            }
         }
 
         public void TakeAction()

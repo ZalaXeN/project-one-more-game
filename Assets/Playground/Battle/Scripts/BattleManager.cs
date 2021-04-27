@@ -261,7 +261,7 @@ namespace ProjectOneMore.Battle
         public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
         {
             //return spd * moveSpeedMultiplier * Time.deltaTime;
-            return moveSpeedMultiplier * Time.deltaTime;
+            return moveSpeedMultiplier * Time.fixedDeltaTime;
         }
 
         public BattleTeam GetOppositeTeam(BattleTeam team)

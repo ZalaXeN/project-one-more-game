@@ -16,6 +16,9 @@ namespace ProjectOneMore.Battle
             //        return Vector3.zero;
             //}
 
+            if (unit.autoSkillActionCard != null && unit.autoSkillActionCard.HasTarget())
+                return Vector3.zero;
+
             //unit.normalActionCard.FindTarget();
             if (unit.normalActionCard.HasTarget())
                 return Vector3.zero;

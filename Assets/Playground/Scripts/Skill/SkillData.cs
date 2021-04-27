@@ -19,6 +19,8 @@ namespace ProjectOneMore
         public SkillType skillType;
         public SkillEffectTarget skillEffectTarget;
         public SkillTargetType skillTargetType;
+        public float minCooldown;
+        public float maxCooldown;
 
         [Space, Header("Action")]
         public string animationId;
@@ -39,5 +41,10 @@ namespace ProjectOneMore
         public BattleProjectile projectilePrefab;
         public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
         public float travelTime = 1f;
+
+        public float GetRandomSkillCooldown()
+        {
+            return Random.Range(minCooldown, maxCooldown);
+        }
     }
 }
