@@ -553,6 +553,7 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
+            // Prevent move on falling or any animation
             if (!CanMove())
                 _move = Vector3.zero;
 
