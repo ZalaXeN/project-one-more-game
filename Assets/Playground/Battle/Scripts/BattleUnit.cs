@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 using UnityEditor;
 using System.Collections;
-using UnityEngine.Events;
 
 namespace ProjectOneMore.Battle
 {
@@ -52,6 +49,8 @@ namespace ProjectOneMore.Battle
         public BattleUnitStat cri;
         public BattleUnitStat spd;
         public BattleUnitStat def;
+
+        public int lifeCounter = 1;
 
         [Space]
         [Header("Movement Tester")]
@@ -446,8 +445,21 @@ namespace ProjectOneMore.Battle
             if (hp.current > 0)
                 return;
 
-            BattleManager.main.TriggerUnitDead(this);
-            StartCoroutine(SinkAndDestroy());
+            lifeCounter--;
+
+            if (lifeCounter <= 0)
+            {
+                BattleManager.main.TriggerUnitDead(this);
+                StartCoroutine(SinkAndDestroy());
+            }
+
+            // Test Only
+            // will use Skill Trigger instead of life counter
+            if (lifeCounter > 0)
+            {
+                animator.SetBool(m_HashDied, false);
+                hp.current = hp.max;
+            }
         }
 
         private IEnumerator SinkAndDestroy()
@@ -541,6 +553,9 @@ namespace ProjectOneMore.Battle
 
         private void UpdatePosition()
         {
+            if (!CanMove())
+                _move = Vector3.zero;
+
             if (_move == Vector3.zero)
             {
                 animator.SetBool(m_HashMoving, false);

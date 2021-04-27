@@ -97,12 +97,13 @@ MonoBehaviour:
     max: 0
   def:
     max: 0
+  lifeCounter: 2
   isUseSpecificPosition: 0
   spriteLookDirection: 0
+  _isGrounded: 0
   normalActionCard: {fileID: 294163280}
   autoSkillActionCard: {fileID: 0}
   _currentState: 0
-  _currentBattleActionCard: {fileID: 0}
 --- !u!114 &294163282
 MonoBehaviour:
   m_ObjectHideFlags: 0
