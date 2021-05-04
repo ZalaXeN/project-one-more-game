@@ -7,6 +7,8 @@ namespace ProjectOneMore.Battle
     public class BattleDamageNumber : MonoBehaviour
     {
         public Text damageText;
+        [Range(0,100f)]
+        public float floatingSpeed = 50f;
 
         private float _timer = 0f;
         private float _showTime = 2f;
@@ -32,17 +34,19 @@ namespace ProjectOneMore.Battle
         {
             float timeRatio = _timer / _showTime;
             damageText.color = Color.Lerp(Color.red, Color.clear, timeRatio);
-            transform.position += Vector3.up * Time.deltaTime;
+            damageText.rectTransform.anchoredPosition += Vector2.up * Time.deltaTime * floatingSpeed;
         }
 
         public void Show(string text, Vector3 position)
         {
             damageText.text = text;
             // Overlay Canvas
-            //transform.position = Camera.main.WorldToScreenPoint(position);
+            transform.position = Camera.main.WorldToScreenPoint(position);
 
             // World Canvas
-            transform.position = position;
+            //transform.position = position;
+
+            damageText.rectTransform.anchoredPosition = Vector2.zero;
             gameObject.SetActive(true);
         }
 

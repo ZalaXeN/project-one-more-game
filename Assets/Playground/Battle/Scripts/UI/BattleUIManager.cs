@@ -53,13 +53,6 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        //--- Test
-        private void Shuffle(BattleActionCard card)
-        {
-            
-        }
-        //---
-
         private void ShowInputPanel()
         {
             inputPanel.SetActive(true);
