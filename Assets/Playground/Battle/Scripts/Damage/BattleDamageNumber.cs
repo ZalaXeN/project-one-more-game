@@ -1,18 +1,18 @@
-﻿using System.Threading;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ProjectOneMore.Battle
 {
     public class BattleDamageNumber : MonoBehaviour
     {
-        public Text damageText;
+        public TextMeshProUGUI damageText;
         [Range(0,100f)]
         public float floatingSpeed = 50f;
 
         private float _timer = 0f;
         private float _showTime = 2f;
         private Vector3 _targetPosition;
+        private Color _startColor = Color.white;
 
         private void OnEnable()
         {
@@ -34,7 +34,7 @@ namespace ProjectOneMore.Battle
         private void UpdateAnimate()
         {
             float timeRatio = _timer / _showTime;
-            damageText.color = Color.Lerp(Color.red, Color.clear, timeRatio);
+            damageText.color = Color.Lerp(_startColor, Color.clear, timeRatio);
             damageText.rectTransform.anchoredPosition += Vector2.up * Time.deltaTime * floatingSpeed;
 
             transform.position = Camera.main.WorldToScreenPoint(_targetPosition);
@@ -52,11 +52,13 @@ namespace ProjectOneMore.Battle
             //transform.position = position;
 
             damageText.rectTransform.anchoredPosition = Vector2.zero;
+            _startColor = damageText.color;
             gameObject.SetActive(true);
         }
 
         private void Disable()
         {
+            damageText.color = _startColor;
             gameObject.SetActive(false);
         }
     }
