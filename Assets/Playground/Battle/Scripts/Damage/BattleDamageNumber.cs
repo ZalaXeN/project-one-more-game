@@ -12,6 +12,7 @@ namespace ProjectOneMore.Battle
 
         private float _timer = 0f;
         private float _showTime = 2f;
+        private Vector3 _targetPosition;
 
         private void OnEnable()
         {
@@ -35,13 +36,17 @@ namespace ProjectOneMore.Battle
             float timeRatio = _timer / _showTime;
             damageText.color = Color.Lerp(Color.red, Color.clear, timeRatio);
             damageText.rectTransform.anchoredPosition += Vector2.up * Time.deltaTime * floatingSpeed;
+
+            transform.position = Camera.main.WorldToScreenPoint(_targetPosition);
         }
 
         public void Show(string text, Vector3 position)
         {
             damageText.text = text;
+            _targetPosition = position;
+
             // Overlay Canvas
-            transform.position = Camera.main.WorldToScreenPoint(position);
+            transform.position = Camera.main.WorldToScreenPoint(_targetPosition);
 
             // World Canvas
             //transform.position = position;
