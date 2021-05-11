@@ -12,6 +12,9 @@ namespace ProjectOneMore.Battle
         public TrajectoryController trajectoryController;
         public BattleDamager damager;
 
+        public bool canHitGround;
+        public LayerMask groundLayer;
+
         private Vector3 _startPos;
 
         public void Hide()
@@ -50,18 +53,38 @@ namespace ProjectOneMore.Battle
             trajectoryController.line = lineRenderer;
         }
 
-        public void SetDamager(BattleUnit unit)
+        public void SetDamage(BattleDamage.DamageMessage damageMsg)
         {
-            damager.damage.owner = unit;
-            damager.damage.damage = unit.pow.current;
-            damager.damage.damageType = BattleDamageType.Physical;
-            damager.damage.hitEffect = "slash_hit";
+            damager.damage = damageMsg;
         }
 
-        // Test Destroy On Damager
-        public void DestroyOnHit()
+        // Use on Damager
+        public void OnHitHandle(BattleDamage.DamageMessage damageMsg, BattleDamagable damagable)
         {
-            Destroy(gameObject);
+            BattleUnit unit = damagable.GetComponent<BattleUnit>();
+
+            if (damagable.GetComponent<BattleObject>())
+            {
+                Destroy(gameObject);
+                return;
+            }
+            else if (unit)
+            {
+                if(damageMsg.effectTarget == SkillEffectTarget.All)
+                    Destroy(gameObject);
+                else if (damageMsg.effectTarget == SkillEffectTarget.Enemy && unit.team != damageMsg.owner.team)
+                {
+                    Destroy(gameObject);
+                }
+                else if (damageMsg.effectTarget == SkillEffectTarget.Ally && unit.team == damageMsg.owner.team)
+                {
+                    Destroy(gameObject);
+                }
+                else if (damageMsg.effectTarget == SkillEffectTarget.Self && unit == damageMsg.owner)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
 
         private IEnumerator LaunchProgress()
@@ -88,8 +111,20 @@ namespace ProjectOneMore.Battle
 
         private void DisableIfOffscreen()
         {
-            if (transform.position.y < -20f)
+            if (transform.position.y < -20f || transform.position.y > 20f)
                 Destroy(gameObject);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            //Check hit ground layer
+            if((groundLayer.value & 1 << collision.gameObject.layer) != 0)
+            {
+                if (canHitGround)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

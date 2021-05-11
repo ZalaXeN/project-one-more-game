@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefabId: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
     type: 3}
+  powMultiplier: 1
+  knockbackPower: 0
+  damageType: 0
+  affectTarget: 2
+  hitParticleId: slash_hit

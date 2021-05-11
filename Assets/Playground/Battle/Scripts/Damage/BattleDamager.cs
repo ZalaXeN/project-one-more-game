@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace ProjectOneMore.Battle 
 {
     [System.Serializable]
-    public class BattleHitDamageEvent : UnityEvent<BattleDamage.DamageMessage>
+    public class BattleHitDamageEvent : UnityEvent<BattleDamage.DamageMessage, BattleDamagable>
     {
 
     }
@@ -14,14 +14,15 @@ namespace ProjectOneMore.Battle
         public BattleDamage.DamageMessage damage;
         public BattleHitDamageEvent OnHit;
 
-        // Test
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            BattleDamagable damagableHit = other.GetComponent<BattleDamagable>();
+            BattleDamagable damagableHit = collision.gameObject.GetComponent<BattleDamagable>();
             if (damagableHit != null)
             {
+                damage.hitPosition = collision.GetContact(0).point;
+
                 damagableHit.OnTakeDamage.Invoke(damage);
-                OnHit.Invoke(damage);
+                OnHit.Invoke(damage, damagableHit);
             }
         }
     }

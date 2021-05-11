@@ -49,16 +49,11 @@ namespace ProjectOneMore.Battle
             ShowLine();
         }
 
-        public void Launch(BattleProjectile projetilePrefab, Vector3 launchPosition, Vector3 targetPosition, float travelTime, BattleUnit owner = null)
+        public void Launch(BattleProjectile projetilePrefab, Vector3 launchPosition, Vector3 targetPosition, float travelTime, BattleDamage.DamageMessage damageMsg)
         {
             BattleProjectile projectile = CreateProjectile(projetilePrefab, launchPosition);
 
-            // Test Damage
-            if(owner != null)
-            {
-                projectile.SetDamager(owner);
-            }
-
+            projectile.SetDamage(damageMsg);
             projectile.Show(launchPosition);
             projectile.Launch(targetPosition, travelTime);
         }
