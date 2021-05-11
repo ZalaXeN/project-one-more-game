@@ -42,3 +42,6 @@ MonoBehaviour:
   - prefabId: skel03
     prefab: {fileID: 4000259811454486695, guid: 8457df7995e826446aa876fcff4efb53,
       type: 3}
+  - prefabId: skelAxe03
+    prefab: {fileID: 6534072927528613158, guid: 22e561a9917de9d48bed2994c2e6c6fb,
+      type: 3}
