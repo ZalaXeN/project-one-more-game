@@ -208,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7867357196245954258}
   canUseWithoutOwner: 0
-  baseData: {fileID: 11400000, guid: 0593d6e5037c98c4b90cf8e5cfe72c4c, type: 2}
+  baseData: {fileID: 11400000, guid: 5f17547df698f6e488ef10f8a1a3e565, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &8581310078146662996
 PrefabInstance:

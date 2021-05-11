@@ -15,7 +15,12 @@ namespace ProjectOneMore.Battle
         public bool canHitGround;
         public LayerMask groundLayer;
 
+        public float rotationSpeed;
+
+        public BattleUnitSpriteLookDirection spriteLookDirection;
+
         private Vector3 _startPos;
+        private bool _threw;
 
         public void Hide()
         {
@@ -36,6 +41,31 @@ namespace ProjectOneMore.Battle
             _startPos = transform.position;
         }
 
+        public void UpdateFlip(Vector3 lookPos)
+        {
+            if (lookPos.x < transform.position.x)
+            {
+                if (transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
+                    FlipScaleX();
+                else if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
+                    FlipScaleX();
+            }
+            else if (lookPos.x > transform.position.x)
+            {
+                if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
+                    FlipScaleX();
+                else if (transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
+                    FlipScaleX();
+            }
+        }
+
+        private void FlipScaleX()
+        {
+            Vector3 targetFlipScale = transform.localScale;
+            targetFlipScale.x *= -1;
+            transform.localScale = targetFlipScale;
+        }
+
         public void Launch(Vector3 targetPosition, float travelTime)
         {
             if (trajectoryController == null)
@@ -45,7 +75,9 @@ namespace ProjectOneMore.Battle
             trajectoryController.travelTime = travelTime;
             trajectoryController.CalcVerocityFromTarget();
 
-            StartCoroutine(LaunchProgress());
+            UpdateFlip(targetPosition);
+
+            StartCoroutine(LaunchProcess());
         }
 
         public void SetLineRenderer(LineRenderer lineRenderer)
@@ -87,7 +119,7 @@ namespace ProjectOneMore.Battle
             }
         }
 
-        private IEnumerator LaunchProgress()
+        private IEnumerator LaunchProcess()
         {
             yield return null;
 
@@ -95,6 +127,8 @@ namespace ProjectOneMore.Battle
             rb.velocity = moveSpeed;
             rb.isKinematic = false;
             rb.useGravity = true;
+            _threw = true;
+            rb.AddTorque(rb.transform.TransformDirection(Vector3.forward) * rotationSpeed, ForceMode.Impulse);
         }
 
         private void Reset()
@@ -102,10 +136,13 @@ namespace ProjectOneMore.Battle
             rb.isKinematic = true;
             rb.useGravity = false;
             rb.rotation = Quaternion.identity;
+
+            _threw = false;
         }
 
         private void Update()
         {
+            //RotateProjectile();
             DisableIfOffscreen();
         }
 
@@ -115,6 +152,12 @@ namespace ProjectOneMore.Battle
                 Destroy(gameObject);
         }
 
+        // Use Torque instead
+        //private void RotateProjectile()
+        //{
+        //    transform.localEulerAngles += Vector3.forward * rotationSpeed * Time.deltaTime;
+        //}
+
         private void OnCollisionEnter(Collision collision)
         {
             //Check hit ground layer
@@ -122,6 +165,7 @@ namespace ProjectOneMore.Battle
             {
                 if (canHitGround)
                 {
+                    _threw = false;
                     Destroy(gameObject);
                 }
             }
