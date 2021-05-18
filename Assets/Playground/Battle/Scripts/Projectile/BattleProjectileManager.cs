@@ -58,15 +58,6 @@ namespace ProjectOneMore.Battle
             projectile.Launch(targetPosition, travelTime);
         }
 
-        public void HideProjectile()
-        {
-            if (!targetingProjectile)
-                return;
-
-            targetingProjectile.Hide();
-            HideLine();
-        }
-
         private void SetPointPosition()
         {
             _pointPos = BattleManager.main.GetGroundMousePosition(_castPosition, _castRange);
@@ -89,11 +80,6 @@ namespace ProjectOneMore.Battle
                 targetingProjectile.gameObject.activeInHierarchy &&
                 BattleManager.main.battleState == BattleState.PlayerInput &&
                 targetingProjectile.rb.isKinematic;
-        }
-
-        private void Start()
-        {
-            HideProjectile();
         }
 
         private void Update()
