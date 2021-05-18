@@ -301,7 +301,7 @@ namespace ProjectOneMore.Battle
 
         private void DetermineAction()
         {
-            if (!BattleManager.main.CanUpdateTimer() || !CanAutoAttack())
+            if (!BattleManager.main.CanUpdateTimer() || !CanAutoAttack() || !InBattlefield())
                 return;
 
             // Ensure Skill use after interrupt from animate hit
