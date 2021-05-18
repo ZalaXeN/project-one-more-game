@@ -119,10 +119,14 @@ MonoBehaviour:
   moveSpeed: {x: 0, y: 0, z: 0}
   trajectoryController: {fileID: 8803287931234245582}
   damager: {fileID: 8803287931234245576}
+  spriteRootTransform: {fileID: 8803287931234245623}
   canHitGround: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
+  torqueSpeed: 0
+  spriteRotateSpeed: 0
+  spriteLookDirection: 0
 --- !u!114 &8803287931234245582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,5 +306,5 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1

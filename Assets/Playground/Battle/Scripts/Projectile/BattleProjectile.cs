@@ -11,34 +11,32 @@ namespace ProjectOneMore.Battle
         public Vector3 moveSpeed;
         public TrajectoryController trajectoryController;
         public BattleDamager damager;
+        public Transform spriteRootTransform;
 
         public bool canHitGround;
         public LayerMask groundLayer;
 
-        public float rotationSpeed;
+        //public float torqueSpeed;
+        public float spriteRotateSpeed;
 
         public BattleUnitSpriteLookDirection spriteLookDirection;
 
-        private Vector3 _startPos;
         private bool _threw;
 
         public void Hide()
         {
-            transform.position = _startPos;
-            transform.position += Vector3.up * 10;
+            Reset();
 
-            rb.isKinematic = true;
-            rb.useGravity = false;
-            rb.rotation = Quaternion.identity;
-
-            gameObject.SetActive(false);
+            spriteRootTransform.gameObject.SetActive(false);
         }
 
         public void Show(Vector3 position)
         {
             Reset();
+
             transform.position = position;
-            _startPos = transform.position;
+
+            spriteRootTransform.gameObject.SetActive(true);
         }
 
         public void UpdateFlip(Vector3 lookPos)
@@ -93,30 +91,39 @@ namespace ProjectOneMore.Battle
         // Use on Damager
         public void OnHitHandle(BattleDamage.DamageMessage damageMsg, BattleDamagable damagable)
         {
+            if (!_threw)
+                return;
+
             BattleUnit unit = damagable.GetComponent<BattleUnit>();
 
             if (damagable.GetComponent<BattleObject>())
             {
-                Destroy(gameObject);
+                DestroyProcess();
                 return;
             }
             else if (unit)
             {
-                if(damageMsg.effectTarget == SkillEffectTarget.All)
-                    Destroy(gameObject);
+                if (damageMsg.effectTarget == SkillEffectTarget.All)
+                    DestroyProcess();
                 else if (damageMsg.effectTarget == SkillEffectTarget.Enemy && unit.team != damageMsg.owner.team)
                 {
-                    Destroy(gameObject);
+                    DestroyProcess();
                 }
                 else if (damageMsg.effectTarget == SkillEffectTarget.Ally && unit.team == damageMsg.owner.team)
                 {
-                    Destroy(gameObject);
+                    DestroyProcess();
                 }
                 else if (damageMsg.effectTarget == SkillEffectTarget.Self && unit == damageMsg.owner)
                 {
-                    Destroy(gameObject);
+                    DestroyProcess();
                 }
             }
+        }
+
+        private void DestroyProcess()
+        {
+            Hide();
+            // Let TrailRenderer Destroy on Autodestruct
         }
 
         private IEnumerator LaunchProcess()
@@ -127,8 +134,14 @@ namespace ProjectOneMore.Battle
             rb.velocity = moveSpeed;
             rb.isKinematic = false;
             rb.useGravity = true;
+            rb.detectCollisions = true;
+            projectileCollider.enabled = true;
+
             _threw = true;
-            rb.AddTorque(rb.transform.TransformDirection(Vector3.forward) * rotationSpeed, ForceMode.Impulse);
+
+            //rb.AddTorque(rb.transform.TransformDirection(Vector3.forward) * torqueSpeed, ForceMode.Impulse);
+
+            spriteRootTransform.gameObject.SetActive(true);
         }
 
         private void Reset()
@@ -136,37 +149,51 @@ namespace ProjectOneMore.Battle
             rb.isKinematic = true;
             rb.useGravity = false;
             rb.rotation = Quaternion.identity;
+            rb.detectCollisions = false;
+            projectileCollider.enabled = false;
 
             _threw = false;
         }
 
         private void Update()
         {
-            //RotateProjectile();
+            RotateSprite();
             DisableIfOffscreen();
         }
 
         private void DisableIfOffscreen()
         {
             if (transform.position.y < -20f || transform.position.y > 20f)
-                Destroy(gameObject);
+                DestroyProcess();
         }
 
-        // Use Torque instead
-        //private void RotateProjectile()
-        //{
-        //    transform.localEulerAngles += Vector3.forward * rotationSpeed * Time.deltaTime;
-        //}
+        private void RotateSprite()
+        {
+            if (!_threw)
+                return;
+
+            if(transform.localScale.x > 0f)
+                transform.localEulerAngles += Vector3.forward * spriteRotateSpeed * Time.deltaTime;
+            else
+                transform.localEulerAngles -= Vector3.forward * spriteRotateSpeed * Time.deltaTime;
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
+            HandleHitGround(collision.gameObject);
+        }
+
+        private void HandleHitGround(GameObject go)
+        {
+            if (!_threw)
+                return;
+
             //Check hit ground layer
-            if((groundLayer.value & 1 << collision.gameObject.layer) != 0)
+            if ((groundLayer.value & 1 << go.layer) != 0)
             {
                 if (canHitGround)
                 {
-                    _threw = false;
-                    Destroy(gameObject);
+                    DestroyProcess();
                 }
             }
         }

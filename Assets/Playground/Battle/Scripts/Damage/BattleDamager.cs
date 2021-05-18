@@ -16,6 +16,11 @@ namespace ProjectOneMore.Battle
 
         private void OnCollisionEnter(Collision collision)
         {
+            ProcessHit(collision);
+        }
+
+        private void ProcessHit(Collision collision)
+        {
             BattleDamagable damagableHit = collision.gameObject.GetComponent<BattleDamagable>();
             if (damagableHit != null)
             {

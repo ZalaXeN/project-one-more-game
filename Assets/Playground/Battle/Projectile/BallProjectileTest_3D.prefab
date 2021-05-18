@@ -127,6 +127,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e856d4c1a90d4468a38f0a0157fc90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage:
+    owner: {fileID: 0}
+    damage: 0
+    damageType: 0
+    hitEffect: 
+    effectTarget: 0
+    hitPosition: {x: 0, y: 0, z: 0}
+    knockbackPower: 0
   OnHit:
     m_PersistentCalls:
       m_Calls:
@@ -159,6 +167,14 @@ MonoBehaviour:
   moveSpeed: {x: 0, y: 0, z: 0}
   trajectoryController: {fileID: 8803287931234245582}
   damager: {fileID: 8803287931234245576}
+  spriteRootTransform: {fileID: 8803287931234245623}
+  canHitGround: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  torqueSpeed: 0
+  spriteRotateSpeed: 0
+  spriteLookDirection: 0
 --- !u!114 &8803287931234245582
 MonoBehaviour:
   m_ObjectHideFlags: 0
