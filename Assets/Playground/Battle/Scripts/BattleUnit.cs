@@ -592,21 +592,39 @@ namespace ProjectOneMore.Battle
             _move = Vector3.zero;
         }
 
-        public void UpdateFlipScale(Vector3 lookPos)
+        public bool IsFliped()
+        {
+            if (transform.localScale.x < 0)
+                return true;
+
+            return false;
+        }
+
+        public bool ShouldFlip(Vector3 lookPos)
         {
             if (lookPos.x < transform.position.x)
             {
-                if(transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
-                    FlipScaleX();
+                if (transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
+                    return true;
                 else if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
-                    FlipScaleX();
+                    return true;
             }
             else if (lookPos.x > transform.position.x)
             {
                 if (transform.localScale.x > 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Left)
-                    FlipScaleX();
+                    return true;
                 else if (transform.localScale.x < 0 && spriteLookDirection == BattleUnitSpriteLookDirection.Right)
-                    FlipScaleX();
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void UpdateFlipScale(Vector3 lookPos)
+        {
+            if (ShouldFlip(lookPos))
+            {
+                FlipScaleX();
             }
         }
 

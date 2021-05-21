@@ -30,5 +30,5 @@ MonoBehaviour:
   radius: 10
   projectilePrefab: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
     type: 3}
-  launchPositionOffset: {x: 0, y: 3, z: 0}
-  travelTime: 1.5
+  launchPositionOffset: {x: -2, y: 3, z: 0}
+  travelTime: 1.3

@@ -31,7 +31,10 @@ namespace ProjectOneMore.Battle
 
             SkillData skillData = card.baseData;
 
-            Vector3 launchPos = card.owner.transform.position + skillData.launchPositionOffset;
+            Vector3 launceOffset = skillData.launchPositionOffset;
+            launceOffset.x *= card.owner.IsFliped() ? -1f : 1f;
+
+            Vector3 launchPos = card.owner.transform.position + launceOffset;
 
             BattleManager.main.battleProjectileManager.Launch(
                 projectilePrefabId,
