@@ -134,7 +134,7 @@ namespace ProjectOneMore.Battle
             BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
                     baseData.projectilePrefab,
                     owner.transform.position + baseData.launchPositionOffset,
-                    baseData.travelTime,
+                    baseData.MaxTravelTime,
                     owner.transform.position + baseData.offset,
                     baseData.targetRange);
         }

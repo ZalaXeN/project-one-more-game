@@ -40,7 +40,9 @@ namespace ProjectOneMore
         // Targeting Projectile not real
         public BattleProjectile projectilePrefab;
         public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
-        public float travelTime = 1f;
+        public float MaxRange = 5f;
+        public float MinTravelTime = 1f;
+        public float MaxTravelTime = 1f;
 
         public float GetRandomSkillCooldown()
         {

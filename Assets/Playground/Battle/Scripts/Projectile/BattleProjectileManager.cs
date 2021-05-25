@@ -58,6 +58,20 @@ namespace ProjectOneMore.Battle
             projectile.Launch(targetPosition, travelTime);
         }
 
+        public void Launch(BattleProjectile projetilePrefab, Vector3 launchPosition, Vector3 targetPosition, float MaxRange, float MinTravelTime, float MaxTravelTime, BattleDamage.DamageMessage damageMsg)
+        {
+            BattleProjectile projectile = CreateProjectile(projetilePrefab, launchPosition);
+
+            projectile.SetDamage(damageMsg);
+            projectile.Show(launchPosition);
+
+            float targetDistance = Vector3.Distance(launchPosition, targetPosition);
+            float travelRatio = Mathf.Clamp((targetDistance / MaxRange), 0, MaxRange);
+            float travelTime = Mathf.Lerp(MinTravelTime, MaxTravelTime, travelRatio);
+
+            projectile.Launch(targetPosition, travelTime);
+        }
+
         private void SetPointPosition()
         {
             _pointPos = BattleManager.main.GetGroundMousePosition(_castPosition, _castRange);

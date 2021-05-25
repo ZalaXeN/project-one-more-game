@@ -36,11 +36,20 @@ namespace ProjectOneMore.Battle
 
             Vector3 launchPos = card.owner.transform.position + launceOffset;
 
+            //BattleManager.main.battleProjectileManager.Launch(
+            //    projectilePrefabId,
+            //    launchPos,
+            //    card.targetPosition,
+            //    skillData.MaxTravelTime,
+            //    damageMsg);
+
             BattleManager.main.battleProjectileManager.Launch(
                 projectilePrefabId,
                 launchPos,
                 card.targetPosition,
-                skillData.travelTime,
+                skillData.MaxRange,
+                skillData.MinTravelTime,
+                skillData.MaxTravelTime,
                 damageMsg);
         }
     }

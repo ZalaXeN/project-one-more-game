@@ -31,4 +31,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8803287931234245577, guid: 06546117aadf1c7419fa1bb65d013ef7,
     type: 3}
   launchPositionOffset: {x: -2, y: 3, z: 0}
-  travelTime: 1.3
+  MaxRange: 10
+  MinTravelTime: 0.5
+  MaxTravelTime: 1.5
