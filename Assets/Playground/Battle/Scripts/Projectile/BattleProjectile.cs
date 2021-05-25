@@ -180,9 +180,9 @@ namespace ProjectOneMore.Battle
                 transform.localEulerAngles -= Vector3.forward * spriteRotateSpeed * Time.deltaTime;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            HandleHitGround(collision.gameObject);
+            HandleHitGround(other.gameObject);
         }
 
         private void HandleHitGround(GameObject go)

@@ -14,18 +14,17 @@ namespace ProjectOneMore.Battle
         public BattleDamage.DamageMessage damage;
         public BattleHitDamageEvent OnHit;
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            ProcessHit(collision);
+            ProcessHit(other);
         }
 
-        private void ProcessHit(Collision collision)
+        private void ProcessHit(Collider other)
         {
-            BattleDamagable damagableHit = collision.gameObject.GetComponent<BattleDamagable>();
+            BattleDamagable damagableHit = other.gameObject.GetComponent<BattleDamagable>();
             if (damagableHit != null)
             {
-                damage.hitPosition = collision.GetContact(0).point;
-
+                damage.hitPosition = transform.position;
                 damagableHit.OnTakeDamage.Invoke(damage);
                 OnHit.Invoke(damage, damagableHit);
             }
