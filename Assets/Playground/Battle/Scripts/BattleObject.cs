@@ -21,9 +21,11 @@ namespace ProjectOneMore.Battle
 
         public void TakeDamage(BattleDamage.DamageMessage damage)
         {
-            BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
+            int resultDamage = BattleManager.main.GetDamage(damage, this);
 
-            hp.current -= damage.damage;
+            BattleManager.main.ShowDamageNumber(resultDamage, transform.position);
+
+            hp.current -= resultDamage;
 
             BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, transform.position);
 

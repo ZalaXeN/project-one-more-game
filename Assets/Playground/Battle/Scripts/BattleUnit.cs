@@ -391,9 +391,10 @@ namespace ProjectOneMore.Battle
             if(_isGrounded)
                 Knockback(damage.hitPosition, damage.knockbackPower);
 
-            BattleManager.main.ShowDamageNumber(damage.damage, transform.position);
+            int resultDamage = BattleManager.main.GetDamage(damage, this);
+            BattleManager.main.ShowDamageNumber(resultDamage, transform.position);
 
-            hp.current -= damage.damage;
+            hp.current -= resultDamage;
 
             BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
             BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);

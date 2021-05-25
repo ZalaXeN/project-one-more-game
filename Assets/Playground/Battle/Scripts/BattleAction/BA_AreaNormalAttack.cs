@@ -27,7 +27,9 @@ namespace ProjectOneMore.Battle
             {
                 BattleDamage.DamageMessage damage;
                 damage.owner = card.owner;
-                damage.damage = (int)math.round(card.owner.pow.current * powMultiplier);
+                damage.atk = card.owner.pow.current;
+                damage.levelAtk = 10; // Mock up - card.owner.lv;
+                damage.skillMultiplier = powMultiplier;
                 damage.damageType = BattleDamageType.Physical;
                 damage.hitEffect = hitParticleId;
                 damage.effectTarget = effectTarget;

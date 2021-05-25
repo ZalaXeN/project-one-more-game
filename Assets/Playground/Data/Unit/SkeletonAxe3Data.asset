@@ -15,12 +15,12 @@ MonoBehaviour:
   unitId: 
   unitName: Skeleton Axe
   baseStats:
-    POW: 50
-    CRI: 10
-    SPD: 500
-    HP: 200
-    DEF: 20
-    EN: 10
+    POW: 70
+    CRI: 5
+    SPD: 40
+    HP: 50
+    DEF: 35
+    EN: 0
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}

@@ -255,7 +255,7 @@ namespace ProjectOneMore.Battle
 
         public float GetAutoAttackCooldown(int spd)
         {
-            return Mathf.Max(5 - (spd / 100f), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
+            return Mathf.Max(1 + (spd / 100f), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
         public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
@@ -267,6 +267,28 @@ namespace ProjectOneMore.Battle
         public BattleTeam GetOppositeTeam(BattleTeam team)
         {
             return team == BattleTeam.Player ? BattleTeam.Enemy : BattleTeam.Player;
+        }
+
+        public int GetDamage(BattleDamage.DamageMessage damageMsg, BattleUnit damagedUnit)
+        {
+            float damagePart = (2.5f * damageMsg.atk * damageMsg.skillMultiplier);
+            float defPart = 1f - ((float)(damagedUnit.def.current / (damagedUnit.def.current + 10f)));
+            float lvPart = (2.5f * (damageMsg.levelAtk / 10f)) * damageMsg.skillMultiplier;
+
+            int resultDamage = (int)((damagePart * defPart) + lvPart);
+
+            return resultDamage;
+        }
+
+        public int GetDamage(BattleDamage.DamageMessage damageMsg, BattleObject damagedObject)
+        {
+            float damagePart = (2.5f * damageMsg.atk * damageMsg.skillMultiplier);
+            float defPart = 1f - (0 / (0 + 10));
+            float lvPart = (2.5f * (damageMsg.levelAtk / 10)) * damageMsg.skillMultiplier;
+
+            int resultDamage = (int)((damagePart * defPart) + lvPart);
+
+            return resultDamage;
         }
 
         public void ShowDamageNumber(int damage, Vector3 position)

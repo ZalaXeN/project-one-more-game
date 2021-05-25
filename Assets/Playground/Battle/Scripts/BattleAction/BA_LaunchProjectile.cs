@@ -23,7 +23,9 @@ namespace ProjectOneMore.Battle
 
             BattleDamage.DamageMessage damageMsg = new BattleDamage.DamageMessage();
             damageMsg.owner = card.owner;
-            damageMsg.damage = (int)(card.owner.pow.current * powMultiplier);
+            damageMsg.atk = card.owner.pow.current;
+            damageMsg.levelAtk = 10; // Mock up - card.owner.lv;
+            damageMsg.skillMultiplier = powMultiplier;
             damageMsg.damageType = damageType;
             damageMsg.hitEffect = hitParticleId;
             damageMsg.effectTarget = affectTarget;

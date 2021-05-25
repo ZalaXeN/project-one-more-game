@@ -18,7 +18,10 @@ namespace ProjectOneMore.Battle
         public struct DamageMessage
         {
             public BattleUnit owner;
-            public int damage;
+            public int atk;
+            public int levelAtk;
+            public float skillMultiplier;
+
             public BattleDamageType damageType;
             public string hitEffect;
             public SkillEffectTarget effectTarget;

@@ -134,7 +134,7 @@ MonoBehaviour:
   rb: {fileID: 7867357196245954261}
   neighborRadius: 1.19
   team: 0
-  baseData: {fileID: 11400000, guid: 4eaac053c9816f94e9864a89326bff4e, type: 2}
+  baseData: {fileID: 11400000, guid: 46e3fbb6251cb34448f3db055b4e54eb, type: 2}
   hp:
     max: 0
   en:
