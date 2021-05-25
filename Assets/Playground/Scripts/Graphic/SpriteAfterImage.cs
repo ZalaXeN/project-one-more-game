@@ -1,43 +1,48 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SpriteAfterImage : MonoBehaviour
 {
-    public Material _targetMaterial;
+    public SpriteRenderer spriteRenderer;
 
-    private List<GameObject> trailParts = new List<GameObject>();
+    private Color _startColor;
+    private Color _targetColor;
 
-    void Start()
+    private float _lifetime;
+    private float _lifetimeCounter;
+
+    private bool _actived;
+
+    public void Setup(SpriteRenderer targetSpriteRenderer, float Lifetime, Color startColor)
     {
-        InvokeRepeating("SpawnTrailPart", 0, 0.1f); // replace 0.2f with needed repeatRate
+        spriteRenderer.sprite = targetSpriteRenderer.sprite;
+        transform.localScale = targetSpriteRenderer.transform.lossyScale;
+        transform.SetPositionAndRotation(targetSpriteRenderer.transform.position, targetSpriteRenderer.transform.rotation);
+        spriteRenderer.sortingLayerID = targetSpriteRenderer.sortingLayerID;
+        spriteRenderer.sortingOrder = targetSpriteRenderer.sortingOrder - 1;
+
+        _startColor = startColor;
+        _targetColor = _startColor;
+        _targetColor.a = 0f;
+
+        _lifetime = Lifetime;
+        _lifetimeCounter = 0;
+
+        _actived = true;
     }
 
-    void SpawnTrailPart()
+    private void Update()
     {
-        GameObject trailPart = new GameObject();
-        SpriteRenderer trailPartRenderer = trailPart.AddComponent<SpriteRenderer>();
-        SpriteRenderer baseRenderer = GetComponent<SpriteRenderer>();
+        if (!_actived)
+            return;
 
-        trailPartRenderer.sprite = baseRenderer.sprite;
-        trailPartRenderer.material = _targetMaterial;
-        trailPart.transform.localScale = transform.lossyScale;
-        trailPart.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        trailPartRenderer.sortingLayerID = baseRenderer.sortingLayerID;
-        trailPartRenderer.sortingOrder = baseRenderer.sortingOrder + 1;
+        _lifetimeCounter += Time.deltaTime;
+        spriteRenderer.color = Color.Lerp(_startColor, _targetColor, _lifetimeCounter / _lifetime);
 
-        trailParts.Add(trailPart);
-
-        StartCoroutine(FadeTrailPart(trailPartRenderer));
-        Destroy(trailPart, 0.2f); // replace 0.5f with needed lifeTime
-    }
-
-    IEnumerator FadeTrailPart(SpriteRenderer trailPartRenderer)
-    {
-        Color color = trailPartRenderer.color;
-        color.a -= 0.4f; // replace 0.5f with needed alpha decrement
-        trailPartRenderer.color = color;
-
-        yield return new WaitForEndOfFrame();
+        if(_lifetime <= _lifetimeCounter)
+        {
+            _actived = false;
+            gameObject.SetActive(false);
+        }
     }
 }

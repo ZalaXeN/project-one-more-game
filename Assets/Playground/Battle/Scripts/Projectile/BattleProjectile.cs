@@ -123,7 +123,9 @@ namespace ProjectOneMore.Battle
         private void DestroyProcess()
         {
             Hide();
+            // If have TrailRenderer
             // Let TrailRenderer Destroy on Autodestruct
+            Destroy(gameObject);
         }
 
         private IEnumerator LaunchProcess()
