@@ -258,7 +258,7 @@ namespace ProjectOneMore.Battle
 
         public float GetAutoAttackCooldown(int spd)
         {
-            Debug.Log((1f / (1f + (spd / 100f))));
+            //Debug.Log((1f / (1f + (spd / 100f))));
             return Mathf.Max((1f / (1f + (spd / 100f))), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
