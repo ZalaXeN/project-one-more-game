@@ -392,7 +392,7 @@ namespace ProjectOneMore.Battle
                 Knockback(damage.hitPosition, damage.knockbackPower);
 
             int resultDamage = BattleManager.main.GetDamage(damage, this);
-            BattleManager.main.ShowDamageNumber(resultDamage, transform.position);
+            BattleManager.main.ShowDamageNumber(resultDamage, transform.position, damage.isCritical);
 
             hp.current -= resultDamage;
 

@@ -10,10 +10,10 @@ namespace ProjectOneMore.Battle
 
         private List<BattleDamageNumber> _battleDamageNumbers = new List<BattleDamageNumber>();
 
-        public void ShowDamageNumber(int damage, Vector3 position)
+        public void ShowDamageNumber(int damage, Vector3 position, bool isCritical)
         {
             BattleDamageNumber damageNumber = GetDamageNumber();
-            damageNumber.Show("" + damage, position);
+            damageNumber.Show("" + damage, position, isCritical);
         }
 
         private BattleDamageNumber GetDamageNumber()

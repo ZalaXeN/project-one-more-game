@@ -26,6 +26,8 @@ namespace ProjectOneMore.Battle
             damageMsg.atk = card.owner.pow.current;
             damageMsg.levelAtk = 10; // Mock up - card.owner.lv;
             damageMsg.skillMultiplier = powMultiplier;
+            damageMsg.cri = card.owner.cri.current;
+            damageMsg.isCritical = BattleManager.main.RollCritical(card.owner.cri.current);
             damageMsg.damageType = damageType;
             damageMsg.hitEffect = hitParticleId;
             damageMsg.effectTarget = affectTarget;

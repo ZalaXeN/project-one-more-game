@@ -23,7 +23,7 @@ namespace ProjectOneMore.Battle
         {
             int resultDamage = BattleManager.main.GetDamage(damage, this);
 
-            BattleManager.main.ShowDamageNumber(resultDamage, transform.position);
+            BattleManager.main.ShowDamageNumber(resultDamage, transform.position, damage.isCritical);
 
             hp.current -= resultDamage;
 

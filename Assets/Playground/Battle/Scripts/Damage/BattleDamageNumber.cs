@@ -14,6 +14,11 @@ namespace ProjectOneMore.Battle
         private Vector3 _targetPosition;
         private Color _startColor = Color.white;
 
+        private bool _isCritical;
+
+        private static Color s_NormalColor = Color.white;
+        private static Color s_CriticalColor = Color.red;
+
         private void OnEnable()
         {
             _timer = 0f;
@@ -40,7 +45,7 @@ namespace ProjectOneMore.Battle
             transform.position = Camera.main.WorldToScreenPoint(_targetPosition);
         }
 
-        public void Show(string text, Vector3 position)
+        public void Show(string text, Vector3 position, bool isCritical)
         {
             damageText.text = text;
             _targetPosition = position;
@@ -52,7 +57,15 @@ namespace ProjectOneMore.Battle
             //transform.position = position;
 
             damageText.rectTransform.anchoredPosition = Vector2.zero;
+
+            _isCritical = isCritical;
+            if (_isCritical)
+                damageText.color = s_CriticalColor;
+            else
+                damageText.color = s_NormalColor;
+
             _startColor = damageText.color;
+
             gameObject.SetActive(true);
         }
 

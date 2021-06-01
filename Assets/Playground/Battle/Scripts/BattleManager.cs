@@ -109,6 +109,9 @@ namespace ProjectOneMore.Battle
         private Bounds _castBounds;
         private Vector3 _castBoundsSize;
 
+        // Static Member
+        private static int s_Roll;
+
         private void Awake()
         {
             // Singleton
@@ -271,29 +274,50 @@ namespace ProjectOneMore.Battle
 
         public int GetDamage(BattleDamage.DamageMessage damageMsg, BattleUnit damagedUnit)
         {
-            float damagePart = (2.5f * damageMsg.atk * damageMsg.skillMultiplier);
-            float defPart = 1f - ((float)(damagedUnit.def.current / (damagedUnit.def.current + 10f)));
-            float lvPart = (2.5f * (damageMsg.levelAtk / 10f)) * damageMsg.skillMultiplier;
-
-            int resultDamage = (int)((damagePart * defPart) + lvPart);
+            int resultDamage = CalculateDamage(damageMsg, damagedUnit.def.current);
 
             return resultDamage;
         }
 
         public int GetDamage(BattleDamage.DamageMessage damageMsg, BattleObject damagedObject)
         {
-            float damagePart = (2.5f * damageMsg.atk * damageMsg.skillMultiplier);
-            float defPart = 1f - (0 / (0 + 10));
-            float lvPart = (2.5f * (damageMsg.levelAtk / 10)) * damageMsg.skillMultiplier;
-
-            int resultDamage = (int)((damagePart * defPart) + lvPart);
+            int resultDamage = CalculateDamage(damageMsg, 0);
 
             return resultDamage;
         }
 
-        public void ShowDamageNumber(int damage, Vector3 position)
+        public bool RollCritical(int critical)
         {
-            battleDamageNumberPool.ShowDamageNumber(damage, position);
+            s_Roll = UnityEngine.Random.Range(0, 100);
+            return (s_Roll < critical);
+        }
+
+        private int CalculateDamage(BattleDamage.DamageMessage damageMsg, int def)
+        {
+            float damagePart = (2.5f * damageMsg.atk * damageMsg.skillMultiplier);
+            float defPart = 1f - ((float)(def / (def + 10f)));
+            float lvPart = (2.5f * (damageMsg.levelAtk / 10f)) * damageMsg.skillMultiplier;
+
+            int resultDamage = (int)((damagePart * defPart) + lvPart);
+            resultDamage = ApplyCritical(resultDamage, damageMsg);
+
+            return resultDamage;
+        }
+
+        private int ApplyCritical(int damage, BattleDamage.DamageMessage damageMsg)
+        {
+            if (damageMsg.cri <= 0 || !damageMsg.isCritical)
+                return damage;
+
+            float criticalBonusDamage = damage;
+            criticalBonusDamage *= (50f + damageMsg.cri) / 100f;
+            damage += (int)criticalBonusDamage;
+            return damage;
+        }
+
+        public void ShowDamageNumber(int damage, Vector3 position, bool isCritical)
+        {
+            battleDamageNumberPool.ShowDamageNumber(damage, position, isCritical);
         }
 
         #endregion

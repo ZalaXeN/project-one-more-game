@@ -21,6 +21,8 @@ namespace ProjectOneMore.Battle
             public int atk;
             public int levelAtk;
             public float skillMultiplier;
+            public int cri;
+            public bool isCritical;
 
             public BattleDamageType damageType;
             public string hitEffect;
