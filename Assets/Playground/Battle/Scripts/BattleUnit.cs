@@ -96,6 +96,9 @@ namespace ProjectOneMore.Battle
         public static readonly int m_HashCasting = Animator.StringToHash("casting");
         public static readonly int m_HashIsGrounded = Animator.StringToHash("isGrounded");
         public static readonly int m_HashVelocityY = Animator.StringToHash("velocityY");
+        public static readonly int m_HashMoveSpeed = Animator.StringToHash("moveSpeed");
+        public static readonly int m_HashAttackSpeed = Animator.StringToHash("attackSpeed");
+        public static readonly int m_HashCastSpeed = Animator.StringToHash("castSpeed");
 
         private static readonly float m_groundCheckDistance = 0.1f;
 
@@ -321,6 +324,7 @@ namespace ProjectOneMore.Battle
             {
                 SetCurrentActionCard(normalActionCard);
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+                animator.SetFloat(m_HashAttackSpeed, 1 + (spd.current / 200f));
                 animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
             }
         }

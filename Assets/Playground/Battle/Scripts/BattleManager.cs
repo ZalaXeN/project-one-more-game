@@ -258,7 +258,8 @@ namespace ProjectOneMore.Battle
 
         public float GetAutoAttackCooldown(int spd)
         {
-            return Mathf.Max(1 + (spd / 100f), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
+            Debug.Log((1f / (1f + (spd / 100f))));
+            return Mathf.Max((1f / (1f + (spd / 100f))), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
         public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
