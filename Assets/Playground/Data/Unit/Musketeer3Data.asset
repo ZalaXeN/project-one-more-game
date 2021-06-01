@@ -15,12 +15,12 @@ MonoBehaviour:
   unitId: 
   unitName: Master Musketeer
   baseStats:
-    POW: 20
-    CRI: 10
-    SPD: 500
-    HP: 1000
-    DEF: 10
-    EN: 10
+    POW: 120
+    CRI: 15
+    SPD: 40
+    HP: 100
+    DEF: 40
+    EN: 0
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}

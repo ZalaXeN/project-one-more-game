@@ -15,12 +15,12 @@ MonoBehaviour:
   unitId: x01
   unitName: Xamael
   baseStats:
-    POW: 40
+    POW: 100
     CRI: 10
-    SPD: 500
+    SPD: 50
     HP: 20000
-    DEF: 10
-    EN: 100
+    DEF: 100
+    EN: 0
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}
