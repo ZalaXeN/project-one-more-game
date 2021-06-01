@@ -24,4 +24,4 @@ MonoBehaviour:
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}
-  moveSpeed: 3
+  moveSpeed: 1

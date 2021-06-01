@@ -258,14 +258,19 @@ namespace ProjectOneMore.Battle
 
         public float GetAutoAttackCooldown(int spd)
         {
-            //Debug.Log((1f / (1f + (spd / 100f))));
-            return Mathf.Max((1f / (1f + (spd / 100f))), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
+            //Debug.Log((1f / (1f + (spd / 200f))));
+            return Mathf.Max(1f / GetMotionSpeed(spd), GameConfig.BATTLE_HIGHEST_AUTO_ATTACK_SPEED);
         }
 
         public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
         {
-            //return spd * moveSpeedMultiplier * Time.deltaTime;
-            return moveSpeedMultiplier * Time.fixedDeltaTime;
+            //return moveSpeedMultiplier * Time.deltaTime;
+            return (((50f + (spd/5f)) / 50f) * 3) * moveSpeedMultiplier * Time.fixedDeltaTime;
+        }
+
+        public float GetMotionSpeed(int spd)
+        {
+            return 1 + (spd / 200f);
         }
 
         public BattleTeam GetOppositeTeam(BattleTeam team)

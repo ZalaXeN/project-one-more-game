@@ -324,7 +324,7 @@ namespace ProjectOneMore.Battle
             {
                 SetCurrentActionCard(normalActionCard);
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-                animator.SetFloat(m_HashAttackSpeed, 1 + (spd.current / 200f));
+                animator.SetFloat(m_HashAttackSpeed, BattleManager.main.GetMotionSpeed(spd.current));
                 animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
             }
         }
@@ -582,6 +582,7 @@ namespace ProjectOneMore.Battle
             _targetPosition = transform.position + _move;
             float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
 
+            animator.SetFloat(m_HashMoveSpeed, BattleManager.main.GetMotionSpeed(spd.current));
             animator.SetBool(m_HashMoving, true);
             UpdateFlipScale(_targetPosition);
 
