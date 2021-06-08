@@ -299,8 +299,10 @@ MonoBehaviour:
     max: 0
   def:
     max: 0
+  lifeCounter: 1
   isUseSpecificPosition: 0
   spriteLookDirection: 0
+  _isGrounded: 0
   normalActionCard: {fileID: 8616128461101319016}
   autoSkillActionCard: {fileID: 6570286557987740151}
   _currentState: 0
@@ -2125,6 +2127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1753c0cc57fad49ba3c05e87f57b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootTransform: {fileID: 2042871595846684342}
   particleName: 
   particles:
   - {fileID: 7866403441985004782}

@@ -5,6 +5,7 @@ namespace ProjectOneMore.Battle
     [ExecuteInEditMode]
     public class BattleParticlePlayer : MonoBehaviour
     {
+        public Transform rootTransform;
         public string particleName;
 
         public ParticleSystem[] particles;
@@ -16,7 +17,8 @@ namespace ProjectOneMore.Battle
                 return;
 
             // Adjust Scale and flip position
-            bool isFlip = transform.localScale.x < 0;
+            bool isFlip = rootTransform.localScale.x < 0;
+            particleScale.x = Mathf.Abs(particleScale.x);
             particleScale.x *= isFlip ? -1f : 1f;
 
             foreach (ParticleSystem particle in particles)
