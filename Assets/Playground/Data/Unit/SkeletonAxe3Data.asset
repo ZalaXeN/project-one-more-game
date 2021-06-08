@@ -21,6 +21,8 @@ MonoBehaviour:
     HP: 50
     DEF: 35
     EN: 0
+  unitClass: 3
+  traitSkillData: {fileID: 0}
   normalSkillData: {fileID: 0}
   skillData: {fileID: 0}
   ultimateSkillData: {fileID: 0}

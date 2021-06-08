@@ -32,5 +32,5 @@ MonoBehaviour:
     type: 3}
   launchPositionOffset: {x: -2, y: 1.5, z: 0}
   MaxRange: 10
-  MinTravelTime: 0.5
-  MaxTravelTime: 2
+  MinTravelTime: 0.3
+  MaxTravelTime: 1.75
