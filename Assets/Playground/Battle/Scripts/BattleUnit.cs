@@ -460,6 +460,7 @@ namespace ProjectOneMore.Battle
             }
             else
             {
+                // Roll Chance
                 animator.SetBool(m_HashDied, false);
             }
         }
@@ -469,7 +470,7 @@ namespace ProjectOneMore.Battle
         {
             if (lifeCounter > 0)
             {
-                hp.current = hp.max;
+                hp.current = (int)(hp.max * 0.5f);
             }
         }
 
