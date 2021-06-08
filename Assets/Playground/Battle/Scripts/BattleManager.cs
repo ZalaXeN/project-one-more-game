@@ -265,7 +265,7 @@ namespace ProjectOneMore.Battle
         public float GetMovespeedStep(int spd, float moveSpeedMultiplier)
         {
             //return moveSpeedMultiplier * Time.deltaTime;
-            return (((50f + (spd/5f)) / 50f) * 3) * moveSpeedMultiplier * Time.fixedDeltaTime;
+            return (((50f + (spd/5f)) / 50f) * GameConfig.BATTLE_BASE_MOVE_SPEED_MULTIPLIER) * moveSpeedMultiplier * Time.fixedDeltaTime;
         }
 
         public float GetMotionSpeed(int spd)
