@@ -172,7 +172,19 @@ namespace ProjectOneMore.Battle
         // Auto Find for Normal Action
         public void FindTarget()
         {
-            BattleActionTargetable target = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
+            BattleActionTargetable target = null;
+            // Test For Hunter Class
+            if (owner.baseData.unitClass == UnitClass.HUNTER)
+            {
+                target = SearchWeakestTargetInRange(owner.transform.position, 10f);
+            }
+
+            // Other Class
+            if (target == null)
+            {
+                target = SearchNearestTargetInRange(owner.transform.position + baseData.offset);
+            }
+
             if (target == null)
             {
                 ClearTargets();
@@ -254,6 +266,54 @@ namespace ProjectOneMore.Battle
                 }
             }
             return nearestUnitTarget;
+        }
+
+        private BattleActionTargetable SearchWeakestTargetInRange(Vector3 position, float range)
+        {
+            if (s_hitCache == null)
+                s_hitCache = new Collider[32];
+
+            List<BattleActionTargetable> tempUnitList;
+            switch (baseData.targetAreaType)
+            {
+                case SkillData.AreaType.Circle:
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, range, s_hitCache);
+                    break;
+                default:
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, range, s_hitCache);
+                    break;
+            }
+
+            BattleActionTargetable nearestUnitTarget;
+            if (baseData.skillEffectTarget == SkillEffectTarget.Enemy)
+                nearestUnitTarget = GetWeakestUnitTargetFromList(tempUnitList, BattleManager.main.GetOppositeTeam(owner.team));
+            else
+                nearestUnitTarget = GetWeakestUnitTargetFromList(tempUnitList, owner.team);
+
+            return nearestUnitTarget;
+        }
+
+        private BattleActionTargetable GetWeakestUnitTargetFromList(List<BattleActionTargetable> targetList, BattleTeam team)
+        {
+            BattleActionTargetable weakestUnitTarget = null;
+            foreach (BattleActionTargetable target in targetList)
+            {
+                BattleUnit unit = target.GetBattleUnit();
+                if (!unit)
+                    continue;
+
+                if (!unit.IsAlive())
+                    continue;
+
+                if (unit && unit.team == team)
+                {
+                    if (weakestUnitTarget == null)
+                        weakestUnitTarget = target;
+                    else if (unit.hp.current < weakestUnitTarget.GetBattleUnit().hp.current)
+                        weakestUnitTarget = target;
+                }
+            }
+            return weakestUnitTarget;
         }
 
         public bool IsUnitInTargetRange(BattleActionTargetable target)
