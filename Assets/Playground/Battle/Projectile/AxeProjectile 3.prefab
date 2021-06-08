@@ -168,7 +168,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4588764807668117815}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.03
   m_Height: 1.4
@@ -255,7 +255,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage:
     owner: {fileID: 0}
-    damage: 100
+    atk: 0
+    levelAtk: 0
+    skillMultiplier: 0
+    cri: 0
+    isCritical: 0
     damageType: 0
     hitEffect: slash_hit
     effectTarget: 0

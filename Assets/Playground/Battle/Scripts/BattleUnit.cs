@@ -445,6 +445,7 @@ namespace ProjectOneMore.Battle
             animator.SetBool(m_HashDied, true);
         }
 
+        // Called by SMB
         public void DestroyUnit()
         {
             if (hp.current > 0)
@@ -457,12 +458,17 @@ namespace ProjectOneMore.Battle
                 BattleManager.main.TriggerUnitDead(this);
                 StartCoroutine(SinkAndDestroy());
             }
-
-            // Test Only
-            // will use Skill Trigger instead of life counter
-            if (lifeCounter > 0)
+            else
             {
                 animator.SetBool(m_HashDied, false);
+            }
+        }
+
+        // use on Rise Animation SMB
+        public void Rise()
+        {
+            if (lifeCounter > 0)
+            {
                 hp.current = hp.max;
             }
         }
