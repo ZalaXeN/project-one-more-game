@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace ProjectOneMore
 {
@@ -32,10 +33,7 @@ namespace ProjectOneMore
         public UnitStats baseStats;
         public UnitClass unitClass;
 
-        public AbilityData traitSkillData;
-        public AbilityData normalSkillData;
-        public AbilityData skillData;
-        public AbilityData ultimateSkillData;
+        public AbilityData[] abilityDatas;
 
         public float moveSpeed = 1f;
 
@@ -43,6 +41,31 @@ namespace ProjectOneMore
         // AI
         // Immobile / Hit & Run / Cover
 
+        public AbilityData GetAbilityFromTrigger(AbilityData.TriggerType triggerType)
+        {
+            foreach(AbilityData ability in abilityDatas)
+            {
+                if(ability.triggerType == triggerType)
+                {
+                    return ability;
+                }
+            }
+            return null;
+        }
 
+        public List<AbilityData> GetPassiveAbilities()
+        {
+            List<AbilityData> abilities = new List<AbilityData>();
+
+            foreach (AbilityData ability in abilityDatas)
+            {
+                if (ability.triggerType == AbilityData.TriggerType.Passive)
+                {
+                    abilities.Add(ability);
+                }
+            }
+
+            return abilities;
+        }
     }
 }

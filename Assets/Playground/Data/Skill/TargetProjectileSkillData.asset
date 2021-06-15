@@ -17,6 +17,7 @@ MonoBehaviour:
   skillType: 3
   skillEffectTarget: 2
   skillTargetType: 2
+  triggerType: 1
   minCooldown: 0
   maxCooldown: 0
   animationId: skill

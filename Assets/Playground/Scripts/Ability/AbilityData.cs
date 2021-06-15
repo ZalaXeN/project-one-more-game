@@ -12,12 +12,24 @@ namespace ProjectOneMore
             Circle
         }
 
+        public enum TriggerType
+        {
+            Passive,
+            Active,
+            Attack,
+            Auto,
+            Attacked
+        }
+
         [Header("Skill Detail")]
         public string skillId;
         public string skillName;
         public SkillType skillType;
         public SkillEffectTarget skillEffectTarget;
         public SkillTargetType skillTargetType;
+
+        [Space, Header("Activation Setting")]
+        public TriggerType triggerType;
         public float minCooldown;
         public float maxCooldown;
 

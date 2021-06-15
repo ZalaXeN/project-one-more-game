@@ -17,6 +17,9 @@ MonoBehaviour:
   skillType: 2
   skillEffectTarget: 2
   skillTargetType: 1
+  triggerType: 2
+  minCooldown: 0
+  maxCooldown: 0
   animationId: attack
   battleActions:
   - {fileID: 11400000, guid: 1e55214b49588b94dbee881e6246a558, type: 2}
@@ -25,7 +28,8 @@ MonoBehaviour:
   offset: {x: 0.5, y: 0, z: 0}
   lockTargetPositionToOwner: 1
   sizeDelta: {x: 6, y: 6, z: 0}
-  radius: 3
   projectilePrefab: {fileID: 0}
   launchPositionOffset: {x: 0, y: 5, z: 0}
-  travelTime: 1
+  MaxRange: 5
+  MinTravelTime: 1
+  MaxTravelTime: 1
