@@ -32,6 +32,7 @@ namespace ProjectOneMore
         public bool lockTargetPositionToOwner;
 
         [Space, Header("Area and Draw Indicator")]
+        // Point Size
         public Vector3 sizeDelta;
 
         [Space, Header("Projectile")]
@@ -45,6 +46,26 @@ namespace ProjectOneMore
         public float GetRandomSkillCooldown()
         {
             return Random.Range(minCooldown, maxCooldown);
+        }
+
+        public float GetTargetRangeRadius()
+        {
+            return targetRange.x / 2f;
+        }
+
+        public Vector3 GetExtentsTargetRange()
+        {
+            return targetRange / 2f;
+        }
+
+        public float GetPointRadius()
+        {
+            return sizeDelta.x / 2f;
+        }
+
+        public Vector3 GetExtentsPoint()
+        {
+            return sizeDelta / 2f;
         }
     }
 }

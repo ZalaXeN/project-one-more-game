@@ -346,7 +346,7 @@ namespace ProjectOneMore.Battle
                             _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange);
                             break;
                         case AbilityData.AreaType.Circle:
-                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange.x / 2);
+                            _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.GetTargetRangeRadius());
                             break;
                     }
 

@@ -226,13 +226,13 @@ namespace ProjectOneMore.Battle
             switch (baseData.targetAreaType)
             {
                 case AbilityData.AreaType.Circle:
-                    tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.GetTargetRangeRadius(), s_hitCache);
                     break;
                 case AbilityData.AreaType.Box:
-                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.GetExtentsTargetRange(), s_hitCache);
                     break;
                 default:
-                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.GetExtentsTargetRange(), s_hitCache);
                     break;
             }
 
@@ -329,13 +329,13 @@ namespace ProjectOneMore.Battle
             switch (baseData.targetAreaType)
             {
                 case AbilityData.AreaType.Circle:
-                    tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.GetTargetRangeRadius(), s_hitCache);
                     break;
                 case AbilityData.AreaType.Box:
-                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.GetExtentsTargetRange(), s_hitCache);
                     break;
                 default:
-                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
+                    tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.GetExtentsTargetRange(), s_hitCache);
                     break;
             }
 
@@ -466,10 +466,10 @@ namespace ProjectOneMore.Battle
             if (baseData.targetAreaType == AbilityData.AreaType.Circle)
             {
                 UnityEditor.Handles.color = new Color(0f, 0.7f, 0f, 0.2f);
-                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.targetRange.x / 2);
+                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.GetTargetRangeRadius());
 
                 UnityEditor.Handles.color = new Color(0.7f, 0.0f, 0f, 0.2f);
-                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.sizeDelta.x / 2);
+                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.GetPointRadius());
             }
             else
             {
