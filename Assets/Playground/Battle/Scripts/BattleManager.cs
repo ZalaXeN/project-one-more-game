@@ -337,15 +337,15 @@ namespace ProjectOneMore.Battle
             {
                 if (_currentActionCard.baseData.skillTargetType == SkillTargetType.Area)
                 {
-                    SkillData skillData = _currentActionCard.baseData;
+                    AbilityData skillData = _currentActionCard.baseData;
                     Vector3 castPoint = _currentActionCard.owner.transform.position + skillData.offset;
 
                     switch (skillData.targetAreaType)
                     {
-                        case SkillData.AreaType.Box:
+                        case AbilityData.AreaType.Box:
                             _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange);
                             break;
-                        case SkillData.AreaType.Circle:
+                        case AbilityData.AreaType.Circle:
                             _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.targetRange.x / 2);
                             break;
                     }

@@ -9,7 +9,7 @@ namespace ProjectOneMore.Battle
         public BattleUnit owner;
         public bool canUseWithoutOwner;
 
-        public SkillData baseData;
+        public AbilityData baseData;
 
         protected static Collider[] s_hitCache;
 
@@ -36,8 +36,8 @@ namespace ProjectOneMore.Battle
 
             List<BattleActionTargetable> tempUnitList;
 
-            if(baseData.targetAreaType == SkillData.AreaType.Circle)
-                tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(targetPosition, baseData.radius, s_hitCache);
+            if(baseData.targetAreaType == AbilityData.AreaType.Circle)
+                tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(targetPosition, baseData.sizeDelta.x / 2, s_hitCache);
             else
                 tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(targetPosition, baseData.sizeDelta / 2, s_hitCache);
 
@@ -134,6 +134,8 @@ namespace ProjectOneMore.Battle
             BattleManager.main.battleProjectileManager.SpawnProjectileWithTargeting(
                     baseData.projectilePrefab,
                     owner.transform.position + baseData.launchPositionOffset,
+                    baseData.MaxRange,
+                    baseData.MinTravelTime,
                     baseData.MaxTravelTime,
                     owner.transform.position + baseData.offset,
                     baseData.targetRange);
@@ -223,10 +225,10 @@ namespace ProjectOneMore.Battle
             List<BattleActionTargetable> tempUnitList;
             switch (baseData.targetAreaType)
             {
-                case SkillData.AreaType.Circle:
+                case AbilityData.AreaType.Circle:
                     tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
                     break;
-                case SkillData.AreaType.Box:
+                case AbilityData.AreaType.Box:
                     tempUnitList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
                 default:
@@ -276,7 +278,7 @@ namespace ProjectOneMore.Battle
             List<BattleActionTargetable> tempUnitList;
             switch (baseData.targetAreaType)
             {
-                case SkillData.AreaType.Circle:
+                case AbilityData.AreaType.Circle:
                     tempUnitList = BattleActionArea.GetTargetListFromOverlapSphere(position, range, s_hitCache);
                     break;
                 default:
@@ -326,10 +328,10 @@ namespace ProjectOneMore.Battle
             List<BattleActionTargetable> tempTargetList;
             switch (baseData.targetAreaType)
             {
-                case SkillData.AreaType.Circle:
+                case AbilityData.AreaType.Circle:
                     tempTargetList = BattleActionArea.GetTargetListFromOverlapSphere(position, baseData.targetRange.x / 2, s_hitCache);
                     break;
-                case SkillData.AreaType.Box:
+                case AbilityData.AreaType.Box:
                     tempTargetList = BattleActionArea.GetTargetListFromOverlapBox(position, baseData.targetRange / 2, s_hitCache);
                     break;
                 default:
@@ -461,13 +463,13 @@ namespace ProjectOneMore.Battle
         {
             Transform trans = owner == null ? transform : owner.transform;
 
-            if (baseData.targetAreaType == SkillData.AreaType.Circle)
+            if (baseData.targetAreaType == AbilityData.AreaType.Circle)
             {
                 UnityEditor.Handles.color = new Color(0f, 0.7f, 0f, 0.2f);
                 UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.targetRange.x / 2);
 
                 UnityEditor.Handles.color = new Color(0.7f, 0.0f, 0f, 0.2f);
-                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.radius);
+                UnityEditor.Handles.DrawSolidDisc(trans.position + baseData.offset, Vector3.up, baseData.sizeDelta.x / 2);
             }
             else
             {

@@ -32,15 +32,17 @@ namespace ProjectOneMore
         public UnitStats baseStats;
         public UnitClass unitClass;
 
-        public SkillData traitSkillData;
-        public SkillData normalSkillData;
-        public SkillData skillData;
-        public SkillData ultimateSkillData;
+        public AbilityData traitSkillData;
+        public AbilityData normalSkillData;
+        public AbilityData skillData;
+        public AbilityData ultimateSkillData;
 
         public float moveSpeed = 1f;
 
         // TODO
         // AI
         // Immobile / Hit & Run / Cover
+
+
     }
 }

@@ -33,7 +33,7 @@ namespace ProjectOneMore.Battle
             damageMsg.effectTarget = affectTarget;
             damageMsg.knockbackPower = knockbackPower;
 
-            SkillData skillData = card.baseData;
+            AbilityData skillData = card.baseData;
 
             Vector3 launceOffset = skillData.launchPositionOffset;
             launceOffset.x *= card.owner.IsFliped() ? -1f : 1f;

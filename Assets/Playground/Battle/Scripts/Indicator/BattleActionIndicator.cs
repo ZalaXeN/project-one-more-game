@@ -17,7 +17,7 @@ namespace ProjectOneMore.Battle
             public Transform ownerTransform;
             public float showTime;
             public Vector2 castRange;
-            public SkillData.AreaType castAreaType;
+            public AbilityData.AreaType castAreaType;
         }
 
         public string indicatorId;
@@ -38,7 +38,7 @@ namespace ProjectOneMore.Battle
         private Transform _ownerTransform;
         private Vector3 _offset;
         private Vector2 _castRange;
-        private SkillData.AreaType _castAreaType;
+        private AbilityData.AreaType _castAreaType;
 
         private void Update()
         {
@@ -87,10 +87,10 @@ namespace ProjectOneMore.Battle
                 {
                     switch (_castAreaType)
                     {
-                        case SkillData.AreaType.Box:
+                        case AbilityData.AreaType.Box:
                             transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange);
                             break;
-                        case SkillData.AreaType.Circle:
+                        case AbilityData.AreaType.Circle:
                             transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange.x / 2);
                             break;
                     }

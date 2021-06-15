@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using ProjectOneMore.Battle;
 
 namespace ProjectOneMore
 {
-    [CreateAssetMenu(fileName = "SkillData", menuName = "Data/Skill", order = 0)]
-    public class SkillData : ScriptableObject
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "Data/Ability", order = 0)]
+    public class AbilityData : ScriptableObject
     {
         public enum AreaType
         {
@@ -34,12 +33,11 @@ namespace ProjectOneMore
 
         [Space, Header("Area and Draw Indicator")]
         public Vector3 sizeDelta;
-        public float radius;
 
         [Space, Header("Projectile")]
         // Targeting Projectile not real
         public BattleProjectile projectilePrefab;
-        public Vector3 launchPositionOffset = new Vector3(0f, 5f, 0f);
+        public Vector3 launchPositionOffset = new Vector3(0f, 2f, 0f);
         public float MaxRange = 5f;
         public float MinTravelTime = 1f;
         public float MaxTravelTime = 1f;

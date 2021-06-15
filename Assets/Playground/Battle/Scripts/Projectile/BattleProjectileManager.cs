@@ -16,6 +16,10 @@ namespace ProjectOneMore.Battle
         private Vector3 _castPosition;
         private Vector3 _castRange;
 
+        private float _maxRange;
+        private float _minTravelTime;
+        private float _maxTravelTime;
+
         public void ShowLine()
         {
             lineRenderer.enabled = true;
@@ -33,13 +37,17 @@ namespace ProjectOneMore.Battle
             return projectile;
         }
 
-        public void SpawnProjectileWithTargeting(BattleProjectile projectilePrefab, Vector3 position, float travelTime, Vector3 castPosition, Vector3 castRange)
+        public void SpawnProjectileWithTargeting(BattleProjectile projectilePrefab, Vector3 position, float maxRange, float minTravelTime, float maxTravelTime, Vector3 castPosition, Vector3 castRange)
         {
             BattleProjectile projectile = CreateProjectile(projectilePrefab, position);
 
             targetingProjectile = projectile;
             projectile.Show(position);
-            _travelTime = travelTime;
+
+            _maxRange = maxRange;
+            _minTravelTime = minTravelTime;
+            _maxTravelTime = maxTravelTime;
+            _travelTime = _maxTravelTime;
 
             _castPosition = castPosition;
             _castRange = castRange;
@@ -82,7 +90,11 @@ namespace ProjectOneMore.Battle
             if (targetingProjectile.trajectoryController == null)
                 return;
 
-            targetingProjectile.trajectoryController.travelTime = _travelTime;
+            float targetDistance = Vector3.Distance(targetingProjectile.transform.position, _pointPos);
+            float travelRatio = Mathf.Clamp((targetDistance / _maxRange), 0, _maxRange);
+            float travelTime = Mathf.Lerp(_minTravelTime, _maxTravelTime, travelRatio);
+
+            targetingProjectile.trajectoryController.travelTime = travelTime;
             targetingProjectile.trajectoryController.targetPos = _pointPos;
             targetingProjectile.trajectoryController.RenderTrajectory();
         }
