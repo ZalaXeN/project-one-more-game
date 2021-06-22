@@ -4,6 +4,7 @@ namespace ProjectOneMore
 {
     public enum MessageType
     {
+        BEFORE_DAMAGE,
         DAMAGED,
         DEAD,
         RESPAWN,

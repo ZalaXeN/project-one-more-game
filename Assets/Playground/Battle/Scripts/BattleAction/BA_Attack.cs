@@ -31,6 +31,7 @@ namespace ProjectOneMore.Battle
             damage.skillMultiplier = powMultiplier;
             damage.cri = card.owner.cri.current;
             damage.isCritical = BattleManager.main.RollCritical(card.owner.cri.current);
+            damage.finalMultiplier = 1f;
             damage.damageType = BattleDamageType.Physical;
             damage.hitEffect = hitParticleId;
             damage.effectTarget = effectTarget;

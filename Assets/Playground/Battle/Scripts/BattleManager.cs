@@ -307,6 +307,8 @@ namespace ProjectOneMore.Battle
             int resultDamage = (int)((damagePart * defPart) + lvPart);
             resultDamage = ApplyCritical(resultDamage, damageMsg);
 
+            resultDamage = (int)(resultDamage * damageMsg.finalMultiplier);
+
             return resultDamage;
         }
 
@@ -324,6 +326,35 @@ namespace ProjectOneMore.Battle
         public void ShowDamageNumber(int damage, Vector3 position, bool isCritical)
         {
             battleDamageNumberPool.ShowDamageNumber(damage, position, isCritical);
+        }
+
+        public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true, bool shouldInBattlefield = true)
+        {
+            BattleUnit target = null;
+            Vector3 unitPos;
+            foreach (BattleUnit u in _battleUnitList)
+            {
+                if (u && !u.IsAlive() && shouldAlive)
+                    continue;
+
+                if (u && u.team != unit.team)
+                {
+                    unitPos = u.transform.position;
+                    unitPos.y = fieldManager.battleFieldArea.transform.position.y;
+
+                    if (shouldInBattlefield && !fieldManager.battleFieldArea.bounds.Contains(unitPos))
+                        continue;
+
+                    if (target == null)
+                        target = u;
+                    else if (
+                        Vector3.Distance(unit.transform.position, u.transform.position) <
+                        Vector3.Distance(unit.transform.position, target.transform.position))
+                        target = u;
+                }
+            }
+
+            return target;
         }
 
         #endregion
@@ -516,35 +547,6 @@ namespace ProjectOneMore.Battle
         }
         #endregion
 
-        public BattleUnit GetNearestAttackTarget(BattleUnit unit, bool shouldAlive = true, bool shouldInBattlefield = true)
-        {
-            BattleUnit target = null;
-            Vector3 unitPos;
-            foreach (BattleUnit u in _battleUnitList)
-            {
-                if (u && !u.IsAlive() && shouldAlive)
-                    continue;
-
-                if (u && u.team != unit.team)
-                {
-                    unitPos = u.transform.position;
-                    unitPos.y = fieldManager.battleFieldArea.transform.position.y;
-
-                    if (shouldInBattlefield && !fieldManager.battleFieldArea.bounds.Contains(unitPos))
-                        continue;
-
-                    if (target == null)
-                        target = u;
-                    else if (
-                        Vector3.Distance(unit.transform.position, u.transform.position) <
-                        Vector3.Distance(unit.transform.position, target.transform.position))
-                        target = u;
-                }
-            }
-
-            return target;
-        }
-
         #region Time Manage
         // Slow Time
         public void SetTimeScaleForTest(float target)
@@ -716,6 +718,20 @@ namespace ProjectOneMore.Battle
             if (!selectedTarget)
             {
                 DeselectTarget();
+            }
+        }
+
+        #endregion
+
+        #region Battle Message
+
+        public void BroadcastBattleMessage(MessageType type, object sender, object msg)
+        {
+            //-- Unit Message Receiver
+            foreach(BattleUnit unit in _battleUnitList)
+            {
+                IMessageReceiver receiver = unit as IMessageReceiver;
+                receiver.OnReceiveMessage(type, sender, msg);
             }
         }
 

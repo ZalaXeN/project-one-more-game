@@ -26,7 +26,7 @@ namespace ProjectOneMore.Battle
         Right
     }
 
-    public class BattleUnit : MonoBehaviour
+    public class BattleUnit : MonoBehaviour, IMessageReceiver
     {
         [Header("Settings")]
         public Animator animator;
@@ -395,6 +395,8 @@ namespace ProjectOneMore.Battle
             if(_isGrounded)
                 Knockback(damage.hitPosition, damage.knockbackPower);
 
+            BattleManager.main.BroadcastBattleMessage(MessageType.BEFORE_DAMAGE, this, damage);
+
             int resultDamage = BattleManager.main.GetDamage(damage, this);
             BattleManager.main.ShowDamageNumber(resultDamage, transform.position, damage.isCritical);
 
@@ -662,14 +664,57 @@ namespace ProjectOneMore.Battle
         #endregion
 
         #region Battle Event Handler
-        private void HandleUnitDeadEvent(BattleUnit unit)
-        {
-            
-        }
 
         private void HandleChangeBattleStateEvent(BattleState state)
         {
 
+        }
+
+        public void OnReceiveMessage(MessageType type, object sender, object msg)
+        {
+            switch (type)
+            {
+                case MessageType.BEFORE_DAMAGE:
+                    ActivateDefenderTrait((BattleUnit)sender, (BattleDamage.DamageMessage)msg);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ActivateDefenderTrait(BattleUnit damagedUnit, BattleDamage.DamageMessage damageMsg)
+        {
+            // Check Condition
+            if (baseData.unitClass != UnitClass.DEFENDER)
+                return;
+
+            if (damagedUnit.baseData.unitClass == UnitClass.DEFENDER)
+                return;
+
+            if (damagedUnit.team != team)
+                return;
+
+            if (Vector3.Distance(transform.position, damagedUnit.transform.position) > 4f)
+                return;
+
+            // Take Shared Damage
+            BattleDamage.DamageMessage sharedDamage;
+            sharedDamage.owner = damageMsg.owner;
+            sharedDamage.atk = damageMsg.owner.pow.current;
+            sharedDamage.levelAtk = 10; // Mock up - card.owner.lv;
+            sharedDamage.skillMultiplier = damageMsg.skillMultiplier;
+            sharedDamage.cri = damageMsg.owner.cri.current;
+            sharedDamage.isCritical = BattleManager.main.RollCritical(damageMsg.owner.cri.current);
+            sharedDamage.finalMultiplier = 0.2f;
+            sharedDamage.damageType = BattleDamageType.Physical;
+            sharedDamage.hitEffect = damageMsg.hitEffect;
+            sharedDamage.effectTarget = damageMsg.effectTarget;
+            sharedDamage.hitPosition = damageMsg.owner.transform.position;
+            sharedDamage.knockbackPower = damageMsg.knockbackPower;
+            TakeDamage(sharedDamage);
+
+            // Damage Modify
+            damageMsg.finalMultiplier *= 0.8f;
         }
 
         #endregion

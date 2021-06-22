@@ -24,6 +24,8 @@ namespace ProjectOneMore.Battle
             public int cri;
             public bool isCritical;
 
+            public float finalMultiplier;
+
             public BattleDamageType damageType;
             public string hitEffect;
             public SkillEffectTarget effectTarget;

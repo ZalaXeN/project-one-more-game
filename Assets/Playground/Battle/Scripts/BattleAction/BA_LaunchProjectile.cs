@@ -21,17 +21,18 @@ namespace ProjectOneMore.Battle
 
             card.owner.UpdateFlipScale(card.targetPosition);
 
-            BattleDamage.DamageMessage damageMsg = new BattleDamage.DamageMessage();
-            damageMsg.owner = card.owner;
-            damageMsg.atk = card.owner.pow.current;
-            damageMsg.levelAtk = 10; // Mock up - card.owner.lv;
-            damageMsg.skillMultiplier = powMultiplier;
-            damageMsg.cri = card.owner.cri.current;
-            damageMsg.isCritical = BattleManager.main.RollCritical(card.owner.cri.current);
-            damageMsg.damageType = damageType;
-            damageMsg.hitEffect = hitParticleId;
-            damageMsg.effectTarget = affectTarget;
-            damageMsg.knockbackPower = knockbackPower;
+            BattleDamage.DamageMessage damage = new BattleDamage.DamageMessage();
+            damage.owner = card.owner;
+            damage.atk = card.owner.pow.current;
+            damage.levelAtk = 10; // Mock up - card.owner.lv;
+            damage.skillMultiplier = powMultiplier;
+            damage.cri = card.owner.cri.current;
+            damage.isCritical = BattleManager.main.RollCritical(card.owner.cri.current);
+            damage.finalMultiplier = 1f;
+            damage.damageType = damageType;
+            damage.hitEffect = hitParticleId;
+            damage.effectTarget = affectTarget;
+            damage.knockbackPower = knockbackPower;
 
             AbilityData skillData = card.baseData;
 
@@ -54,7 +55,7 @@ namespace ProjectOneMore.Battle
                 skillData.MaxRange,
                 skillData.MinTravelTime,
                 skillData.MaxTravelTime,
-                damageMsg);
+                damage);
         }
     }
 }
