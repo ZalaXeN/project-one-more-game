@@ -21,7 +21,6 @@ MonoBehaviour:
     HP: 205
     DEF: 50
     EN: 0
-  normalSkillData: {fileID: 0}
-  skillData: {fileID: 0}
-  ultimateSkillData: {fileID: 0}
+  unitClass: 5
+  abilityDatas: []
   moveSpeed: 1

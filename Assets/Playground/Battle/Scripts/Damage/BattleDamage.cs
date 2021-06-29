@@ -11,6 +11,14 @@ namespace ProjectOneMore.Battle
         Hp_Removal
     }
 
+    public enum BattleDamageState
+    {
+        Init,
+        Before,
+        Damaging,
+        Finished
+    }
+
     [System.Serializable]
     public class BattleDamage
     {

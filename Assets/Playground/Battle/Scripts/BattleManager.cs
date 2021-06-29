@@ -357,6 +357,41 @@ namespace ProjectOneMore.Battle
             return target;
         }
 
+        public BattleUnit GetNearestAllyDefenderWithinRange(BattleUnit unit, float targetRange = 4f, bool shouldAlive = true, bool shouldInBattlefield = true)
+        {
+            BattleUnit target = null;
+            Vector3 unitPos;
+            foreach (BattleUnit u in _battleUnitList)
+            {
+                if (u && !u.IsAlive() && shouldAlive)
+                    continue;
+
+                if (u.baseData.unitClass != UnitClass.DEFENDER)
+                    continue;
+
+                if (Vector3.Distance(unit.transform.position, u.transform.position) > targetRange)
+                    continue;
+
+                if (u && u.team == unit.team)
+                {
+                    unitPos = u.transform.position;
+                    unitPos.y = fieldManager.battleFieldArea.transform.position.y;
+
+                    if (shouldInBattlefield && !fieldManager.battleFieldArea.bounds.Contains(unitPos))
+                        continue;
+
+                    if (target == null)
+                        target = u;
+                    else if (
+                        Vector3.Distance(unit.transform.position, u.transform.position) <
+                        Vector3.Distance(unit.transform.position, target.transform.position))
+                        target = u;
+                }
+            }
+
+            return target;
+        }
+
         #endregion
 
         #region Input Phase
@@ -725,14 +760,38 @@ namespace ProjectOneMore.Battle
 
         #region Battle Message
 
-        public void BroadcastBattleMessage(MessageType type, object sender, object msg)
+        public object BroadcastBattleMessage(MessageType type, object sender, object msg)
         {
-            //-- Unit Message Receiver
-            foreach(BattleUnit unit in _battleUnitList)
+            //-- Handle Message
+            switch (type)
+            {
+                case MessageType.BEFORE_DAMAGE:
+                    object beforeDamageMsg = HandleDefenderTrait(sender, msg);
+                    BoardcastMessageToUnits(type, sender, msg);
+                    return beforeDamageMsg;
+                default:
+                    break;
+            }
+
+            return msg;
+        }
+
+        private void BoardcastMessageToUnits(MessageType type, object sender, object msg)
+        {
+            foreach (BattleUnit unit in _battleUnitList)
             {
                 IMessageReceiver receiver = unit as IMessageReceiver;
                 receiver.OnReceiveMessage(type, sender, msg);
             }
+        }
+
+        private BattleDamage.DamageMessage HandleDefenderTrait(object sender, object msg)
+        {
+            BattleUnit defender = GetNearestAllyDefenderWithinRange((BattleUnit)sender);
+            if (!defender)
+                return (BattleDamage.DamageMessage)msg;
+
+            return defender.ActivateDefenderTrait((BattleUnit)sender, (BattleDamage.DamageMessage)msg);
         }
 
         #endregion

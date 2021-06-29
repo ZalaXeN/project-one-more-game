@@ -392,17 +392,23 @@ namespace ProjectOneMore.Battle
             if (!ShouldTakeDamage(damage))
                 return;
 
-            if(_isGrounded)
-                Knockback(damage.hitPosition, damage.knockbackPower);
+            TakeDamageProcess(damage);
+        }
 
-            BattleManager.main.BroadcastBattleMessage(MessageType.BEFORE_DAMAGE, this, damage);
+        private void TakeDamageProcess(BattleDamage.DamageMessage damage)
+        {
+            object resObj = BattleManager.main.BroadcastBattleMessage(MessageType.BEFORE_DAMAGE, this, damage);
+            BattleDamage.DamageMessage modDamage = (BattleDamage.DamageMessage)resObj;
 
-            int resultDamage = BattleManager.main.GetDamage(damage, this);
-            BattleManager.main.ShowDamageNumber(resultDamage, transform.position, damage.isCritical);
+            if (_isGrounded)
+                Knockback(modDamage.hitPosition, modDamage.knockbackPower);
+
+            int resultDamage = BattleManager.main.GetDamage(modDamage, this);
+            BattleManager.main.ShowDamageNumber(resultDamage, transform.position, modDamage.isCritical);
 
             hp.current -= resultDamage;
 
-            BattleManager.main.battleParticleManager.ShowParticle(damage.hitEffect, centerTransform.position);
+            BattleManager.main.battleParticleManager.ShowParticle(modDamage.hitEffect, centerTransform.position);
             BattleManager.main.battleParticleManager.ShowParticle("blood", centerTransform.position);
 
             if (!IsAlive())
@@ -410,7 +416,7 @@ namespace ProjectOneMore.Battle
                 if (_currentState != BattleUnitState.Dead)
                     _schedule += Dead;
             }
-            else if (!IsTakeAction() && !IsHitLockBreakTime() && _poise < damage.knockbackPower)
+            else if (!IsTakeAction() && !IsHitLockBreakTime() && _poise < modDamage.knockbackPower)
             {
                 animator.SetTrigger(m_HashHit);
             }
@@ -675,38 +681,39 @@ namespace ProjectOneMore.Battle
             switch (type)
             {
                 case MessageType.BEFORE_DAMAGE:
-                    ActivateDefenderTrait((BattleUnit)sender, (BattleDamage.DamageMessage)msg);
                     break;
                 default:
                     break;
             }
         }
 
-        private void ActivateDefenderTrait(BattleUnit damagedUnit, BattleDamage.DamageMessage damageMsg)
+        public BattleDamage.DamageMessage ActivateDefenderTrait(BattleUnit damagedUnit, BattleDamage.DamageMessage damageMsg)
+        {
+            return ProcessDefenderTrait(damagedUnit, damageMsg);
+        }
+
+        private BattleDamage.DamageMessage ProcessDefenderTrait(BattleUnit damagedUnit, BattleDamage.DamageMessage damageMsg)
         {
             // Check Condition
             if (baseData.unitClass != UnitClass.DEFENDER)
-                return;
+                return damageMsg;
 
             if (damagedUnit.baseData.unitClass == UnitClass.DEFENDER)
-                return;
+                return damageMsg;
 
             if (damagedUnit.team != team)
-                return;
-
-            if (Vector3.Distance(transform.position, damagedUnit.transform.position) > 4f)
-                return;
+                return damageMsg;
 
             // Take Shared Damage
             BattleDamage.DamageMessage sharedDamage;
             sharedDamage.owner = damageMsg.owner;
-            sharedDamage.atk = damageMsg.owner.pow.current;
-            sharedDamage.levelAtk = 10; // Mock up - card.owner.lv;
+            sharedDamage.atk = damageMsg.atk;
+            sharedDamage.levelAtk = damageMsg.levelAtk; // Mock up - card.owner.lv;
             sharedDamage.skillMultiplier = damageMsg.skillMultiplier;
-            sharedDamage.cri = damageMsg.owner.cri.current;
-            sharedDamage.isCritical = BattleManager.main.RollCritical(damageMsg.owner.cri.current);
-            sharedDamage.finalMultiplier = 0.2f;
-            sharedDamage.damageType = BattleDamageType.Physical;
+            sharedDamage.cri = damageMsg.cri;
+            sharedDamage.isCritical = damageMsg.isCritical;
+            sharedDamage.finalMultiplier = 0.2f; // Shared 20%
+            sharedDamage.damageType = damageMsg.damageType;
             sharedDamage.hitEffect = damageMsg.hitEffect;
             sharedDamage.effectTarget = damageMsg.effectTarget;
             sharedDamage.hitPosition = damageMsg.owner.transform.position;
@@ -715,6 +722,9 @@ namespace ProjectOneMore.Battle
 
             // Damage Modify
             damageMsg.finalMultiplier *= 0.8f;
+
+            Debug.Log("Modified");
+            return damageMsg;
         }
 
         #endregion
