@@ -338,7 +338,7 @@ namespace ProjectOneMore.Battle
             int resultDamage = (int)((damagePart * defPart) + lvPart);
             resultDamage = ApplyCritical(resultDamage, damageMsg);
 
-            resultDamage = (int)(resultDamage * damageMsg.finalMultiplier);
+            resultDamage = Mathf.CeilToInt(resultDamage * damageMsg.finalMultiplier);
 
             return resultDamage;
         }
