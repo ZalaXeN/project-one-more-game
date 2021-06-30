@@ -357,17 +357,16 @@ namespace ProjectOneMore.Battle
                     break;
             }
 
-            StartCoroutine(ExecuteActionProcess());
+            ExecuteActionProcess();
         }
 
-        private IEnumerator ExecuteActionProcess()
+        private void ExecuteActionProcess()
         {
             foreach (BattleAction battleAction in baseData.battleActions)
             {
                 battleAction.Execute(this);
             }
 
-            yield return null;
             ClearTargets();
 
             if (owner)
@@ -461,6 +460,9 @@ namespace ProjectOneMore.Battle
 
         private void DrawGizmoSkillRange()
         {
+            if (canUseWithoutOwner)
+                return;
+
             Transform trans = owner == null ? transform : owner.transform;
 
             if (baseData.targetAreaType == AbilityData.AreaType.Circle)

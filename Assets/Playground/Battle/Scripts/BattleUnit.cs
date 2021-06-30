@@ -57,8 +57,11 @@ namespace ProjectOneMore.Battle
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
 
-        private Vector3 _targetPosition;
+        private Vector3 _resultPosition;
         private Vector3 _move = Vector3.zero;
+        private Vector3 _targetPosition = Vector3.zero;
+        private float _targetDistance = 0f;
+        private int _reachTargetFrameCounter;
         [SerializeField]
         private bool _isGrounded;
 
@@ -163,7 +166,7 @@ namespace ProjectOneMore.Battle
         {
             InitLinkedSTB();
             InitStats();
-            _targetPosition = transform.position;
+            _resultPosition = transform.position;
 
             InitBattleParameter();
             if(centerTransform == null)
@@ -173,6 +176,7 @@ namespace ProjectOneMore.Battle
         private void FixedUpdate()
         {
             CheckGrounded();
+            CheckReachTargetPosition();
             UpdatePosition();
             UpdateAutoSkillAction();
             UpdateAutoAction();
@@ -594,12 +598,12 @@ namespace ProjectOneMore.Battle
             if (!CanMove() && !IsHitLockBreakTime())
                 return;
 
-            _targetPosition = transform.position + _move;
+            _resultPosition = transform.position + _move;
             float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
 
             animator.SetFloat(m_HashMoveSpeed, BattleManager.main.GetMotionSpeed(spd.current));
             animator.SetBool(m_HashMoving, true);
-            UpdateFlipScale(_targetPosition);
+            UpdateFlipScale(_resultPosition);
 
             if (rb)
             {
@@ -667,6 +671,45 @@ namespace ProjectOneMore.Battle
                 animator.SetFloat(m_HashVelocityY, rb.velocity.y);
         }
 
+        public void SetTargetPosition(Vector3 targetPos)
+        {
+            _targetPosition = targetPos;
+        }
+
+        public Vector3 GetTargetPosition()
+        {
+            return _targetPosition;
+        }
+
+        private void ResetTargetPosition()
+        {
+            _reachTargetFrameCounter = 0;
+            _targetDistance = 0f;
+            _targetPosition = Vector3.zero;
+        }
+
+        private void CheckReachTargetPosition()
+        {
+            if (_targetPosition == Vector3.zero || _currentState != BattleUnitState.Moving)
+                return;
+
+            float targetDistance = Vector3.Distance(transform.position, _targetPosition);
+            if (_targetDistance == 0f)
+                _targetDistance = targetDistance;
+            else if (targetDistance < _targetDistance)
+                _targetDistance = targetDistance;
+            else if (targetDistance <= 0.02f)
+                ResetTargetPosition();
+            else
+            {
+                _reachTargetFrameCounter++;
+
+                // Can't Reach Target Position More than this
+                if (_reachTargetFrameCounter > 1)
+                    ResetTargetPosition();
+            }
+        }
+
         #endregion
 
         #region Battle Event Handler
@@ -723,7 +766,6 @@ namespace ProjectOneMore.Battle
             // Damage Modify
             damageMsg.finalMultiplier *= 0.8f;
 
-            Debug.Log("Modified");
             return damageMsg;
         }
 
@@ -750,7 +792,7 @@ namespace ProjectOneMore.Battle
         private void DrawMovePath()
         {
             Handles.color = Color.blue;
-            Handles.DrawLine(transform.position, _targetPosition);
+            Handles.DrawLine(transform.position, _resultPosition);
         }
 
         private void DrawRangeSphere()

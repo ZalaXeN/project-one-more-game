@@ -9,7 +9,8 @@ namespace ProjectOneMore
         public enum AreaType
         {
             Box,
-            Circle
+            Circle,
+            Ground
         }
 
         public enum TriggerType

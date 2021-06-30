@@ -206,6 +206,19 @@ namespace ProjectOneMore.Battle
             return spawnSuccess;
         }
 
+        public bool SpawnMinion(string unitPrefabId, BattleTeam team, out BattleUnit unit)
+        {
+            GameObject minionPrefab = minionPrefabController.GetMinionPrefab(unitPrefabId);
+            unit = null;
+            if (minionPrefab == null)
+                return false;
+
+            bool spawnSuccess = SpawnMinion(minionPrefab, team, out unit);
+            if (spawnSuccess) { UpdateBattlePosition(); }
+
+            return spawnSuccess;
+        }
+
         #endregion
 
         #region Field
@@ -240,15 +253,33 @@ namespace ProjectOneMore.Battle
         {
             GameObject minionGO = Instantiate(minionPrefab);
             minionGO.transform.position = fieldManager.GetSpawnPosition(team);
-            BattleUnit minionUnit = minionGO.GetComponent<BattleUnit>();
+            BattleUnit unit = minionGO.GetComponent<BattleUnit>();
 
-            minionUnit.team = team;
+            unit.team = team;
 
-            Vector3 scale = minionUnit.transform.localScale;
-            scale.x = minionUnit.team == BattleTeam.Enemy ? scale.x : -scale.x;
-            minionUnit.transform.localScale = scale;
+            Vector3 scale = unit.transform.localScale;
+            scale.x = unit.team == BattleTeam.Enemy ? scale.x : -scale.x;
+            unit.transform.localScale = scale;
 
-            _battleUnitList.Add(minionUnit);
+            _battleUnitList.Add(unit);
+
+            return true;
+        }
+
+        private bool SpawnMinion(GameObject minionPrefab, BattleTeam team, out BattleUnit unit)
+        {
+            GameObject minionGO = Instantiate(minionPrefab);
+            minionGO.transform.position = fieldManager.GetSpawnPosition(team);
+            unit = minionGO.GetComponent<BattleUnit>();
+
+            unit.team = team;
+
+            Vector3 scale = unit.transform.localScale;
+            scale.x = unit.team == BattleTeam.Enemy ? scale.x : -scale.x;
+            unit.transform.localScale = scale;
+
+            _battleUnitList.Add(unit);
+
             return true;
         }
 
@@ -414,6 +445,9 @@ namespace ProjectOneMore.Battle
                         case AbilityData.AreaType.Circle:
                             _currentActionCard.targetPosition = GetGroundMousePosition(castPoint, skillData.GetTargetRangeRadius());
                             break;
+                        case AbilityData.AreaType.Ground:
+                            _currentActionCard.targetPosition = GetGroundMousePosition();
+                            break;
                     }
 
                     _currentActionCard.SetTargetsWithActionArea();
@@ -452,7 +486,10 @@ namespace ProjectOneMore.Battle
                 ShowTargeting();
             else
             {
-                CurrentActionTakeAction();
+                if (_currentActionCard.baseData.skillTargetType == SkillTargetType.Area)
+                    ShowTargeting();
+                else
+                    CurrentActionTakeAction();
             }
         }      
 

@@ -93,6 +93,9 @@ namespace ProjectOneMore.Battle
                         case AbilityData.AreaType.Circle:
                             transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange.x / 2);
                             break;
+                        case AbilityData.AreaType.Ground:
+                            transform.position = BattleManager.main.GetGroundMousePosition();
+                            break;
                     }
                 }
                 else

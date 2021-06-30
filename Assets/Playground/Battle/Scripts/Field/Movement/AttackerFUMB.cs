@@ -16,6 +16,10 @@ namespace ProjectOneMore.Battle
             //        return Vector3.zero;
             //}
 
+            // Has Specific Target Position
+            if (unit.GetTargetPosition() != Vector3.zero)
+                return Vector3.zero;
+
             if (unit.autoSkillActionCard != null && unit.autoSkillActionCard.HasTarget())
                 return Vector3.zero;
 
