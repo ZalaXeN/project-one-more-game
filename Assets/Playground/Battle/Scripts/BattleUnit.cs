@@ -53,6 +53,10 @@ namespace ProjectOneMore.Battle
         public int lifeCounter = 1;
 
         [Space]
+        [Header("Modifier Data")]
+        public float spdMod = 1f;
+
+        [Space]
         [Header("Movement Tester")]
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
@@ -142,7 +146,7 @@ namespace ProjectOneMore.Battle
 
             BattleManager.main.AddUnitIfNeed(this);
 
-            _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
+            _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(GetSpeed());
 
             if(autoSkillActionCard)
                 _autoSkillCooldown = autoSkillActionCard.baseData.GetRandomSkillCooldown();
@@ -327,8 +331,8 @@ namespace ProjectOneMore.Battle
             else if (IsAutoNormalActionReady())
             {
                 SetCurrentActionCard(normalActionCard);
-                _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(spd.current);
-                animator.SetFloat(m_HashAttackSpeed, BattleManager.main.GetMotionSpeed(spd.current));
+                _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(GetSpeed());
+                animator.SetFloat(m_HashAttackSpeed, BattleManager.main.GetMotionSpeed(GetSpeed()));
                 animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
             }
         }
@@ -516,6 +520,11 @@ namespace ProjectOneMore.Battle
             progress = 1f;
         }
 
+        public int GetSpeed()
+        {
+            return Mathf.CeilToInt(spd.current * spdMod);
+        }
+
         #endregion
 
         #region Sprite
@@ -599,9 +608,9 @@ namespace ProjectOneMore.Battle
                 return;
 
             _resultPosition = transform.position + _move;
-            float step = BattleManager.main.GetMovespeedStep(spd.current, baseData.moveSpeed);
+            float step = BattleManager.main.GetMovespeedStep(GetSpeed(), baseData.moveSpeed);
 
-            animator.SetFloat(m_HashMoveSpeed, BattleManager.main.GetMotionSpeed(spd.current));
+            animator.SetFloat(m_HashMoveSpeed, BattleManager.main.GetMotionSpeed(GetSpeed()));
             animator.SetBool(m_HashMoving, true);
             UpdateFlipScale(_resultPosition);
 

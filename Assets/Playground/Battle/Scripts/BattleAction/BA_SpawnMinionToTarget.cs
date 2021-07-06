@@ -15,6 +15,9 @@ namespace ProjectOneMore.Battle
             if (spawnSuccess)
             {
                 unit.SetTargetPosition(card.targetPosition);
+
+                BattleRiderBuff riderBuff = new BattleRiderBuff();
+                BattleModifierMaster.main.ApplyModifier(riderBuff, unit);
             }
         }
     }

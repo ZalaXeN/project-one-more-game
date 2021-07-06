@@ -817,7 +817,7 @@ namespace ProjectOneMore.Battle
         {
             foreach (BattleUnit unit in _battleUnitList)
             {
-                IMessageReceiver receiver = unit as IMessageReceiver;
+                IMessageReceiver receiver = unit;
                 receiver.OnReceiveMessage(type, sender, msg);
             }
         }
