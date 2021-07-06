@@ -31,7 +31,9 @@ namespace ProjectOneMore.Battle
             switch (type)
             {
                 case MessageType.DEAD:
-                    if ((BattleUnit)sender == appliedUnit) Debug.Log(appliedUnit.baseData.unitName + " are Dead.");
+                    BattleUnit unit = (BattleUnit)sender;
+                    if(appliedUnit == unit)
+                        BattleModifierMaster.main.DestroyModifier(this);
                     break;
                 default:
                     break;
