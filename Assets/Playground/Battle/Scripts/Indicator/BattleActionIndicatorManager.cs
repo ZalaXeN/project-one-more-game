@@ -11,15 +11,17 @@ namespace ProjectOneMore.Battle
 
         private List<BattleActionIndicator> _indicatorPool = new List<BattleActionIndicator>();
 
-        public void ShowAreaIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
+        public BattleActionIndicator ShowAreaIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
-            bool reuseSuccess = ReuseIndicatorFromPool(indicatorId, message);
+            BattleActionIndicator indicator = ReuseIndicatorFromPool(indicatorId, message);
 
-            if (!reuseSuccess)
-                CreateNewIndicator(indicatorId, message);
+            if (!indicator)
+                indicator = CreateNewIndicator(indicatorId, message);
+
+            return indicator;
         }
 
-        private bool ReuseIndicatorFromPool(string indicatorId, BattleActionIndicator.IndicatorMessage message)
+        private BattleActionIndicator ReuseIndicatorFromPool(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
             foreach (BattleActionIndicator indicator in _indicatorPool)
             {
@@ -27,17 +29,17 @@ namespace ProjectOneMore.Battle
                 {
                     indicator.gameObject.SetActive(true);
                     indicator.Show(message);
-                    return true;
+                    return indicator;
                 }
             }
-            return false;
+            return null;
         }
 
-        private void CreateNewIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
+        private BattleActionIndicator CreateNewIndicator(string indicatorId, BattleActionIndicator.IndicatorMessage message)
         {
             GameObject indicatorPrefab = GetIndicatorPrefab(indicatorId);
             if (indicatorPrefab == null)
-                return;
+                return null;
 
             GameObject indicatorGO = Instantiate(indicatorPrefab, transform);
 
@@ -45,6 +47,7 @@ namespace ProjectOneMore.Battle
             indicator.Show(message);
 
             _indicatorPool.Add(indicator);
+            return indicator;
         }
 
         private GameObject GetIndicatorPrefab(string id)
@@ -60,14 +63,11 @@ namespace ProjectOneMore.Battle
             return null;
         }
 
-        public void HideAreaIndicator()
+        public void HideAreaIndicator(BattleState battleState)
         {
             foreach(BattleActionIndicator indicator in _indicatorPool)
             {
-                if(indicator.showTime == 0f)
-                {
-                    indicator.Hide();
-                }
+                indicator.Hide(battleState);
             }
         }
     }

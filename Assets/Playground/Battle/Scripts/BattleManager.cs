@@ -7,16 +7,17 @@ using UnityEngine.InputSystem;
 
 namespace ProjectOneMore.Battle
 {
+    [System.Flags]
     public enum BattleState
     {
-        Init,
-        Ready,
-        Battle,
-        PlayerInput,
-        Event,
-        Pause,
-        End,
-        Result
+        Init = 0,
+        Ready = 1,
+        Battle = 2,
+        PlayerInput = 4,
+        Event = 8,
+        Pause = 16,
+        End = 32,
+        Result = 64
     }
 
     public class BattleManager : MonoBehaviour
@@ -579,7 +580,7 @@ namespace ProjectOneMore.Battle
 
             SetPhysicsRaycasterEventLayer(battleState);
 
-            battleActionIndicatorManager.HideAreaIndicator();
+            battleActionIndicatorManager.HideAreaIndicator(battleState);
         }
 
         private void SetPhysicsRaycasterEventLayer(BattleState state)

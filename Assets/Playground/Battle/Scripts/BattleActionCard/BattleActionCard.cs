@@ -98,6 +98,7 @@ namespace ProjectOneMore.Battle
             rangeMsg.hasCastRange = false;
             rangeMsg.castRange = baseData.targetRange;
             rangeMsg.castAreaType = baseData.targetAreaType;
+            rangeMsg.targetBattleState = BattleState.PlayerInput;
 
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
         }
@@ -115,6 +116,7 @@ namespace ProjectOneMore.Battle
             castMsg.hasCastRange = true;
             castMsg.castRange = baseData.targetRange;
             castMsg.castAreaType = baseData.targetAreaType;
+            castMsg.targetBattleState = BattleState.PlayerInput;
 
             BattleActionIndicator.IndicatorMessage rangeMsg;
             rangeMsg.position = owner.transform.position;
@@ -127,6 +129,7 @@ namespace ProjectOneMore.Battle
             rangeMsg.hasCastRange = false;
             rangeMsg.castRange = baseData.targetRange;
             rangeMsg.castAreaType = baseData.targetAreaType;
+            rangeMsg.targetBattleState = BattleState.PlayerInput;
 
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", castMsg);
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);
@@ -154,6 +157,7 @@ namespace ProjectOneMore.Battle
             castMsg.hasCastRange = true;
             castMsg.castRange = baseData.targetRange;
             castMsg.castAreaType = baseData.targetAreaType;
+            castMsg.targetBattleState = BattleState.PlayerInput;
 
             BattleActionIndicator.IndicatorMessage rangeMsg;
             rangeMsg.position = owner.transform.position;
@@ -166,6 +170,7 @@ namespace ProjectOneMore.Battle
             rangeMsg.hasCastRange = false;
             rangeMsg.castRange = baseData.targetRange;
             rangeMsg.castAreaType = baseData.targetAreaType;
+            rangeMsg.targetBattleState = BattleState.PlayerInput;
 
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", castMsg);
             BattleManager.main.battleActionIndicatorManager.ShowAreaIndicator("", rangeMsg);

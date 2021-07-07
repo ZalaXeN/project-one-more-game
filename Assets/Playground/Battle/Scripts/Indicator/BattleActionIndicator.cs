@@ -18,6 +18,7 @@ namespace ProjectOneMore.Battle
             public float showTime;
             public Vector2 castRange;
             public AbilityData.AreaType castAreaType;
+            public BattleState targetBattleState;
         }
 
         public string indicatorId;
@@ -27,18 +28,9 @@ namespace ProjectOneMore.Battle
 
         public Sprite indicatorSprite;
 
-        [HideInInspector]
-        public float showTime;
-
         private RectTransform rectTransform;
 
-        private bool _isFollowMouse;
-        private bool _isFollowOwner;
-        private bool _hasCastRange;
-        private Transform _ownerTransform;
-        private Vector3 _offset;
-        private Vector2 _castRange;
-        private AbilityData.AreaType _castAreaType;
+        private IndicatorMessage indicatorData;
 
         private void Update()
         {
@@ -50,22 +42,14 @@ namespace ProjectOneMore.Battle
             if (!rectTransform)
                 rectTransform = transform as RectTransform;
 
-            transform.position = message.position;
-            rectTransform.sizeDelta = message.sizeDelta;
-            _offset = message.offset;
+            indicatorData = message;
 
-            _isFollowMouse = message.isFollowMouse;
-            _isFollowOwner = message.isFollowOwner;
-            showTime = message.showTime;
+            transform.position = indicatorData.position;
+            rectTransform.sizeDelta = indicatorData.sizeDelta;
 
-            _ownerTransform = message.ownerTransform;
-            _hasCastRange = message.hasCastRange;
-            _castRange = message.castRange;
-            _castAreaType = message.castAreaType;
-
-            if (message.showTime != 0f)
+            if (indicatorData.showTime != 0f)
             {
-                Invoke("Hide", message.showTime);
+                Invoke("Hide", indicatorData.showTime);
             }
 
             actionAreaIndicator.SetActive(true);
@@ -73,7 +57,19 @@ namespace ProjectOneMore.Battle
 
         public void Hide()
         {
-            actionAreaIndicator.SetActive(false);
+            if (indicatorData.showTime == 0f)
+            {
+                actionAreaIndicator.SetActive(false);
+            }
+        }
+
+        public void Hide(BattleState battleState)
+        {
+            if (indicatorData.showTime == 0f)
+            {
+                if((indicatorData.targetBattleState & battleState) != battleState)
+                    actionAreaIndicator.SetActive(false);
+            }
         }
 
         void UpdateIndicator()
@@ -81,17 +77,17 @@ namespace ProjectOneMore.Battle
             if (!actionAreaIndicator || !actionAreaIndicator.activeInHierarchy)
                 return;
 
-            if (_isFollowMouse)
+            if (indicatorData.isFollowMouse)
             {
-                if (_hasCastRange)
+                if (indicatorData.hasCastRange)
                 {
-                    switch (_castAreaType)
+                    switch (indicatorData.castAreaType)
                     {
                         case AbilityData.AreaType.Box:
-                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange);
+                            transform.position = BattleManager.main.GetGroundMousePosition(indicatorData.ownerTransform.position + indicatorData.offset, indicatorData.castRange);
                             break;
                         case AbilityData.AreaType.Circle:
-                            transform.position = BattleManager.main.GetGroundMousePosition(_ownerTransform.position + _offset, _castRange.x / 2);
+                            transform.position = BattleManager.main.GetGroundMousePosition(indicatorData.ownerTransform.position + indicatorData.offset, indicatorData.castRange.x / 2);
                             break;
                         case AbilityData.AreaType.Ground:
                             transform.position = BattleManager.main.GetGroundMousePosition();
@@ -103,8 +99,8 @@ namespace ProjectOneMore.Battle
                     transform.position = BattleManager.main.GetGroundMousePosition();
                 }
             }
-            else if (_isFollowOwner && _ownerTransform)
-                transform.position = _ownerTransform.position + _offset;
+            else if (indicatorData.isFollowOwner && indicatorData.ownerTransform)
+                transform.position = indicatorData.ownerTransform.position + indicatorData.offset;
         }
     }
 }
