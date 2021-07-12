@@ -202,6 +202,7 @@ namespace ProjectOneMore.Battle
             {
                 case SkillTargetType.Target:
                     SetTarget(target);
+                    targetPosition = target.GetBattleUnit().centerTransform.position;
                     break;
                 case SkillTargetType.Projectile:
                     SetTarget(target);

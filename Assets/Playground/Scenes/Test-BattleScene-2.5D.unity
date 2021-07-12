@@ -10411,7 +10411,6 @@ MonoBehaviour:
   actionAreaIndicator: {fileID: 728293827}
   indicatorImage: {fileID: 728293829}
   indicatorSprite: {fileID: 21300000, guid: fa25ad00a8d244d43ba0a111b273621b, type: 3}
-  showTime: 0
 --- !u!4 &731653732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 736764644286269392, guid: d07e1cd2e9bd6134fb98423cfde272f1,
@@ -14819,7 +14818,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112763212}
   m_LocalRotation: {x: 0.21643968, y: -0.000000008046726, z: 0.0000000017839165, w: 0.976296}
-  m_LocalPosition: {x: 0.000000119518, y: 6.3809466, z: -7.2504616}
+  m_LocalPosition: {x: 0.00000008963851, y: 5.53571, z: -5.437846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1442347389}
@@ -25842,7 +25841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892726091}
   m_LocalRotation: {x: 0.21643968, y: -0.000000008046726, z: 0.0000000017839165, w: 0.976296}
-  m_LocalPosition: {x: 0.000000119518, y: 6.3809466, z: -7.2504616}
+  m_LocalPosition: {x: 0.00000008963851, y: 5.53571, z: -5.437846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 425234866}
@@ -30928,6 +30927,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982781059478591559, guid: 12a8f0f79dcf39d4897ff596582b4ae2,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12a8f0f79dcf39d4897ff596582b4ae2, type: 3}

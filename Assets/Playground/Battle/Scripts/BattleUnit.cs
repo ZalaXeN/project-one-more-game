@@ -57,9 +57,10 @@ namespace ProjectOneMore.Battle
         public float spdMod = 1f;
 
         [Space]
-        [Header("Movement Tester")]
+        [Header("Movement Settings")]
         public bool isUseSpecificPosition = false;
         public BattleUnitSpriteLookDirection spriteLookDirection;
+        public Transform attackIkTarget;
 
         private Vector3 _resultPosition;
         private Vector3 _move = Vector3.zero;
@@ -220,6 +221,9 @@ namespace ProjectOneMore.Battle
         {
             if(_currentBattleActionCard != null)
             {
+                if(attackIkTarget)
+                    attackIkTarget.position = (Vector2)_currentBattleActionCard.targetPosition;
+
                 ExecuteCurrentActionCard();
             }
             else if (IsControlled())

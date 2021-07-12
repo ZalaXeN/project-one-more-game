@@ -562,6 +562,9 @@ namespace ProjectOneMore.Battle
         {
             if (_previousActionCard != null)
             {
+                if(_controlledUnit && _controlledUnit.attackIkTarget)
+                    _controlledUnit.attackIkTarget.position = (Vector2)_previousActionCard.targetPosition;
+
                 _previousActionCard.Execute();
             }
 
