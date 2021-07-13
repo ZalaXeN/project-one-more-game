@@ -98,8 +98,10 @@ MonoBehaviour:
   def:
     max: 0
   lifeCounter: 2
+  spdMod: 1
   isUseSpecificPosition: 0
   spriteLookDirection: 0
+  attackIkTarget: {fileID: 0}
   _isGrounded: 0
   normalActionCard: {fileID: 294163280}
   autoSkillActionCard: {fileID: 0}
@@ -158,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 294163283}
   canUseWithoutOwner: 0
-  baseData: {fileID: 11400000, guid: e3199b32019ddcc4bbe49532e0b353c3, type: 2}
+  baseData: {fileID: 11400000, guid: 5d01e1fc9e9940043b7089b114273fbb, type: 2}
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &317841292082010157
 PrefabInstance:

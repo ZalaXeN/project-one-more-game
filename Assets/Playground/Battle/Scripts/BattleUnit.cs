@@ -92,6 +92,10 @@ namespace ProjectOneMore.Battle
 
         private float _poise = 0f;
 
+        private float _channelingTimer;
+        private float _channelingTargetTime;
+        private int _targetChannelingAnimation;
+
         private System.Action _schedule;
 
         // Parameters
@@ -182,10 +186,14 @@ namespace ProjectOneMore.Battle
         {
             CheckGrounded();
             CheckReachTargetPosition();
+
             UpdatePosition();
             UpdateAutoSkillAction();
             UpdateAutoAction();
             UpdateHitLockTime();
+
+            UpdateChanneling();
+
             DetermineAction();
         }
 
@@ -213,7 +221,58 @@ namespace ProjectOneMore.Battle
             _currentState = BattleUnitState.TakeAction;
             _move = Vector3.zero;
             animator.ResetTrigger(m_HashHit);
-            animator.SetTrigger(animationIdHash);
+
+            if (IsChanneling())
+                CancelChanneling();
+
+            if (_currentBattleActionCard.baseData.castTime <= 0)
+                animator.SetTrigger(animationIdHash);
+            else
+                Channeling(_currentBattleActionCard.baseData.castTime, animationIdHash);
+        }
+
+        private void Channeling(float castTime,int animationId)
+        {
+            _channelingTimer = 0;
+            _channelingTargetTime = castTime;
+            _targetChannelingAnimation = animationId;
+
+            BattleManager.main.channelingBar.Show(transform.position + (Vector3.up * 2.5f));
+            BattleManager.main.channelingBar.SetFillAmount(0);
+        }
+
+        public void CancelChanneling()
+        {
+            _channelingTimer = 0;
+            _channelingTargetTime = 0;
+            BattleManager.main.channelingBar.SetFillAmount(0);
+            BattleManager.main.channelingBar.Disable();
+        }
+
+        private void UpdateChanneling()
+        {
+            if (!IsChanneling())
+                return;
+
+            if (!IsAlive())
+            {
+                CancelChanneling();
+                return;
+            }
+
+            _channelingTimer += Time.fixedDeltaTime;
+            BattleManager.main.channelingBar.SetFillAmount(_channelingTimer / _channelingTargetTime);
+            if (_channelingTimer >= _channelingTargetTime)
+            {
+                animator.SetTrigger(_targetChannelingAnimation);
+                BattleManager.main.channelingBar.gameObject.SetActive(false);
+                _channelingTargetTime = 0;
+            }
+        }
+
+        public bool IsChanneling()
+        {
+            return _channelingTargetTime > 0f;
         }
 
         // Use on SMB
@@ -254,7 +313,7 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAutoAction()
         {
-            if (BattleManager.main == null || normalActionCard == null || IsControlled())
+            if (BattleManager.main == null || normalActionCard == null || IsControlled() || IsChanneling())
                 return;
 
             if (_autoAttackCooldown > 0f)
@@ -273,7 +332,7 @@ namespace ProjectOneMore.Battle
 
         private void UpdateAutoSkillAction()
         {
-            if (BattleManager.main == null || autoSkillActionCard == null || IsControlled())
+            if (BattleManager.main == null || autoSkillActionCard == null || IsControlled() || IsChanneling())
                 return;
 
             if (_autoSkillCooldown > 0f)
@@ -330,14 +389,14 @@ namespace ProjectOneMore.Battle
             {
                 SetCurrentActionCard(autoSkillActionCard);
                 _autoSkillCooldown = autoSkillActionCard.baseData.GetRandomSkillCooldown();
-                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
+                SetTakeActionState(_currentBattleActionCard.baseData.animationId);
             }
             else if (IsAutoNormalActionReady())
             {
                 SetCurrentActionCard(normalActionCard);
                 _autoAttackCooldown = BattleManager.main.GetAutoAttackCooldown(GetSpeed());
                 animator.SetFloat(m_HashAttackSpeed, BattleManager.main.GetMotionSpeed(GetSpeed()));
-                animator.SetTrigger(_currentBattleActionCard.baseData.animationId);
+                SetTakeActionState(_currentBattleActionCard.baseData.animationId);
             }
         }
 
@@ -436,7 +495,7 @@ namespace ProjectOneMore.Battle
 
         private void Knockback(Vector3 hitPosition, float forcePower)
         {
-            if (!rb)
+            if (!rb || forcePower <= 0)
                 return;
 
             _move = Vector3.zero;
@@ -445,12 +504,15 @@ namespace ProjectOneMore.Battle
                 forcePower -= _poise;
             else
             {
-                forcePower = 0.1f;
+                forcePower = 0f;
             }
 
             Vector3 pushForce = transform.position - hitPosition;
             pushForce.y = 10f;
             rb.AddForce((pushForce.normalized * forcePower * 100f) - Physics.gravity * 0.6f);
+
+            if(forcePower > 0)
+                CancelChanneling();
         }
 
         public bool IsAlive()
@@ -599,7 +661,7 @@ namespace ProjectOneMore.Battle
                 animator.SetBool(m_HashMoving, false);
             }
 
-            if (IsTakeAction() || OnDeadState())
+            if (IsTakeAction() || OnDeadState() || IsChanneling())
                 return;
 
             if (_move != Vector3.zero)

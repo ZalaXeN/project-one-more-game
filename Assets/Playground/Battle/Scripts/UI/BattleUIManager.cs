@@ -15,11 +15,6 @@ namespace ProjectOneMore.Battle
         public GameObject inputPanel;
         public GameObject pausePanel;
 
-        [Header("Shuffle Deck")]
-        public GameObject[] commandActions;
-        [Range(1,10)]
-        public int actionPerDraw = 5;
-
         private void Update()
         {
             if (BattleManager.main == null)

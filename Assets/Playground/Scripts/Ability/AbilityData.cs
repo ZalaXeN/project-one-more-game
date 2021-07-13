@@ -22,7 +22,7 @@ namespace ProjectOneMore
             Attacked
         }
 
-        [Header("Skill Detail")]
+        [Header("Ability Detail")]
         public string skillId;
         public string skillName;
         public SkillType skillType;
@@ -33,6 +33,8 @@ namespace ProjectOneMore
         public TriggerType triggerType;
         public float minCooldown;
         public float maxCooldown;
+
+        public float castTime = 0f;
 
         [Space, Header("Action")]
         public string animationId;

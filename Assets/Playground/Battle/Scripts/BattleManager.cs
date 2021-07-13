@@ -69,6 +69,9 @@ namespace ProjectOneMore.Battle
         public BattleProjectileManager battleProjectileManager;
         public BattleActionIndicatorManager battleActionIndicatorManager;
 
+        [Space, Header("Channeling Bar")]
+        public BattleUIChannelingBar channelingBar;
+
         [Space]
         [Header("Raycaster Settings.")]
         public PhysicsRaycaster physicsRaycaster;

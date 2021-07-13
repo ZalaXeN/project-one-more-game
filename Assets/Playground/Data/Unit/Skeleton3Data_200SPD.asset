@@ -17,7 +17,7 @@ MonoBehaviour:
   baseStats:
     POW: 30
     CRI: 0
-    SPD: 200
+    SPD: 40
     HP: 205
     DEF: 50
     EN: 0
